@@ -35,7 +35,15 @@ example and strict duplicate-key JSON parsing. Do not confuse those stages.
 
 ## Delivery gates
 
-- Source archive extraction verification: pending the packaging step.
+- Source commit: `73633fc403ee3c037a909297d88021b3c796883f` (ordinary initial Git commit).
+- Source archive: 47 ZIP entries / 39 files, excluding Git metadata, credentials,
+  tools, dependency caches and build outputs. SHA-256:
+  `2b39131b25d92ccd2232d166aaf860734599b1ad697ef05c3c029a39030a8ffd`.
+- A fresh extraction completed the entire verifier and PowerShell smoke in both
+  modes. An independent consumer then referenced the extracted module through a
+  workspace and passed debug/release public API assertions with warnings denied.
+- The following documentation-only commit records these observed receipts; the
+  archive refers to the source commit above, not a Mooncakes package.
 - GitHub repository and CI: not created/run; owner will create the repository.
 - Mooncakes preflight/publication/registry consumer: deliberately not performed.
 - Competition application/qualification/final acceptance: not submitted or proven.

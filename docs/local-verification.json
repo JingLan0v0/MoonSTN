@@ -1,0 +1,70 @@
+{
+  "status": "passed",
+  "recordedAt": "2026-11-10T11:53:03.022Z",
+  "node": "v24.14.0",
+  "reports": [
+    {
+      "mode": "debug",
+      "unitTests": "Total tests: 13, passed: 13, failed: 0.",
+      "exhaustiveNetworks": 4096,
+      "invalidBatchItems": 15,
+      "transportRejects": 7,
+      "scenarios": [
+        "deployment",
+        "delivery",
+        "conflict"
+      ]
+    },
+    {
+      "mode": "release",
+      "unitTests": "Total tests: 13, passed: 13, failed: 0.",
+      "exhaustiveNetworks": 4096,
+      "invalidBatchItems": 15,
+      "transportRejects": 7,
+      "scenarios": [
+        "deployment",
+        "delivery",
+        "conflict"
+      ]
+    }
+  ],
+  "sourceCommit": "73633fc403ee3c037a909297d88021b3c796883f",
+  "cleanExtraction": {
+    "status": "passed",
+    "recordedAt": "2026-11-10T12:00:08.016Z",
+    "node": "v24.14.0",
+    "reports": [
+      {
+        "mode": "debug",
+        "unitTests": "Total tests: 13, passed: 13, failed: 0.",
+        "exhaustiveNetworks": 4096,
+        "invalidBatchItems": 15,
+        "transportRejects": 7,
+        "scenarios": [
+          "deployment",
+          "delivery",
+          "conflict"
+        ]
+      },
+      {
+        "mode": "release",
+        "unitTests": "Total tests: 13, passed: 13, failed: 0.",
+        "exhaustiveNetworks": 4096,
+        "invalidBatchItems": 15,
+        "transportRejects": 7,
+        "scenarios": [
+          "deployment",
+          "delivery",
+          "conflict"
+        ]
+      }
+    ]
+  },
+  "archiveSHA256": "2b39131b25d92ccd2232d166aaf860734599b1ad697ef05c3c029a39030a8ffd",
+  "independentExtractedConsumerModes": [
+    "debug",
+    "release"
+  ],
+  "remoteCI": "not-run",
+  "registryPublication": "deferred"
+}

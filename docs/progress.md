@@ -19,11 +19,14 @@ Docs cover provenance, adjacent libraries, algorithm limitations, resource
 contract, November requirements and current unverified administrative items.
 Pinned compiler 0.10.18 is installed separately from MoonJMES.
 
-## Remaining delivery work at this checkpoint
+## Delivery status
 
-Create the source archive, verify a clean extraction, record its receipts, then
-place the final Git checkout and proposal on the desktop. After that, the next
-external step belongs to the user: create the public repository and provide URL.
+Source commit 73633fc passed clean-source-archive extraction verification and an
+independent consumer using the extracted module, in debug/release. The archive
+hash is recorded in acceptance.md. The next docs-only commit records receipts.
+The delivery step places the clean Git checkout and separate proposal directly
+on the desktop; no remote or registry is configured. The next external step
+belongs to the user: create the public repository and provide its actual URL.
 
 ## Continue safely
 

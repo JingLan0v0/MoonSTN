@@ -27,7 +27,9 @@ hash is recorded in acceptance.md. The next docs-only commit records receipts.
 The clean Git checkout and proposal were delivered directly to the desktop.
 The public MoonSTN repository was verified empty before the first authorized
 upload. This update configures its real URL and preserves both existing commits.
-CI results must be verified after the push; see acceptance.md for receipts.
+Source/repository update b3be7d5 was pushed normally, remote SHA matched, and
+Windows/Ubuntu CI 42812956601 passed. The following docs-only commit records
+those receipts. No Mooncakes upload occurred. See acceptance.md.
 
 ## Continue safely
 

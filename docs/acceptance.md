@@ -2,7 +2,22 @@
 
 Project: MoonSTN / JingLan0v0/stn, local candidate 0.1.0.
 
-## Observed local results
+## GitHub upload and CI — 2026-11-10
+
+The owner-created public repository is https://github.com/JingLan0v0/MoonSTN .
+Normal Git push retained the original two commits; no force push was used.
+Remote main was read back and matched `b3be7d526977c861a0394f5ff0375478fdbf42ab`.
+[CI run 42812956601](https://github.com/JingLan0v0/MoonSTN/actions/runs/42812956601) passed on both Windows and Ubuntu for that exact
+commit, including the complete verifier and generated-interface check. Windows
+also passed PowerShell usage. Both evidence artifacts were uploaded.
+
+Before upload this round reran full local verification and PowerShell: 13 units
+and 4,096 exhaustive networks per mode, retained boundary/I/O/scenario checks.
+Desktop proposal now contains the actual repository root URL and CI link.
+Mooncakes publication remains explicitly deferred. This following docs-only
+commit records receipts; the linked CI evidence belongs to the SHA above.
+
+## Initial local preparation results
 
 Pinned moon 0.1.20261028 / moonc v0.10.18+6c83a7f62, Node 24.14.0, Windows.
 The separate toolchain's 17 binary checksums were verified against the official
@@ -46,8 +61,8 @@ example and strict duplicate-key JSON parsing. Do not confuse those stages.
   archive refers to the source commit above, not a Mooncakes package.
 - Initial local-delivery stage: GitHub and CI had not yet been created/run.
 - Upload stage: owner created public https://github.com/JingLan0v0/MoonSTN;
-  its main branch and empty state were checked before upload. CI is pending
-  until the corresponding run is observed.
+  its main branch and empty state were checked before upload. Upload and CI
+  receipts are recorded at the top of this document.
 - Mooncakes preflight/publication/registry consumer: deliberately not performed.
 - Competition application/qualification/final acceptance: not submitted or proven.
 

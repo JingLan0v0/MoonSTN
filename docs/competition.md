@@ -20,7 +20,7 @@ the current official homepage also permits AI-assisted documentation.
 | Requirement | Stage | Evidence / next action |
 |---|---|---|
 | Primarily MoonBit | Engineering | model/solver/JSON runtime in MoonBit; Node limited to host I/O |
-| Public repository, traceable development | Development | Public repository https://github.com/JingLan0v0/MoonSTN; preserve local history, verify uploaded SHA and CI |
+| Public repository, traceable development | Development | Public repository https://github.com/JingLan0v0/MoonSTN; history retained; b3be7d5 remote SHA confirmed and Windows/Ubuntu CI passed |
 | README, examples, tests, reproducibility | Engineering | Bilingual README, three scenarios, public API example, verifier |
 | Recognized license and provenance | Open source | Apache-2.0, THIRD_PARTY_NOTICES, ecosystem comparison |
 | One-page project description | Application | Desktop Markdown proposal updated with verified MoonSTN repository URL |

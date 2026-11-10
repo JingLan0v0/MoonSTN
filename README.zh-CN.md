@@ -4,8 +4,8 @@
 发布允许落在哪个范围；如果再加一条冲突的截止要求，则给出可核验的规则环。
 它是 MoonBit 原生库和离线命令行工具，核心不依赖 JavaScript 算法或外部求解器。
 
-当前为 **0.1.0 本地候选版**。尚未上传 GitHub，未发布 Mooncakes。
-建议新仓库名：`moonbit-stn`。不要在仓库创建前把预计链接当成有效报名链接。
+当前为 **0.1.0 源码候选版**，未发布 Mooncakes。
+公开仓库：[JingLan0v0/MoonSTN](https://github.com/JingLan0v0/MoonSTN)。CI 实际结果见验收记录。
 
 ## 三个完整场景
 

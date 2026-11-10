@@ -7,8 +7,8 @@ window, or a negative cycle identifying contradictory original rules.
 
 [中文说明](README.zh-CN.md) · Apache-2.0 · Pure MoonBit core · JS CLI
 
-**Local release candidate 0.1.0. Not uploaded to GitHub or published to Mooncakes.**
-The proposed repository name is `moonbit-stn`; the owner will create it later.
+**Version 0.1.0 source candidate. Not published to Mooncakes.**
+Repository: [JingLan0v0/MoonSTN](https://github.com/JingLan0v0/MoonSTN).
 
 ## Run
 
@@ -86,7 +86,7 @@ moon info --target js
 node scripts/verify.mjs
 ```
 
-CI is prepared for Windows and Ubuntu but cannot be run remotely before the
-repository is created. Publication is deferred by the owner. See
+Windows and Ubuntu CI runs on repository pushes; actual receipts are recorded
+in acceptance.md. Mooncakes publication is deferred by the owner. See
 [progress](docs/progress.md), [publishing](docs/publishing.md), [license](LICENSE)
 and [source attribution](THIRD_PARTY_NOTICES.md).

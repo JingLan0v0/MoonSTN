@@ -44,7 +44,10 @@ example and strict duplicate-key JSON parsing. Do not confuse those stages.
   workspace and passed debug/release public API assertions with warnings denied.
 - The following documentation-only commit records these observed receipts; the
   archive refers to the source commit above, not a Mooncakes package.
-- GitHub repository and CI: not created/run; owner will create the repository.
+- Initial local-delivery stage: GitHub and CI had not yet been created/run.
+- Upload stage: owner created public https://github.com/JingLan0v0/MoonSTN;
+  its main branch and empty state were checked before upload. CI is pending
+  until the corresponding run is observed.
 - Mooncakes preflight/publication/registry consumer: deliberately not performed.
 - Competition application/qualification/final acceptance: not submitted or proven.
 

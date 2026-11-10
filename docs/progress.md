@@ -2,10 +2,10 @@
 
 ## Active project
 
-MoonSTN, suggested GitHub repository `moonbit-stn`, module `JingLan0v0/stn`,
+MoonSTN, public repository https://github.com/JingLan0v0/MoonSTN, module `JingLan0v0/stn`,
 version 0.1.0 local candidate. This is independent of MoonJMES/MoonPatch.
 The user requested a new November 2026 project plus a desktop proposal.
-Do not publish to Mooncakes; wait for the user to create the GitHub repository.
+Do not publish to Mooncakes. The user created MoonSTN and authorized GitHub upload.
 
 ## Implemented and checked
 
@@ -24,9 +24,10 @@ Pinned compiler 0.10.18 is installed separately from MoonJMES.
 Source commit 73633fc passed clean-source-archive extraction verification and an
 independent consumer using the extracted module, in debug/release. The archive
 hash is recorded in acceptance.md. The next docs-only commit records receipts.
-The delivery step places the clean Git checkout and separate proposal directly
-on the desktop; no remote or registry is configured. The next external step
-belongs to the user: create the public repository and provide its actual URL.
+The clean Git checkout and proposal were delivered directly to the desktop.
+The public MoonSTN repository was verified empty before the first authorized
+upload. This update configures its real URL and preserves both existing commits.
+CI results must be verified after the push; see acceptance.md for receipts.
 
 ## Continue safely
 
@@ -39,7 +40,7 @@ belongs to the user: create the public repository and provide its actual URL.
    submission, group messaging, Mooncakes publication or qualification promises.
 
 Workspace development path: C:/Users/XJY/Desktop/MoonBit黑客松/moonbit-stn.
-Final desktop checkout is intended at C:/Users/XJY/Desktop/moonbit-stn.
+Active desktop checkout is at C:/Users/XJY/Desktop/moonbit-stn.
 After delivery use the desktop checkout as the active project, and avoid editing
 the preparation checkout independently. Local toolchain stays at
 C:/Users/XJY/Desktop/MoonBit黑客松/.tools/moonstn-toolchain.

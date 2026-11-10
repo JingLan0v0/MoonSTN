@@ -1,0 +1,40 @@
+name: Verify MoonSTN
+on: [push, pull_request, workflow_dispatch]
+permissions:
+  contents: read
+jobs:
+  verify:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24.14.0'
+      - name: Install pinned MoonBit on Linux
+        if: runner.os == 'Linux'
+        uses: hustcer/setup-moonbit@v1.22
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          version: '0.10.18+6c83a7f62'
+          core-version: '0.10.18+6c83a7f62'
+      - name: Install pinned MoonBit on Windows
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: ./scripts/install-moonbit-ci.ps1
+      - run: node scripts/verify.mjs
+      - name: PowerShell usage
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: ./scripts/powershell-smoke.ps1
+      - run: git diff --exit-code -- '*.mbti'
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: evidence-${{ matrix.os }}
+          path: _build/verification-summary.json

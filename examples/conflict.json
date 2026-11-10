@@ -1,0 +1,1 @@
+{"timepoints":["zero","start","finish"],"constraints":[{"id":"start-window","from":"zero","to":"start","lower":10,"upper":20},{"id":"duration","from":"start","to":"finish","lower":30},{"id":"deadline","from":"zero","to":"finish","upper":35}]}

@@ -1,0 +1,1 @@
+{"timepoints":["zero","pickup","arrival"],"constraints":[{"id":"pickup-window","from":"zero","to":"pickup","lower":60,"upper":90},{"id":"travel","from":"pickup","to":"arrival","lower":20,"upper":40},{"id":"deadline","from":"zero","to":"arrival","upper":120}],"queries":[{"from":"pickup","to":"arrival"}]}

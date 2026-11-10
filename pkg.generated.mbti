@@ -1,0 +1,74 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "JingLan0v0/stn"
+
+import {
+  "moonbitlang/core/debug",
+}
+
+// Values
+pub fn analyze(Json) -> Json raise StnError
+
+pub fn analyze_batch(Json) -> Json raise StnError
+
+pub fn network(Array[String], Array[Constraint]) -> Network raise StnError
+
+pub fn parse_json(String) -> Json raise StnError
+
+pub fn solve(Network, max_steps? : Int32) -> Outcome raise StnError
+
+pub fn verify_assignment(Network, Array[(String, Int64)]) -> Bool
+
+pub fn verify_conflict(Network, Array[Edge]) -> Bool
+
+pub fn version() -> String
+
+// Errors
+pub(all) suberror StnError {
+  StnError(String, String)
+}
+
+// Types and methods
+pub(all) struct Constraint {
+  id : String
+  from : String
+  to : String
+  lower : Int32?
+  upper : Int32?
+} derive(Eq, @debug.Debug)
+pub fn Constraint::equal(Self, Self) -> Bool
+pub fn Constraint::not_equal(Self, Self) -> Bool
+pub fn Constraint::to_repr(Self) -> @debug.Repr
+
+pub(all) struct Edge {
+  id : String
+  from : String
+  to : String
+  bound : Int64
+  side : String
+} derive(Eq, @debug.Debug)
+pub fn Edge::equal(Self, Self) -> Bool
+pub fn Edge::not_equal(Self, Self) -> Bool
+pub fn Edge::to_repr(Self) -> @debug.Repr
+
+pub struct Network {
+  names : Array[String]
+  edges : Array[Edge]
+}
+pub fn Network::timepoints(Self) -> Array[String]
+
+pub(all) enum Outcome {
+  Feasible(Solution)
+  Inconsistent(Array[Edge])
+}
+
+pub struct Solution {
+  names : Array[String]
+  values : Array[Int64]
+  distances : Array[Array[Int64?]]
+}
+pub fn Solution::assignment(Self) -> Array[(String, Int64)]
+pub fn Solution::bounds(Self, String, String) -> (Int64?, Int64?) raise StnError
+
+// Type aliases
+
+// Traits

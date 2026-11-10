@@ -1,0 +1,1 @@
+{"timepoints":["zero","build","test","release"],"constraints":[{"id":"start","from":"zero","to":"build","lower":0,"upper":0},{"id":"build-time","from":"build","to":"test","lower":10,"upper":20},{"id":"test-time","from":"test","to":"release","lower":5,"upper":15}],"queries":[{"from":"zero","to":"release"}]}

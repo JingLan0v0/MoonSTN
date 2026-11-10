@@ -1,0 +1,8 @@
+import {
+  "moonbitlang/core/json",
+  "moonbitlang/core/debug",
+}
+
+import {
+  "JingLan0v0/stn",
+} for "test"

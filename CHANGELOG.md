@@ -1,5 +1,12 @@
 # Changelog
 
+## Unreleased
+
+- Skip unreachable closure rows and reuse reachable row references while preserving
+  exact logical budgets, assignments, bounds and conflict certificates.
+- Add sparse-network budget-boundary regression and reproducible CLI benchmark.
+- Mooncakes 0.1.0 remains the published release; these changes are source-only.
+
 ## 0.1.0 — published 2026-11-11
 
 - Numeric simple temporal network modeling with named lower/upper constraints.

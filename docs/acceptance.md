@@ -3,6 +3,31 @@
 Project: MoonSTN / JingLan0v0/stn, published 0.1.0.
 
 
+## Unreleased source optimization — 2026-11-11
+
+Fresh verification completed at 2026-11-11T12:27:47.730Z: debug/release each
+passed 14 units, 4,096 exhaustive networks and existing input/batch/I/O/scenario
+checks. PowerShell smoke passed. Generated public interfaces are unchanged.
+The new regression checks exact closure budget thresholds for 1/2/8/64 isolated
+points, all pairwise bounds and reuse after budget exhaustion.
+
+Paired release CLI benchmark against ac1932c (same Node 24.14.0/toolchain/machine):
+64 points, eight requests per process, two warm-ups then nine measured samples,
+alternating old/new order. Median milliseconds, including process startup:
+
+| Network | Before | After |
+|---|---:|---:|
+| Disconnected | 149.12 | 139.39 |
+| One-way chain | 165.32 | 151.24 |
+| Connected, 512 constraints | 205.43 | 191.61 |
+
+This run reduced end-to-end median time by about 6.5–8.5%; it is not a universal
+speed guarantee. All measured outputs matched; 30 additional low/default-budget
+comparisons matched errors and successful results. Reproduce after release build:
+`node scripts/benchmark.mjs /absolute/path/to/baseline-main.js`.
+Omit the argument to measure just the current implementation. Benchmark receipts
+are in optimization-2026-11-11.json. Published 0.1.0 was not modified/replaced.
+
 ## Mooncakes publication — 2026-11-11
 
 The owner explicitly authorized publication, superseding the earlier deferral.

@@ -47,12 +47,17 @@ priv struct Budget {
 
 ///|
 fn Budget::tick(self : Budget) -> Unit raise StnError {
-  if self.remaining == 0 {
+  self.charge(1)
+}
+
+///|
+fn Budget::charge(self : Budget, steps : Int32) -> Unit raise StnError {
+  if self.remaining < steps {
     raise StnError(
       "limit_exceeded", "work budget exhausted; no feasibility conclusion",
     )
   }
-  self.remaining -= 1
+  self.remaining -= steps
 }
 
 ///|

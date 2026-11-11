@@ -22,6 +22,11 @@ checks every original edge rather than recomputing the solver. It accepts any
 complete feasible assignment within its documented proof-coordinate bound.
 
 Floyd-Warshall on feasible networks computes tight all-pairs upper bounds.
+Rows with no path from i to k skip their inner traversal while charging all V
+logical triples in one operation. Reachable rows reuse the row references and
+distance(i,k). This value stays fixed during a feasible closure iteration because
+distance(k,k)=0 and no negative cycles remain. This preserves results and the
+existing budget boundary; worst-case complexity is unchanged.
 The lower bound for b-a is -distance(b,a). No path means unbounded, including
 between disconnected components. Each requested bound is individually tight;
 arbitrary choices of all pairwise extrema need not form one joint assignment.

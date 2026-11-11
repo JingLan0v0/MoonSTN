@@ -185,3 +185,31 @@ test "JSON preflight depth string and size" {
     assert_true(failed)
   }
 }
+
+///|
+test "sparse closure preserves exact logical budget boundary" {
+  for n in [1, 2, 8, 64] {
+    let names = Array::makei(n, i => "v" + i.to_string())
+    let net = @stn.network(names, [])
+    let needed = n * n * n
+    if needed > 1 {
+      let exhausted = try {
+        @stn.solve(net, max_steps=needed - 1) |> ignore
+        false
+      } catch {
+        @stn.StnError(code, _) => code == "limit_exceeded"
+      }
+      assert_true(exhausted)
+    }
+    guard @stn.solve(net, max_steps=needed) is @stn.Feasible(s) else {
+      fail("expected feasible after budget failure")
+    }
+    assert_true(@stn.verify_assignment(net, s.assignment()))
+    for i = 0; i < n; i = i + 1 {
+      for j = 0; j < n; j = j + 1 {
+        let expected = if i == j { (Some(0L), Some(0L)) } else { (None, None) }
+        assert_eq(s.bounds(names[i], names[j]), expected)
+      }
+    }
+  }
+}

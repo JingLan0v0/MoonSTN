@@ -1,0 +1,66 @@
+{
+  "verification": {
+    "status": "passed",
+    "recordedAt": "2026-11-11T12:27:47.730Z",
+    "node": "v24.14.0",
+    "reports": [
+      {
+        "mode": "debug",
+        "unitTests": "Total tests: 14, passed: 14, failed: 0.",
+        "exhaustiveNetworks": 4096,
+        "invalidBatchItems": 15,
+        "transportRejects": 7,
+        "scenarios": [
+          "deployment",
+          "delivery",
+          "conflict"
+        ]
+      },
+      {
+        "mode": "release",
+        "unitTests": "Total tests: 14, passed: 14, failed: 0.",
+        "exhaustiveNetworks": 4096,
+        "invalidBatchItems": 15,
+        "transportRejects": 7,
+        "scenarios": [
+          "deployment",
+          "delivery",
+          "conflict"
+        ]
+      }
+    ]
+  },
+  "powershell": "passed",
+  "benchmark": {
+    "recordedAt": "2026-11-11T12:28:26.277Z",
+    "node": "v24.14.0",
+    "samples": 9,
+    "includesProcessStartup": true,
+    "baseline": "ac1932c99d6e3a7c82edfacaa9ec0fc27a2a0b23 (release JS built before edits)",
+    "rows": [
+      {
+        "name": "disconnected",
+        "requestsPerSample": 8,
+        "currentMedianMs": 139.39339999999993,
+        "baselineMedianMs": 149.1156000000001,
+        "speedup": 1.0697464872798867
+      },
+      {
+        "name": "chain",
+        "requestsPerSample": 8,
+        "currentMedianMs": 151.23580000000038,
+        "baselineMedianMs": 165.3225999999995,
+        "speedup": 1.0931446125851094
+      },
+      {
+        "name": "connected",
+        "requestsPerSample": 8,
+        "currentMedianMs": 191.61329999999907,
+        "baselineMedianMs": 205.43149999999878,
+        "speedup": 1.0721150358560694
+      }
+    ]
+  },
+  "differentialBudgetChecks": 30,
+  "registryRelease": "0.1.0 unchanged; optimization unreleased"
+}

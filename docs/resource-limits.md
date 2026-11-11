@@ -32,3 +32,6 @@ The verifier runs CLI subprocesses with 192 MiB old-space and a 15-second timeou
 Those are test safeguards, not library memory/time guarantees. The library has
 no concurrency or cancellation service. Host applications control request rates,
 workers and timeouts. Output failures may leave partial bytes.
+
+Closure budgets count logical triples, including triples skipped for unreachable
+rows. Faster traversal does not grant additional logical work at a given budget.

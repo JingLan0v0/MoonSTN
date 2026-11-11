@@ -3,7 +3,7 @@
 ## Active project
 
 MoonSTN, public repository https://github.com/JingLan0v0/MoonSTN, module `JingLan0v0/stn`,
-version 0.1.1 prepared for publication; 0.1.0 is the last confirmed registry release. This is independent of MoonJMES/MoonPatch.
+version 0.1.1 published and verified on Mooncakes. This is independent of MoonJMES/MoonPatch.
 The user requested a new November 2026 project plus a desktop proposal.
 The user authorized Mooncakes publication on 2026-11-11, superseding the earlier deferral. GitHub upload remains authorized.
 
@@ -11,7 +11,7 @@ The user authorized Mooncakes publication on 2026-11-11, superseding the earlier
 
 The working source now skips unreachable closure rows and caches reachable row
 references. Logical budgets and public API are unchanged. This optimization is
-prepared for 0.1.1 publication at the user's request; 0.1.0 remains the previously verified artifact.
+included in the published 0.1.1 release.
 Fresh debug/release verification passed 14 units and 4,096 exhaustive networks
 per mode, plus all existing boundary/I/O/scenario checks and PowerShell smoke.
 A paired before/after benchmark and 30 budget/result comparisons also passed.
@@ -29,7 +29,16 @@ Docs cover provenance, adjacent libraries, algorithm limitations, resource
 contract, November requirements and current unverified administrative items.
 Pinned compiler 0.10.18 is installed separately from MoonJMES.
 
-## Latest publication status — 2026-11-11
+## Latest publication: 0.1.1 — 2026-11-11
+
+Published from b9a2de40925c1bdefe6f2f318631400e8ac96118 at
+2026-11-11T12:35:04.200439Z. Local and extracted-package full verification passed;
+Windows/Ubuntu CI 43021382909 passed for that source SHA. Preflight returned
+202 Accepted; publication returned 200 OK. A fresh, credential-free consumer
+passed debug/release and its downloaded files match the published package.
+See publication-0.1.1.json and acceptance.md. Earlier 0.1.0 remains unchanged.
+
+## Earlier publication: 0.1.0 — 2026-11-11
 
 Mooncakes `JingLan0v0/stn@0.1.0` returned `200 OK`. Actual package extraction,
 full local checks, Windows/Ubuntu CI 42961509778 on c826501 and fresh registry

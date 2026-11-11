@@ -1,9 +1,32 @@
 # Acceptance evidence — updated 2026-11-11
 
-Project: MoonSTN / JingLan0v0/stn, published 0.1.0.
+Project: MoonSTN / JingLan0v0/stn, published 0.1.1.
 
 
-## Unreleased source optimization — 2026-11-11
+## Mooncakes 0.1.1 publication — 2026-11-11
+
+Published optimization release from `b9a2de40925c1bdefe6f2f318631400e8ac96118`.
+Registry timestamp: 2026-11-11T12:35:04.200439+00:00 (20:35:04 Asia/Shanghai).
+Fresh checkout verification: 2026-11-11T12:32:56.565Z.
+Fresh actual-package extraction verification: 2026-11-11T12:34:21.756Z.
+Both passed 14 units and 4,096 exhaustive networks per mode, all existing
+boundary/batch/I/O/scenario checks and PowerShell smoke.
+
+[CI run 43021382909](https://github.com/JingLan0v0/MoonSTN/actions/runs/43021382909)
+passed Windows and Ubuntu on the exact release source SHA before publication.
+The 40-file publisher archive excluded credentials, build outputs, dependencies
+and toolchains. Its SHA-256 and the fresh registry download both equal:
+`f145fa32ec4e261c22b28178c40bcba98268cb10bb125ece78d5e63f13f53338`.
+
+Preflight returned `202 Accepted` and actual publication `200 OK`, each exit 0.
+A fresh cache with no credentials downloaded 0.1.1 with no workspace/path override.
+Debug/release with warnings denied passed version, feasible assignment, bounds,
+conflict certificate, budget recovery and batch isolation; all 40 downloaded
+files match the validated archive. See [publication-0.1.1.json](publication-0.1.1.json).
+The following docs-only commit records receipts and current installation links.
+0.1.0 is retained unchanged; earlier evidence below belongs to its stated stage.
+
+## Source optimization before 0.1.1 publication — 2026-11-11
 
 Fresh verification completed at 2026-11-11T12:27:47.730Z: debug/release each
 passed 14 units, 4,096 exhaustive networks and existing input/batch/I/O/scenario

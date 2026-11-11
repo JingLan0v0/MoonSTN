@@ -1,7 +1,7 @@
 # Local dependency smoke check
 
 For local source development, use MoonBit workspaces. To use the published
-package, run `moon add JingLan0v0/stn@0.1.0` instead and do not create a workspace.
+package, run `moon add JingLan0v0/stn@0.1.1` instead and do not create a workspace.
 The following steps intentionally exercise local source:
 
 1. Create a separate consumer module with `moon.mod`:
@@ -10,7 +10,7 @@ The following steps intentionally exercise local source:
 name = "local/stn_consumer"
 version = "0.0.0"
 preferred_target = "js"
-import { "JingLan0v0/stn@0.1.0" }
+import { "JingLan0v0/stn@0.1.1" }
 ```
 
 2. Its `moon.pkg` imports `JingLan0v0/stn` as `stn` and declares an executable.

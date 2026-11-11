@@ -7,7 +7,7 @@ window, or a negative cycle identifying contradictory original rules.
 
 [中文说明](README.zh-CN.md) · Apache-2.0 · Pure MoonBit core · JS CLI
 
-**Published: [JingLan0v0/stn@0.1.0](https://mooncakes.io/docs/JingLan0v0/stn@0.1.0).**
+**Published: [JingLan0v0/stn@0.1.1](https://mooncakes.io/docs/JingLan0v0/stn@0.1.1).**
 Verification and installation receipts: [acceptance](docs/acceptance.md).
 Repository: [JingLan0v0/MoonSTN](https://github.com/JingLan0v0/MoonSTN).
 
@@ -56,7 +56,7 @@ leave partial bytes; consumers must check the process exit status.
 Install the published package in your consumer module:
 
 ```sh
-moon add JingLan0v0/stn@0.1.0
+moon add JingLan0v0/stn@0.1.1
 ```
 
 Import `JingLan0v0/stn` as `stn` in `moon.pkg`. A complete runnable example is in
@@ -94,6 +94,6 @@ node scripts/verify.mjs
 ```
 
 Windows and Ubuntu CI runs on repository pushes; actual receipts are recorded
-in acceptance.md. Mooncakes 0.1.0 was published on 2026-11-11. See
+in acceptance.md. Mooncakes 0.1.1 was published on 2026-11-11. See
 [progress](docs/progress.md), [publishing](docs/publishing.md), [license](LICENSE)
 and [source attribution](THIRD_PARTY_NOTICES.md).

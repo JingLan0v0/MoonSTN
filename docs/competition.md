@@ -27,7 +27,7 @@ the current official homepage also permits AI-assisted documentation.
 | Participant can explain AI-assisted work | Participant | Read architecture and examples; understand limitations |
 | Join event group with GitHub ID nickname | Participant | Confirm personally; no automated messaging |
 | Current form and final dates | Participant/organizer | Verify live form and group notice before submission |
-| Mooncakes | Published 2026-11-11 | JingLan0v0/stn@0.1.0; actual receipts in acceptance.md |
+| Mooncakes | Published 2026-11-11 | JingLan0v0/stn@0.1.1; actual receipts in acceptance.md |
 | Official qualification, final review, payment | Organizer | No approval or payment receipt exists for MoonSTN |
 
 No automatic application submission, external messages, invented Issues/PRs or

@@ -1,4 +1,4 @@
-# Publishing — 0.1.0 published 2026-11-11
+# Publishing — 0.1.1 published 2026-11-11
 
 The owner authorized Mooncakes publication on 2026-11-11. Require actual registry
 and fresh-consumer receipts; do not overwrite an existing version.
@@ -16,3 +16,6 @@ stay external. Preflight, CI and registry publication are separate receipts.
 
 Version 0.1.0 returned `200 OK` on 2026-11-11. Exact package hash, source CI and
 registry consumer results are recorded in acceptance.md.
+
+Version 0.1.1 returned `200 OK` on 2026-11-11. Fresh cache, no-credential registry
+installation passed debug/release. See publication-0.1.1.json for actual receipts.

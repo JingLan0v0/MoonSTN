@@ -5,7 +5,7 @@
 MoonSTN, public repository https://github.com/JingLan0v0/MoonSTN, module `JingLan0v0/stn`,
 version 0.1.0 local candidate. This is independent of MoonJMES/MoonPatch.
 The user requested a new November 2026 project plus a desktop proposal.
-Do not publish to Mooncakes. The user created MoonSTN and authorized GitHub upload.
+The user authorized Mooncakes publication on 2026-11-11, superseding the earlier deferral. GitHub upload remains authorized.
 
 ## Implemented and checked
 
@@ -39,7 +39,7 @@ those receipts. No Mooncakes upload occurred. See acceptance.md.
 4. User-authorized GitHub upload occurs only after the repository is supplied;
    check real remote and existing content, use normal commits/push, await CI.
 5. Update proposal with the verified actual repository link. No automatic form
-   submission, group messaging, Mooncakes publication or qualification promises.
+   submission, group messaging or qualification promises.
 
 Workspace development path: C:/Users/XJY/Desktop/MoonBit黑客松/moonbit-stn.
 Active desktop checkout is at C:/Users/XJY/Desktop/moonbit-stn.

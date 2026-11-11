@@ -7,7 +7,7 @@ window, or a negative cycle identifying contradictory original rules.
 
 [中文说明](README.zh-CN.md) · Apache-2.0 · Pure MoonBit core · JS CLI
 
-**Version 0.1.0 source candidate. Not published to Mooncakes.**
+**Version 0.1.0. Registry publication status and receipts: [acceptance](docs/acceptance.md).**
 Repository: [JingLan0v0/MoonSTN](https://github.com/JingLan0v0/MoonSTN).
 
 ## Run
@@ -87,6 +87,6 @@ node scripts/verify.mjs
 ```
 
 Windows and Ubuntu CI runs on repository pushes; actual receipts are recorded
-in acceptance.md. Mooncakes publication is deferred by the owner. See
+in acceptance.md. Mooncakes publication was authorized on 2026-11-11. See
 [progress](docs/progress.md), [publishing](docs/publishing.md), [license](LICENSE)
 and [source attribution](THIRD_PARTY_NOTICES.md).

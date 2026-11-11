@@ -1,8 +1,7 @@
-# Publishing — explicitly deferred
+# Publishing — authorized 2026-11-11
 
-The owner asked not to submit this new project to Mooncakes yet. Do not run
-`moon publish`, including server dry-run, until the owner authorizes that phase.
-Version 0.1.0 is a local candidate only. No registry install is claimed.
+The owner authorized Mooncakes publication on 2026-11-11. Require actual registry
+and fresh-consumer receipts; do not overwrite an existing version.
 
 GitHub repository: https://github.com/JingLan0v0/MoonSTN . The owner created this
 public repository and authorized upload on 2026-11-10. Use normal Git history,

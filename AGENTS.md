@@ -2,9 +2,9 @@
 
 Read docs/progress.md, docs/competition.md and docs/acceptance.md first. This is a
 new November 2026 project, separate from MoonJMES and MoonPatch. Preserve Git
-history. The user explicitly defers Mooncakes publication. The user created
+history. The user authorized Mooncakes publication on 2026-11-11. The user created
 https://github.com/JingLan0v0/MoonSTN and authorized normal Git uploads.
-Do not publish to Mooncakes or submit competition forms automatically.
+Publish only after verification and record actual registry/consumer receipts. Do not submit competition forms automatically.
 
 Use toolchain.json. Runtime algorithms belong in MoonBit; Node I/O belongs only
 in cmd/main/host.mbt. Keep exact arithmetic, work limits, independent certificate

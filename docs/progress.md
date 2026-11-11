@@ -3,7 +3,7 @@
 ## Active project
 
 MoonSTN, public repository https://github.com/JingLan0v0/MoonSTN, module `JingLan0v0/stn`,
-version 0.1.0 published on Mooncakes. This is independent of MoonJMES/MoonPatch.
+version 0.1.1 prepared for publication; 0.1.0 is the last confirmed registry release. This is independent of MoonJMES/MoonPatch.
 The user requested a new November 2026 project plus a desktop proposal.
 The user authorized Mooncakes publication on 2026-11-11, superseding the earlier deferral. GitHub upload remains authorized.
 
@@ -11,7 +11,7 @@ The user authorized Mooncakes publication on 2026-11-11, superseding the earlier
 
 The working source now skips unreachable closure rows and caches reachable row
 references. Logical budgets and public API are unchanged. This optimization is
-unreleased; Mooncakes 0.1.0 remains the previously verified artifact.
+prepared for 0.1.1 publication at the user's request; 0.1.0 remains the previously verified artifact.
 Fresh debug/release verification passed 14 units and 4,096 exhaustive networks
 per mode, plus all existing boundary/I/O/scenario checks and PowerShell smoke.
 A paired before/after benchmark and 30 budget/result comparisons also passed.

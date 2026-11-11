@@ -1,11 +1,11 @@
 # Changelog
 
-## Unreleased
+## 0.1.1 — release preparation, 2026-11-11
 
 - Skip unreachable closure rows and reuse reachable row references while preserving
   exact logical budgets, assignments, bounds and conflict certificates.
 - Add sparse-network budget-boundary regression and reproducible CLI benchmark.
-- Mooncakes 0.1.0 remains the published release; these changes are source-only.
+- Publication authorized; actual registry receipt is recorded in docs/acceptance.md.
 
 ## 0.1.0 — published 2026-11-11
 

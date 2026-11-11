@@ -4,8 +4,18 @@
 发布允许落在哪个范围；如果再加一条冲突的截止要求，则给出可核验的规则环。
 它是 MoonBit 原生库和离线命令行工具，核心不依赖 JavaScript 算法或外部求解器。
 
-当前版本 **0.1.0**，实际发布与安装回执见 [验收记录](docs/acceptance.md)。
+已发布 **[JingLan0v0/stn@0.1.0](https://mooncakes.io/docs/JingLan0v0/stn@0.1.0)**，实际发布与安装回执见 [验收记录](docs/acceptance.md)。
 公开仓库：[JingLan0v0/MoonSTN](https://github.com/JingLan0v0/MoonSTN)。CI 实际结果见验收记录。
+
+## 安装库
+
+在使用方的 MoonBit 项目中运行：
+
+```sh
+moon add JingLan0v0/stn@0.1.0
+```
+
+在 `moon.pkg` 中导入 `JingLan0v0/stn`；库调用示例见 `examples/library`。
 
 ## 三个完整场景
 

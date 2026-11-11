@@ -1,6 +1,8 @@
 # Local dependency smoke check
 
-Before registry publication, use MoonBit workspaces rather than `moon add`:
+For local source development, use MoonBit workspaces. To use the published
+package, run `moon add JingLan0v0/stn@0.1.0` instead and do not create a workspace.
+The following steps intentionally exercise local source:
 
 1. Create a separate consumer module with `moon.mod`:
 

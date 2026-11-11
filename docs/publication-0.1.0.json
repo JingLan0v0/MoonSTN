@@ -1,0 +1,103 @@
+{
+  "date": "2026-11-11",
+  "module": "JingLan0v0/stn",
+  "version": "0.1.0",
+  "sourceCommit": "c8265015a4a0829045113bdd055b0a8dab6e6a3e",
+  "local": {
+    "status": "passed",
+    "recordedAt": "2026-11-11T04:43:22.438Z",
+    "node": "v24.14.0",
+    "reports": [
+      {
+        "mode": "debug",
+        "unitTests": "Total tests: 13, passed: 13, failed: 0.",
+        "exhaustiveNetworks": 4096,
+        "invalidBatchItems": 15,
+        "transportRejects": 7,
+        "scenarios": [
+          "deployment",
+          "delivery",
+          "conflict"
+        ]
+      },
+      {
+        "mode": "release",
+        "unitTests": "Total tests: 13, passed: 13, failed: 0.",
+        "exhaustiveNetworks": 4096,
+        "invalidBatchItems": 15,
+        "transportRejects": 7,
+        "scenarios": [
+          "deployment",
+          "delivery",
+          "conflict"
+        ]
+      }
+    ]
+  },
+  "cleanPackageExtraction": {
+    "status": "passed",
+    "recordedAt": "2026-11-11T04:46:29.037Z",
+    "node": "v24.14.0",
+    "reports": [
+      {
+        "mode": "debug",
+        "unitTests": "Total tests: 13, passed: 13, failed: 0.",
+        "exhaustiveNetworks": 4096,
+        "invalidBatchItems": 15,
+        "transportRejects": 7,
+        "scenarios": [
+          "deployment",
+          "delivery",
+          "conflict"
+        ]
+      },
+      {
+        "mode": "release",
+        "unitTests": "Total tests: 13, passed: 13, failed: 0.",
+        "exhaustiveNetworks": 4096,
+        "invalidBatchItems": 15,
+        "transportRejects": 7,
+        "scenarios": [
+          "deployment",
+          "delivery",
+          "conflict"
+        ]
+      }
+    ]
+  },
+  "powershellSmoke": "passed in checkout and extracted package",
+  "packageFiles": 37,
+  "packageSHA256": "15f0b0e28bbbc46973197a329bc44843c527b7731f80a57bd50078f202c21b78",
+  "preflight": {
+    "exitCode": 0,
+    "serverStatus": "202 Accepted"
+  },
+  "publication": {
+    "exitCode": 0,
+    "serverStatus": "200 OK"
+  },
+  "ci": {
+    "run": 42961509778,
+    "windows": "success",
+    "ubuntu": "success"
+  },
+  "registryConsumer": {
+    "dependency": "JingLan0v0/stn@0.1.0",
+    "localWorkspace": false,
+    "modes": [
+      "debug",
+      "release"
+    ],
+    "denyWarnings": true,
+    "checks": [
+      "version",
+      "feasible assignment",
+      "tight bounds",
+      "conflict certificate",
+      "budget failure and recovery",
+      "batch isolation"
+    ],
+    "downloadedFilesMatchArchive": true
+  },
+  "networkNote": "GitHub push and initial registry clone required the existing local proxy; first direct clone was stopped without completing installation."
+}

@@ -7,7 +7,8 @@ window, or a negative cycle identifying contradictory original rules.
 
 [中文说明](README.zh-CN.md) · Apache-2.0 · Pure MoonBit core · JS CLI
 
-**Version 0.1.0. Registry publication status and receipts: [acceptance](docs/acceptance.md).**
+**Published: [JingLan0v0/stn@0.1.0](https://mooncakes.io/docs/JingLan0v0/stn@0.1.0).**
+Verification and installation receipts: [acceptance](docs/acceptance.md).
 Repository: [JingLan0v0/MoonSTN](https://github.com/JingLan0v0/MoonSTN).
 
 ## Run
@@ -52,8 +53,14 @@ leave partial bytes; consumers must check the process exit status.
 
 ## Library
 
-Import `JingLan0v0/stn` as `stn` in a local consumer's `moon.pkg` after configuring
-a [local workspace dependency](docs/local-consumer.md). A complete runnable example is in `examples/library`.
+Install the published package in your consumer module:
+
+```sh
+moon add JingLan0v0/stn@0.1.0
+```
+
+Import `JingLan0v0/stn` as `stn` in `moon.pkg`. A complete runnable example is in
+`examples/library`. For source development, see [local workspace setup](docs/local-consumer.md).
 
 - `network(names, constraints)` validates and snapshots inputs.
 - `solve(network, max_steps=2000000)` returns `Feasible(Solution)` or
@@ -87,6 +94,6 @@ node scripts/verify.mjs
 ```
 
 Windows and Ubuntu CI runs on repository pushes; actual receipts are recorded
-in acceptance.md. Mooncakes publication was authorized on 2026-11-11. See
+in acceptance.md. Mooncakes 0.1.0 was published on 2026-11-11. See
 [progress](docs/progress.md), [publishing](docs/publishing.md), [license](LICENSE)
 and [source attribution](THIRD_PARTY_NOTICES.md).

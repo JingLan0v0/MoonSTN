@@ -1,9 +1,9 @@
-# Progress and handoff — 2026-11-10
+# Progress and handoff — 2026-11-11
 
 ## Active project
 
 MoonSTN, public repository https://github.com/JingLan0v0/MoonSTN, module `JingLan0v0/stn`,
-version 0.1.0 local candidate. This is independent of MoonJMES/MoonPatch.
+version 0.1.0 published on Mooncakes. This is independent of MoonJMES/MoonPatch.
 The user requested a new November 2026 project plus a desktop proposal.
 The user authorized Mooncakes publication on 2026-11-11, superseding the earlier deferral. GitHub upload remains authorized.
 
@@ -19,7 +19,16 @@ Docs cover provenance, adjacent libraries, algorithm limitations, resource
 contract, November requirements and current unverified administrative items.
 Pinned compiler 0.10.18 is installed separately from MoonJMES.
 
-## Delivery status
+## Latest publication status — 2026-11-11
+
+Mooncakes `JingLan0v0/stn@0.1.0` returned `200 OK`. Actual package extraction,
+full local checks, Windows/Ubuntu CI 42961509778 on c826501 and fresh registry
+consumer debug/release all passed. Source code did not change in this publication
+round. The desktop proposal and bilingual installation instructions were updated.
+See acceptance.md and publication-0.1.0.json for current, distinct receipts.
+Existing 0.1.0 is immutable; use a new version for any future release.
+
+## Earlier delivery status — 2026-11-10
 
 Source commit 73633fc passed clean-source-archive extraction verification and an
 independent consumer using the extracted module, in debug/release. The archive

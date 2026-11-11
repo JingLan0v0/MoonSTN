@@ -1,6 +1,41 @@
-# Acceptance evidence — 2026-11-10
+# Acceptance evidence — updated 2026-11-11
 
-Project: MoonSTN / JingLan0v0/stn, local candidate 0.1.0.
+Project: MoonSTN / JingLan0v0/stn, published 0.1.0.
+
+
+## Mooncakes publication — 2026-11-11
+
+The owner explicitly authorized publication, superseding the earlier deferral.
+[JingLan0v0/stn@0.1.0](https://mooncakes.io/docs/JingLan0v0/stn@0.1.0)
+was published from `c8265015a4a0829045113bdd055b0a8dab6e6a3e`.
+
+- Fresh checkout verifier completed at 2026-11-11T04:43:22.438Z; extracted actual
+  publication ZIP completed at 2026-11-11T04:46:29.037Z. Each passed debug/release:
+  13 unit tests, 4,096 exhaustive networks, 15 invalid batch items, seven transport
+  rejections, all process I/O checks and three scenarios. PowerShell smoke passed
+  in both the checkout and extraction. These are new runs, not the November 10 runs.
+- [CI run 42961509778](https://github.com/JingLan0v0/MoonSTN/actions/runs/42961509778)
+  passed on Windows and Ubuntu for that exact source SHA before publication.
+- The publisher ZIP contains 37 tracked files; only Git attributes, ignore rules
+  and CI configuration are omitted. No credentials, toolchains, dependency caches
+  or build outputs were packaged. SHA-256:
+  `15f0b0e28bbbc46973197a329bc44843c527b7731f80a57bd50078f202c21b78`.
+- `moon publish --dry-run`: exit 0, server `202 Accepted`.
+  Actual `moon publish`: exit 0, server `200 OK`. Published ZIP and inspected ZIP
+  match exactly. The new toolchain used an existing external registry session;
+  credentials were never placed in the repository.
+- A fresh consumer downloaded `JingLan0v0/stn@0.1.0` from Mooncakes with no local
+  workspace/path dependency. All 37 downloaded files match the archive hashes.
+  Debug and release, both with warnings denied, passed version, feasible assignment,
+  tight bounds, conflict certificate, budget-failure recovery and batch isolation.
+- GitHub direct connectivity and the initial registry clone stalled; the existing
+  local proxy resolved them. The interrupted clone was not counted as a passed test.
+- Machine-readable receipts: [publication-0.1.0.json](publication-0.1.0.json).
+  The following docs-only commit records these receipts and installation links;
+  it is not a replacement or republication of the immutable 0.1.0 package.
+
+Earlier sections below are historical stages. Their publication deferral has
+been superseded. No competition application or organizer approval is implied.
 
 ## GitHub upload and CI — 2026-11-10
 

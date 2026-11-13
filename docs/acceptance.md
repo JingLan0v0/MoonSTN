@@ -1,7 +1,35 @@
-# Acceptance evidence — updated 2026-11-11
+# Acceptance evidence — updated 2026-11-13
 
 Project: MoonSTN / JingLan0v0/stn, published 0.1.1.
 
+
+## Budget optimization — 2026-11-13, unreleased
+
+New full verification completed at 2026-11-13T07:09:30.383Z: debug/release each
+passed 15 units, 4,096 exhaustive networks and all existing transport, batch,
+process I/O and scenario checks. PowerShell smoke passed. Public API unchanged.
+New regression covers 2/8/64-node chains and connected cycles, exact budget
+thresholds, shortfalls of 1/V-1/V, correct bounds and reuse after budget errors.
+
+Paired release CLI benchmark against 546c2c3, Node 24.14.0, pinned toolchain:
+eight 64-point requests per process, two warm-ups, nine samples, alternating order.
+Times include process startup and are machine-specific. No universal speed claim.
+
+| Scenario | Before median ms | After median ms |
+|---|---:|---:|
+| disconnected | 89.78 | 91.19 |
+| disconnected-budget-exhausted | 87.18 | 85.14 |
+| chain | 99.96 | 98.86 |
+| chain-budget-exhausted | 101.75 | 90.12 |
+| connected | 120.98 | 117.50 |
+| connected-budget-exhausted | 130.60 | 106.22 |
+
+Chain/dense budget failures were about 11.4%/18.7% faster by elapsed time;
+normal-case differences were small, including a ~1.6% disconnected slowdown.
+All measured outputs and 60 additional budget differential comparisons matched
+(30 unique input/budget combinations, repeated across paired scenarios).
+Reproduce: `node scripts/benchmark.mjs /absolute/path/to/baseline-main.js`.
+See optimization-2026-11-13.json for receipts. Mooncakes 0.1.1 is unchanged.
 
 ## Mooncakes 0.1.1 publication — 2026-11-11
 

@@ -213,3 +213,41 @@ test "sparse closure preserves exact logical budget boundary" {
     }
   }
 }
+
+///|
+test "reachable closure rows preserve exact budget and network reuse" {
+  for n in [2, 8, 64] {
+    let names = Array::makei(n, i => "v" + i.to_string())
+    let cs = Array::makei(n - 1, i => {
+      edge("e" + i.to_string(), names[i], names[i + 1], None, Some(1))
+    })
+    // Positive edges require one Bellman-Ford pass, then edge initialization.
+    // Test both one-way reachability and a strongly connected cycle with a zero-weight return edge.
+    for connected in [false, true] {
+      let rules = cs.copy()
+      if connected {
+        rules.push(edge("return", names[n - 1], names[0], None, Some(0)))
+      }
+      let net = @stn.network(names, rules)
+      let needed = n * n * n + 2 * rules.length()
+      for missing in [1, n - 1, n] {
+        let exhausted = try {
+          @stn.solve(net, max_steps=needed - missing) |> ignore
+          false
+        } catch {
+          @stn.StnError(code, _) => code == "limit_exceeded"
+        }
+        assert_true(exhausted)
+      }
+      guard @stn.solve(net, max_steps=needed) is @stn.Feasible(s) else {
+        fail("expected feasible after budget errors")
+      }
+      assert_true(@stn.verify_assignment(net, s.assignment()))
+      let lower = if connected { Some(0L) } else { None }
+      assert_eq(
+        s.bounds(names[0], names[n - 1]),
+        (lower, Some((n - 1).to_int64())),
+      )
+    }
+  }
+}

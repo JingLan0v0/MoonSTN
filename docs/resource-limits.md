@@ -34,4 +34,6 @@ no concurrency or cancellation service. Host applications control request rates,
 workers and timeouts. Output failures may leave partial bytes.
 
 Closure budgets count logical triples, including triples skipped for unreachable
-rows. Faster traversal does not grant additional logical work at a given budget.
+rows. The fixed V^3 closure charge is reserved before traversal; insufficient
+budgets fail before doing that work. This preserves the success/error threshold.
+Faster traversal does not grant additional logical work at a given budget.

@@ -1,0 +1,87 @@
+{
+  "verification": {
+    "status": "passed",
+    "recordedAt": "2026-11-13T07:09:30.383Z",
+    "node": "v24.14.0",
+    "reports": [
+      {
+        "mode": "debug",
+        "unitTests": "Total tests: 15, passed: 15, failed: 0.",
+        "exhaustiveNetworks": 4096,
+        "invalidBatchItems": 15,
+        "transportRejects": 7,
+        "scenarios": [
+          "deployment",
+          "delivery",
+          "conflict"
+        ]
+      },
+      {
+        "mode": "release",
+        "unitTests": "Total tests: 15, passed: 15, failed: 0.",
+        "exhaustiveNetworks": 4096,
+        "invalidBatchItems": 15,
+        "transportRejects": 7,
+        "scenarios": [
+          "deployment",
+          "delivery",
+          "conflict"
+        ]
+      }
+    ]
+  },
+  "powershellSmoke": "passed",
+  "benchmark": {
+    "recordedAt": "2026-11-13T07:10:29.315Z",
+    "node": "v24.14.0",
+    "samples": 9,
+    "includesProcessStartup": true,
+    "baseline": "546c2c306ac50d36f8256cab50afd0aa90e1580b, release JS built before edits",
+    "rows": [
+      {
+        "name": "disconnected",
+        "requestsPerSample": 8,
+        "currentMedianMs": 91.1884,
+        "baselineMedianMs": 89.7838999999999,
+        "speedup": 0.984597821652753
+      },
+      {
+        "name": "disconnected-budget-exhausted",
+        "requestsPerSample": 8,
+        "currentMedianMs": 85.14249999999993,
+        "baselineMedianMs": 87.17550000000028,
+        "speedup": 1.0238776169363168
+      },
+      {
+        "name": "chain",
+        "requestsPerSample": 8,
+        "currentMedianMs": 98.85959999999977,
+        "baselineMedianMs": 99.95859999999993,
+        "speedup": 1.0111167757102009
+      },
+      {
+        "name": "chain-budget-exhausted",
+        "requestsPerSample": 8,
+        "currentMedianMs": 90.11749999999847,
+        "baselineMedianMs": 101.7476000000006,
+        "speedup": 1.1290548450634152
+      },
+      {
+        "name": "connected",
+        "requestsPerSample": 8,
+        "currentMedianMs": 117.4974000000002,
+        "baselineMedianMs": 120.98219999999856,
+        "speedup": 1.0296585286142361
+      },
+      {
+        "name": "connected-budget-exhausted",
+        "requestsPerSample": 8,
+        "currentMedianMs": 106.21539999999732,
+        "baselineMedianMs": 130.60129999999845,
+        "speedup": 1.2295891179621952
+      }
+    ]
+  },
+  "budgetDifferentialComparisons": 60,
+  "registryStatus": "source optimization unreleased; published 0.1.1 unchanged"
+}

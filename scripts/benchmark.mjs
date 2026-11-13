@@ -20,11 +20,16 @@ function invoke(cli,requests){
  return {ms:performance.now()-start,result:JSON.parse(r.stdout)};
 }
 const rows=[];
-for(const [name,constraints] of Object.entries(graphs)){
+const scenarios=Object.entries(graphs).flatMap(([name,constraints])=>[
+ {name,constraints},
+ {name:`${name}-budget-exhausted`,constraints,max_steps:64**3+2*constraints.length-1}
+]);
+for(const {name,constraints,max_steps} of scenarios){
  const request={timepoints:names,constraints,queries:[{from:'v0',to:'v63'},{from:'v63',to:'v0'}]};
+ if(max_steps!==undefined)request.max_steps=max_steps;
  const batch=Array(8).fill(request);
  const expected=invoke(baseline||current,batch).result;
- assert(expected.every(r=>r.status==='feasible'));
+ assert(expected.every(r=>max_steps===undefined ? r.status==='feasible' : r.status==='error' && r.code==='limit_exceeded'));
  const times={current:[],baseline:[]};
  // Alternate order to limit systematic warm-up/order bias; include process startup.
  for(let i=0;i<11;i++){

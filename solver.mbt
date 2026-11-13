@@ -70,17 +70,15 @@ pub fn solve(
     }
   }
   // Closure is computed only after feasibility, avoiding negative-cycle amplification.
+  // Closure has exactly n^3 logical triples; reserve once before any traversal.
+  // All state is local, so an insufficient budget cannot expose a partial result.
+  budget.charge(n * n * n)
   for k = 0; k < n; k = k + 1 {
     let via = distances[k]
     for i = 0; i < n; i = i + 1 {
       let row = distances[i]
-      guard row[k] is Some(a) else {
-        // Preserve logical triple accounting even when no path reaches k.
-        budget.charge(n)
-        continue
-      }
+      guard row[k] is Some(a) else { continue }
       for j = 0; j < n; j = j + 1 {
-        budget.tick()
         if via[j] is Some(b) {
           let w = a + b
           if row[j] is None || row[j].unwrap() > w {

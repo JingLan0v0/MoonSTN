@@ -1,4 +1,4 @@
-# Progress and handoff — 2026-11-11
+# Progress and handoff — 2026-11-13
 
 ## Active project
 
@@ -7,7 +7,18 @@ version 0.1.1 published and verified on Mooncakes. This is independent of MoonJM
 The user requested a new November 2026 project plus a desktop proposal.
 The user authorized Mooncakes publication on 2026-11-11, superseding the earlier deferral. GitHub upload remains authorized.
 
-## Latest source optimization — 2026-11-11
+## Latest source optimization — 2026-11-13 (unreleased)
+
+Closure reserves its fixed V^3 logical budget once before traversal. Insufficient
+budgets return the same error earlier, without altering success thresholds or
+negative-cycle detection. New regression covers reachable 2/8/64-node networks,
+exact thresholds and network reuse after errors. Debug/release each passed 15
+units and 4,096 exhaustive networks plus all existing I/O/batch/scenario checks.
+See optimization-2026-11-13.json and acceptance.md for fresh receipts and measured
+performance, including the small slowdown in the disconnected successful case.
+This source change is not yet included in Mooncakes 0.1.1.
+
+## Earlier source optimization — 2026-11-11
 
 The working source now skips unreachable closure rows and caches reachable row
 references. Logical budgets and public API are unchanged. This optimization is

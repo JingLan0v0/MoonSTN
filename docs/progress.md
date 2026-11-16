@@ -1,13 +1,13 @@
-# Progress and handoff — 2026-11-13
+# Progress and handoff — 2026-11-16
 
 ## Active project
 
 MoonSTN, public repository https://github.com/JingLan0v0/MoonSTN, module `JingLan0v0/stn`,
-version 0.1.2 prepared for publication; last confirmed release is 0.1.1. This is independent of MoonJMES/MoonPatch.
+version 0.1.2 published and verified on Mooncakes. This is independent of MoonJMES/MoonPatch.
 The user requested a new November 2026 project plus a desktop proposal.
 The user authorized Mooncakes publication on 2026-11-11, superseding the earlier deferral. GitHub upload remains authorized.
 
-## Latest source optimization — 2026-11-13 (unreleased)
+## Latest source optimization — 2026-11-13 (published in 0.1.2)
 
 Closure reserves its fixed V^3 logical budget once before traversal. Insufficient
 budgets return the same error earlier, without altering success thresholds or
@@ -16,7 +16,7 @@ exact thresholds and network reuse after errors. Debug/release each passed 15
 units and 4,096 exhaustive networks plus all existing I/O/batch/scenario checks.
 See optimization-2026-11-13.json and acceptance.md for fresh receipts and measured
 performance, including the small slowdown in the disconnected successful case.
-This source change is not yet included in Mooncakes 0.1.1.
+This source change is now included in Mooncakes 0.1.2.
 
 ## Earlier source optimization — 2026-11-11
 
@@ -40,7 +40,16 @@ Docs cover provenance, adjacent libraries, algorithm limitations, resource
 contract, November requirements and current unverified administrative items.
 Pinned compiler 0.10.18 is installed separately from MoonJMES.
 
-## Latest publication: 0.1.1 — 2026-11-11
+## Latest publication: 0.1.2 — 2026-11-16
+
+Source 7d42c5fc89cef33948e9f4e8cec6a4cab703bf22 passed fresh local and actual-package
+extraction verification and Windows/Ubuntu CI 43809017332. Preflight returned
+202 Accepted; actual publication returned 200 OK. A fresh cache without credentials
+installed 0.1.2 and passed debug/release. All 42 downloaded files match the archive;
+the downloaded solver includes the November 13 fixed-closure budget optimization.
+See publication-0.1.2.json and acceptance.md for actual receipts.
+
+## Earlier publication: 0.1.1 — 2026-11-11
 
 Published from b9a2de40925c1bdefe6f2f318631400e8ac96118 at
 2026-11-11T12:35:04.200439Z. Local and extracted-package full verification passed;

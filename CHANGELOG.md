@@ -1,11 +1,11 @@
 # Changelog
 
-## 0.1.2 — release preparation, 2026-11-16
+## 0.1.2 — published, 2026-11-16
 
 - Reserve the fixed closure budget once, reducing loop overhead and rejecting
   insufficient budgets before closure traversal without changing logical limits.
 - Test exact reachable-network budget boundaries and expand benchmarks to budget
-  exhaustion. Published Mooncakes 0.1.1 remains unchanged.
+  exhaustion. Published and verified from a fresh registry consumer on 2026-11-16.
 
 ## 0.1.1 — published, 2026-11-11
 

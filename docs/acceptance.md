@@ -1,9 +1,33 @@
-# Acceptance evidence — updated 2026-11-13
+# Acceptance evidence — updated 2026-11-16
 
-Project: MoonSTN / JingLan0v0/stn, published 0.1.1.
+Project: MoonSTN / JingLan0v0/stn, published 0.1.2.
 
 
-## Budget optimization — 2026-11-13, unreleased
+## Mooncakes 0.1.2 publication — 2026-11-16
+
+Published from `7d42c5fc89cef33948e9f4e8cec6a4cab703bf22`.
+Registry timestamp: 2026-11-16T05:16:36.875552+00:00 (13:16:36 Asia/Shanghai).
+Fresh local verifier: 2026-11-16T05:14:38.050Z; actual package extraction verifier:
+2026-11-16T05:15:38.617Z. Each passed 15 units and 4,096 exhaustive networks
+per mode, plus all existing transport/batch/I/O/scenario checks. PowerShell smoke
+passed in the checkout and extraction. These are new November 16 runs.
+
+[CI run 43809017332](https://github.com/JingLan0v0/MoonSTN/actions/runs/43809017332)
+passed on Windows and Ubuntu for that exact source SHA before publishing.
+The inspected 42-file archive contains no credentials, toolchains, build outputs
+or dependency caches. SHA-256, also matched by the fresh registry ZIP:
+`763c946a5a52c284e92775c73bd9603b83b0a7d42105f46887e9099233cd2e4c`.
+Preflight: `202 Accepted`, exit 0. Actual publication: `200 OK`, exit 0.
+
+A fresh credential-free cache installed 0.1.2 without a workspace/path override.
+Debug/release with warnings denied passed version, assignment, bounds, conflict
+certificate, budget recovery and batch isolation. All 42 downloaded files match;
+the downloaded solver explicitly contains the November 13 fixed-closure budget
+optimization. See [publication-0.1.2.json](publication-0.1.2.json).
+The following docs-only commit records these receipts and new installation links.
+Older versions and their historical evidence remain unchanged.
+
+## Budget optimization — 2026-11-13, subsequently published in 0.1.2
 
 New full verification completed at 2026-11-13T07:09:30.383Z: debug/release each
 passed 15 units, 4,096 exhaustive networks and all existing transport, batch,

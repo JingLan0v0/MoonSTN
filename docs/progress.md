@@ -3,7 +3,7 @@
 ## Active project
 
 MoonSTN, public repository https://github.com/JingLan0v0/MoonSTN, module `JingLan0v0/stn`,
-version 0.1.1 published and verified on Mooncakes. This is independent of MoonJMES/MoonPatch.
+version 0.1.2 prepared for publication; last confirmed release is 0.1.1. This is independent of MoonJMES/MoonPatch.
 The user requested a new November 2026 project plus a desktop proposal.
 The user authorized Mooncakes publication on 2026-11-11, superseding the earlier deferral. GitHub upload remains authorized.
 

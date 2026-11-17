@@ -18,7 +18,7 @@ universal final-delivery deadline. Personal email/name are not copied to this re
 |---|---|---|
 | Dedicated substantive core | Resource-order search, temporal propagation/backtracking, original-task witness verification | Organizer assesses sufficiency |
 | Concrete workflows | Three new asserted planning scenarios plus old numeric scenarios | Participant understands and can demonstrate |
-| Traceable source, tests, package | 0.2.0 release workflow; receipts in acceptance.md | Actual publication/CI recorded separately |
+| Traceable source, tests, package | 0.2.0 public source, Windows/Ubuntu CI and verified Mooncakes installation | See acceptance.md for dated receipts |
 | Revised one-page proposal | Desktop revision using this implementation | Participant updates existing form before notice deadline |
 | Qualification/final acceptance | Initial application was rejected | Await official re-review; no promise of passing |
 

@@ -1,0 +1,160 @@
+{
+  "version": "0.2.0",
+  "sourceCommit": "07e49907dd6472c45433294e0be71ec502a101e7",
+  "local": {
+    "status": "passed",
+    "recordedAt": "2026-11-17T14:56:35.121Z",
+    "node": "v24.14.0",
+    "reports": [
+      {
+        "mode": "debug",
+        "unitTests": "Total tests: 22, passed: 22, failed: 0.",
+        "exhaustiveNetworks": 4096,
+        "invalidBatchItems": 15,
+        "transportRejects": 7,
+        "scenarios": [
+          "deployment",
+          "delivery",
+          "conflict"
+        ]
+      },
+      {
+        "mode": "release",
+        "unitTests": "Total tests: 22, passed: 22, failed: 0.",
+        "exhaustiveNetworks": 4096,
+        "invalidBatchItems": 15,
+        "transportRejects": 7,
+        "scenarios": [
+          "deployment",
+          "delivery",
+          "conflict"
+        ]
+      }
+    ]
+  },
+  "planningLocal": {
+    "recordedAt": "2026-11-17T14:56:35.112Z",
+    "status": "passed",
+    "reports": [
+      {
+        "mode": "debug",
+        "exhaustiveTwoTaskCases": 1440,
+        "seededThreeTaskCases": 256,
+        "invalidBatchItems": 15,
+        "scenarios": 3
+      },
+      {
+        "mode": "release",
+        "exhaustiveTwoTaskCases": 1440,
+        "seededThreeTaskCases": 256,
+        "invalidBatchItems": 15,
+        "scenarios": 3
+      }
+    ]
+  },
+  "packageExtraction": {
+    "status": "passed",
+    "recordedAt": "2026-11-17T15:00:03.786Z",
+    "node": "v24.14.0",
+    "reports": [
+      {
+        "mode": "debug",
+        "unitTests": "Total tests: 22, passed: 22, failed: 0.",
+        "exhaustiveNetworks": 4096,
+        "invalidBatchItems": 15,
+        "transportRejects": 7,
+        "scenarios": [
+          "deployment",
+          "delivery",
+          "conflict"
+        ]
+      },
+      {
+        "mode": "release",
+        "unitTests": "Total tests: 22, passed: 22, failed: 0.",
+        "exhaustiveNetworks": 4096,
+        "invalidBatchItems": 15,
+        "transportRejects": 7,
+        "scenarios": [
+          "deployment",
+          "delivery",
+          "conflict"
+        ]
+      }
+    ]
+  },
+  "planningPackageExtraction": {
+    "recordedAt": "2026-11-17T15:00:03.777Z",
+    "status": "passed",
+    "reports": [
+      {
+        "mode": "debug",
+        "exhaustiveTwoTaskCases": 1440,
+        "seededThreeTaskCases": 256,
+        "invalidBatchItems": 15,
+        "scenarios": 3
+      },
+      {
+        "mode": "release",
+        "exhaustiveTwoTaskCases": 1440,
+        "seededThreeTaskCases": 256,
+        "invalidBatchItems": 15,
+        "scenarios": 3
+      }
+    ]
+  },
+  "powershellSmoke": "passed in checkout and extraction",
+  "packageFiles": 55,
+  "registryEntry": {
+    "name": "JingLan0v0/stn",
+    "readme": "README.md",
+    "yanked": false,
+    "license": "Apache-2.0",
+    "version": "0.2.0",
+    "checksum": "adc2cefbbb8586f2b26ce4d9637b671d323a2fb4259784ad89c60bbc0854964e",
+    "keywords": [
+      "stn",
+      "temporal",
+      "difference-constraints",
+      "scheduling"
+    ],
+    "created_at": "2026-11-17T15:00:51.857994+00:00",
+    "repository": "https://github.com/JingLan0v0/MoonSTN",
+    "description": "Bounded task planning with temporal dependencies, exclusive-resource search and independent schedule verification.",
+    "yanked_reason": null,
+    "preferred-target": "js",
+    "supported-targets": "js"
+  },
+  "preflight": "202 Accepted, exit 0",
+  "publication": "200 OK, exit 0",
+  "ci": {
+    "run": 44109093011,
+    "conclusion": "success",
+    "windows": "success",
+    "ubuntu": "success"
+  },
+  "consumer": {
+    "checkedAt": "2026-11-17T15:04:49.578566+00:00",
+    "freshCache": true,
+    "credentials": false,
+    "workspaceDependency": false,
+    "modes": [
+      "debug",
+      "release"
+    ],
+    "checks": [
+      "version",
+      "assignment",
+      "bounds",
+      "conflict certificate",
+      "budget recovery",
+      "batch isolation",
+      "resource-order backtracking",
+      "schedule verification",
+      "resource-induced unschedulability",
+      "planning budget recovery"
+    ],
+    "downloadedArchiveSha256": "adc2cefbbb8586f2b26ce4d9637b671d323a2fb4259784ad89c60bbc0854964e",
+    "downloadedFilesMatch": true
+  }
+}

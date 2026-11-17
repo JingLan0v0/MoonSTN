@@ -1,6 +1,36 @@
-# Acceptance evidence — updated 2026-11-16
+# Acceptance evidence — updated 2026-11-17
 
-Project: MoonSTN / JingLan0v0/stn, published 0.1.2.
+Project: MoonSTN / JingLan0v0/stn, published 0.2.0.
+
+## Mooncakes 0.2.0 publication — 2026-11-17
+
+Published from `07e49907dd6472c45433294e0be71ec502a101e7`.
+Registry timestamp: 2026-11-17T15:00:51.857994+00:00 (23:00 Asia/Shanghai).
+Checkout verification completed at 2026-11-17T14:56:35.121Z;
+actual package extraction verification completed at 2026-11-17T15:00:03.786Z.
+In each location, debug and release each passed 22 units, 4,096 exhaustive STN
+networks and 1,696 independent planning comparisons (1,440 exhaustive two-task
+models and 256 seeded three-task models). Checks included six CLI scenarios, two
+public API examples, batch isolation and transport failures. PowerShell smoke
+passed in both locations.
+
+[CI run 44109093011](https://github.com/JingLan0v0/MoonSTN/actions/runs/44109093011)
+passed on Windows and Ubuntu for the exact source commit. Package preflight returned
+`202 Accepted`; publication returned `200 OK`. The package contains 55 tracked files
+and excludes build outputs, caches, local toolchains and credentials.
+
+The registry index lists 0.2.0 as active. The independently downloaded ZIP has
+SHA-256 `adc2cefbbb8586f2b26ce4d9637b671d323a2fb4259784ad89c60bbc0854964e`, identical to the verified preflight archive.
+All 55 installed files match. A new consumer without registry credentials or a
+local workspace override passed debug and release checks for resource ordering,
+schedule verification, unschedulability, budget recovery and the original STN API.
+
+[Mooncakes package](https://mooncakes.io/docs/JingLan0v0/stn@0.2.0) ·
+[Machine-readable receipts](publication-0.2.0.json) ·
+[Initial review response](review-response.md).
+
+The following documentation commit records the release. This evidence documents
+technical delivery; competition re-review remains pending.
 
 
 ## Mooncakes 0.1.2 publication — 2026-11-16

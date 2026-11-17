@@ -1,4 +1,4 @@
-# Publishing — 0.1.2 published 2026-11-16
+# Publishing — 0.2.0 published 2026-11-17
 
 The owner authorized Mooncakes publication on 2026-11-11. Require actual registry
 and fresh-consumer receipts; do not overwrite an existing version.
@@ -22,3 +22,7 @@ installation passed debug/release. See publication-0.1.1.json for actual receipt
 
 Version 0.1.2 returned `200 OK` on 2026-11-16. The fresh registry download
 contains the latest budget optimization; see publication-0.1.2.json.
+
+Version 0.2.0 returned `200 OK` on 2026-11-17. The fresh registry consumer
+passed both modes for the new planning API and the existing STN API. The downloaded
+55-file archive matches the verified package. See publication-0.2.0.json.

@@ -7,14 +7,17 @@ The user explicitly authorized implementation, GitHub upload, Mooncakes publicat
 and a revised desktop proposal. Initial review was rejected for insufficient domain
 core; see review-response.md. Do not confuse technical release with contest approval.
 
-Current source contains 22 units, 1,440 two-task + 256 three-task planning-oracle
-cases per build mode, old 4,096 STN networks, six CLI scenarios and two library
-examples. Record this round's actual receipts in acceptance.md. Published 0.1.2
-below is historical; 0.2.0 must be confirmed with actual publish/install receipts.
-Continue via full local + PowerShell checks, source commit/CI, archive extraction,
-authorized new-version publication, fresh registry consumer and desktop proposal.
+Source `07e49907dd6472c45433294e0be71ec502a101e7` passed 22 units, 1,440 two-task
+and 256 three-task independent planning comparisons, and 4,096 STN network checks
+per build mode, plus six CLI scenarios and two library examples. Windows/Ubuntu CI
+[44109093011](https://github.com/JingLan0v0/MoonSTN/actions/runs/44109093011) passed.
+Mooncakes 0.2.0 is published and validated from a fresh consumer. The registry
+archive and all 55 extracted files match preflight. See acceptance.md and
+publication-0.2.0.json. The revised proposal is delivered separately on the desktop.
+The participant should update the original form using that proposal; organizer
+re-review remains pending.
 
-# Progress and handoff — 2026-11-16
+# Historical progress and handoff — 2026-11-16
 
 ## Active project
 

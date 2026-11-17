@@ -10,15 +10,25 @@ pub fn analyze(Json) -> Json raise StnError
 
 pub fn analyze_batch(Json) -> Json raise StnError
 
+pub fn analyze_plan(Json) -> Json raise StnError
+
+pub fn analyze_plan_batch(Json) -> Json raise StnError
+
 pub fn network(Array[String], Array[Constraint]) -> Network raise StnError
 
 pub fn parse_json(String) -> Json raise StnError
+
+pub fn plan(PlanningProblem, max_nodes? : Int32, max_work? : Int32) -> PlanResult raise StnError
+
+pub fn planning_problem(Array[Task], Array[Dependency]) -> PlanningProblem raise StnError
 
 pub fn solve(Network, max_steps? : Int32) -> Outcome raise StnError
 
 pub fn verify_assignment(Network, Array[(String, Int64)]) -> Bool
 
 pub fn verify_conflict(Network, Array[Edge]) -> Bool
+
+pub fn verify_plan(PlanningProblem, Array[ScheduledTask]) -> Bool
 
 pub fn version() -> String
 
@@ -38,6 +48,17 @@ pub(all) struct Constraint {
 pub fn Constraint::equal(Self, Self) -> Bool
 pub fn Constraint::not_equal(Self, Self) -> Bool
 pub fn Constraint::to_repr(Self) -> @debug.Repr
+
+pub(all) struct Dependency {
+  before : String
+  after : String
+  kind : String
+  min_lag : Int32
+  max_lag : Int32?
+} derive(Eq, @debug.Debug)
+pub fn Dependency::equal(Self, Self) -> Bool
+pub fn Dependency::not_equal(Self, Self) -> Bool
+pub fn Dependency::to_repr(Self) -> @debug.Repr
 
 pub(all) struct Edge {
   id : String
@@ -61,6 +82,37 @@ pub(all) enum Outcome {
   Inconsistent(Array[Edge])
 }
 
+pub(all) enum PlanResult {
+  Planned(Array[ScheduledTask], PlanStats)
+  Unschedulable(PlanStats)
+}
+
+pub(all) struct PlanStats {
+  nodes : Int32
+  pruned : Int32
+  decisions : Int32
+  charged_work : Int32
+} derive(Eq, @debug.Debug)
+pub fn PlanStats::equal(Self, Self) -> Bool
+pub fn PlanStats::not_equal(Self, Self) -> Bool
+pub fn PlanStats::to_repr(Self) -> @debug.Repr
+
+pub struct PlanningProblem {
+  tasks : Array[Task]
+  dependencies : Array[Dependency]
+  names : Array[String]
+  rules : Array[Constraint]
+}
+
+pub(all) struct ScheduledTask {
+  id : String
+  start : Int64
+  finish : Int64
+} derive(Eq, @debug.Debug)
+pub fn ScheduledTask::equal(Self, Self) -> Bool
+pub fn ScheduledTask::not_equal(Self, Self) -> Bool
+pub fn ScheduledTask::to_repr(Self) -> @debug.Repr
+
 pub struct Solution {
   names : Array[String]
   values : Array[Int64]
@@ -68,6 +120,18 @@ pub struct Solution {
 }
 pub fn Solution::assignment(Self) -> Array[(String, Int64)]
 pub fn Solution::bounds(Self, String, String) -> (Int64?, Int64?) raise StnError
+
+pub(all) struct Task {
+  id : String
+  min_duration : Int32
+  max_duration : Int32
+  release : Int32
+  deadline : Int32
+  resource : String?
+} derive(Eq, @debug.Debug)
+pub fn Task::equal(Self, Self) -> Bool
+pub fn Task::not_equal(Self, Self) -> Bool
+pub fn Task::to_repr(Self) -> @debug.Repr
 
 // Type aliases
 

@@ -1,0 +1,74 @@
+{
+  "tasks": [
+    {
+      "id": "build-api",
+      "min_duration": 4,
+      "max_duration": 6,
+      "release": 0,
+      "deadline": 20,
+      "resource": "runner"
+    },
+    {
+      "id": "build-ui",
+      "min_duration": 3,
+      "max_duration": 3,
+      "release": 0,
+      "deadline": 20,
+      "resource": "runner"
+    },
+    {
+      "id": "integration",
+      "min_duration": 3,
+      "max_duration": 3,
+      "release": 0,
+      "deadline": 25,
+      "resource": "staging"
+    },
+    {
+      "id": "deploy-api",
+      "min_duration": 2,
+      "max_duration": 2,
+      "release": 0,
+      "deadline": 30,
+      "resource": "deploy-lock"
+    },
+    {
+      "id": "deploy-ui",
+      "min_duration": 2,
+      "max_duration": 2,
+      "release": 0,
+      "deadline": 30,
+      "resource": "deploy-lock"
+    }
+  ],
+  "dependencies": [
+    {
+      "before": "build-api",
+      "after": "integration",
+      "kind": "FS",
+      "min_lag": 0,
+      "max_lag": null
+    },
+    {
+      "before": "build-ui",
+      "after": "integration",
+      "kind": "FS",
+      "min_lag": 0,
+      "max_lag": null
+    },
+    {
+      "before": "integration",
+      "after": "deploy-api",
+      "kind": "FS",
+      "min_lag": 0,
+      "max_lag": null
+    },
+    {
+      "before": "integration",
+      "after": "deploy-ui",
+      "kind": "FS",
+      "min_lag": 0,
+      "max_lag": null
+    }
+  ]
+}

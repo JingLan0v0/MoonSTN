@@ -1,3 +1,13 @@
+# 0.2.0 — resource-aware task planning
+
+- Task duration/window and four endpoint-dependency models, immutable snapshots.
+- Exclusive-resource ordering with bounded disjunctive search, temporal pruning,
+  backtracking and global node/work accounting; exhaustion never means UNSAT.
+- Independent original-rule schedule verification, --plan and --plan-batch.
+- Three new operational scenarios, public planning example and independent
+  small-schedule enumeration oracle. Existing numeric STN API remains supported.
+- Publication status and dated evidence: docs/acceptance.md.
+
 # Changelog
 
 ## 0.1.2 — published, 2026-11-16

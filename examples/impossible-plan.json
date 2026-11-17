@@ -1,0 +1,21 @@
+{
+  "tasks": [
+    {
+      "id": "delivery-A",
+      "min_duration": 3,
+      "max_duration": 3,
+      "release": 0,
+      "deadline": 5,
+      "resource": "vehicle"
+    },
+    {
+      "id": "delivery-B",
+      "min_duration": 3,
+      "max_duration": 3,
+      "release": 0,
+      "deadline": 5,
+      "resource": "vehicle"
+    }
+  ],
+  "dependencies": []
+}

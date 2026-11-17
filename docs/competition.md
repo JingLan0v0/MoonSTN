@@ -1,3 +1,30 @@
+# Revision requirements — 2026-11-17
+
+Re-read the official homepage source at
+https://github.com/moonbitlang/Hackathon2026/blob/main/src/App.tsx on November 17.
+It confirms the November round, substantive additions to existing projects,
+public traceable development, MoonBit-first implementation, runnable examples,
+tests, recognized license and participant responsibility for AI-assisted work.
+The linked charter/form remain inaccessible through the retrieval tools this round;
+current detailed administrative fields have not been independently verified.
+
+The participant supplied the MoonSTN initial rejection notice. It acknowledges
+useful temporal checking but requests a deeper dedicated core beyond generic graph
+algorithms plus concrete examples. It permits revised form information before
+2026-11-30. This date comes from that project-specific notice, not a guessed
+universal final-delivery deadline. Personal email/name are not copied to this repo.
+
+| Requirement | Current evidence | Remaining action |
+|---|---|---|
+| Dedicated substantive core | Resource-order search, temporal propagation/backtracking, original-task witness verification | Organizer assesses sufficiency |
+| Concrete workflows | Three new asserted planning scenarios plus old numeric scenarios | Participant understands and can demonstrate |
+| Traceable source, tests, package | 0.2.0 release workflow; receipts in acceptance.md | Actual publication/CI recorded separately |
+| Revised one-page proposal | Desktop revision using this implementation | Participant updates existing form before notice deadline |
+| Qualification/final acceptance | Initial application was rejected | Await official re-review; no promise of passing |
+
+The earlier record below remains historical; its initial no-decision state is
+superseded by the supplied rejection notice.
+
 # November 2026 competition requirements
 
 Retrieved 2026-11-10 (Asia/Shanghai). The user confirmed the November event.

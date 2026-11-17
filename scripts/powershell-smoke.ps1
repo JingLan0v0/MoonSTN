@@ -13,5 +13,10 @@ try {
     $expected=if ($scenario -eq 'conflict') {'inconsistent'} else {'feasible'}
     if (($output | ConvertFrom-Json).status -ne $expected) { throw 'Unexpected scenario result' }
   }
+  foreach ($scenario in @('release-plan','maintenance-plan','impossible-plan')) {
+    $output=& $wrapper run cmd/main --target js -- --plan (Join-Path $root "examples/$scenario.json")
+    $expected=if ($scenario -eq 'impossible-plan') {'unschedulable'} else {'planned'}
+    if ($LASTEXITCODE -ne 0 -or ($output | ConvertFrom-Json).status -ne $expected) { throw "Planning scenario failed: $scenario" }
+  }
 } finally { Pop-Location }
-Write-Host 'PASS PowerShell pipeline, three scenarios and directory restoration'
+Write-Host 'PASS PowerShell pipeline, six scenarios and directory restoration'

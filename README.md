@@ -1,15 +1,32 @@
 # MoonSTN
 
-MoonSTN checks **numeric time constraints** without executing tasks. Give it rules
+MoonSTN plans bounded tasks with duration ranges, deadlines, temporal dependencies
+and exclusive resources. Its MoonBit core searches resource orderings, prunes
+temporal conflicts and independently verifies schedules. It also checks
+**numeric time constraints** without executing tasks. Give it rules
 such as “testing starts 10–20 minutes after build starts” and “release follows
 5–15 minutes later”; it returns a feasible assignment and the tight release
 window, or a negative cycle identifying contradictory original rules.
 
 [中文说明](README.zh-CN.md) · Apache-2.0 · Pure MoonBit core · JS CLI
 
-**Published: [JingLan0v0/stn@0.1.2](https://mooncakes.io/docs/JingLan0v0/stn@0.1.2).**
+**Release target (publication receipts pending): [JingLan0v0/stn@0.2.0](https://mooncakes.io/docs/JingLan0v0/stn@0.2.0).**
 Verification and installation receipts: [acceptance](docs/acceptance.md).
 Repository: [JingLan0v0/MoonSTN](https://github.com/JingLan0v0/MoonSTN).
+
+## New in 0.2.0: resource-aware task planning
+
+```sh
+moon run cmd/main --target js -- --plan examples/release-plan.json
+moon run cmd/main --target js -- --plan examples/maintenance-plan.json
+moon run cmd/main --target js -- --plan examples/impossible-plan.json
+moon run examples/planning --target js
+```
+
+The maintenance example requires backtracking; the delivery example has feasible
+time windows but impossible shared-resource usage. Library APIs `planning_problem`,
+`plan`, `verify_plan`, `analyze_plan`, `analyze_plan_batch` expose the same core.
+[Schema, semantics and limits](docs/planning.md) · [Substantive revision](docs/review-response.md).
 
 ## Run
 
@@ -56,7 +73,7 @@ leave partial bytes; consumers must check the process exit status.
 Install the published package in your consumer module:
 
 ```sh
-moon add JingLan0v0/stn@0.1.2
+moon add JingLan0v0/stn@0.2.0
 ```
 
 Import `JingLan0v0/stn` as `stn` in `moon.pkg`. A complete runnable example is in
@@ -74,10 +91,13 @@ Import `JingLan0v0/stn` as `stn` in `moon.pkg`. A complete runnable example is i
 64 timepoints, 512 constraints, input bounds ±1,000,000, 64 batch items, 256 queries.
 Names/IDs: 1–64 ASCII letters/digits/underscore/dot/hyphen. Arithmetic uses Int64;
 logical work is bounded separately from input size. See [resource contract](docs/resource-limits.md).
-No resource assignment, disjunctive scheduling, cron, calendar, uncertainty/STNU,
+Planning adds <=24 tasks / 64 dependencies and bounded resource-order search.
+No alternative resource assignment, cron, calendar, uncertainty/STNU,
 network calls or task execution. Not a general constraint optimizer.
 
-The verifier compares all 4,096 three-node directed networks (each of six arcs
+Planning is checked against 1,440 exhaustive two-task cases and 256 seeded
+three-task cases by independent integer schedule enumeration in each build mode.
+The verifier also compares all 4,096 three-node directed networks (each of six arcs
 absent or weighted -1/0/1) with independent bounded assignment enumeration,
 including all nine ordered pair bounds and actual negative-cycle certificates.
 See [acceptance](docs/acceptance.md) for what was actually run, and
@@ -94,6 +114,6 @@ node scripts/verify.mjs
 ```
 
 Windows and Ubuntu CI runs on repository pushes; actual receipts are recorded
-in acceptance.md. Mooncakes 0.1.2 was published on 2026-11-16. See
+in acceptance.md. Check the acceptance record for the actual Mooncakes 0.2.0 publication state. See
 [progress](docs/progress.md), [publishing](docs/publishing.md), [license](LICENSE)
 and [source attribution](THIRD_PARTY_NOTICES.md).

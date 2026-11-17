@@ -1,6 +1,6 @@
 name = "JingLan0v0/stn"
 
-version = "0.1.2"
+version = "0.2.0"
 
 repository = "https://github.com/JingLan0v0/MoonSTN"
 
@@ -12,6 +12,6 @@ preferred_target = "js"
 
 supported_targets = "js"
 
-description = "Bounded simple temporal networks with exact integer bounds and checkable conflict witnesses."
+description = "Bounded task planning with temporal dependencies, exclusive-resource search and independent schedule verification."
 
-keywords = [ "stn", "temporal", "difference-constraints" ]
+keywords = [ "stn", "temporal", "difference-constraints", "scheduling" ]

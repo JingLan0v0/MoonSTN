@@ -1,0 +1,21 @@
+{
+  "tasks": [
+    {
+      "id": "flexible-backup",
+      "min_duration": 2,
+      "max_duration": 2,
+      "release": 0,
+      "deadline": 6,
+      "resource": "database"
+    },
+    {
+      "id": "urgent-migration",
+      "min_duration": 3,
+      "max_duration": 3,
+      "release": 0,
+      "deadline": 3,
+      "resource": "database"
+    }
+  ],
+  "dependencies": []
+}

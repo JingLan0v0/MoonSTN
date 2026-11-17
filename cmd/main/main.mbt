@@ -8,17 +8,22 @@ fn main {
   }
   if args.length() == 1 && args[0] == "--help" {
     write_stdout(
-      "moon-stn [--batch] <request.json|->\nTimes are integer offsets in caller-chosen units.\n",
+      "moon-stn [--batch|--plan|--plan-batch] <request.json|->\nTimes are integer offsets in caller-chosen units.\n",
     )
     return
   }
-  let batch = args.length() == 2 && args[0] == "--batch"
-  if !(args.length() == 1 || batch) {
-    write_stderr("usage: moon-stn [--batch] <request.json|->\n")
+  let planning = args.length() == 2 &&
+    (args[0] == "--plan" || args[0] == "--plan-batch")
+  let batch = args.length() == 2 &&
+    (args[0] == "--batch" || args[0] == "--plan-batch")
+  if !(args.length() == 1 || batch || planning) {
+    write_stderr(
+      "usage: moon-stn [--batch|--plan|--plan-batch] <request.json|->\n",
+    )
     set_exit(2)
     return
   }
-  let path = args[if batch { 1 } else { 0 }]
+  let path = args[if batch || planning { 1 } else { 0 }]
   if path != "-" && path.has_prefix("-") {
     write_stderr("invalid option\n")
     set_exit(2)
@@ -32,7 +37,13 @@ fn main {
   }
   try {
     let value = @stn.parse_json(input[1])
-    let result = if batch {
+    let result = if planning {
+      if batch {
+        @stn.analyze_plan_batch(value)
+      } else {
+        @stn.analyze_plan(value)
+      }
+    } else if batch {
       @stn.analyze_batch(value)
     } else {
       @stn.analyze(value)

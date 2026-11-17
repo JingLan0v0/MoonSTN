@@ -37,4 +37,6 @@ jobs:
         if: always()
         with:
           name: evidence-${{ matrix.os }}
-          path: _build/verification-summary.json
+          path: |
+            _build/verification-summary.json
+            _build/planning-verification.json

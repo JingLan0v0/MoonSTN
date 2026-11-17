@@ -57,3 +57,35 @@ extrema have magnitude <=2 and can be realized inside this enumeration window.
 Reachability, independently of weights, distinguishes finite bounds from unbounded
 ones. Every returned witness and ordered conflict is checked against input rules.
 This does not establish exhaustive correctness for all 64-node networks.
+
+
+## Resource-aware planning layer (0.2.0)
+
+Each task compiles to start/finish points plus duration, release and deadline rules.
+A dependency picks its two endpoints from FS/SS/FF/SF and adds signed lag bounds.
+The origin is the first point and the existing solver normalizes it to zero.
+
+At a search node, solve the temporal conjunction. Inconsistency prunes that branch.
+Otherwise inspect the witness for overlapping tasks sharing one fixed resource.
+If none overlap, the witness satisfies the full model. If A and B overlap, every
+valid plan must satisfy finish(A)<=start(B) OR finish(B)<=start(A), because durations
+are strictly positive. Push both children and continue depth-first in input order.
+This covers all feasible arrangements; if every child is pruned, the model is
+unschedulable. An already ordered pair cannot overlap in a later feasible witness,
+so a path adds at most T(T-1)/2 rules. There are at most 49 points and
+3T + D + T(T-1)/2 <= 412 constraints, below the old STN hard limits. The iterative
+DFS stack retains at most one sibling per decision level, rather than a breadth
+of all possible permutations. Worst-case runtime remains exponential in pairs.
+
+Before each solve, reserve n^3 + n*e + e + 2*n logical work. This covers closure,
+Bellman-Ford relaxations, the final cycle scan/traversal and normalization charged
+by the existing solver. Reserve the upper bound even for an early-pruned node.
+The global remaining budget is checked before the call, and node count is global.
+Neither exhausted budget is converted into Unschedulable. This is a conservative
+logical budget, not a bound on all CPU instructions or elapsed time.
+
+verify_plan checks the original immutable task/dependency arrays directly and
+never calls solve/plan. It rejects unknown/missing/duplicate task IDs, unsafe time
+values before subtraction, window/duration violations, endpoint-lag violations and
+half-open resource overlaps. It does not certify search statistics or UNSAT claims.
+The JSON adapter validates schema and delegates to the same library functions.

@@ -1,18 +1,35 @@
-# MoonSTN：数值时间约束检查工具
+# MoonSTN：带资源互斥的任务规划与时间约束库
 
 给定“构建后 10～20 分钟开始测试”“测试后 5～15 分钟发布”，MoonSTN 计算
 发布允许落在哪个范围；如果再加一条冲突的截止要求，则给出可核验的规则环。
 它是 MoonBit 原生库和离线命令行工具，核心不依赖 JavaScript 算法或外部求解器。
 
-已发布 **[JingLan0v0/stn@0.1.2](https://mooncakes.io/docs/JingLan0v0/stn@0.1.2)**，实际发布与安装回执见 [验收记录](docs/acceptance.md)。
+本次发布目标 **[JingLan0v0/stn@0.2.0](https://mooncakes.io/docs/JingLan0v0/stn@0.2.0)**，实际发布与安装回执见 [验收记录](docs/acceptance.md)。
 公开仓库：[JingLan0v0/MoonSTN](https://github.com/JingLan0v0/MoonSTN)。CI 实际结果见验收记录。
+
+## 0.2.0 的实质新增
+
+新增任务持续时间范围、开始/截止时窗、FS/SS/FF/SF 依赖、固定共享资源互斥，
+通过分支搜索资源先后顺序，用时间约束传播剪枝并回溯；输出安排可按原始任务规则
+独立核验。旧版时间点、紧确范围、负环接口保留。
+
+```powershell
+./scripts/moon.ps1 run cmd/main --target js -- --plan examples/release-plan.json
+./scripts/moon.ps1 run cmd/main --target js -- --plan examples/maintenance-plan.json
+./scripts/moon.ps1 run cmd/main --target js -- --plan examples/impossible-plan.json
+./scripts/moon.ps1 run examples/planning --target js
+```
+
+三个新案例分别演示构建发布资源协调、数据库维护顺序回溯和单车任务资源无解。
+它们是可复现的合成业务案例，并非实际企业落地数据。
+[输入格式与边界](docs/planning.md) · [针对初审意见的修改](docs/review-response.md)。
 
 ## 安装库
 
 在使用方的 MoonBit 项目中运行：
 
 ```sh
-moon add JingLan0v0/stn@0.1.2
+moon add JingLan0v0/stn@0.2.0
 ```
 
 在 `moon.pkg` 中导入 `JingLan0v0/stn`；库调用示例见 `examples/library`。
@@ -71,7 +88,9 @@ Node 验证版本为 24.14.0。
 采用 Bellman–Ford 检测全图负环并生成见证，再对可行网络做 Floyd–Warshall 闭包。
 Int64 精确整数运算；最大 64 时间点、512 规则、边界绝对值不超过 100 万。
 逐次求解独立工作预算；解析、批量大小和查询数量另有限制。
-不处理人员/机器资源分配、关系析取、不确定时长可控性、日历或任务执行。
+新规划层支持最多 24 任务、64 依赖和固定独占资源的顺序析取。
+不处理备选资源分配、多容量资源、最优目标、不确定时长可控性、日历或任务执行。
+规划还以每种构建模式 1,440 个双任务穷举模型、256 个三任务模型独立对照。
 
 验证包括两种构建模式的单元、完整三场景、4,096 个网络的独立穷举对照、
 批次隔离、数值/规模边界、输入与结果可变数组隔离、伪造证据以及进程 I/O。

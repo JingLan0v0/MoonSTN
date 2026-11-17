@@ -1,3 +1,19 @@
+# Active revision — 2026-11-17
+
+MoonSTN 0.2.0 adds bounded task planning with exclusive-resource ordering,
+FS/SS/FF/SF dependencies, temporal pruning/backtracking and independent original-rule
+schedule verification. The original repository/history and numeric-STN APIs remain.
+The user explicitly authorized implementation, GitHub upload, Mooncakes publication
+and a revised desktop proposal. Initial review was rejected for insufficient domain
+core; see review-response.md. Do not confuse technical release with contest approval.
+
+Current source contains 22 units, 1,440 two-task + 256 three-task planning-oracle
+cases per build mode, old 4,096 STN networks, six CLI scenarios and two library
+examples. Record this round's actual receipts in acceptance.md. Published 0.1.2
+below is historical; 0.2.0 must be confirmed with actual publish/install receipts.
+Continue via full local + PowerShell checks, source commit/CI, archive extraction,
+authorized new-version publication, fresh registry consumer and desktop proposal.
+
 # Progress and handoff — 2026-11-16
 
 ## Active project

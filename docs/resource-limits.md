@@ -37,3 +37,16 @@ Closure budgets count logical triples, including triples skipped for unreachable
 rows. The fixed V^3 closure charge is reserved before traversal; insufficient
 budgets fail before doing that work. This preserves the success/error threshold.
 Faster traversal does not grant additional logical work at a given budget.
+
+
+## Planning (0.2.0)
+
+1..24 tasks, <=64 dependencies; duration 1..1,000,000; release/deadline
+0..1,000,000; dependency lags +/-1,000,000; names use the existing 1..64 ASCII rule.
+At most one fixed exclusive resource per task. Planning uses at most 49 STN points
+and 412 STN constraints per branch. max_nodes defaults 1,000 (maximum 10,000),
+max_work defaults 20,000,000 (maximum 100,000,000). Both minimum 1.
+Each STN invocation reserves its conservative worst-case charged cost. Limits
+cover the entire search, independently per batch item. Exhaustion is an error
+with no unschedulability conclusion. Statistics count reserved work, not time.
+The input size/depth/text/array limits and output failure contract remain in force.

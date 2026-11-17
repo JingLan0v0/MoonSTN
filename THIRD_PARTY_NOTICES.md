@@ -23,3 +23,10 @@ The test vectors and oracle are locally generated; no third-party test suite is
 redistributed and there is no claim of official STN conformance certification.
 AI assisted scope review, implementation, testing and documentation. The participant
 must understand and be able to explain the delivered code and claims.
+
+
+Planning reference (semantics only, no copied implementation): Google OR-Tools
+job shop guide, https://developers.google.com/optimization/scheduling/job_shop .
+The task compiler, resource-order DFS, original-rule schedule verifier and bounded
+integer-enumeration planning oracle were written for this project. Standard
+precedence/nonoverlap modeling and disjunctive search are not claimed as novel theory.

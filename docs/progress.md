@@ -1,4 +1,11 @@
-# Active revision — 2026-11-17
+# Planning performance revision — 2026-11-18
+
+The 0.2.1 source uses only a temporal feasibility witness at each planning
+branch. Windows measurements against the published 0.2.0 behavior and fresh
+regression evidence are recorded in [acceptance.md](acceptance.md). Publication
+and fresh registry installation have separate receipts.
+
+# Historical revision — 2026-11-17
 
 MoonSTN 0.2.0 adds bounded task planning with exclusive-resource ordering,
 FS/SS/FF/SF dependencies, temporal pruning/backtracking and independent original-rule

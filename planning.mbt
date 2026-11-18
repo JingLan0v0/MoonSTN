@@ -226,7 +226,7 @@ pub fn plan(
     let net = network(p.names, rules)
     let n = net.names.length()
     let e = net.edges.length()
-    // Conservatively reserve the complete STN solve bound, even when pruning early.
+    // Keep the 0.2.0 full-solve charge while computing only a feasibility witness.
     let work = n * n * n + n * e + e + 2 * n
     if work > max_work - charged {
       raise StnError(
@@ -235,13 +235,13 @@ pub fn plan(
     }
     charged += work
     nodes += 1
-    match solve(net, max_steps=work) {
-      Inconsistent(_) => pruned += 1
-      Feasible(s) => {
+    match feasible_values(net, work) {
+      None => pruned += 1
+      Some(values) => {
         let schedule = p.tasks.mapi((i, t) => {
           id: t.id,
-          start: s.values[1 + 2 * i],
-          finish: s.values[2 + 2 * i],
+          start: values[1 + 2 * i],
+          finish: values[2 + 2 * i],
         })
         let mut conflict : (Int32, Int32)? = None
         for i = 0; i < p.tasks.length(); i = i + 1 {

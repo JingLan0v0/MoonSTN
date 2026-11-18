@@ -77,12 +77,16 @@ so a path adds at most T(T-1)/2 rules. There are at most 49 points and
 DFS stack retains at most one sibling per decision level, rather than a breadth
 of all possible permutations. Worst-case runtime remains exponential in pairs.
 
-Before each solve, reserve n^3 + n*e + e + 2*n logical work. This covers closure,
-Bellman-Ford relaxations, the final cycle scan/traversal and normalization charged
-by the existing solver. Reserve the upper bound even for an early-pruned node.
-The global remaining budget is checked before the call, and node count is global.
-Neither exhausted budget is converted into Unschedulable. This is a conservative
-logical budget, not a bound on all CPU instructions or elapsed time.
+Planning runs the same Bellman–Ford relaxations and origin normalization as public
+STN solving. A change on the last round prunes the branch. Planning only needs
+the feasibility decision and witness, so it skips conflict certificate construction
+and all-pairs closure.
+
+Before each branch, reserve n^3 + n*e + e + 2*n logical work, the conservative full
+STN solve bound used in 0.2.0. Keeping the charge preserves the exact work thresholds
+and charged_work diagnostics, including for early-pruned nodes. The global remaining
+budget is checked before relaxation and node count is global. Exhaustion raises an
+error with no feasibility conclusion.
 
 verify_plan checks the original immutable task/dependency arrays directly and
 never calls solve/plan. It rejects unknown/missing/duplicate task IDs, unsafe time

@@ -39,8 +39,9 @@ conclusion. Single errors exit 2 with empty stdout; batch item errors have statu
 Limits: 1..24 tasks, <=64 dependencies, positive duration 1..1,000,000, windows
 0..1,000,000, dependency lags +/-1,000,000. IDs/resources follow the existing
 1..64 ASCII name policy. max_nodes is 1..10,000; max_work is 1..100,000,000.
-Existing transport limits apply. Work is conservatively reserved per STN call,
-including calls pruned early; it is not CPU time. Large cases may exhaust budgets.
+Existing transport limits apply. Each branch reserves the 0.2.0 full STN solve
+bound, including branches pruned early. Since 0.2.1, the branch computes only
+temporal feasibility and a witness. Large cases may exhaust the logical budgets.
 
 No objective optimization, multiple resources per task, resource capacity >1,
 preemption, calendars, timezone handling, real task execution, or STNU controllability.

@@ -42,6 +42,38 @@ test "resource conflict makes temporally feasible tasks impossible" {
 }
 
 ///|
+test "planning keeps 0.2.0 schedules, statistics and exact budget thresholds" {
+  let p = @stn.planning_problem(
+    [task("flexible", 2, 6, Some("r")), task("urgent", 3, 3, Some("r"))],
+    [],
+  )
+  // Five points, eight edges at the root and nine at each child.
+  // The first order is pruned and the second order succeeds: 183 + 189 + 189.
+  for
+    (max_nodes, max_work, reason) in [
+      (2, 561, "planning node budget exhausted; no feasibility conclusion"),
+      (3, 560, "planning work budget exhausted; no feasibility conclusion"),
+    ] {
+    let error = try {
+      @stn.plan(p, max_nodes~, max_work~) |> ignore
+      None
+    } catch {
+      @stn.StnError(code, message) => Some((code, message))
+    }
+    assert_eq(error, Some(("limit_exceeded", reason)))
+  }
+  guard @stn.plan(p, max_nodes=3, max_work=561) is @stn.Planned(s, stats) else {
+    fail("expected a plan at the exact budget")
+  }
+  assert_eq(s, [
+    { id: "flexible", start: 3L, finish: 5L, },
+    { id: "urgent", start: 0L, finish: 3L, },
+  ])
+  assert_eq(stats, { nodes: 3, pruned: 1, decisions: 1, charged_work: 561, })
+  assert_true(@stn.verify_plan(p, s))
+}
+
+///|
 test "planning exhaustion is error and problem remains reusable" {
   let p = @stn.planning_problem(
     [task("a", 2, 4, Some("r")), task("b", 2, 4, Some("r"))],

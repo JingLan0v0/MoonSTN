@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.2.1
+
+- Use Bellman–Ford feasibility witnesses during resource search, skipping
+  all-pairs closure and conflict certificate construction in planning branches.
+- Preserve schedules, search statistics and the 0.2.0 logical budget thresholds.
+  Public numeric STN solving still returns tight bounds and conflict certificates.
+- Add a planning benchmark and an exact-budget regression.
+
 ## 0.2.0 — published, 2026-11-17
 
 - Task duration/window and four endpoint-dependency models, immutable snapshots.

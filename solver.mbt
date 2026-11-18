@@ -9,29 +9,8 @@ pub fn solve(
   }
   let budget = { remaining: max_steps, }
   let n = net.names.length()
-  let arcs = net.edges.map(e => {
-    (find_name(net.names, e.from), find_name(net.names, e.to))
-  })
-  // An implicit zero-cost super-source reaches every connected component.
-  let values : Array[Int64] = Array::make(n, 0L)
-  let pred : Array[Int32] = Array::make(n, -1)
-  let mut changed = -1
-  for _round = 0; _round < n; _round = _round + 1 {
-    changed = -1
-    for i = 0; i < arcs.length(); i = i + 1 {
-      budget.tick()
-      let (a, b) = arcs[i]
-      let candidate = values[a] + net.edges[i].bound
-      if candidate < values[b] {
-        values[b] = candidate
-        pred[b] = i
-        changed = b
-      }
-    }
-    if changed == -1 {
-      break
-    }
-  }
+  let arcs = indexed_arcs(net)
+  let (values, pred, changed) = relax(net, arcs, budget)
   if changed != -1 {
     let mut node = changed
     for _i = 0; _i < n; _i = _i + 1 {
@@ -51,10 +30,7 @@ pub fn solve(
     }
     return Inconsistent(cycle.rev())
   }
-  let origin = values[0]
-  for i = 0; i < n; i = i + 1 {
-    values[i] -= origin
-  }
+  normalize(values)
   let distances : Array[Array[Int64?]] = Array::makei(n, _ => {
     Array::make(n, None)
   })
@@ -89,6 +65,65 @@ pub fn solve(
     }
   }
   Feasible({ names: net.names.copy(), values, distances, })
+}
+
+///|
+fn indexed_arcs(net : Network) -> Array[(Int32, Int32)] raise StnError {
+  net.edges.map(e => (find_name(net.names, e.from), find_name(net.names, e.to)))
+}
+
+///|
+fn relax(
+  net : Network,
+  arcs : Array[(Int32, Int32)],
+  budget : Budget,
+) -> (Array[Int64], Array[Int32], Int32) raise StnError {
+  let n = net.names.length()
+  // An implicit zero-cost super-source reaches every connected component.
+  let values : Array[Int64] = Array::make(n, 0L)
+  let pred : Array[Int32] = Array::make(n, -1)
+  let mut changed = -1
+  for _round = 0; _round < n; _round = _round + 1 {
+    changed = -1
+    for i = 0; i < arcs.length(); i = i + 1 {
+      budget.tick()
+      let (a, b) = arcs[i]
+      let candidate = values[a] + net.edges[i].bound
+      if candidate < values[b] {
+        values[b] = candidate
+        pred[b] = i
+        changed = b
+      }
+    }
+    if changed == -1 {
+      break
+    }
+  }
+  (values, pred, changed)
+}
+
+///|
+fn normalize(values : Array[Int64]) -> Unit {
+  let origin = values[0]
+  for i = 0; i < values.length(); i = i + 1 {
+    values[i] -= origin
+  }
+}
+
+///|
+/// A change on the last round proves inconsistency. Planning only needs this
+/// decision and the normalized values of a feasible branch.
+fn feasible_values(
+  net : Network,
+  max_steps : Int32,
+) -> Array[Int64]? raise StnError {
+  let arcs = indexed_arcs(net)
+  let (values, _, changed) = relax(net, arcs, { remaining: max_steps, })
+  if changed != -1 {
+    return None
+  }
+  normalize(values)
+  Some(values)
 }
 
 ///|

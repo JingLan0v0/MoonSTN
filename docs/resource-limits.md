@@ -46,7 +46,7 @@ Faster traversal does not grant additional logical work at a given budget.
 At most one fixed exclusive resource per task. Planning uses at most 49 STN points
 and 412 STN constraints per branch. max_nodes defaults 1,000 (maximum 10,000),
 max_work defaults 20,000,000 (maximum 100,000,000). Both minimum 1.
-Each STN invocation reserves its conservative worst-case charged cost. Limits
-cover the entire search, independently per batch item. Exhaustion is an error
-with no unschedulability conclusion. Statistics count reserved work, not time.
+Each temporal feasibility check reserves the conservative full STN solve cost
+from 0.2.0. Limits cover the entire search, independently per batch item.
+Exhaustion is an error with no unschedulability conclusion. Statistics count reserved work.
 The input size/depth/text/array limits and output failure contract remain in force.

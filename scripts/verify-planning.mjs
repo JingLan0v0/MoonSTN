@@ -3,6 +3,7 @@ import path from 'node:path';
 import assert from 'node:assert/strict';
 import {spawnSync} from 'node:child_process';
 const root=path.resolve(import.meta.dirname,'..');process.chdir(root);
+const baseline=process.argv[2] && path.resolve(process.argv[2]);
 const receipt=path.join(root,'_build/planning-verification.json');fs.rmSync(receipt,{force:true});
 function valid(req,ss){
  if(ss.length!==req.tasks.length||new Set(ss.map(s=>s.id)).size!==ss.length)return false;
@@ -24,7 +25,17 @@ const reports=[];
 for(const mode of ['debug','release']){
  const cli=path.join(root,`_build/js/${mode}/build/cmd/main/main.js`);
  const invoke=(args,input)=>spawnSync(process.execPath,['--max-old-space-size=192',cli,...args],{input,encoding:'utf8',timeout:15000,maxBuffer:4*1024*1024});
- const batch=xs=>{const r=invoke(['--plan-batch','-'],JSON.stringify(xs));assert.equal(r.error,undefined);assert.equal(r.status,0,r.stderr);return JSON.parse(r.stdout);};
+ const batch=xs=>{
+  const input=JSON.stringify(xs);
+  const r=invoke(['--plan-batch','-'],input);assert.equal(r.error,undefined);assert.equal(r.status,0,r.stderr);
+  const results=JSON.parse(r.stdout);
+  if(baseline){
+   const previous=spawnSync(process.execPath,[baseline,'--plan-batch','-'],{input,encoding:'utf8',timeout:15000,maxBuffer:4*1024*1024});
+   assert.equal(previous.error,undefined);assert.equal(previous.status,0,previous.stderr);
+   assert.deepEqual(results,JSON.parse(previous.stdout),`${mode} results differ from baseline`);
+  }
+  return results;
+ };
  for(let i=0;i<cases.length;i+=64){const chunk=cases.slice(i,i+64),out=batch(chunk.map(x=>x.req));assert.equal(out.length,chunk.length);out.forEach((o,j)=>{assert.equal(o.status,chunk[j].feasible?'planned':'unschedulable',JSON.stringify(chunk[j].req));if(o.status==='planned')assert(valid(chunk[j].req,o.schedule));});}
  const good={tasks:[task('a',1,0,3,null)]};
  const overlap={tasks:[task('a',2,0,4,'r'),task('b',2,0,4,'r')]};
@@ -35,4 +46,4 @@ for(const mode of ['debug','release']){
  for(const name of ['release-plan','maintenance-plan','impossible-plan']){const req=JSON.parse(fs.readFileSync('examples/'+name+'.json','utf8'));const r=invoke(['--plan','examples/'+name+'.json']);assert.equal(r.status,0,r.stderr);const o=JSON.parse(r.stdout);assert.equal(o.status,name==='impossible-plan'?'unschedulable':'planned');if(o.status==='planned')assert(valid(req,o.schedule));if(name==='maintenance-plan')assert(o.stats.decisions>0&&o.stats.pruned>0);}
  reports.push({mode,exhaustiveTwoTaskCases:1440,seededThreeTaskCases:256,invalidBatchItems:bad.length,scenarios:3});console.log(`PASS ${mode}: ${cases.length} independent planning cases, original-rule witness validation and planning I/O`);
 }
-fs.writeFileSync(receipt,JSON.stringify({recordedAt:new Date().toISOString(),status:'passed',reports},null,2)+'\n');
+fs.writeFileSync(receipt,JSON.stringify({recordedAt:new Date().toISOString(),status:'passed',...(baseline ? {baselineCompared:true}:{}),reports},null,2)+'\n');

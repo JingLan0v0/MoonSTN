@@ -1,6 +1,45 @@
-# Acceptance evidence — updated 2026-11-17
+# Acceptance evidence — updated 2026-11-18
 
 Project: MoonSTN / JingLan0v0/stn, published 0.2.0.
+
+## Planning performance optimization — 2026-11-18
+
+The desktop checkout and GitHub main matched `46b9880165c1f456d90dbb08f6b317f0a418c500`.
+The baseline was rebuilt in an isolated checkout on Windows with moon 0.1.20261028,
+moonc v0.10.18+6c83a7f62 and Node 24.14.0. Fresh baseline verification passed
+22 unit tests, 4,096 independent STN network comparisons and 1,696 independent
+planning comparisons in each build mode. PowerShell smoke passed.
+
+V8 CPU profiling used a batch of 32 identical 24-task requests split across four
+exclusive resources. The original solve function accounted for 129 of 195 samples,
+with the recorded hot lines in the all-pairs closure loop. The optimized planning
+branch uses the shared Bellman–Ford feasibility decision and normalized witness.
+The branch still reserves the 0.2.0 budget charge.
+
+Paired release CLI results from 2026-11-18T05:32:03.945Z, with two warm-ups, nine
+measured samples, alternating baseline/current order and process startup included.
+Each request has 24 one-unit tasks. All measured outputs matched, including
+schedules, statistics and budget errors.
+
+| Scenario | Requests per sample | 0.2.0 median ms | Optimized median ms |
+|---|---:|---:|---:|
+| No shared resources | 64 | 126.45 | 101.11 |
+| Four exclusive resources | 8 | 138.41 | 99.50 |
+| One exclusive resource | 2 | 104.32 | 82.39 |
+| One exclusive resource, work budget exhausted | 2 | 363.89 | 206.44 |
+
+To reproduce, save the release CLI built from the baseline SHA, build the current
+release CLI, then run `node scripts/benchmark-planning.mjs /absolute/path/to/baseline-main.js`.
+Run `node scripts/verify.mjs /absolute/path/to/baseline-main.js` for exact planning
+output comparisons alongside the independent oracles.
+
+Local 0.2.1 verification completed at 2026-11-18T05:33:25.411Z. Debug and release
+each passed 23 unit tests, 4,096 numeric STN comparisons and 1,696 independent
+planning comparisons. The planning batches, including invalid inputs and budget
+exhaustion, also matched the 0.2.0 CLI exactly in both modes. The new unit test
+asserts the exact work and node thresholds, returned schedule and pruning stats
+for a backtracking case. Generated public interfaces, six CLI scenarios, two
+library examples and PowerShell smoke passed.
 
 ## Mooncakes 0.2.0 publication — 2026-11-17
 

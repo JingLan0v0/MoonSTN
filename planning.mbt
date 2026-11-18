@@ -236,6 +236,25 @@ fn PlanBranch::compile(
 }
 
 ///|
+fn first_resource_conflict(
+  tasks : Array[Task],
+  schedule : Array[ScheduledTask],
+) -> (Int32, Int32)? {
+  for i = 0; i < tasks.length(); i = i + 1 {
+    guard tasks[i].resource is Some(resource) else { continue }
+    let a = schedule[i]
+    for j = i + 1; j < tasks.length(); j = j + 1 {
+      if tasks[j].resource == Some(resource) &&
+        a.start < schedule[j].finish &&
+        schedule[j].start < a.finish {
+        return Some((i, j))
+      }
+    }
+  }
+  None
+}
+
+///|
 /// Bounded disjunctive search. Budget exhaustion raises, never returns Unschedulable.
 pub fn plan(
   p : PlanningProblem,
@@ -285,19 +304,7 @@ pub fn plan(
           start: values[1 + 2 * i],
           finish: values[2 + 2 * i],
         })
-        let mut conflict : (Int32, Int32)? = None
-        for i = 0; i < p.tasks.length(); i = i + 1 {
-          for j = i + 1; j < p.tasks.length(); j = j + 1 {
-            if conflict is None &&
-              p.tasks[i].resource is Some(r) &&
-              p.tasks[j].resource == Some(r) &&
-              schedule[i].start < schedule[j].finish &&
-              schedule[j].start < schedule[i].finish {
-              conflict = Some((i, j))
-            }
-          }
-        }
-        match conflict {
+        match first_resource_conflict(p.tasks, schedule) {
           None =>
             return Planned(schedule, {
               nodes,

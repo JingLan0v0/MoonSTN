@@ -9,11 +9,22 @@ const baseline = process.argv[2] && path.resolve(process.argv[2]);
 const warmups = 3;
 const samples = 9;
 const ordinary = JSON.parse(readFileSync(new URL('../examples/maintenance-plan.json', import.meta.url)));
+const pairRequest = (first) => ({
+  tasks: Array.from({length: 24}, (_, i) => ({
+    id: `t${i}`, min_duration: 1, max_duration: 1, release: 0, deadline: 24,
+    resource: i === first || i === first + 1 ? 'pair' : `r${i}`,
+  })),
+});
 const scenarios = [
   {name: 'maintenance', request: ordinary, count: 64, status: 'planned'},
   {name: 'independent', groupSize: 0, deadline: 24, count: 64, status: 'planned'},
+  {name: 'distinct-resources', groupSize: 1, deadline: 24, count: 64, status: 'planned'},
+  {name: 'first-pair', request: pairRequest(0), count: 64, status: 'planned'},
+  {name: 'last-pair', request: pairRequest(22), count: 64, status: 'planned'},
   {name: 'four-resources', groupSize: 6, deadline: 24, count: 8, status: 'planned'},
   {name: 'one-resource', groupSize: 24, deadline: 24, count: 2, status: 'planned'},
+  {name: 'four-resources-sustained', groupSize: 6, deadline: 24, count: 32, status: 'planned'},
+  {name: 'one-resource-sustained', groupSize: 24, deadline: 24, count: 32, status: 'planned'},
   {name: 'one-resource-overload', groupSize: 24, deadline: 12, count: 2, status: 'error'},
 ];
 // The CLI owns stdout. Record Node's process peak RSS on stderr at exit.

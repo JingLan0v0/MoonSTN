@@ -2,6 +2,44 @@
 
 Project MoonSTN / JingLan0v0/stn, published 0.2.2.
 
+## Early return from resource-conflict scanning — 2026-11-18
+
+The baseline was a clean rebuild of `5ea563b8f30db91aeddd64ff9d05749a65eca7ad`
+(0.2.2) on Windows with moon 0.1.20261028, moonc v0.10.18+6c83a7f62 and
+Node 24.14.0. A 24-task feasible branch visited all 276 pairs even after finding
+its first conflict. A baseline CPU profile confirmed activity in the scan.
+The candidate stops at the same first pair and skips rows for tasks with no
+exclusive resource. It keeps the existing schedule construction.
+
+Release CLI measurements include startup. Two runs used three warm-up pairs
+and nine measured pairs per scenario, alternating order with the same `.js`
+extension. Output matched in every sample. The largest observed slowdown
+in these runs was 2.1% for the 24-task last-pair case.
+
+| 32-request batch | Run 1 median ms before → after | Run 2 median ms before → after |
+|---|---:|---:|
+| Four resources | 103.79 → 101.65 | 105.06 → 101.60 |
+| One resource | 113.09 → 107.00 | 113.34 → 107.54 |
+
+The timed library driver reuses a caller-created problem, excludes startup and
+performs 500 public `plan` calls per sample. Across three paired processes and
+nine samples per process after warming, the four-resource median was
+65.56 → 61.49 ms and the one-resource median was 126.15 → 120.89 ms.
+Both improved in each process pair. Work and schedule checksums matched, and
+the CLI batches compared complete outputs. The raw receipt retains timing
+samples, ranges, peak RSS for CLI runs, and the initial extension-mismatched
+pilot for context.
+
+To reproduce the CLI comparison, build both revisions and copy the 0.2.2 CLI
+alongside the candidate with a separate `.js` filename. Pass its absolute path
+to `node scripts/benchmark-planning.mjs`. For the library comparison, use
+two [local consumers](local-consumer.md), one per checkout, with
+`scripts/fixtures/planning-benchmark.mbt` copied as `main.mbt` and
+`examples/planning/moon.pkg` as the package manifest. Build both with
+`moon build . --target js --release --deny-warn`. Pass the two compiled
+drivers to `node scripts/benchmark-planning-library.mjs`, baseline first.
+[Raw samples](optimization-0.2.3.json)
+
 ## Mooncakes 0.2.2 publication — 2026-11-18
 
 Source `66b7cb2937f923f77ac7e800b85d03aba30924ce` passed Windows and Ubuntu

@@ -173,7 +173,7 @@ pub fn Solution::bounds(
 
 ///|
 pub fn version() -> String {
-  "0.2.2"
+  "0.2.3"
 }
 
 ///|

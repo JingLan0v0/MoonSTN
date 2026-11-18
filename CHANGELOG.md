@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.2.3
+
+- Stop scanning task pairs at the first resource conflict in input order and
+  skip rows for tasks without an exclusive resource.
+- Preserve deterministic schedules, branch order and budget calculations.
+- Extend the paired CLI benchmark with early, late and sustained conflict
+  cases and add a timed public-library benchmark fixture.
+
 ## 0.2.2 — published, 2026-11-18
 
 - Compile the validated temporal arcs once per planning request and extend

@@ -76,11 +76,17 @@ test "planning keeps 0.2.0 schedules, statistics and exact budget thresholds" {
 ///|
 test "planning recompiles readable rules and preserves child validation order" {
   let p = @stn.planning_problem(
-    [task("a", 2, 4, Some("r")), task("b", 2, 4, Some("r"))],
+    [
+      task("a", 1, 3, Some("r")),
+      task("independent", 1, 3, None),
+      task("b", 1, 3, Some("r")),
+      task("c", 1, 3, Some("r")),
+    ],
     [],
   )
   let original = p.rules[0]
-  p.rules[0] = { ..original, id: "order0_1", }
+  // There are three conflicting pairs at the root. The first is (0, 2).
+  p.rules[0] = { ..original, id: "order0_2", }
   for
     (max_nodes, expected) in [
       (

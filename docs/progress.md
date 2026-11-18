@@ -1,4 +1,12 @@
-# Planning performance revision — 2026-11-18
+# Indexed planning arcs — 2026-11-18
+
+The 0.2.2 release compiles validated temporal arcs once per plan call. In the
+24-task one-resource overload benchmark, median CLI time fell 38.9% from 0.2.1.
+The paired samples, limits and regression results are in [acceptance.md](acceptance.md).
+Windows and Ubuntu source CI passed. Mooncakes publication and independent exact-version
+installation were verified. See [publication-0.2.2.json](publication-0.2.2.json).
+
+# Earlier planning performance revision — 2026-11-18
 
 The 0.2.1 source uses only a temporal feasibility witness at each planning
 branch. The source passed Windows and Ubuntu CI and was published to Mooncakes.

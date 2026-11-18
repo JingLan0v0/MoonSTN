@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.2.2
+## 0.2.2 — published, 2026-11-18
 
 - Compile the validated temporal arcs once per planning request and extend
   them with one ordering arc per search child.

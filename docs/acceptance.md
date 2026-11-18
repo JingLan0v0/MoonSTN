@@ -1,6 +1,26 @@
 # Acceptance evidence — updated 2026-11-18
 
-Project MoonSTN / JingLan0v0/stn, published 0.2.1.
+Project MoonSTN / JingLan0v0/stn, published 0.2.2.
+
+## Mooncakes 0.2.2 publication — 2026-11-18
+
+Source `66b7cb2937f923f77ac7e800b85d03aba30924ce` passed Windows and Ubuntu
+[CI run 44247426895](https://github.com/JingLan0v0/MoonSTN/actions/runs/44247426895).
+The actual 59-file package passed fresh extraction verification at
+2026-11-18T05:54:29.842Z. The English and Chinese installation commands and
+the consumer instructions all target 0.2.2 in that package.
+
+Preflight returned `202 Accepted`. Publication returned `200 OK`. The registry
+records 2026-11-18 13:56:17 Asia/Shanghai. The inspected archive and the independently
+downloaded registry ZIP share SHA-256
+`5fe3b63494b24aac74fc16c8c2ea3c8ade22dc4c30976cd980964bebe6086add`.
+
+An independent consumer installed exact version 0.2.2 from a fresh registry
+cache without publication credentials or a workspace override. Replaying the
+consumer after the interrupted session confirmed both public APIs in debug and
+release. All 59 installed files matched the registry archive.
+[Mooncakes package](https://mooncakes.io/docs/JingLan0v0/stn@0.2.2) ·
+[Machine-readable receipts](publication-0.2.2.json).
 
 ## Reuse of indexed planning arcs — 2026-11-18
 
@@ -29,6 +49,14 @@ The overload scenario took 38.9% less elapsed time in this run. The other timing
 ranges overlapped. A separate numeric STN benchmark matched outputs and budget
 errors with median changes from 1.1% faster to 3.6% slower. Library-only
 latency and compile time were outside the performance comparison.
+
+The local verifier and a fresh extraction of the candidate package each passed
+24 unit tests, 4,096 numeric STN comparisons and 1,696 independent planning
+comparisons in debug and release. Planning batch outputs matched 0.2.1,
+including errors and statistics. The new regressions cover the exact work charge
+at 24 tasks and 64 dependencies, child validation order and recovery after a
+change to the readable rules array. Generated interfaces and PowerShell smoke
+also passed.
 
 Reproduce using `node scripts/benchmark-planning.mjs /absolute/path/to/0.2.1-main.js`.
 See [raw samples and profile counts](optimization-0.2.2.json).

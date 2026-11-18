@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.2.1
+## 0.2.1 — published, 2026-11-18
 
 - Use Bellman–Ford feasibility witnesses during resource search, skipping
   all-pairs closure and conflict certificate construction in planning branches.

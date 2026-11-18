@@ -1,6 +1,26 @@
 # Acceptance evidence — updated 2026-11-18
 
-Project: MoonSTN / JingLan0v0/stn, published 0.2.0.
+Project MoonSTN / JingLan0v0/stn, published 0.2.1.
+
+## Mooncakes 0.2.1 publication — 2026-11-18
+
+Source `7469c5fdda3bdb96de2e0354bd124801b9988e25` passed Windows and Ubuntu
+[CI run 44245404254](https://github.com/JingLan0v0/MoonSTN/actions/runs/44245404254).
+A fresh extraction of the actual 57-file ZIP passed the full verifier and PowerShell
+smoke, including the 0.2.0 planning output comparison in both modes.
+The extraction verifier completed at 2026-11-18T05:35:23.259Z.
+
+Preflight returned `202 Accepted`. Publication returned `200 OK`. The registry
+records 2026-11-18 13:38:22 Asia/Shanghai. The publication ZIP and the independently
+downloaded registry ZIP share SHA-256
+`7eea20a0f011c1b7e87bca7d7861f446edf26ebbf16e5c16cd4a7c3081600c88`.
+
+A fresh consumer with an empty registry cache installed exact version 0.2.1 without
+publication credentials or a workspace override. Debug and release verified version,
+assignment, tight bounds, conflict proof, resource ordering, schedule verification,
+unschedulability and budget recovery. All 57 installed files matched the downloaded
+archive. [Mooncakes package](https://mooncakes.io/docs/JingLan0v0/stn@0.2.1) ·
+[Machine-readable receipts](publication-0.2.1.json).
 
 ## Planning performance optimization — 2026-11-18
 
@@ -40,6 +60,10 @@ exhaustion, also matched the 0.2.0 CLI exactly in both modes. The new unit test
 asserts the exact work and node thresholds, returned schedule and pruning stats
 for a backtracking case. Generated public interfaces, six CLI scenarios, two
 library examples and PowerShell smoke passed.
+
+The separate numeric STN benchmark also matched outputs and budget errors against
+0.2.0. In its six paired scenarios the medians ranged from 1.9% faster to 1.5%
+slower.
 
 ## Mooncakes 0.2.0 publication — 2026-11-17
 

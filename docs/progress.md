@@ -1,9 +1,10 @@
 # Planning performance revision — 2026-11-18
 
 The 0.2.1 source uses only a temporal feasibility witness at each planning
-branch. Windows measurements against the published 0.2.0 behavior and fresh
-regression evidence are recorded in [acceptance.md](acceptance.md). Publication
-and fresh registry installation have separate receipts.
+branch. The source passed Windows and Ubuntu CI and was published to Mooncakes.
+A fresh consumer installed the exact version and verified both APIs. Windows
+measurements against 0.2.0, fresh regressions and publication results are recorded
+in [acceptance.md](acceptance.md).
 
 # Historical revision — 2026-11-17
 

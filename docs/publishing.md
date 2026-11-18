@@ -1,4 +1,4 @@
-# Publishing — 0.2.2 published 2026-11-18
+# Publishing — 0.2.3 published 2026-11-18
 
 The owner authorized Mooncakes publication on 2026-11-11. Require actual registry
 and fresh-consumer receipts; do not overwrite an existing version.
@@ -34,3 +34,7 @@ package. See publication-0.2.1.json.
 Version 0.2.2 returned `200 OK` on 2026-11-18. Both APIs passed in debug and release
 in an independent registry consumer. All 59 installed files matched the verified
 ZIP. See publication-0.2.2.json.
+
+Version 0.2.3 returned `200 OK` on 2026-11-18. Both APIs passed in debug and release
+in an independent registry consumer. All 64 installed files matched the verified
+ZIP. See publication-0.2.3.json.

@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.2.3
+## 0.2.3 — published, 2026-11-18
 
 - Stop scanning task pairs at the first resource conflict in input order and
   skip rows for tasks without an exclusive resource.

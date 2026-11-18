@@ -1,6 +1,23 @@
 # Acceptance evidence — updated 2026-11-18
 
-Project MoonSTN / JingLan0v0/stn, published 0.2.2.
+Project MoonSTN / JingLan0v0/stn, published 0.2.3.
+
+## Mooncakes 0.2.3 publication — 2026-11-18
+
+Source `8e443c52d9cc16b44cbf680913333e90b96081c1` passed Windows and Ubuntu
+[CI run 44334121197](https://github.com/JingLan0v0/MoonSTN/actions/runs/44334121197).
+Fresh extraction of the actual 64-file package passed full verification at
+2026-11-18T15:18:58.930Z. Packaged installation commands target 0.2.3.
+
+Preflight returned `202 Accepted` and formal publication returned `200 OK`.
+The registry records 2026-11-18 23:20:25 Asia/Shanghai. The published archive and
+independently downloaded ZIP share SHA-256
+`9ec66bccadfdb068ffd3917d7471d22da2be6e422fd4097167e99cb01617aeb7`.
+A new consumer with an empty registry cache installed exact version 0.2.3
+without credentials or a workspace override. Both public API examples passed
+in debug and release. All 64 installed files matched the registry ZIP.
+[Mooncakes package](https://mooncakes.io/docs/JingLan0v0/stn@0.2.3) ·
+[Machine-readable receipts](publication-0.2.3.json).
 
 ## Early return from resource-conflict scanning — 2026-11-18
 
@@ -30,10 +47,16 @@ the CLI batches compared complete outputs. The raw receipt retains timing
 samples, ranges, peak RSS for CLI runs, and the initial extension-mismatched
 pilot for context.
 
+The checkout and a fresh extraction of the candidate package each passed 24 unit
+tests, 4,096 STN oracle cases, and 1,696 independent planning oracle cases in each
+build mode. Planning batch output matched 0.2.2. The regression with three
+simultaneous conflicts asserts the order of branch selection and validation.
+Generated public interfaces and PowerShell smoke passed.
+
 To reproduce the CLI comparison, build both revisions and copy the 0.2.2 CLI
 alongside the candidate with a separate `.js` filename. Pass its absolute path
 to `node scripts/benchmark-planning.mjs`. For the library comparison, use
-two [local consumers](local-consumer.md), one per checkout, with
+two [local consumers](local-consumer.md), one per checkout and matching version, with
 `scripts/fixtures/planning-benchmark.mbt` copied as `main.mbt` and
 `examples/planning/moon.pkg` as the package manifest. Build both with
 `moon build . --target js --release --deny-warn`. Pass the two compiled

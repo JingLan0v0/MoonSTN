@@ -1,8 +1,15 @@
 # Continue MoonSTN optimization
 
-The [optimization roadmap](optimization-roadmap.md) records the next measurement,
-its acceptance criteria and the order of subsequent work. Start with resource
-conflict scanning when asked to continue optimizing.
+The [optimization roadmap](optimization-roadmap.md) records the next measurement
+and its acceptance criteria. Resource conflict scanning shipped in 0.2.3. Start
+with the numeric STN performance recheck when asked to continue optimizing.
+
+# Resource conflict scanning — 2026-11-18
+
+The 0.2.3 planner returns the first conflicting pair in input order during resource
+scanning. Its sustained 32-request single-resource CLI scenarios took about 5%
+less time in two paired runs. See [acceptance.md](acceptance.md) for controls,
+the public-library benchmarks and the release evidence.
 
 # Indexed planning arcs — 2026-11-18
 

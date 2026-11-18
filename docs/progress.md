@@ -2,9 +2,12 @@
 
 The [optimization roadmap](optimization-roadmap.md) records the next measurement
 and its acceptance criteria. Deep-search profiling located the main cost in
-temporal relaxation. The 0.2.4 candidate reduced exhaustive tight-window batch
+temporal relaxation. The 0.2.4 release reduced exhaustive tight-window batch
 time by 4.2% and 5.8% in two rounds. The next item is independent verification
 on larger planning models. [Deep-search evidence](acceptance.md)
+
+Published source `00c2841` passed Windows and Ubuntu CI. A fresh consumer
+installed exactly 0.2.4 and passed both build modes. [Release receipts](publication-0.2.4.json)
 
 ## Numeric STN recheck — 2026-11-18
 

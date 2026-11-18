@@ -4,6 +4,7 @@ import {spawnSync} from 'node:child_process';
 import assert from 'node:assert/strict';
 const root=path.resolve(import.meta.dirname,'..');
 process.chdir(root);
+const baselineCli=process.argv[2] && path.resolve(process.argv[2]);
 const summary=path.join(root,'_build/verification-summary.json');
 fs.mkdirSync(path.dirname(summary),{recursive:true});fs.rmSync(summary,{force:true});
 const candidates=[process.env.MOON_HOME,path.resolve(root,'../.tools/moonstn-toolchain'),path.resolve(root,'../MoonBit黑客松/.tools/moonstn-toolchain')].filter(Boolean);
@@ -40,7 +41,18 @@ for(const mode of ['debug','release']){
  run(moon,['build','cmd/main','--target','js','--deny-warn',...flag]);
  const cli=path.join(root,`_build/js/${mode}/build/cmd/main/main.js`);
  const invoke=(args,input)=>spawnSync(process.execPath,['--max-old-space-size=192',cli,...args],{input,encoding:'utf8',timeout:15000,maxBuffer:4*1024*1024});
- const batch=(requests)=>{const r=invoke(['--batch','-'],JSON.stringify(requests));assert.equal(r.error,undefined);assert.equal(r.status,0,r.stderr);return JSON.parse(r.stdout);};
+ const batch=(requests)=>{
+   const input=JSON.stringify(requests);
+   const r=invoke(['--batch','-'],input);
+   assert.equal(r.error,undefined);
+   assert.equal(r.status,0,r.stderr);
+   const results=JSON.parse(r.stdout);
+   if(baselineCli){
+     const previous=run(process.execPath,[baselineCli,'--batch','-'],{input});
+     assert.deepEqual(results,JSON.parse(previous),`${mode} numeric results differ from baseline`);
+   }
+   return results;
+ };
  for(let start=0;start<cases.length;start+=64){const chunk=cases.slice(start,start+64);const actual=batch(chunk.map(c=>c.request));assert.equal(actual.length,chunk.length);actual.forEach((result,i)=>{const c=chunk[i];assert.equal(result.status,c.feasible?'feasible':'inconsistent',`network ${start+i}`);validate(c.request,result);if(c.feasible)assert.deepEqual(result.bounds,c.bounds,`bounds ${start+i}`);});}
  console.log(`PASS ${mode}: 4096 exhaustive networks, assignments, bounds and conflict certificates`);
  const good={timepoints:['zero'],constraints:[]};
@@ -56,7 +68,7 @@ for(const mode of ['debug','release']){
  const scenarios=['deployment','delivery','conflict'];
  for(const name of scenarios){const request=JSON.parse(fs.readFileSync(`examples/${name}.json`,'utf8'));const r=invoke([`examples/${name}.json`],'');assert.equal(r.status,0,r.stderr);const result=JSON.parse(r.stdout);validate(request,result);assert.equal(result.status,name==='conflict'?'inconsistent':'feasible');if(name==='deployment')assert.deepEqual(result.bounds,[{from:'zero',to:'release',lower:15,upper:35}]);if(name==='delivery')assert.deepEqual(result.bounds,[{from:'pickup',to:'arrival',lower:20,upper:40}]);}
  console.log(`PASS ${mode}: malformed input, batch isolation, process I/O and three scenarios`);
- reports.push({mode,unitTests:units.trim(),exhaustiveNetworks:4096,invalidBatchItems:invalid.length,transportRejects:transport.length+1,scenarios});
+ reports.push({mode,unitTests:units.trim(),exhaustiveNetworks:4096,...(baselineCli ? {numericBaselineCompared:true}:{}),invalidBatchItems:invalid.length,transportRejects:transport.length+1,scenarios});
 }
 process.stdout.write(run(process.execPath,['scripts/verify-planning.mjs',...process.argv.slice(2)]));
 fs.writeFileSync(summary,JSON.stringify({status:'passed',recordedAt:new Date().toISOString(),node:process.version,reports},null,2)+'\n');

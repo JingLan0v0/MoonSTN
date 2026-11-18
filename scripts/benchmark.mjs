@@ -5,7 +5,7 @@ import {spawnSync} from 'node:child_process';
 import {performance} from 'node:perf_hooks';
 // Run after a release build; optionally compare against a saved baseline CLI.
 const root=path.resolve(import.meta.dirname,'..');
-const current=path.join(root,'_build/js/release/build/cmd/main/main.js');
+const current=process.argv[3] ? path.resolve(process.argv[3]) : path.join(root,'_build/js/release/build/cmd/main/main.js');
 const baseline=process.argv[2] && path.resolve(process.argv[2]);
 const names=Array.from({length:64},(_,i)=>`v${i}`);
 const graphs={
@@ -40,8 +40,8 @@ for(const {name,constraints,max_steps} of scenarios){
      if(i>=2)times[label].push(r.ms);
    }
  }
- const median=xs=>xs.sort((a,b)=>a-b)[Math.floor(xs.length/2)];
- const row={name,requestsPerSample:8,currentMedianMs:median(times.current)};
+ const median=xs=>xs.toSorted((a,b)=>a-b)[Math.floor(xs.length/2)];
+ const row={name,requestsPerSample:8,currentMedianMs:median(times.current),samplesMs:times};
  if(baseline){row.baselineMedianMs=median(times.baseline);row.speedup=row.baselineMedianMs/row.currentMedianMs;
    // Differential low-budget checks must preserve errors as well as successes.
    for(const max_steps of [1,63,64,65,4095,4096,262143,262144,263168,2000000]){

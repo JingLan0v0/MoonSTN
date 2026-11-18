@@ -1,8 +1,11 @@
 # Continue MoonSTN optimization
 
 The [optimization roadmap](optimization-roadmap.md) records the next measurement
-and its acceptance criteria. Resource conflict scanning shipped in 0.2.3. Start
-with the numeric STN performance recheck when asked to continue optimizing.
+and its acceptance criteria. The numeric STN recheck is complete. Start with
+deep-search time and memory profiling when asked to continue optimizing.
+
+The two-round numeric recheck did not reproduce the earlier dense-network slowdown.
+The released version remains 0.2.3. [Results and reproduction steps](acceptance.md)
 
 # Resource conflict scanning — 2026-11-18
 

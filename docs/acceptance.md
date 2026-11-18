@@ -2,6 +2,53 @@
 
 Project MoonSTN / JingLan0v0/stn, published 0.2.3.
 
+## Numeric solver performance recheck — 2026-11-18
+
+Windows release builds used moon 0.1.20261028, moonc v0.10.18+6c83a7f62
+and Node 24.14.0. Each source tree came from a separate Git archive of 0.2.1
+(`e833a15`), 0.2.2 (`96da662`) or 0.2.3 (`6d97634`). The question was whether
+the earlier 3.6% dense-network CLI slowdown could be reproduced.
+
+Two CLI rounds per comparison used side-by-side JS files with identical extensions.
+Each process handled eight 64-point networks. Each scenario had two warm-up pairs
+and nine measured pairs in alternating order. The isolated, chain and dense graphs
+ran with default and exhausted budgets. Results matched for every timed batch
+and for all ten additional budget settings per graph. On the dense successful
+case, 0.2.2 took 0.4% longer then 1.3% less time than 0.2.1. For 0.2.3 the changes
+were +1.0% and −0.2%. A 7.1% isolated CLI increase in one 0.2.3 run reversed
+direction in the other.
+
+The library fixture times public solve calls on a prepared network, including one
+bound lookup on success, and checks its checksum or budget error on every sample.
+Each version used three processes per scenario per round, with three warm-ups and
+nine timed samples per process. Driver order rotated and the second round reversed
+the initial order. The short isolated pilot was repeated with 2,048 calls per sample.
+
+| Library median ms, rounds 1 / 2 | Calls per sample | 0.2.1 | 0.2.2 | 0.2.3 |
+|---|---:|---:|---:|---:|
+| Dense, successful | 128 | 51.31 / 51.24 | 50.81 / 50.48 | 50.84 / 50.53 |
+| Isolated, successful | 2,048 | 24.40 / 24.68 | 24.33 / 24.85 | 24.86 / 24.31 |
+
+The two newer library drivers were byte-identical. Their timing variation provides
+a same-code control. These runs did not reproduce a consistent dense solver
+regression. The release stays at 0.2.3.
+[Raw CLI samples, library samples, driver hashes and peak RSS](numeric-recheck-0.2.3.json)
+
+Fresh Windows verification finished at 2026-11-18T15:36:19Z. Debug and release
+each passed 24 unit tests. All 4,096 numeric networks and 1,696 planning cases
+passed the independent checks and matched the 0.2.1 CLI results in both modes.
+The PowerShell pipeline and six scenarios passed. All four generated interfaces
+matched the tracked versions.
+
+To reproduce, build each archived checkout with `moon build cmd/main --target js
+--release --deny-warn`, save its CLI as a sibling `.js` file and run
+`node scripts/benchmark.mjs BASELINE.js CURRENT.js` twice. For each library
+driver, create a package directory named `numeric-bench` in its checkout. Copy
+`examples/library/moon.pkg` and `scripts/fixtures/numeric-benchmark.mbt` from
+this revision as `moon.pkg` and `main.mbt`. Build the package for release JS,
+then pass the three compiled drivers to `node scripts/benchmark-numeric-library.mjs`
+in reverse version order for round one and ascending order for round two.
+
 ## Mooncakes 0.2.3 publication — 2026-11-18
 
 Source `8e443c52d9cc16b44cbf680913333e90b96081c1` passed Windows and Ubuntu

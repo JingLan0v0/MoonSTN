@@ -1,9 +1,15 @@
 # Continue MoonSTN optimization
 
 The [optimization roadmap](optimization-roadmap.md) records the next measurement
-and its acceptance criteria. Two predecessor-recording candidates were
-benchmarked. Tight-window CLI and library timings support retaining the
-0.2.4 solver. Next, measure planning arc indexing and name lookup.
+and its acceptance criteria. The 0.2.5 candidate emits indexed planning edges
+during validation. Both maximum-size library workloads improved in two rounds.
+Next, profile large-model construction and CLI request handling.
+[Measurements](optimization-0.2.5.json)
+
+## Planning predecessor review — 2026-11-19
+
+Two predecessor-recording candidates were benchmarked. Tight-window CLI and
+library timings supported retaining the 0.2.4 solver.
 [Measurements](planning-predecessor-review.json)
 
 ## Larger planning models — 2026-11-19

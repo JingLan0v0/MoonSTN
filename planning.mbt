@@ -209,7 +209,7 @@ priv struct PlanBranch {
 ///|
 fn PlanBranch::compile(
   self : PlanBranch,
-  names : Array[String],
+  index : Map[String, Int32],
 ) -> (Array[TemporalArc], Array[String]) raise StnError {
   guard self.order is Some((before, after)) else {
     return (self.arcs, self.rule_ids)
@@ -225,8 +225,8 @@ fn PlanBranch::compile(
   if self.rule_ids.contains(id) {
     raise StnError("invalid_input", "invalid or duplicate constraint id")
   }
-  let finish = find_name(names, point(before, true))
-  let start = find_name(names, point(after, false))
+  let finish = lookup_name(index, point(before, true))
+  let start = lookup_name(index, point(after, false))
   let arcs = self.arcs.copy()
   // finish(before) <= start(after) is a zero-weight lower-bound arc.
   arcs.push({ source: start, target: finish, bound: 0L, })
@@ -266,14 +266,14 @@ pub fn plan(
       "invalid_input", "planning budgets: nodes 1..10000, work 1..100000000",
     )
   }
-  let net = network(p.names, p.rules)
-  let n = net.names.length()
+  let (index, arcs) : (_, Array[TemporalArc]) = compile_edges(
+    p.names,
+    p.rules,
+    (_, source, target, bound, _) => { source, target, bound, },
+  )
+  let n = p.names.length()
   let stack : Array[PlanBranch] = [
-    {
-      arcs: indexed_arcs(net),
-      rule_ids: p.rules.map(rule => rule.id),
-      order: None,
-    },
+    { arcs, rule_ids: p.rules.map(rule => rule.id), order: None, },
   ]
   let mut nodes = 0
   let mut pruned = 0
@@ -285,7 +285,7 @@ pub fn plan(
         "limit_exceeded", "planning node budget exhausted; no feasibility conclusion",
       )
     }
-    let (arcs, rule_ids) = stack.pop().unwrap().compile(net.names)
+    let (arcs, rule_ids) = stack.pop().unwrap().compile(index)
     let e = arcs.length()
     // Keep the 0.2.0 full-solve charge while computing only a feasibility witness.
     let work = n * n * n + n * e + e + 2 * n

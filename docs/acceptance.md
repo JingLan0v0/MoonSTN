@@ -2,6 +2,51 @@
 
 Project MoonSTN / JingLan0v0/stn, published 0.2.4.
 
+## Planning edge indexing and name lookup — 2026-11-19
+
+Windows JS release builds used baseline `12bb6fe`, the pinned toolchain and
+Node 24.14.0. The library benchmark reused prepared models. Each process
+warmed up three times and timed nine samples of 500 calls. Three process
+pairs alternated order in each round. The second round reversed the starting
+order. The CLI benchmark paired nine measured processes after two warm-ups
+and included startup, JSON handling and model construction.
+
+On the baseline 24-task, 64-dependency model with distinct resources,
+base edge indexing accounted for 140 of 678 CPU samples and network
+validation for 138. With all tasks sharing a resource, relaxation took
+3,089 of 4,351 samples. Child compilation took 85, with at least 46
+identified on the inlined ordering-ID scan and 19 on the name scan.
+These profiles measure self samples, including inlined code.
+
+Reusing a validated name map while still constructing named edges cut
+the distinct-resource model's library median by 33.6% and 36.0%, with
+slower medians on the two-task library case. The selected candidate emits
+indexed edges during constraint validation. It uses the same index to
+resolve ordering edges against the caller's current names.
+
+| Selected candidate | Round 1 baseline → candidate, ms | Round 2 baseline → candidate, ms |
+|---|---:|---:|
+| Library, 24 tasks and 64 dependencies with distinct resources | 26.61 → 14.34 | 28.28 → 14.94 |
+| Library, same model with one resource | 189.97 → 174.16 | 195.57 → 178.72 |
+| Library, ordinary two-task maintenance | 1.65 → 1.84 | 1.73 → 1.58 |
+| CLI, 32 tight unschedulable requests | 187.05 → 180.72 | 183.43 → 178.18 |
+| CLI, 64 maximum-model requests with distinct resources | 124.17 → 130.16 | 127.20 → 124.27 |
+
+The larger library cases took 46.1% / 47.2% and 8.3% / 8.6% less time.
+The tight CLI batch took 3.4% and 2.9% less time. The distinct-resource
+CLI and ordinary control varied by round. All timed outputs and 30
+additional numeric budget comparisons matched. The numeric CLI control's
+median changes ranged from 3.0% faster to 0.5% slower in one run.
+
+For library reproduction, place `scripts/fixtures/planning-benchmark.mbt`
+and `examples/library/moon.pkg` in an executable package named
+`lookupbench` in each checkout. Name the fixture `main.mbt`. Build in
+JS release mode and pass the resulting drivers to
+`node scripts/benchmark-planning-library.mjs BASE.js CANDIDATE.js`.
+Use `scripts/benchmark-deep-search.mjs` for CLI pairs. The evidence file
+contains raw timings, CLI peak RSS, binary hashes and candidate patches.
+[Raw measurements](optimization-0.2.5.json)
+
 ## Planning predecessor review — 2026-11-19
 
 Baseline `5331298` uses the 0.2.4 runtime. Two MoonBit candidates tested

@@ -111,6 +111,47 @@ test "planning recompiles readable rules and preserves child validation order" {
 }
 
 ///|
+test "planning resolves current timepoint names when compiling a child" {
+  let p = @stn.planning_problem(
+    [task("a", 1, 2, Some("r")), task("b", 1, 2, Some("r"))],
+    [],
+  )
+  let original = p.rules.copy()
+  p.names[2] = "renamed_finish"
+  for i, rule in original {
+    let from = if rule.from == "t0f" { "renamed_finish" } else { rule.from }
+    let to = if rule.to == "t0f" { "renamed_finish" } else { rule.to }
+    p.rules[i] = { ..rule, from, to, }
+  }
+  for
+    (max_nodes, expected) in [
+      (
+        1,
+        (
+          "limit_exceeded", "planning node budget exhausted; no feasibility conclusion",
+        ),
+      ),
+      (2, ("invalid_input", "unknown timepoint: t0f")),
+    ] {
+    let error = try {
+      @stn.plan(p, max_nodes~) |> ignore
+      None
+    } catch {
+      @stn.StnError(code, message) => Some((code, message))
+    }
+    assert_eq(error, Some(expected))
+  }
+  p.names[2] = "t0f"
+  for i, rule in original {
+    p.rules[i] = rule
+  }
+  guard @stn.plan(p) is @stn.Planned(schedule, _) else {
+    fail("expected a plan")
+  }
+  assert_true(@stn.verify_plan(p, schedule))
+}
+
+///|
 test "planning exhaustion is error and problem remains reusable" {
   let p = @stn.planning_problem(
     [task("a", 2, 4, Some("r")), task("b", 2, 4, Some("r"))],

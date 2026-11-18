@@ -5,7 +5,8 @@ import {resolve} from 'node:path';
 assert.equal(process.argv.length, 4, 'Pass the compiled baseline and candidate benchmark drivers');
 const labels = ['baseline', 'candidate'];
 const cli = Object.fromEntries(labels.map((label, i) => [label, resolve(process.argv[i + 2])]));
-const cases = ['independent', 'distinct-resources', 'first-pair', 'last-pair', 'four-resources', 'one-resource'];
+const cases = ['maintenance', 'independent', 'distinct-resources', 'first-pair', 'last-pair',
+  'four-resources', 'one-resource', 'max-root', 'max-model'];
 
 const rows = cases.map(name => {
   const samples = {baseline: [], candidate: []};

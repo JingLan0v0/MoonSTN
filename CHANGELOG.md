@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.2.5 — 2026-11-19
+
+- Compile indexed planning edges as constraints are validated, and reuse the
+  same timepoint index for new ordering edges. Keep validation, scan order
+  and budget charging consistent.
+- Verify renamed timepoints in caller-edited models and benchmark maximum-size
+  models with and without resource contention.
+
 ## 0.2.4 — 2026-11-19
 
 - Reserve the cost of each complete relaxation pass once. Tight, exhaustive

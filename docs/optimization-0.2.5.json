@@ -1,0 +1,4284 @@
+{
+  "baselineCommit": "12bb6fe3d8d72c4aa89d171cc4c6503f20ac5e1d",
+  "toolchain": {
+    "moonbit_install_version": "0.10.18+6c83a7f62",
+    "moon": "0.1.20261028",
+    "moonc": "v0.10.18+6c83a7f62",
+    "node_tested": "24.14.0",
+    "backend": "js"
+  },
+  "baseline": {
+    "cliSha256": "04cbffabb588d57177b66105ed650801e33551c61ff1e41ff7b3c566d5a4d7cd",
+    "librarySha256": "4d7087be58b7fa6f9713e51d19058159ecd25a1ba3dd0752d721a21b79008a6e",
+    "cpuProfiles": {
+      "maintenance": {
+        "sampleCount": 90,
+        "topSelfSamples": {
+          "(garbage collector)": 15,
+          "_M0FP210JingLan0v03stn5relax": 10,
+          "(anonymous)": 8,
+          "compileForInternalLoader": 5,
+          "_M0FP210JingLan0v03stn7network": 5,
+          "_M0IPC16string6StringPB4Hash4hash": 5,
+          "_M0FP210JingLan0v03stn12plan_2einner": 4,
+          "_M0FP210JingLan0v03stn9normalize": 3,
+          "_M0MP210JingLan0v03stn10PlanBranch7compile": 3,
+          "lstat": 2,
+          "wrapSafe": 2,
+          "_M0MPB3Map8containsGsbE": 2,
+          "_M0FPB13consume4__acc": 2,
+          "_M0FP210JingLan0v03stn16feasible__values": 2
+        }
+      },
+      "max-root": {
+        "sampleCount": 678,
+        "topSelfSamples": {
+          "_M0FP210JingLan0v03stn13indexed__arcs": 140,
+          "_M0FP210JingLan0v03stn7network": 138,
+          "_M0FP210JingLan0v03stn12plan_2einner": 106,
+          "_M0FP210JingLan0v03stn11valid__name": 64,
+          "_M0MPB3Map8containsGsbE": 47,
+          "_M0IPC16string6StringPB4Hash4hash": 25,
+          "(garbage collector)": 23,
+          "_M0FP210JingLan0v03stn5relax": 21,
+          "_M0MPB3Map15set__with__hashGsbE": 19,
+          "_M0MPB7JSArray4push": 14,
+          "_M0MPB3Map4growGsbE": 12,
+          "_M0FP210JingLan0v03stn25first__resource__conflict": 12,
+          "$make_array_len_and_init": 8,
+          "(program)": 7
+        }
+      },
+      "max-model": {
+        "sampleCount": 4351,
+        "topSelfSamples": {
+          "_M0FP210JingLan0v03stn5relax": 3089,
+          "_M0FP210JingLan0v03stn12plan_2einner": 294,
+          "_M0FP210JingLan0v03stn25first__resource__conflict": 213,
+          "_M0FP210JingLan0v03stn7network": 150,
+          "_M0FP210JingLan0v03stn13indexed__arcs": 136,
+          "_M0MP210JingLan0v03stn10PlanBranch7compile": 85,
+          "(garbage collector)": 75,
+          "_M0FP210JingLan0v03stn11valid__name": 68,
+          "_M0MPB3Map8containsGsbE": 64,
+          "_M0MPB3Map15set__with__hashGsbE": 33,
+          "_M0IPC16string6StringPB4Hash4hash": 30,
+          "_M0MPB7JSArray4copy": 21,
+          "(anonymous)": 17,
+          "$make_array_len_and_init": 14
+        },
+        "branchValidationSamples": {
+          "scanRuleIds": 46,
+          "scanEndpointNames": 19,
+          "includesOnlyIdentifiableInlinedLoopLines": true
+        }
+      }
+    },
+    "cliPilot": {
+      "argumentOrder": [
+        "baseline"
+      ],
+      "node": "v24.14.0",
+      "platform": "win32",
+      "arch": "x64",
+      "recordedAt": "2026-11-18T16:56:25.474Z",
+      "warmupPairs": 2,
+      "samplesPerVariant": 9,
+      "rows": [
+        {
+          "name": "maintenance",
+          "requestsPerProcess": 64,
+          "expected": {
+            "status": "planned",
+            "stats": {
+              "nodes": 3,
+              "pruned": 1,
+              "decisions": 1,
+              "charged_work": 561
+            }
+          },
+          "samples": {
+            "baseline": [
+              {
+                "ms": 81.41980000000001,
+                "peakRssKiB": 50952
+              },
+              {
+                "ms": 81.5435,
+                "peakRssKiB": 49592
+              },
+              {
+                "ms": 81.8261,
+                "peakRssKiB": 49880
+              },
+              {
+                "ms": 80.7749,
+                "peakRssKiB": 49640
+              },
+              {
+                "ms": 90.74570000000006,
+                "peakRssKiB": 50508
+              },
+              {
+                "ms": 81.19209999999998,
+                "peakRssKiB": 49704
+              },
+              {
+                "ms": 79.26589999999999,
+                "peakRssKiB": 49800
+              },
+              {
+                "ms": 79.24059999999997,
+                "peakRssKiB": 50512
+              },
+              {
+                "ms": 79.65520000000004,
+                "peakRssKiB": 49868
+              }
+            ]
+          }
+        },
+        {
+          "name": "max-root",
+          "requestsPerProcess": 64,
+          "expected": {
+            "status": "planned",
+            "stats": {
+              "nodes": 1,
+              "pruned": 0,
+              "decisions": 0,
+              "charged_work": 128947
+            }
+          },
+          "samples": {
+            "baseline": [
+              {
+                "ms": 126.0281,
+                "peakRssKiB": 72344
+              },
+              {
+                "ms": 126.49469999999997,
+                "peakRssKiB": 71764
+              },
+              {
+                "ms": 125.4552000000001,
+                "peakRssKiB": 71460
+              },
+              {
+                "ms": 129.81780000000003,
+                "peakRssKiB": 72008
+              },
+              {
+                "ms": 124.49389999999994,
+                "peakRssKiB": 71592
+              },
+              {
+                "ms": 125.13760000000002,
+                "peakRssKiB": 71372
+              },
+              {
+                "ms": 120.79859999999962,
+                "peakRssKiB": 71332
+              },
+              {
+                "ms": 125.58580000000029,
+                "peakRssKiB": 72312
+              },
+              {
+                "ms": 122.80819999999994,
+                "peakRssKiB": 71996
+              }
+            ]
+          }
+        },
+        {
+          "name": "max-model",
+          "requestsPerProcess": 16,
+          "expected": {
+            "status": "planned",
+            "stats": {
+              "nodes": 24,
+              "pruned": 0,
+              "decisions": 23,
+              "charged_work": 3108528
+            }
+          },
+          "samples": {
+            "baseline": [
+              {
+                "ms": 103.88110000000006,
+                "peakRssKiB": 59368
+              },
+              {
+                "ms": 102.3717999999999,
+                "peakRssKiB": 59380
+              },
+              {
+                "ms": 103.28240000000005,
+                "peakRssKiB": 58968
+              },
+              {
+                "ms": 102.1923999999999,
+                "peakRssKiB": 59288
+              },
+              {
+                "ms": 101.48050000000012,
+                "peakRssKiB": 59768
+              },
+              {
+                "ms": 103.3780999999999,
+                "peakRssKiB": 59024
+              },
+              {
+                "ms": 116.3119999999999,
+                "peakRssKiB": 59448
+              },
+              {
+                "ms": 101.6887999999999,
+                "peakRssKiB": 59252
+              },
+              {
+                "ms": 101.22479999999996,
+                "peakRssKiB": 59512
+              }
+            ]
+          }
+        },
+        {
+          "name": "tight-impossible",
+          "requestsPerProcess": 32,
+          "expected": {
+            "status": "unschedulable",
+            "stats": {
+              "nodes": 1439,
+              "pruned": 720,
+              "decisions": 719,
+              "charged_work": 3885037
+            }
+          },
+          "samples": {
+            "baseline": [
+              {
+                "ms": 182.78769999999986,
+                "peakRssKiB": 51984
+              },
+              {
+                "ms": 187.73890000000029,
+                "peakRssKiB": 51972
+              },
+              {
+                "ms": 187.2500999999993,
+                "peakRssKiB": 52228
+              },
+              {
+                "ms": 195.40769999999975,
+                "peakRssKiB": 52988
+              },
+              {
+                "ms": 185.1188000000002,
+                "peakRssKiB": 52856
+              },
+              {
+                "ms": 183.3855999999996,
+                "peakRssKiB": 52360
+              },
+              {
+                "ms": 188.19909999999982,
+                "peakRssKiB": 52204
+              },
+              {
+                "ms": 184.4294,
+                "peakRssKiB": 52484
+              },
+              {
+                "ms": 181.47440000000006,
+                "peakRssKiB": 51920
+              }
+            ]
+          }
+        },
+        {
+          "name": "exact-budgets",
+          "requestsPerProcess": 8,
+          "expected": {
+            "status": "planned",
+            "stats": {
+              "nodes": 24,
+              "pruned": 0,
+              "decisions": 23,
+              "charged_work": 3108528
+            }
+          },
+          "samples": {
+            "baseline": [
+              {
+                "ms": 99.76319999999942,
+                "peakRssKiB": 56648
+              },
+              {
+                "ms": 101.14199999999983,
+                "peakRssKiB": 56216
+              },
+              {
+                "ms": 100.24869999999919,
+                "peakRssKiB": 56480
+              },
+              {
+                "ms": 101.47019999999975,
+                "peakRssKiB": 56140
+              },
+              {
+                "ms": 99.42519999999968,
+                "peakRssKiB": 56156
+              },
+              {
+                "ms": 100.62149999999929,
+                "peakRssKiB": 56352
+              },
+              {
+                "ms": 99.65380000000005,
+                "peakRssKiB": 56052
+              },
+              {
+                "ms": 100.40369999999984,
+                "peakRssKiB": 56404
+              },
+              {
+                "ms": 100.5608000000002,
+                "peakRssKiB": 56380
+              }
+            ]
+          }
+        },
+        {
+          "name": "node-limit",
+          "requestsPerProcess": 8,
+          "expected": {
+            "status": "error",
+            "code": "limit_exceeded",
+            "message": "planning node budget exhausted; no feasibility conclusion"
+          },
+          "samples": {
+            "baseline": [
+              {
+                "ms": 97.36710000000039,
+                "peakRssKiB": 56216
+              },
+              {
+                "ms": 91.39240000000063,
+                "peakRssKiB": 56048
+              },
+              {
+                "ms": 91.79550000000017,
+                "peakRssKiB": 56520
+              },
+              {
+                "ms": 92.14300000000003,
+                "peakRssKiB": 56560
+              },
+              {
+                "ms": 91.72360000000026,
+                "peakRssKiB": 55364
+              },
+              {
+                "ms": 91.80270000000019,
+                "peakRssKiB": 56364
+              },
+              {
+                "ms": 96.64040000000023,
+                "peakRssKiB": 56120
+              },
+              {
+                "ms": 93.86260000000038,
+                "peakRssKiB": 56428
+              },
+              {
+                "ms": 93.64689999999882,
+                "peakRssKiB": 56080
+              }
+            ]
+          }
+        },
+        {
+          "name": "work-limit",
+          "requestsPerProcess": 8,
+          "expected": {
+            "status": "error",
+            "code": "limit_exceeded",
+            "message": "planning work budget exhausted; no feasibility conclusion"
+          },
+          "samples": {
+            "baseline": [
+              {
+                "ms": 91.60260000000017,
+                "peakRssKiB": 56392
+              },
+              {
+                "ms": 92.8763999999992,
+                "peakRssKiB": 56768
+              },
+              {
+                "ms": 92.52239999999983,
+                "peakRssKiB": 56420
+              },
+              {
+                "ms": 93.39480000000003,
+                "peakRssKiB": 56204
+              },
+              {
+                "ms": 93.06059999999889,
+                "peakRssKiB": 56140
+              },
+              {
+                "ms": 92.46819999999934,
+                "peakRssKiB": 56272
+              },
+              {
+                "ms": 91.07289999999921,
+                "peakRssKiB": 56592
+              },
+              {
+                "ms": 92.37200000000121,
+                "peakRssKiB": 56060
+              },
+              {
+                "ms": 100.2492999999995,
+                "peakRssKiB": 56176
+              }
+            ]
+          }
+        }
+      ]
+    }
+  },
+  "sharedLookup": {
+    "cliSha256": "48edc9bfdb59de6920e6b45d6ce928ad50ed393b9a0cbbec0a21f625805bbbed",
+    "librarySha256": "9eeeaa73f2d727234938a463691db25cce4c2ec5e960d1f8eb7f15468281d5df",
+    "patch": [
+      "--- a/model.mbt",
+      "+++ b/model.mbt",
+      "@@ -93,17 +93,34 @@",
+      "   names : Array[String],",
+      "   constraints : Array[Constraint],",
+      " ) -> Network raise StnError {",
+      "+  let (net, _) = network_with_index(names, constraints)",
+      "+  net",
+      "+}",
+      "+",
+      "+///|",
+      "+fn lookup_name(index : Map[String, Int32], name : String) -> Int32 raise StnError {",
+      "+  guard index.get(name) is Some(i) else {",
+      "+    raise StnError(\"invalid_input\", \"unknown timepoint: \" + name)",
+      "+  }",
+      "+  i",
+      "+}",
+      "+",
+      "+///|",
+      "+fn network_with_index(",
+      "+  names : Array[String],",
+      "+  constraints : Array[Constraint],",
+      "+) -> (Network, Map[String, Int32]) raise StnError {",
+      "   if names.length() == 0 || names.length() > 64 || constraints.length() > 512 {",
+      "     raise StnError(",
+      "       \"limit_exceeded\", \"require 1..64 timepoints and at most 512 constraints\",",
+      "     )",
+      "   }",
+      "-  let seen : Map[String, Bool] = Map([])",
+      "-  for name in names {",
+      "-    if !valid_name(name) || seen.contains(name) {",
+      "+  let index : Map[String, Int32] = Map([])",
+      "+  for i, name in names {",
+      "+    if !valid_name(name) || index.contains(name) {",
+      "       raise StnError(\"invalid_input\", \"invalid or duplicate timepoint name\")",
+      "     }",
+      "-    seen[name] = true",
+      "+    index[name] = i",
+      "   }",
+      "   let ids : Map[String, Bool] = Map([])",
+      "   let edges : Array[Edge] = []",
+      "@@ -112,8 +129,8 @@",
+      "       raise StnError(\"invalid_input\", \"invalid or duplicate constraint id\")",
+      "     }",
+      "     ids[c.id] = true",
+      "-    find_name(names, c.from) |> ignore",
+      "-    find_name(names, c.to) |> ignore",
+      "+    lookup_name(index, c.from) |> ignore",
+      "+    lookup_name(index, c.to) |> ignore",
+      "     if c.lower is None && c.upper is None {",
+      "       raise StnError(",
+      "         \"invalid_input\", \"constraint must have a lower or upper bound\",",
+      "@@ -146,7 +163,7 @@",
+      "       })",
+      "     }",
+      "   }",
+      "-  { names: names.copy(), edges, }",
+      "+  ({ names: names.copy(), edges, }, index)",
+      " }",
+      " ",
+      " ///|",
+      "--- a/planning.mbt",
+      "+++ b/planning.mbt",
+      "@@ -209,7 +209,7 @@",
+      " ///|",
+      " fn PlanBranch::compile(",
+      "   self : PlanBranch,",
+      "-  names : Array[String],",
+      "+  index : Map[String, Int32],",
+      " ) -> (Array[TemporalArc], Array[String]) raise StnError {",
+      "   guard self.order is Some((before, after)) else {",
+      "     return (self.arcs, self.rule_ids)",
+      "@@ -225,8 +225,8 @@",
+      "   if self.rule_ids.contains(id) {",
+      "     raise StnError(\"invalid_input\", \"invalid or duplicate constraint id\")",
+      "   }",
+      "-  let finish = find_name(names, point(before, true))",
+      "-  let start = find_name(names, point(after, false))",
+      "+  let finish = lookup_name(index, point(before, true))",
+      "+  let start = lookup_name(index, point(after, false))",
+      "   let arcs = self.arcs.copy()",
+      "   // finish(before) <= start(after) is a zero-weight lower-bound arc.",
+      "   arcs.push({ source: start, target: finish, bound: 0L, })",
+      "@@ -266,11 +266,11 @@",
+      "       \"invalid_input\", \"planning budgets: nodes 1..10000, work 1..100000000\",",
+      "     )",
+      "   }",
+      "-  let net = network(p.names, p.rules)",
+      "+  let (net, index) = network_with_index(p.names, p.rules)",
+      "   let n = net.names.length()",
+      "   let stack : Array[PlanBranch] = [",
+      "     {",
+      "-      arcs: indexed_arcs(net),",
+      "+      arcs: indexed_arcs(net, name => lookup_name(index, name)),",
+      "       rule_ids: p.rules.map(rule => rule.id),",
+      "       order: None,",
+      "     },",
+      "@@ -285,7 +285,7 @@",
+      "         \"limit_exceeded\", \"planning node budget exhausted; no feasibility conclusion\",",
+      "       )",
+      "     }",
+      "-    let (arcs, rule_ids) = stack.pop().unwrap().compile(net.names)",
+      "+    let (arcs, rule_ids) = stack.pop().unwrap().compile(index)",
+      "     let e = arcs.length()",
+      "     // Keep the 0.2.0 full-solve charge while computing only a feasibility witness.",
+      "     let work = n * n * n + n * e + e + 2 * n",
+      "--- a/solver.mbt",
+      "+++ b/solver.mbt",
+      "@@ -9,7 +9,7 @@",
+      "   }",
+      "   let budget = { remaining: max_steps, }",
+      "   let n = net.names.length()",
+      "-  let arcs = indexed_arcs(net)",
+      "+  let arcs = indexed_arcs(net, name => find_name(net.names, name))",
+      "   let (values, pred, changed) = relax(n, arcs, budget)",
+      "   if changed != -1 {",
+      "     let mut node = changed",
+      "@@ -74,10 +74,13 @@",
+      " }",
+      " ",
+      " ///|",
+      "-fn indexed_arcs(net : Network) -> Array[TemporalArc] raise StnError {",
+      "+fn indexed_arcs(",
+      "+  net : Network,",
+      "+  lookup : (String) -> Int32 raise StnError,",
+      "+) -> Array[TemporalArc] raise StnError {",
+      "   net.edges.map(e => {",
+      "-    source: find_name(net.names, e.from),",
+      "-    target: find_name(net.names, e.to),",
+      "+    source: lookup(e.from),",
+      "+    target: lookup(e.to),",
+      "     bound: e.bound,",
+      "   })",
+      " }"
+    ],
+    "cliRounds": [
+      {
+        "argumentOrder": [
+          "baseline",
+          "candidate"
+        ],
+        "node": "v24.14.0",
+        "platform": "win32",
+        "arch": "x64",
+        "recordedAt": "2026-11-18T16:57:36.269Z",
+        "warmupPairs": 2,
+        "samplesPerVariant": 9,
+        "rows": [
+          {
+            "name": "maintenance",
+            "requestsPerProcess": 64,
+            "expected": {
+              "status": "planned",
+              "stats": {
+                "nodes": 3,
+                "pruned": 1,
+                "decisions": 1,
+                "charged_work": 561
+              }
+            },
+            "samples": {
+              "baseline": [
+                {
+                  "ms": 80.7527,
+                  "peakRssKiB": 49332
+                },
+                {
+                  "ms": 81.55449999999996,
+                  "peakRssKiB": 49836
+                },
+                {
+                  "ms": 80.34070000000008,
+                  "peakRssKiB": 49720
+                },
+                {
+                  "ms": 79.17110000000002,
+                  "peakRssKiB": 49972
+                },
+                {
+                  "ms": 81.78520000000003,
+                  "peakRssKiB": 50724
+                },
+                {
+                  "ms": 79.31999999999994,
+                  "peakRssKiB": 49636
+                },
+                {
+                  "ms": 80.00119999999993,
+                  "peakRssKiB": 49812
+                },
+                {
+                  "ms": 84.11519999999996,
+                  "peakRssKiB": 49632
+                },
+                {
+                  "ms": 96.58500000000004,
+                  "peakRssKiB": 49684
+                }
+              ],
+              "candidate": [
+                {
+                  "ms": 80.32920000000001,
+                  "peakRssKiB": 49716
+                },
+                {
+                  "ms": 85.87789999999995,
+                  "peakRssKiB": 49724
+                },
+                {
+                  "ms": 93.97289999999998,
+                  "peakRssKiB": 50008
+                },
+                {
+                  "ms": 81.70310000000006,
+                  "peakRssKiB": 49764
+                },
+                {
+                  "ms": 81.25189999999998,
+                  "peakRssKiB": 49788
+                },
+                {
+                  "ms": 80.05580000000009,
+                  "peakRssKiB": 50296
+                },
+                {
+                  "ms": 80.1286,
+                  "peakRssKiB": 49680
+                },
+                {
+                  "ms": 82.48699999999985,
+                  "peakRssKiB": 49828
+                },
+                {
+                  "ms": 82.6422,
+                  "peakRssKiB": 49952
+                }
+              ]
+            }
+          },
+          {
+            "name": "max-root",
+            "requestsPerProcess": 64,
+            "expected": {
+              "status": "planned",
+              "stats": {
+                "nodes": 1,
+                "pruned": 0,
+                "decisions": 0,
+                "charged_work": 128947
+              }
+            },
+            "samples": {
+              "baseline": [
+                {
+                  "ms": 122.04219999999987,
+                  "peakRssKiB": 72404
+                },
+                {
+                  "ms": 127.31719999999996,
+                  "peakRssKiB": 73412
+                },
+                {
+                  "ms": 122.40249999999969,
+                  "peakRssKiB": 71940
+                },
+                {
+                  "ms": 127.23559999999998,
+                  "peakRssKiB": 72124
+                },
+                {
+                  "ms": 124.85290000000032,
+                  "peakRssKiB": 72232
+                },
+                {
+                  "ms": 119.73260000000028,
+                  "peakRssKiB": 71756
+                },
+                {
+                  "ms": 120.86060000000043,
+                  "peakRssKiB": 71876
+                },
+                {
+                  "ms": 127.44340000000011,
+                  "peakRssKiB": 71696
+                },
+                {
+                  "ms": 126.09500000000025,
+                  "peakRssKiB": 71864
+                }
+              ],
+              "candidate": [
+                {
+                  "ms": 133.32349999999997,
+                  "peakRssKiB": 72312
+                },
+                {
+                  "ms": 123.61979999999994,
+                  "peakRssKiB": 73092
+                },
+                {
+                  "ms": 123.92299999999977,
+                  "peakRssKiB": 72716
+                },
+                {
+                  "ms": 121.76429999999982,
+                  "peakRssKiB": 72880
+                },
+                {
+                  "ms": 123.89179999999988,
+                  "peakRssKiB": 73132
+                },
+                {
+                  "ms": 121.81089999999995,
+                  "peakRssKiB": 72316
+                },
+                {
+                  "ms": 119.8757999999998,
+                  "peakRssKiB": 72932
+                },
+                {
+                  "ms": 121.45280000000002,
+                  "peakRssKiB": 72948
+                },
+                {
+                  "ms": 137.8717999999999,
+                  "peakRssKiB": 72800
+                }
+              ]
+            }
+          },
+          {
+            "name": "max-model",
+            "requestsPerProcess": 16,
+            "expected": {
+              "status": "planned",
+              "stats": {
+                "nodes": 24,
+                "pruned": 0,
+                "decisions": 23,
+                "charged_work": 3108528
+              }
+            },
+            "samples": {
+              "baseline": [
+                {
+                  "ms": 102.16550000000007,
+                  "peakRssKiB": 59016
+                },
+                {
+                  "ms": 103.21720000000005,
+                  "peakRssKiB": 59508
+                },
+                {
+                  "ms": 105.90110000000004,
+                  "peakRssKiB": 59068
+                },
+                {
+                  "ms": 102.70689999999922,
+                  "peakRssKiB": 59788
+                },
+                {
+                  "ms": 100.9405999999999,
+                  "peakRssKiB": 59240
+                },
+                {
+                  "ms": 111.66460000000006,
+                  "peakRssKiB": 59564
+                },
+                {
+                  "ms": 103.56970000000001,
+                  "peakRssKiB": 59468
+                },
+                {
+                  "ms": 104.47549999999956,
+                  "peakRssKiB": 59068
+                },
+                {
+                  "ms": 104.08550000000014,
+                  "peakRssKiB": 59316
+                }
+              ],
+              "candidate": [
+                {
+                  "ms": 102.97720000000027,
+                  "peakRssKiB": 59704
+                },
+                {
+                  "ms": 103.59529999999995,
+                  "peakRssKiB": 59128
+                },
+                {
+                  "ms": 102.77980000000025,
+                  "peakRssKiB": 59760
+                },
+                {
+                  "ms": 101.90909999999985,
+                  "peakRssKiB": 59000
+                },
+                {
+                  "ms": 103.42879999999968,
+                  "peakRssKiB": 59340
+                },
+                {
+                  "ms": 121.65130000000045,
+                  "peakRssKiB": 59128
+                },
+                {
+                  "ms": 104.1232,
+                  "peakRssKiB": 59344
+                },
+                {
+                  "ms": 105.70910000000003,
+                  "peakRssKiB": 59588
+                },
+                {
+                  "ms": 101.8762999999999,
+                  "peakRssKiB": 59216
+                }
+              ]
+            }
+          },
+          {
+            "name": "tight-impossible",
+            "requestsPerProcess": 32,
+            "expected": {
+              "status": "unschedulable",
+              "stats": {
+                "nodes": 1439,
+                "pruned": 720,
+                "decisions": 719,
+                "charged_work": 3885037
+              }
+            },
+            "samples": {
+              "baseline": [
+                {
+                  "ms": 186.40560000000005,
+                  "peakRssKiB": 52116
+                },
+                {
+                  "ms": 186.0036999999993,
+                  "peakRssKiB": 52116
+                },
+                {
+                  "ms": 192.91229999999996,
+                  "peakRssKiB": 52008
+                },
+                {
+                  "ms": 182.95240000000013,
+                  "peakRssKiB": 51840
+                },
+                {
+                  "ms": 190.29550000000017,
+                  "peakRssKiB": 52736
+                },
+                {
+                  "ms": 182.80049999999937,
+                  "peakRssKiB": 53288
+                },
+                {
+                  "ms": 189.61149999999907,
+                  "peakRssKiB": 52372
+                },
+                {
+                  "ms": 202.84870000000046,
+                  "peakRssKiB": 51964
+                },
+                {
+                  "ms": 201.71149999999943,
+                  "peakRssKiB": 52256
+                }
+              ],
+              "candidate": [
+                {
+                  "ms": 192.29869999999937,
+                  "peakRssKiB": 51540
+                },
+                {
+                  "ms": 183.01749999999993,
+                  "peakRssKiB": 51648
+                },
+                {
+                  "ms": 182.60139999999956,
+                  "peakRssKiB": 51708
+                },
+                {
+                  "ms": 186.54099999999926,
+                  "peakRssKiB": 54868
+                },
+                {
+                  "ms": 183.39099999999962,
+                  "peakRssKiB": 51844
+                },
+                {
+                  "ms": 182.65200000000004,
+                  "peakRssKiB": 51500
+                },
+                {
+                  "ms": 181.69760000000133,
+                  "peakRssKiB": 51772
+                },
+                {
+                  "ms": 184.47530000000006,
+                  "peakRssKiB": 51704
+                },
+                {
+                  "ms": 179.89060000000063,
+                  "peakRssKiB": 52820
+                }
+              ]
+            }
+          },
+          {
+            "name": "exact-budgets",
+            "requestsPerProcess": 8,
+            "expected": {
+              "status": "planned",
+              "stats": {
+                "nodes": 24,
+                "pruned": 0,
+                "decisions": 23,
+                "charged_work": 3108528
+              }
+            },
+            "samples": {
+              "baseline": [
+                {
+                  "ms": 95.3177999999989,
+                  "peakRssKiB": 56384
+                },
+                {
+                  "ms": 94.72979999999916,
+                  "peakRssKiB": 56332
+                },
+                {
+                  "ms": 96.85280000000057,
+                  "peakRssKiB": 56012
+                },
+                {
+                  "ms": 98.97229999999945,
+                  "peakRssKiB": 56432
+                },
+                {
+                  "ms": 95.6247000000003,
+                  "peakRssKiB": 56264
+                },
+                {
+                  "ms": 98.34009999999944,
+                  "peakRssKiB": 56404
+                },
+                {
+                  "ms": 101.07300000000032,
+                  "peakRssKiB": 56380
+                },
+                {
+                  "ms": 100.33189999999922,
+                  "peakRssKiB": 56108
+                },
+                {
+                  "ms": 101.36470000000008,
+                  "peakRssKiB": 56272
+                }
+              ],
+              "candidate": [
+                {
+                  "ms": 99.88000000000102,
+                  "peakRssKiB": 56384
+                },
+                {
+                  "ms": 94.10180000000037,
+                  "peakRssKiB": 56528
+                },
+                {
+                  "ms": 94.28650000000016,
+                  "peakRssKiB": 56208
+                },
+                {
+                  "ms": 95.54490000000078,
+                  "peakRssKiB": 56256
+                },
+                {
+                  "ms": 101.82070000000022,
+                  "peakRssKiB": 56316
+                },
+                {
+                  "ms": 94.56109999999899,
+                  "peakRssKiB": 56532
+                },
+                {
+                  "ms": 99.2507000000005,
+                  "peakRssKiB": 56220
+                },
+                {
+                  "ms": 102.38819999999942,
+                  "peakRssKiB": 56336
+                },
+                {
+                  "ms": 99.30369999999857,
+                  "peakRssKiB": 56632
+                }
+              ]
+            }
+          },
+          {
+            "name": "node-limit",
+            "requestsPerProcess": 8,
+            "expected": {
+              "status": "error",
+              "code": "limit_exceeded",
+              "message": "planning node budget exhausted; no feasibility conclusion"
+            },
+            "samples": {
+              "baseline": [
+                {
+                  "ms": 94.65289999999914,
+                  "peakRssKiB": 56208
+                },
+                {
+                  "ms": 93.76929999999993,
+                  "peakRssKiB": 56264
+                },
+                {
+                  "ms": 97.41060000000107,
+                  "peakRssKiB": 56468
+                },
+                {
+                  "ms": 98.6268999999993,
+                  "peakRssKiB": 56420
+                },
+                {
+                  "ms": 98.3687000000009,
+                  "peakRssKiB": 56184
+                },
+                {
+                  "ms": 94.54709999999977,
+                  "peakRssKiB": 56148
+                },
+                {
+                  "ms": 95.03800000000047,
+                  "peakRssKiB": 56488
+                },
+                {
+                  "ms": 99.89559999999983,
+                  "peakRssKiB": 56144
+                },
+                {
+                  "ms": 101.57610000000022,
+                  "peakRssKiB": 56412
+                }
+              ],
+              "candidate": [
+                {
+                  "ms": 92.64520000000084,
+                  "peakRssKiB": 56108
+                },
+                {
+                  "ms": 94.21910000000025,
+                  "peakRssKiB": 56152
+                },
+                {
+                  "ms": 99.7547999999988,
+                  "peakRssKiB": 56324
+                },
+                {
+                  "ms": 104.30140000000029,
+                  "peakRssKiB": 56336
+                },
+                {
+                  "ms": 101.48430000000008,
+                  "peakRssKiB": 56460
+                },
+                {
+                  "ms": 95.21530000000166,
+                  "peakRssKiB": 56252
+                },
+                {
+                  "ms": 93.46860000000015,
+                  "peakRssKiB": 56820
+                },
+                {
+                  "ms": 97.01699999999983,
+                  "peakRssKiB": 56492
+                },
+                {
+                  "ms": 99.9934000000012,
+                  "peakRssKiB": 56616
+                }
+              ]
+            }
+          },
+          {
+            "name": "work-limit",
+            "requestsPerProcess": 8,
+            "expected": {
+              "status": "error",
+              "code": "limit_exceeded",
+              "message": "planning work budget exhausted; no feasibility conclusion"
+            },
+            "samples": {
+              "baseline": [
+                {
+                  "ms": 94.30030000000079,
+                  "peakRssKiB": 56216
+                },
+                {
+                  "ms": 91.78040000000328,
+                  "peakRssKiB": 56192
+                },
+                {
+                  "ms": 95.51190000000133,
+                  "peakRssKiB": 56392
+                },
+                {
+                  "ms": 96.16359999999986,
+                  "peakRssKiB": 56412
+                },
+                {
+                  "ms": 93.76139999999941,
+                  "peakRssKiB": 56232
+                },
+                {
+                  "ms": 95.56659999999829,
+                  "peakRssKiB": 56512
+                },
+                {
+                  "ms": 96.39700000000084,
+                  "peakRssKiB": 56188
+                },
+                {
+                  "ms": 100.1893999999993,
+                  "peakRssKiB": 56464
+                },
+                {
+                  "ms": 100.47899999999936,
+                  "peakRssKiB": 56368
+                }
+              ],
+              "candidate": [
+                {
+                  "ms": 93.65959999999905,
+                  "peakRssKiB": 56484
+                },
+                {
+                  "ms": 94.95650000000023,
+                  "peakRssKiB": 56236
+                },
+                {
+                  "ms": 93.23109999999724,
+                  "peakRssKiB": 56552
+                },
+                {
+                  "ms": 96.92829999999958,
+                  "peakRssKiB": 56080
+                },
+                {
+                  "ms": 97.07220000000234,
+                  "peakRssKiB": 56668
+                },
+                {
+                  "ms": 109.41419999999925,
+                  "peakRssKiB": 56800
+                },
+                {
+                  "ms": 99.98489999999947,
+                  "peakRssKiB": 56356
+                },
+                {
+                  "ms": 101.70309999999881,
+                  "peakRssKiB": 56552
+                },
+                {
+                  "ms": 99.02939999999944,
+                  "peakRssKiB": 56208
+                }
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "argumentOrder": [
+          "candidate",
+          "baseline"
+        ],
+        "node": "v24.14.0",
+        "platform": "win32",
+        "arch": "x64",
+        "recordedAt": "2026-11-18T16:57:54.794Z",
+        "warmupPairs": 2,
+        "samplesPerVariant": 9,
+        "rows": [
+          {
+            "name": "maintenance",
+            "requestsPerProcess": 64,
+            "expected": {
+              "status": "planned",
+              "stats": {
+                "nodes": 3,
+                "pruned": 1,
+                "decisions": 1,
+                "charged_work": 561
+              }
+            },
+            "samples": {
+              "candidate": [
+                {
+                  "ms": 88.46250000000009,
+                  "peakRssKiB": 49928
+                },
+                {
+                  "ms": 84.85380000000009,
+                  "peakRssKiB": 50260
+                },
+                {
+                  "ms": 80.59789999999998,
+                  "peakRssKiB": 49912
+                },
+                {
+                  "ms": 86.58140000000003,
+                  "peakRssKiB": 49812
+                },
+                {
+                  "ms": 80.62529999999992,
+                  "peakRssKiB": 49688
+                },
+                {
+                  "ms": 81.16620000000012,
+                  "peakRssKiB": 49872
+                },
+                {
+                  "ms": 83.78710000000001,
+                  "peakRssKiB": 50352
+                },
+                {
+                  "ms": 87.09850000000006,
+                  "peakRssKiB": 49756
+                },
+                {
+                  "ms": 83.77330000000006,
+                  "peakRssKiB": 49792
+                }
+              ],
+              "baseline": [
+                {
+                  "ms": 99.24619999999993,
+                  "peakRssKiB": 49920
+                },
+                {
+                  "ms": 84.08159999999998,
+                  "peakRssKiB": 50976
+                },
+                {
+                  "ms": 84.76440000000014,
+                  "peakRssKiB": 50384
+                },
+                {
+                  "ms": 81.61740000000009,
+                  "peakRssKiB": 49808
+                },
+                {
+                  "ms": 80.34919999999988,
+                  "peakRssKiB": 49928
+                },
+                {
+                  "ms": 81.89049999999997,
+                  "peakRssKiB": 49592
+                },
+                {
+                  "ms": 94.17579999999998,
+                  "peakRssKiB": 50176
+                },
+                {
+                  "ms": 83.34410000000003,
+                  "peakRssKiB": 50344
+                },
+                {
+                  "ms": 80.32380000000012,
+                  "peakRssKiB": 50180
+                }
+              ]
+            }
+          },
+          {
+            "name": "max-root",
+            "requestsPerProcess": 64,
+            "expected": {
+              "status": "planned",
+              "stats": {
+                "nodes": 1,
+                "pruned": 0,
+                "decisions": 0,
+                "charged_work": 128947
+              }
+            },
+            "samples": {
+              "candidate": [
+                {
+                  "ms": 124.47980000000007,
+                  "peakRssKiB": 72936
+                },
+                {
+                  "ms": 122.1220000000003,
+                  "peakRssKiB": 72804
+                },
+                {
+                  "ms": 123.91940000000022,
+                  "peakRssKiB": 72992
+                },
+                {
+                  "ms": 124.77050000000008,
+                  "peakRssKiB": 72720
+                },
+                {
+                  "ms": 121.60219999999981,
+                  "peakRssKiB": 73176
+                },
+                {
+                  "ms": 130.26109999999971,
+                  "peakRssKiB": 73104
+                },
+                {
+                  "ms": 120.08050000000003,
+                  "peakRssKiB": 72660
+                },
+                {
+                  "ms": 125.45269999999982,
+                  "peakRssKiB": 73424
+                },
+                {
+                  "ms": 119.91499999999996,
+                  "peakRssKiB": 72704
+                }
+              ],
+              "baseline": [
+                {
+                  "ms": 124.95859999999993,
+                  "peakRssKiB": 71928
+                },
+                {
+                  "ms": 122.02480000000014,
+                  "peakRssKiB": 72196
+                },
+                {
+                  "ms": 118.67099999999982,
+                  "peakRssKiB": 71664
+                },
+                {
+                  "ms": 130.73599999999988,
+                  "peakRssKiB": 72180
+                },
+                {
+                  "ms": 121.06389999999965,
+                  "peakRssKiB": 71620
+                },
+                {
+                  "ms": 125.63049999999976,
+                  "peakRssKiB": 72616
+                },
+                {
+                  "ms": 123.61750000000029,
+                  "peakRssKiB": 72292
+                },
+                {
+                  "ms": 126.02130000000034,
+                  "peakRssKiB": 72612
+                },
+                {
+                  "ms": 121.95130000000063,
+                  "peakRssKiB": 72600
+                }
+              ]
+            }
+          },
+          {
+            "name": "max-model",
+            "requestsPerProcess": 16,
+            "expected": {
+              "status": "planned",
+              "stats": {
+                "nodes": 24,
+                "pruned": 0,
+                "decisions": 23,
+                "charged_work": 3108528
+              }
+            },
+            "samples": {
+              "candidate": [
+                {
+                  "ms": 102.84099999999944,
+                  "peakRssKiB": 59104
+                },
+                {
+                  "ms": 101.38760000000002,
+                  "peakRssKiB": 59600
+                },
+                {
+                  "ms": 102.64360000000033,
+                  "peakRssKiB": 59400
+                },
+                {
+                  "ms": 101.60559999999987,
+                  "peakRssKiB": 59208
+                },
+                {
+                  "ms": 102.05050000000028,
+                  "peakRssKiB": 59516
+                },
+                {
+                  "ms": 101.8751999999995,
+                  "peakRssKiB": 59380
+                },
+                {
+                  "ms": 103.57060000000001,
+                  "peakRssKiB": 59548
+                },
+                {
+                  "ms": 109.54149999999936,
+                  "peakRssKiB": 59712
+                },
+                {
+                  "ms": 125.10230000000047,
+                  "peakRssKiB": 59756
+                }
+              ],
+              "baseline": [
+                {
+                  "ms": 102.61470000000008,
+                  "peakRssKiB": 59136
+                },
+                {
+                  "ms": 102.5607,
+                  "peakRssKiB": 59060
+                },
+                {
+                  "ms": 101.6314999999995,
+                  "peakRssKiB": 58912
+                },
+                {
+                  "ms": 102.35910000000058,
+                  "peakRssKiB": 59428
+                },
+                {
+                  "ms": 102.00680000000011,
+                  "peakRssKiB": 59584
+                },
+                {
+                  "ms": 101.97830000000067,
+                  "peakRssKiB": 59436
+                },
+                {
+                  "ms": 104.9399000000003,
+                  "peakRssKiB": 59412
+                },
+                {
+                  "ms": 105.01270000000022,
+                  "peakRssKiB": 59432
+                },
+                {
+                  "ms": 108.18189999999959,
+                  "peakRssKiB": 59372
+                }
+              ]
+            }
+          },
+          {
+            "name": "tight-impossible",
+            "requestsPerProcess": 32,
+            "expected": {
+              "status": "unschedulable",
+              "stats": {
+                "nodes": 1439,
+                "pruned": 720,
+                "decisions": 719,
+                "charged_work": 3885037
+              }
+            },
+            "samples": {
+              "candidate": [
+                {
+                  "ms": 193.95279999999912,
+                  "peakRssKiB": 51616
+                },
+                {
+                  "ms": 186.38240000000042,
+                  "peakRssKiB": 51604
+                },
+                {
+                  "ms": 192.46310000000085,
+                  "peakRssKiB": 51840
+                },
+                {
+                  "ms": 202.42269999999917,
+                  "peakRssKiB": 51180
+                },
+                {
+                  "ms": 200.71229999999923,
+                  "peakRssKiB": 51768
+                },
+                {
+                  "ms": 181.9255000000012,
+                  "peakRssKiB": 51708
+                },
+                {
+                  "ms": 181.91270000000077,
+                  "peakRssKiB": 51904
+                },
+                {
+                  "ms": 179.46600000000035,
+                  "peakRssKiB": 54904
+                },
+                {
+                  "ms": 181.51670000000013,
+                  "peakRssKiB": 55040
+                }
+              ],
+              "baseline": [
+                {
+                  "ms": 197.15269999999873,
+                  "peakRssKiB": 52192
+                },
+                {
+                  "ms": 197.77299999999923,
+                  "peakRssKiB": 52176
+                },
+                {
+                  "ms": 202.61390000000029,
+                  "peakRssKiB": 52740
+                },
+                {
+                  "ms": 200.77839999999924,
+                  "peakRssKiB": 51668
+                },
+                {
+                  "ms": 182.04659999999967,
+                  "peakRssKiB": 51956
+                },
+                {
+                  "ms": 184.34300000000076,
+                  "peakRssKiB": 52020
+                },
+                {
+                  "ms": 182.8770000000004,
+                  "peakRssKiB": 51940
+                },
+                {
+                  "ms": 191.0654999999988,
+                  "peakRssKiB": 51856
+                },
+                {
+                  "ms": 183.7497999999996,
+                  "peakRssKiB": 52760
+                }
+              ]
+            }
+          },
+          {
+            "name": "exact-budgets",
+            "requestsPerProcess": 8,
+            "expected": {
+              "status": "planned",
+              "stats": {
+                "nodes": 24,
+                "pruned": 0,
+                "decisions": 23,
+                "charged_work": 3108528
+              }
+            },
+            "samples": {
+              "candidate": [
+                {
+                  "ms": 100.0069999999996,
+                  "peakRssKiB": 56564
+                },
+                {
+                  "ms": 99.09419999999955,
+                  "peakRssKiB": 56136
+                },
+                {
+                  "ms": 101.33479999999872,
+                  "peakRssKiB": 56300
+                },
+                {
+                  "ms": 99.90199999999822,
+                  "peakRssKiB": 56368
+                },
+                {
+                  "ms": 100.96949999999924,
+                  "peakRssKiB": 56908
+                },
+                {
+                  "ms": 99.73190000000068,
+                  "peakRssKiB": 56420
+                },
+                {
+                  "ms": 101.41530000000057,
+                  "peakRssKiB": 56468
+                },
+                {
+                  "ms": 100.94950000000063,
+                  "peakRssKiB": 56564
+                },
+                {
+                  "ms": 102.8169999999991,
+                  "peakRssKiB": 56700
+                }
+              ],
+              "baseline": [
+                {
+                  "ms": 101.61619999999857,
+                  "peakRssKiB": 57120
+                },
+                {
+                  "ms": 99.00749999999971,
+                  "peakRssKiB": 56296
+                },
+                {
+                  "ms": 100.14329999999973,
+                  "peakRssKiB": 57076
+                },
+                {
+                  "ms": 99.95930000000044,
+                  "peakRssKiB": 56452
+                },
+                {
+                  "ms": 102.09360000000015,
+                  "peakRssKiB": 56200
+                },
+                {
+                  "ms": 101.07599999999911,
+                  "peakRssKiB": 56468
+                },
+                {
+                  "ms": 99.41370000000097,
+                  "peakRssKiB": 56124
+                },
+                {
+                  "ms": 101.08050000000003,
+                  "peakRssKiB": 56480
+                },
+                {
+                  "ms": 113.00760000000082,
+                  "peakRssKiB": 56372
+                }
+              ]
+            }
+          },
+          {
+            "name": "node-limit",
+            "requestsPerProcess": 8,
+            "expected": {
+              "status": "error",
+              "code": "limit_exceeded",
+              "message": "planning node budget exhausted; no feasibility conclusion"
+            },
+            "samples": {
+              "candidate": [
+                {
+                  "ms": 101.16549999999916,
+                  "peakRssKiB": 55584
+                },
+                {
+                  "ms": 100.57699999999932,
+                  "peakRssKiB": 56140
+                },
+                {
+                  "ms": 100.37299999999959,
+                  "peakRssKiB": 56736
+                },
+                {
+                  "ms": 99.41240000000107,
+                  "peakRssKiB": 56208
+                },
+                {
+                  "ms": 100.92329999999856,
+                  "peakRssKiB": 56228
+                },
+                {
+                  "ms": 99.88110000000052,
+                  "peakRssKiB": 56080
+                },
+                {
+                  "ms": 101.31650000000081,
+                  "peakRssKiB": 56452
+                },
+                {
+                  "ms": 99.44939999999951,
+                  "peakRssKiB": 56416
+                },
+                {
+                  "ms": 100.85560000000078,
+                  "peakRssKiB": 56548
+                }
+              ],
+              "baseline": [
+                {
+                  "ms": 99.79219999999987,
+                  "peakRssKiB": 56352
+                },
+                {
+                  "ms": 101.24090000000069,
+                  "peakRssKiB": 56688
+                },
+                {
+                  "ms": 101.16449999999895,
+                  "peakRssKiB": 56544
+                },
+                {
+                  "ms": 101.3793999999998,
+                  "peakRssKiB": 56304
+                },
+                {
+                  "ms": 100.61859999999979,
+                  "peakRssKiB": 56312
+                },
+                {
+                  "ms": 99.44710000000123,
+                  "peakRssKiB": 56508
+                },
+                {
+                  "ms": 99.98630000000048,
+                  "peakRssKiB": 56428
+                },
+                {
+                  "ms": 101.1207000000013,
+                  "peakRssKiB": 56468
+                },
+                {
+                  "ms": 100.48319999999876,
+                  "peakRssKiB": 56348
+                }
+              ]
+            }
+          },
+          {
+            "name": "work-limit",
+            "requestsPerProcess": 8,
+            "expected": {
+              "status": "error",
+              "code": "limit_exceeded",
+              "message": "planning work budget exhausted; no feasibility conclusion"
+            },
+            "samples": {
+              "candidate": [
+                {
+                  "ms": 100.80659999999989,
+                  "peakRssKiB": 56152
+                },
+                {
+                  "ms": 100.9510999999984,
+                  "peakRssKiB": 56228
+                },
+                {
+                  "ms": 100.6255999999994,
+                  "peakRssKiB": 56588
+                },
+                {
+                  "ms": 102.09040000000095,
+                  "peakRssKiB": 56316
+                },
+                {
+                  "ms": 100.93289999999979,
+                  "peakRssKiB": 56244
+                },
+                {
+                  "ms": 100.51819999999861,
+                  "peakRssKiB": 56308
+                },
+                {
+                  "ms": 99.58079999999973,
+                  "peakRssKiB": 56208
+                },
+                {
+                  "ms": 99.58260000000155,
+                  "peakRssKiB": 56064
+                },
+                {
+                  "ms": 101.58580000000075,
+                  "peakRssKiB": 56124
+                }
+              ],
+              "baseline": [
+                {
+                  "ms": 100.51169999999911,
+                  "peakRssKiB": 56408
+                },
+                {
+                  "ms": 99.20070000000123,
+                  "peakRssKiB": 56192
+                },
+                {
+                  "ms": 100.78460000000268,
+                  "peakRssKiB": 56280
+                },
+                {
+                  "ms": 99.78460000000268,
+                  "peakRssKiB": 55980
+                },
+                {
+                  "ms": 100.52540000000226,
+                  "peakRssKiB": 56504
+                },
+                {
+                  "ms": 99.88580000000002,
+                  "peakRssKiB": 56396
+                },
+                {
+                  "ms": 102.08770000000004,
+                  "peakRssKiB": 56600
+                },
+                {
+                  "ms": 101.69010000000344,
+                  "peakRssKiB": 56656
+                },
+                {
+                  "ms": 100.26619999999821,
+                  "peakRssKiB": 56228
+                }
+              ]
+            }
+          }
+        ]
+      }
+    ],
+    "libraryRounds": [
+      {
+        "argumentOrder": [
+          "baseline",
+          "candidate"
+        ],
+        "recordedAt": "2026-11-18T16:58:29.719Z",
+        "node": "v24.14.0",
+        "callsPerSample": 500,
+        "processPairs": 3,
+        "warmupsPerProcess": 3,
+        "rows": [
+          {
+            "name": "maintenance",
+            "medianMs": {
+              "baseline": 1.751800000000003,
+              "candidate": 2.1041000000000025
+            },
+            "samples": {
+              "baseline": [
+                [2.547000000000004, 1.8721999999999994, 2.4299000000000035, 1.7042000000000002, 1.4130000000000038, 1.598700000000001, 1.4014000000000024, 1.9453000000000031, 1.4380999999999986],
+                [3.453099999999999, 2.4132999999999996, 1.9617999999999967, 1.9712999999999994, 1.5512999999999977, 1.6577000000000055, 1.5852000000000004, 1.8329999999999984, 2.115399999999994],
+                [1.934599999999996, 1.8770999999999987, 2.1482000000000028, 1.6435999999999993, 1.3344999999999985, 1.5227000000000004, 1.4757999999999996, 1.5384000000000029, 1.751800000000003]
+              ],
+              "candidate": [
+                [2.4391999999999996, 3.2956000000000003, 3.6899000000000015, 2.3932, 2.2883999999999958, 1.7420000000000044, 1.6283999999999992, 1.9320000000000022, 2.1093000000000046],
+                [2.572099999999999, 2.7087999999999965, 2.6223000000000027, 1.8455000000000013, 1.805499999999995, 1.9069000000000003, 1.751100000000001, 2.0563000000000002, 2.1041000000000025],
+                [2.1845, 2.6073999999999984, 2.7875000000000014, 1.6411999999999978, 1.6762000000000015, 2.120600000000003, 1.7596999999999952, 1.905700000000003, 1.4539999999999935]
+              ]
+            },
+            "work": "280500",
+            "checksum": "3000"
+          },
+          {
+            "name": "independent",
+            "medianMs": {
+              "baseline": 14.304099999999977,
+              "candidate": 9.133499999999998
+            },
+            "samples": {
+              "baseline": [
+                [15.470099999999988, 14.505299999999991, 14.124899999999997, 14.36120000000001, 13.783600000000007, 13.266699999999986, 15.900600000000026, 13.344400000000007, 14.508600000000001],
+                [16.524900000000002, 15.690399999999997, 13.591899999999995, 12.993100000000013, 13.68180000000001, 14.304099999999977, 14.141600000000011, 13.575399999999973, 13.537200000000013],
+                [15.12129999999999, 15.080699999999993, 13.420599999999993, 14.5561, 14.87469999999999, 13.574399999999997, 14.734099999999984, 15.543700000000001, 13.113699999999994]
+              ],
+              "candidate": [
+                [9.816400000000002, 9.644899999999993, 8.780800000000013, 8.734000000000009, 9.6233, 10.209699999999998, 8.915099999999995, 8.407699999999977, 7.79819999999998],
+                [14.231800000000007, 13.8322, 10.871200000000002, 9.054400000000001, 8.6734, 9.431200000000004, 9.177099999999996, 9.133499999999998, 9.126999999999981],
+                [9.246499999999997, 9.516599999999997, 8.917900000000003, 8.586000000000013, 8.436899999999994, 9.345200000000006, 8.575500000000005, 12.917400000000015, 8.33789999999999]
+              ]
+            },
+            "work": "61273500",
+            "checksum": "500"
+          },
+          {
+            "name": "distinct-resources",
+            "medianMs": {
+              "baseline": 14.390500000000003,
+              "candidate": 9.223700000000008
+            },
+            "samples": {
+              "baseline": [
+                [15.193399999999997, 15.11099999999999, 14.92580000000001, 14.486900000000006, 14.53230000000002, 14.634199999999993, 14.555499999999995, 14.85069999999999, 14.50279999999998],
+                [15.279600000000002, 15.0338, 14.35629999999999, 13.372799999999984, 14.036000000000001, 14.390500000000003, 13.130499999999984, 14.092500000000001, 13.99969999999999],
+                [14.917199999999994, 14.63900000000001, 13.400499999999994, 13.785600000000002, 13.37960000000001, 14.326999999999998, 13.241899999999987, 13.866199999999992, 13.892899999999997]
+              ],
+              "candidate": [
+                [9.864200000000011, 9.594499999999996, 8.774799999999999, 8.794600000000003, 9.223700000000008, 9.669200000000004, 9.269899999999993, 8.436099999999982, 8.104299999999995],
+                [10.05980000000001, 9.890599999999992, 9.0728, 9.281599999999997, 8.893799999999999, 9.568300000000008, 9.093400000000003, 9.19059999999999, 9.178899999999999],
+                [10.310400000000001, 10.033100000000005, 9.150199999999998, 9.346300000000014, 9.247899999999987, 9.817800000000005, 8.709500000000006, 9.181799999999981, 9.165600000000012]
+              ]
+            },
+            "work": "61273500",
+            "checksum": "500"
+          },
+          {
+            "name": "first-pair",
+            "medianMs": {
+              "baseline": 15.154200000000003,
+              "candidate": 10.239699999999985
+            },
+            "samples": {
+              "baseline": [
+                [15.66749999999999, 14.41510000000001, 14.581599999999995, 15.225799999999992, 15.338899999999995, 15.069600000000008, 15.154200000000003, 14.785699999999991, 14.764800000000008],
+                [15.502899999999997, 15.153500000000008, 14.993700000000004, 15.098099999999988, 15.520699999999977, 15.106499999999983, 17.242199999999997, 15.949900000000014, 14.92319999999998],
+                [15.556699999999992, 15.29979999999999, 15.021999999999991, 15.635899999999992, 14.876299999999986, 17.8887, 14.668900000000008, 15.429100000000005, 15.273799999999994]
+              ],
+              "candidate": [
+                [10.727099999999993, 9.617199999999997, 10.116100000000003, 10.362199999999987, 10.098699999999994, 11.703900000000019, 10.143500000000017, 9.259899999999988, 9.917000000000002],
+                [11.09299999999999, 10.151700000000005, 11.468099999999993, 9.923900000000003, 10.384, 10.124899999999982, 9.553200000000004, 10.272300000000001, 9.762200000000007],
+                [11.365200000000002, 11.850700000000003, 11.015600000000006, 9.9204, 10.239699999999985, 12.026399999999995, 10.533199999999994, 10.14240000000001, 13.1464]
+              ]
+            },
+            "work": "122572000",
+            "checksum": "1500"
+          },
+          {
+            "name": "last-pair",
+            "medianMs": {
+              "baseline": 16.191300000000012,
+              "candidate": 11.324699999999993
+            },
+            "samples": {
+              "baseline": [
+                [16.246499999999997, 16.191300000000012, 16.4957, 16.586299999999994, 16.060599999999994, 16.330899999999986, 15.815100000000001, 17.195999999999998, 17.726400000000012],
+                [17.739999999999995, 17.897599999999997, 17.591000000000008, 15.840900000000005, 16.038700000000006, 16.870000000000005, 15.691599999999994, 16.669399999999996, 15.398300000000006],
+                [15.997599999999991, 15.229, 17.610200000000006, 16.23859999999999, 15.443100000000015, 15.357099999999974, 15.596900000000005, 15.865199999999987, 15.459699999999998]
+              ],
+              "candidate": [
+                [12.05210000000001, 10.8335, 12.682600000000008, 11.202600000000004, 10.50800000000001, 10.669099999999986, 10.52109999999999, 11.814400000000006, 11.962700000000012],
+                [12.4058, 12.8703, 12.284999999999997, 11.573700000000002, 12.207400000000007, 13.013599999999997, 10.730500000000006, 14.939099999999996, 12.174800000000005],
+                [11.324699999999993, 11.007500000000007, 11.890199999999993, 10.611499999999992, 10.126700000000014, 11.217399999999998, 9.765199999999993, 10.570400000000006, 10.972899999999981]
+              ]
+            },
+            "work": "122572000",
+            "checksum": "2000"
+          },
+          {
+            "name": "four-resources",
+            "medianMs": {
+              "baseline": 56.77699999999999,
+              "candidate": 50.09030000000001
+            },
+            "samples": {
+              "baseline": [
+                [55.183299999999974, 58.735900000000015, 55.18990000000002, 55.01659999999998, 56.974199999999996, 56.64829999999995, 56.3284000000001, 57.245199999999954, 57.3202],
+                [55.172, 56.96109999999999, 55.32680000000005, 55.29570000000001, 55.463599999999985, 59.02569999999997, 57.29939999999999, 58.6801999999999, 59.69979999999998],
+                [56.51159999999999, 58.710800000000006, 54.88990000000001, 56.98059999999998, 56.77699999999999, 55.412800000000004, 57.97890000000007, 56.06299999999999, 58.4366]
+              ],
+              "candidate": [
+                [50.112299999999976, 51.50890000000001, 50.09030000000001, 52.87540000000001, 51.03249999999997, 52.51099999999997, 50.33009999999996, 50.14359999999999, 49.18669999999997],
+                [51.364900000000006, 50.52079999999998, 49.919299999999964, 51.019499999999994, 50.85060000000004, 50.53280000000001, 48.93720000000002, 49.11970000000008, 50.03250000000003],
+                [49.93300000000002, 50.073699999999974, 49.693100000000015, 50.3048, 50.08449999999999, 48.84749999999997, 48.21650000000005, 49.6327, 47.80809999999997]
+              ]
+            },
+            "work": "1291993500",
+            "checksum": "5500"
+          },
+          {
+            "name": "one-resource",
+            "medianMs": {
+              "baseline": 105.20849999999996,
+              "candidate": 100.9375
+            },
+            "samples": {
+              "baseline": [
+                [107.7378, 106.25989999999996, 104.41690000000006, 109.01279999999997, 104.26180000000011, 105.19770000000005, 105.40100000000007, 105.79370000000017, 106.98919999999998],
+                [104.84989999999999, 104.6232, 105.0788, 106.6055, 104.68920000000003, 104.90350000000001, 105.20849999999996, 105.53320000000008, 105.7460000000001],
+                [105.25669999999997, 107.06950000000006, 105.04510000000005, 106.61619999999994, 103.21579999999994, 106.50570000000005, 103.18679999999995, 104.91800000000012, 104.5757000000001]
+              ],
+              "candidate": [
+                [103.24809999999997, 99.60289999999998, 100.62189999999998, 101.94619999999998, 99.5616, 102.42960000000005, 100.2002, 102.90419999999995, 100.9375],
+                [107.899, 110.13409999999993, 98.40509999999995, 97.80799999999999, 100.80990000000008, 98.53059999999994, 99.6033000000001, 103.39589999999998, 98.3768],
+                [100.40249999999997, 101.608, 101.52550000000008, 102.2944, 101.98619999999994, 101.8139000000001, 100.87959999999998, 101.00599999999986, 99.846]
+              ]
+            },
+            "work": "1477464000",
+            "checksum": "23500"
+          },
+          {
+            "name": "max-root",
+            "medianMs": {
+              "baseline": 26.773499999999984,
+              "candidate": 17.766900000000007
+            },
+            "samples": {
+              "baseline": [
+                [28.429900000000004, 27.32929999999999, 27.16730000000001, 26.445699999999988, 26.814600000000013, 27.866000000000014, 26.524200000000008, 26.10899999999998, 26.563600000000008],
+                [27.0407, 26.923100000000005, 26.70769999999999, 26.773499999999984, 27.263200000000012, 27.74380000000002, 26.457400000000007, 27.50909999999999, 26.10730000000001],
+                [27.528800000000004, 27.535200000000003, 26.105799999999988, 26.690300000000008, 25.459900000000005, 26.329600000000028, 26.635899999999992, 26.867500000000007, 26.41500000000002]
+              ],
+              "candidate": [
+                [18.829399999999993, 17.396100000000004, 18.46860000000001, 16.592900000000014, 16.74030000000002, 17.140600000000006, 16.994100000000003, 17.2569, 17.841999999999985],
+                [19.8236, 18.386300000000006, 18.94399999999999, 18.9829, 18.670699999999982, 17.96860000000001, 17.968000000000018, 17.736400000000003, 16.95599999999999],
+                [17.705499999999986, 17.766900000000007, 17.31280000000001, 18.220400000000012, 17.012500000000017, 18.05959999999999, 17.281000000000006, 17.96860000000001, 17.67349999999999]
+              ]
+            },
+            "work": "64473500",
+            "checksum": "500"
+          },
+          {
+            "name": "max-model",
+            "medianMs": {
+              "baseline": 189.25670000000002,
+              "candidate": 180.08819999999992
+            },
+            "samples": {
+              "baseline": [
+                [192.22350000000006, 189.25670000000002, 187.78790000000004, 189.3112000000001, 199.84119999999984, 194.93499999999995, 196.45069999999987, 191.70540000000005, 194.06550000000016],
+                [191.92240000000004, 187.76390000000004, 188.1912000000001, 185.36339999999996, 185.48430000000008, 185.61860000000001, 200.74720000000002, 214.35770000000025, 193.40430000000015],
+                [193.68759999999997, 188.3594999999999, 186.38650000000007, 185.5915, 188.24829999999997, 184.85350000000017, 192.08359999999993, 186.6948, 186.4449999999997]
+              ],
+              "candidate": [
+                [178.8736, 180.3818, 186.35580000000004, 179.95489999999995, 181.79420000000005, 182.04120000000012, 184.8201999999999, 175.3252, 180.08819999999992],
+                [177.85849999999994, 176.79430000000002, 178.08409999999992, 181.3010999999999, 176.12360000000012, 179.7233000000001, 174.60410000000002, 177.3239000000001, 183.3085000000001],
+                [183.21889999999996, 179.71820000000002, 180.84000000000015, 181.75549999999998, 180.93509999999992, 179.47029999999995, 179.69249999999988, 180.90539999999987, 182.83290000000034]
+              ]
+            },
+            "work": "1554264000",
+            "checksum": "23500"
+          }
+        ]
+      },
+      {
+        "argumentOrder": [
+          "candidate",
+          "baseline"
+        ],
+        "recordedAt": "2026-11-18T16:59:04.728Z",
+        "node": "v24.14.0",
+        "callsPerSample": 500,
+        "processPairs": 3,
+        "warmupsPerProcess": 3,
+        "rows": [
+          {
+            "name": "maintenance",
+            "medianMs": {
+              "candidate": 1.9001999999999981,
+              "baseline": 1.7760000000000034
+            },
+            "samples": {
+              "candidate": [
+                [2.1925000000000026, 2.461500000000001, 3.1959000000000017, 1.9001999999999981, 1.4883000000000024, 1.7938000000000045, 1.596899999999998, 1.6723, 1.3725999999999985],
+                [2.277300000000004, 2.3093000000000004, 2.3031000000000006, 1.5640999999999963, 1.5663000000000054, 1.6540999999999997, 1.5401000000000025, 1.6195999999999984, 1.758800000000008],
+                [2.5452000000000012, 2.8481999999999985, 2.534799999999997, 2.0675999999999988, 2.1121999999999943, 1.7205000000000013, 1.6596000000000046, 1.9534999999999982, 1.9581000000000017]
+              ],
+              "baseline": [
+                [2.6600000000000037, 2.191899999999997, 2.8123999999999967, 1.4100000000000037, 1.2635999999999967, 1.3952000000000027, 1.2878000000000043, 1.439700000000002, 1.4979999999999976],
+                [2.3630000000000067, 2.1681000000000026, 2.241199999999999, 1.846499999999999, 1.6578000000000017, 1.741500000000002, 1.4667999999999992, 1.8110999999999962, 1.7760000000000034],
+                [2.3232, 2.2905000000000015, 2.539999999999999, 1.8226000000000013, 1.3569999999999993, 1.721900000000005, 1.4707000000000008, 1.6465000000000032, 1.796600000000005]
+              ]
+            },
+            "work": "280500",
+            "checksum": "3000"
+          },
+          {
+            "name": "independent",
+            "medianMs": {
+              "candidate": 8.84450000000001,
+              "baseline": 13.865899999999982
+            },
+            "samples": {
+              "candidate": [
+                [8.932099999999998, 9.4392, 8.484300000000005, 7.958500000000001, 8.116799999999998, 9.429700000000011, 7.943599999999989, 7.838899999999995, 8.076099999999997],
+                [9.856799999999993, 9.951999999999998, 8.8472, 8.350500000000011, 8.628, 8.922599999999989, 8.667599999999993, 8.350999999999999, 11.429700000000025],
+                [10.696799999999996, 10.149600000000007, 8.286900000000003, 8.236900000000006, 13.110600000000005, 9.786200000000008, 7.890000000000001, 8.972700000000003, 8.84450000000001]
+              ],
+              "baseline": [
+                [14.307000000000002, 15.224399999999989, 13.504400000000004, 13.586000000000013, 14.210000000000008, 14.032999999999987, 13.26769999999999, 13.627899999999983, 13.876300000000015],
+                [14.776600000000002, 14.02579999999999, 14.197599999999994, 13.865899999999982, 14.087799999999987, 14.168399999999991, 13.606200000000001, 13.121800000000007, 13.353200000000015],
+                [14.9234, 14.194900000000004, 13.800700000000006, 13.439599999999999, 13.790200000000027, 13.9692, 12.873000000000019, 13.719000000000023, 13.623500000000007]
+              ]
+            },
+            "work": "61273500",
+            "checksum": "500"
+          },
+          {
+            "name": "distinct-resources",
+            "medianMs": {
+              "candidate": 9.129899999999992,
+              "baseline": 14.245000000000005
+            },
+            "samples": {
+              "candidate": [
+                [10.511600000000001, 10.437399999999997, 8.85329999999999, 8.576999999999998, 9.214500000000001, 9.9208, 8.59190000000001, 8.6019, 8.31110000000001],
+                [9.2547, 9.80080000000001, 9.515100000000004, 8.587699999999998, 9.026699999999991, 9.3356, 9.697100000000006, 7.989099999999979, 8.5103],
+                [9.241100000000003, 9.912000000000006, 8.967500000000001, 9.416600000000003, 8.96929999999999, 9.540899999999993, 8.62439999999998, 7.940300000000008, 9.129899999999992]
+              ],
+              "baseline": [
+                [15.997199999999992, 14.678599999999989, 13.643699999999995, 14.795900000000003, 14.039500000000004, 14.056299999999993, 13.722999999999985, 13.982, 12.953599999999994],
+                [14.965000000000003, 14.982, 13.6965, 14.382900000000006, 14.02430000000001, 14.233699999999999, 13.325299999999999, 13.554200000000009, 14.443600000000004],
+                [14.932600000000008, 14.554699999999997, 14.861699999999999, 14.331599999999995, 14.260799999999989, 14.199399999999997, 14.365700000000004, 14.245000000000005, 13.574000000000012]
+              ]
+            },
+            "work": "61273500",
+            "checksum": "500"
+          },
+          {
+            "name": "first-pair",
+            "medianMs": {
+              "candidate": 10.058699999999988,
+              "baseline": 15.116700000000009
+            },
+            "samples": {
+              "candidate": [
+                [11.334299999999999, 10.091399999999993, 9.730899999999991, 13.802899999999994, 10.41419999999998, 10.963300000000004, 9.122899999999987, 10.448700000000002, 9.704700000000003],
+                [10.900199999999998, 9.75200000000001, 10.772900000000007, 10.87599999999999, 9.622699999999995, 10.921000000000006, 9.461900000000014, 9.894100000000009, 9.14840000000001],
+                [10.80380000000001, 11.015600000000006, 10.525000000000006, 9.983499999999992, 9.768600000000006, 9.968699999999998, 9.055599999999998, 9.016400000000004, 10.058699999999988]
+              ],
+              "baseline": [
+                [16.120800000000003, 15.453000000000003, 14.421199999999985, 15.822299999999984, 14.90809999999999, 16.169299999999993, 15.315100000000001, 14.997899999999987, 14.444699999999983],
+                [16.022299999999987, 15.104399999999998, 14.579400000000007, 14.963699999999989, 15.407199999999989, 14.7132, 14.768799999999999, 15.981200000000001, 14.750100000000003],
+                [16.032200000000003, 15.8048, 15.116700000000009, 15.021299999999997, 14.764600000000002, 15.500100000000003, 14.308899999999994, 15.45489999999998, 15.564999999999998]
+              ]
+            },
+            "work": "122572000",
+            "checksum": "1500"
+          },
+          {
+            "name": "last-pair",
+            "medianMs": {
+              "candidate": 10.281499999999994,
+              "baseline": 15.806299999999993
+            },
+            "samples": {
+              "candidate": [
+                [11.09360000000001, 9.990200000000002, 9.905999999999992, 10.951100000000011, 10.779399999999995, 10.685300000000012, 10.016199999999998, 10.67519999999999, 10.4966],
+                [10.728700000000003, 10.304200000000009, 10.007900000000006, 10.0278, 9.833300000000008, 10.75630000000001, 9.73490000000001, 9.63330000000002, 9.546500000000009],
+                [11.053600000000003, 10.185100000000006, 10.143500000000003, 10.503299999999996, 10.008800000000008, 12.251499999999993, 10.498499999999979, 10.281499999999994, 10.005500000000012]
+              ],
+              "baseline": [
+                [15.65100000000001, 15.815200000000004, 15.678000000000011, 15.714300000000009, 16.551600000000008, 16.1661, 15.663200000000018, 16.10300000000001, 15.59390000000002],
+                [16.379999999999995, 16.217200000000005, 15.0424, 16.61959999999999, 15.893399999999986, 16.314599999999984, 16.096599999999995, 14.900300000000016, 16.26490000000001],
+                [15.806299999999993, 15.163299999999992, 14.733299999999986, 15.705999999999989, 15.127499999999998, 15.383499999999998, 16.88900000000001, 16.888000000000005, 14.732699999999994]
+              ]
+            },
+            "work": "122572000",
+            "checksum": "2000"
+          },
+          {
+            "name": "four-resources",
+            "medianMs": {
+              "candidate": 49.662199999999984,
+              "baseline": 56.620000000000005
+            },
+            "samples": {
+              "candidate": [
+                [50.204999999999984, 49.662199999999984, 51.89359999999999, 49.43640000000005, 50.8134, 50.343200000000024, 49.130799999999965, 48.8445999999999, 49.36530000000005],
+                [52.3691, 51.238, 49.601500000000044, 50.0437, 51.12489999999997, 51.56290000000001, 49.97530000000006, 49.802299999999946, 49.30250000000001],
+                [50.65129999999999, 48.75169999999997, 48.97919999999999, 49.27010000000001, 49.61959999999999, 49.55590000000001, 50.27479999999997, 47.81079999999997, 47.53110000000004]
+              ],
+              "baseline": [
+                [56.33080000000001, 55.97319999999996, 55.81779999999998, 54.33589999999998, 56.16070000000002, 58.10919999999999, 55.3614, 55.57440000000008, 55.9289],
+                [57.41470000000001, 56.620000000000005, 53.663700000000006, 57.42320000000001, 57.18719999999996, 54.69579999999996, 58.200199999999995, 56.150999999999954, 57.34209999999996],
+                [54.82670000000002, 55.99270000000001, 59.85430000000002, 57.742200000000025, 58.18339999999995, 59.005499999999984, 58.266200000000026, 57.1232, 58.10509999999999]
+              ]
+            },
+            "work": "1291993500",
+            "checksum": "5500"
+          },
+          {
+            "name": "one-resource",
+            "medianMs": {
+              "candidate": 101.80029999999988,
+              "baseline": 109.93900000000008
+            },
+            "samples": {
+              "candidate": [
+                [102.6019, 105.66040000000004, 102.28430000000003, 105.55799999999999, 100.21960000000001, 127.30650000000003, 123.73360000000002, 116.25160000000005, 112.51710000000003],
+                [99.37020000000001, 104.9479, 105.08039999999994, 102.798, 102.98040000000003, 101.54379999999992, 99.21730000000002, 98.3949, 101.80029999999988],
+                [100.58510000000001, 99.57190000000003, 100.48609999999996, 98.66560000000004, 100.81450000000007, 101.07540000000006, 101.54950000000008, 104.21929999999998, 100.0036]
+              ],
+              "baseline": [
+                [115.22049999999996, 107.952, 115.34469999999999, 117.40049999999997, 111.21590000000003, 113.79480000000012, 112.72270000000003, 111.28680000000008, 109.93900000000008],
+                [105.59189999999995, 111.37180000000001, 111.06370000000004, 108.87150000000008, 106.34429999999998, 111.9914, 105.92070000000001, 106.67450000000008, 105.99299999999994],
+                [106.43040000000002, 105.33190000000002, 105.96399999999994, 108.41239999999993, 106.61739999999998, 105.3252, 112.47059999999999, 111.14760000000001, 114.66969999999992]
+              ]
+            },
+            "work": "1477464000",
+            "checksum": "23500"
+          },
+          {
+            "name": "max-root",
+            "medianMs": {
+              "candidate": 17.594499999999996,
+              "baseline": 27.511199999999974
+            },
+            "samples": {
+              "candidate": [
+                [18.315699999999993, 17.594499999999996, 17.421600000000012, 17.91549999999998, 17.7166, 17.2432, 18.267600000000016, 17.501499999999993, 17.435300000000012],
+                [17.787800000000004, 17.718299999999985, 16.50569999999999, 17.394300000000015, 16.8819, 17.5582, 17.140799999999984, 17.495900000000006, 18.352000000000004],
+                [19.042299999999997, 18.663600000000002, 18.8913, 19.082600000000014, 17.504700000000014, 17.7432, 17.2517, 18.27090000000001, 16.892100000000028]
+              ],
+              "baseline": [
+                [27.53110000000001, 26.694799999999987, 26.570099999999996, 27.094100000000026, 28.53569999999999, 25.945599999999956, 25.612299999999948, 27.62470000000002, 26.178200000000004],
+                [27.479, 27.000800000000027, 27.511199999999974, 29.82759999999999, 30.119200000000006, 28.342299999999966, 28.571900000000028, 28.35039999999998, 27.843500000000006],
+                [30.70949999999999, 28.05250000000001, 27.7192, 26.334399999999988, 27.944199999999967, 26.54759999999999, 26.24970000000002, 26.127700000000004, 26.621199999999988]
+              ]
+            },
+            "work": "64473500",
+            "checksum": "500"
+          },
+          {
+            "name": "max-model",
+            "medianMs": {
+              "candidate": 179.89539999999988,
+              "baseline": 190.04319999999996
+            },
+            "samples": {
+              "candidate": [
+                [182.4706, 181.0356999999999, 184.9788000000001, 181.7297000000001, 179.89539999999988, 178.94499999999994, 179.15319999999997, 179.50519999999983, 179.95370000000003],
+                [181.88049999999998, 178.4882, 180.84109999999987, 179.31179999999995, 181.16869999999994, 179.9469999999999, 178.55860000000007, 178.79830000000015, 182.01689999999985],
+                [180.58299999999997, 178.12559999999996, 174.96590000000003, 178.39170000000013, 175.7192, 177.16460000000006, 180.41820000000007, 175.92709999999988, 180.5992000000001]
+              ],
+              "baseline": [
+                [190.04319999999996, 189.0304, 188.92919999999992, 188.53419999999983, 188.05560000000014, 188.13490000000002, 191.16129999999998, 190.49640000000022, 187.42219999999998],
+                [198.976, 196.62300000000005, 191.86130000000003, 194.1615999999999, 189.92869999999994, 193.9143999999999, 193.89919999999984, 194.91650000000004, 199.15689999999995],
+                [191.57139999999993, 186.4026, 191.05739999999992, 188.7032999999999, 189.45039999999995, 188.30919999999992, 191.2428, 188.1286, 184.3735999999999]
+              ]
+            },
+            "work": "1554264000",
+            "checksum": "23500"
+          }
+        ]
+      }
+    ],
+    "numericControl": {
+      "recordedAt": "2026-11-18T16:59:25.026Z",
+      "node": "v24.14.0",
+      "samples": 9,
+      "includesProcessStartup": true,
+      "rows": [
+        {
+          "name": "disconnected",
+          "requestsPerSample": 8,
+          "currentMedianMs": 76.33399999999983,
+          "samplesMs": {
+            "current": [73.30040000000008, 74.40899999999999, 80.91340000000002, 81.82439999999997, 79.5507, 78.00720000000001, 73.86200000000008, 73.42810000000009, 76.33399999999983],
+            "baseline": [71.87489999999997, 78.88900000000001, 73.0951, 78.63279999999997, 87.52570000000003, 74.6135999999999, 78.03010000000017, 73.02290000000016, 72.952]
+          },
+          "baselineMedianMs": 74.6135999999999,
+          "speedup": 0.977462205570258
+        },
+        {
+          "name": "disconnected-budget-exhausted",
+          "requestsPerSample": 8,
+          "currentMedianMs": 70.10089999999991,
+          "samplesMs": {
+            "current": [69.72789999999986, 70.10089999999991, 68.38920000000007, 71.87810000000036, 70.57430000000022, 71.82929999999942, 73.70600000000013, 69.3116, 68.67960000000039],
+            "baseline": [69.08559999999989, 68.70719999999983, 79.48509999999987, 68.41509999999971, 69.16170000000011, 83.20859999999993, 71.24159999999938, 68.27269999999953, 69.89699999999993]
+          },
+          "baselineMedianMs": 69.16170000000011,
+          "speedup": 0.9866021691590293
+        },
+        {
+          "name": "chain",
+          "requestsPerSample": 8,
+          "currentMedianMs": 82.38619999999992,
+          "samplesMs": {
+            "current": [82.83169999999973, 82.38619999999992, 82.39830000000075, 81.45269999999982, 80.1820000000007, 83.78510000000006, 82.17150000000038, 93.40520000000015, 79.97809999999936],
+            "baseline": [79.59109999999964, 81.16920000000027, 78.48689999999988, 79.04179999999997, 80.16849999999977, 79.35590000000047, 79.47869999999966, 77.67650000000049, 79.72180000000026]
+          },
+          "baselineMedianMs": 79.47869999999966,
+          "speedup": 0.9647088954218029
+        },
+        {
+          "name": "chain-budget-exhausted",
+          "requestsPerSample": 8,
+          "currentMedianMs": 75.95489999999882,
+          "samplesMs": {
+            "current": [75.93529999999919, 75.92569999999978, 77.02870000000075, 75.69789999999921, 75.95489999999882, 77.06750000000102, 76.13340000000062, 75.95180000000073, 77.07669999999962],
+            "baseline": [77.62019999999939, 78.99490000000151, 75.62800000000061, 74.98329999999987, 75.88730000000032, 74.18730000000141, 91.72129999999925, 75.76770000000033, 74.61669999999867]
+          },
+          "baselineMedianMs": 75.76770000000033,
+          "speedup": 0.9975353795476198
+        },
+        {
+          "name": "connected",
+          "requestsPerSample": 8,
+          "currentMedianMs": 97.30149999999958,
+          "samplesMs": {
+            "current": [97.0596000000005, 99.73350000000028, 97.30149999999958, 96.85060000000158, 93.8057000000008, 96.42530000000079, 100.04420000000027, 107.19460000000072, 106.90959999999905],
+            "baseline": [98.98029999999926, 98.55950000000121, 100.4413999999997, 96.3213999999989, 99.22099999999955, 99.39949999999953, 97.21260000000075, 106.79190000000017, 106.63410000000113]
+          },
+          "baselineMedianMs": 99.22099999999955,
+          "speedup": 1.019727342332852
+        },
+        {
+          "name": "connected-budget-exhausted",
+          "requestsPerSample": 8,
+          "currentMedianMs": 100.60390000000189,
+          "samplesMs": {
+            "current": [99.00920000000042, 102.03160000000207, 100.78749999999854, 100.4323000000004, 101.15860000000248, 100.60390000000189, 102.01510000000053, 98.3318999999974, 99.84830000000147],
+            "baseline": [102.28129999999874, 101.7451000000001, 99.7403000000013, 101.3627000000015, 99.46260000000257, 101.49830000000293, 99.1150000000016, 101.41049999999814, 101.85859999999957]
+          },
+          "baselineMedianMs": 101.41049999999814,
+          "speedup": 1.0080175818233312
+        }
+      ]
+    }
+  },
+  "directIndexedEdges": {
+    "cliSha256": "4fddeb08fcf237666cc086c62025d840b49362aee17ba9e4baf9364dbc3d32ac",
+    "librarySha256": "f15683fd49e2677e29b7f8f18ab5476b036ef88ed7df5974f9a1c743f207c6ae",
+    "patch": [
+      "--- a/model.mbt",
+      "+++ b/model.mbt",
+      "@@ -93,27 +93,54 @@",
+      "   names : Array[String],",
+      "   constraints : Array[Constraint],",
+      " ) -> Network raise StnError {",
+      "+  let (_, edges) = compile_edges(names, constraints, (",
+      "+    id,",
+      "+    source,",
+      "+    target,",
+      "+    bound,",
+      "+    side,",
+      "+  ) => { id, from: names[source], to: names[target], bound, side, })",
+      "+  { names: names.copy(), edges, }",
+      "+}",
+      "+",
+      "+///|",
+      "+fn lookup_name(",
+      "+  index : Map[String, Int32],",
+      "+  name : String,",
+      "+) -> Int32 raise StnError {",
+      "+  guard index.get(name) is Some(i) else {",
+      "+    raise StnError(\"invalid_input\", \"unknown timepoint: \" + name)",
+      "+  }",
+      "+  i",
+      "+}",
+      "+",
+      "+///|",
+      "+fn[E] compile_edges(",
+      "+  names : Array[String],",
+      "+  constraints : Array[Constraint],",
+      "+  make_edge : (String, Int32, Int32, Int64, String) -> E,",
+      "+) -> (Map[String, Int32], Array[E]) raise StnError {",
+      "   if names.length() == 0 || names.length() > 64 || constraints.length() > 512 {",
+      "     raise StnError(",
+      "       \"limit_exceeded\", \"require 1..64 timepoints and at most 512 constraints\",",
+      "     )",
+      "   }",
+      "-  let seen : Map[String, Bool] = Map([])",
+      "-  for name in names {",
+      "-    if !valid_name(name) || seen.contains(name) {",
+      "+  let index : Map[String, Int32] = Map([])",
+      "+  for i, name in names {",
+      "+    if !valid_name(name) || index.contains(name) {",
+      "       raise StnError(\"invalid_input\", \"invalid or duplicate timepoint name\")",
+      "     }",
+      "-    seen[name] = true",
+      "+    index[name] = i",
+      "   }",
+      "   let ids : Map[String, Bool] = Map([])",
+      "-  let edges : Array[Edge] = []",
+      "+  let edges : Array[E] = []",
+      "   for c in constraints {",
+      "     if !valid_name(c.id) || ids.contains(c.id) {",
+      "       raise StnError(\"invalid_input\", \"invalid or duplicate constraint id\")",
+      "     }",
+      "     ids[c.id] = true",
+      "-    find_name(names, c.from) |> ignore",
+      "-    find_name(names, c.to) |> ignore",
+      "+    let from = lookup_name(index, c.from)",
+      "+    let to = lookup_name(index, c.to)",
+      "     if c.lower is None && c.upper is None {",
+      "       raise StnError(",
+      "         \"invalid_input\", \"constraint must have a lower or upper bound\",",
+      "@@ -128,25 +155,13 @@",
+      "     }",
+      "     // Reversed intervals are legitimate inconsistent constraints, not syntax errors.",
+      "     if c.upper is Some(v) {",
+      "-      edges.push({",
+      "-        id: c.id,",
+      "-        from: c.from,",
+      "-        to: c.to,",
+      "-        bound: v.to_int64(),",
+      "-        side: \"upper\",",
+      "-      })",
+      "+      edges.push(make_edge(c.id, from, to, v.to_int64(), \"upper\"))",
+      "     }",
+      "     if c.lower is Some(v) {",
+      "-      edges.push({",
+      "-        id: c.id,",
+      "-        from: c.to,",
+      "-        to: c.from,",
+      "-        bound: -v.to_int64(),",
+      "-        side: \"lower\",",
+      "-      })",
+      "-    }",
+      "-  }",
+      "-  { names: names.copy(), edges, }",
+      "+      edges.push(make_edge(c.id, to, from, -v.to_int64(), \"lower\"))",
+      "+    }",
+      "+  }",
+      "+  (index, edges)",
+      " }",
+      " ",
+      " ///|",
+      "--- a/planning.mbt",
+      "+++ b/planning.mbt",
+      "@@ -209,7 +209,7 @@",
+      " ///|",
+      " fn PlanBranch::compile(",
+      "   self : PlanBranch,",
+      "-  names : Array[String],",
+      "+  index : Map[String, Int32],",
+      " ) -> (Array[TemporalArc], Array[String]) raise StnError {",
+      "   guard self.order is Some((before, after)) else {",
+      "     return (self.arcs, self.rule_ids)",
+      "@@ -225,8 +225,8 @@",
+      "   if self.rule_ids.contains(id) {",
+      "     raise StnError(\"invalid_input\", \"invalid or duplicate constraint id\")",
+      "   }",
+      "-  let finish = find_name(names, point(before, true))",
+      "-  let start = find_name(names, point(after, false))",
+      "+  let finish = lookup_name(index, point(before, true))",
+      "+  let start = lookup_name(index, point(after, false))",
+      "   let arcs = self.arcs.copy()",
+      "   // finish(before) <= start(after) is a zero-weight lower-bound arc.",
+      "   arcs.push({ source: start, target: finish, bound: 0L, })",
+      "@@ -266,14 +266,14 @@",
+      "       \"invalid_input\", \"planning budgets: nodes 1..10000, work 1..100000000\",",
+      "     )",
+      "   }",
+      "-  let net = network(p.names, p.rules)",
+      "-  let n = net.names.length()",
+      "+  let (index, arcs) : (_, Array[TemporalArc]) = compile_edges(",
+      "+    p.names,",
+      "+    p.rules,",
+      "+    (_, source, target, bound, _) => { source, target, bound, },",
+      "+  )",
+      "+  let n = p.names.length()",
+      "   let stack : Array[PlanBranch] = [",
+      "-    {",
+      "-      arcs: indexed_arcs(net),",
+      "-      rule_ids: p.rules.map(rule => rule.id),",
+      "-      order: None,",
+      "-    },",
+      "+    { arcs, rule_ids: p.rules.map(rule => rule.id), order: None, },",
+      "   ]",
+      "   let mut nodes = 0",
+      "   let mut pruned = 0",
+      "@@ -285,7 +285,7 @@",
+      "         \"limit_exceeded\", \"planning node budget exhausted; no feasibility conclusion\",",
+      "       )",
+      "     }",
+      "-    let (arcs, rule_ids) = stack.pop().unwrap().compile(net.names)",
+      "+    let (arcs, rule_ids) = stack.pop().unwrap().compile(index)",
+      "     let e = arcs.length()",
+      "     // Keep the 0.2.0 full-solve charge while computing only a feasibility witness.",
+      "     let work = n * n * n + n * e + e + 2 * n"
+    ],
+    "cliRounds": [
+      {
+        "argumentOrder": [
+          "baseline",
+          "candidate"
+        ],
+        "node": "v24.14.0",
+        "platform": "win32",
+        "arch": "x64",
+        "recordedAt": "2026-11-18T16:59:55.469Z",
+        "warmupPairs": 2,
+        "samplesPerVariant": 9,
+        "rows": [
+          {
+            "name": "maintenance",
+            "requestsPerProcess": 64,
+            "expected": {
+              "status": "planned",
+              "stats": {
+                "nodes": 3,
+                "pruned": 1,
+                "decisions": 1,
+                "charged_work": 561
+              }
+            },
+            "samples": {
+              "baseline": [
+                {
+                  "ms": 78.72479999999996,
+                  "peakRssKiB": 49904
+                },
+                {
+                  "ms": 79.02359999999999,
+                  "peakRssKiB": 49904
+                },
+                {
+                  "ms": 81.63400000000001,
+                  "peakRssKiB": 49724
+                },
+                {
+                  "ms": 79.18020000000001,
+                  "peakRssKiB": 50240
+                },
+                {
+                  "ms": 80.13890000000015,
+                  "peakRssKiB": 50152
+                },
+                {
+                  "ms": 80.95900000000006,
+                  "peakRssKiB": 50368
+                },
+                {
+                  "ms": 82.78729999999996,
+                  "peakRssKiB": 51072
+                },
+                {
+                  "ms": 98.52570000000014,
+                  "peakRssKiB": 49616
+                },
+                {
+                  "ms": 79.38850000000002,
+                  "peakRssKiB": 50624
+                }
+              ],
+              "candidate": [
+                {
+                  "ms": 80.27049999999997,
+                  "peakRssKiB": 49576
+                },
+                {
+                  "ms": 83.73140000000001,
+                  "peakRssKiB": 49932
+                },
+                {
+                  "ms": 80.72859999999991,
+                  "peakRssKiB": 49672
+                },
+                {
+                  "ms": 79.81049999999993,
+                  "peakRssKiB": 49412
+                },
+                {
+                  "ms": 82.33120000000008,
+                  "peakRssKiB": 49632
+                },
+                {
+                  "ms": 81.65809999999988,
+                  "peakRssKiB": 49512
+                },
+                {
+                  "ms": 81.95630000000006,
+                  "peakRssKiB": 50600
+                },
+                {
+                  "ms": 92,
+                  "peakRssKiB": 50036
+                },
+                {
+                  "ms": 84.58210000000008,
+                  "peakRssKiB": 49852
+                }
+              ]
+            }
+          },
+          {
+            "name": "max-root",
+            "requestsPerProcess": 64,
+            "expected": {
+              "status": "planned",
+              "stats": {
+                "nodes": 1,
+                "pruned": 0,
+                "decisions": 0,
+                "charged_work": 128947
+              }
+            },
+            "samples": {
+              "baseline": [
+                {
+                  "ms": 121.04110000000037,
+                  "peakRssKiB": 71660
+                },
+                {
+                  "ms": 124.16769999999997,
+                  "peakRssKiB": 71376
+                },
+                {
+                  "ms": 121.41990000000033,
+                  "peakRssKiB": 71556
+                },
+                {
+                  "ms": 125.00860000000011,
+                  "peakRssKiB": 72020
+                },
+                {
+                  "ms": 128.7394000000004,
+                  "peakRssKiB": 71288
+                },
+                {
+                  "ms": 125.60429999999951,
+                  "peakRssKiB": 72472
+                },
+                {
+                  "ms": 122.22740000000067,
+                  "peakRssKiB": 72160
+                },
+                {
+                  "ms": 125.59360000000015,
+                  "peakRssKiB": 71728
+                },
+                {
+                  "ms": 119.17289999999957,
+                  "peakRssKiB": 71812
+                }
+              ],
+              "candidate": [
+                {
+                  "ms": 118.88099999999986,
+                  "peakRssKiB": 72428
+                },
+                {
+                  "ms": 133.08320000000003,
+                  "peakRssKiB": 72320
+                },
+                {
+                  "ms": 117.63959999999997,
+                  "peakRssKiB": 72332
+                },
+                {
+                  "ms": 132.4946,
+                  "peakRssKiB": 71852
+                },
+                {
+                  "ms": 146.77869999999984,
+                  "peakRssKiB": 72144
+                },
+                {
+                  "ms": 118.95460000000003,
+                  "peakRssKiB": 72844
+                },
+                {
+                  "ms": 130.15619999999944,
+                  "peakRssKiB": 72092
+                },
+                {
+                  "ms": 117.79820000000018,
+                  "peakRssKiB": 72152
+                },
+                {
+                  "ms": 135.29039999999986,
+                  "peakRssKiB": 71952
+                }
+              ]
+            }
+          },
+          {
+            "name": "max-model",
+            "requestsPerProcess": 16,
+            "expected": {
+              "status": "planned",
+              "stats": {
+                "nodes": 24,
+                "pruned": 0,
+                "decisions": 23,
+                "charged_work": 3108528
+              }
+            },
+            "samples": {
+              "baseline": [
+                {
+                  "ms": 104.46619999999984,
+                  "peakRssKiB": 59136
+                },
+                {
+                  "ms": 103.9973,
+                  "peakRssKiB": 59052
+                },
+                {
+                  "ms": 102.95129999999972,
+                  "peakRssKiB": 59576
+                },
+                {
+                  "ms": 103.55199999999968,
+                  "peakRssKiB": 59240
+                },
+                {
+                  "ms": 102.54290000000037,
+                  "peakRssKiB": 59152
+                },
+                {
+                  "ms": 113.88600000000042,
+                  "peakRssKiB": 59120
+                },
+                {
+                  "ms": 107.7483000000002,
+                  "peakRssKiB": 58916
+                },
+                {
+                  "ms": 103.04260000000068,
+                  "peakRssKiB": 59312
+                },
+                {
+                  "ms": 103.80500000000029,
+                  "peakRssKiB": 59328
+                }
+              ],
+              "candidate": [
+                {
+                  "ms": 102.6273000000001,
+                  "peakRssKiB": 59360
+                },
+                {
+                  "ms": 102.23530000000028,
+                  "peakRssKiB": 59324
+                },
+                {
+                  "ms": 101.82189999999991,
+                  "peakRssKiB": 59600
+                },
+                {
+                  "ms": 103.47850000000017,
+                  "peakRssKiB": 59424
+                },
+                {
+                  "ms": 104.47269999999935,
+                  "peakRssKiB": 59324
+                },
+                {
+                  "ms": 111.59979999999996,
+                  "peakRssKiB": 59072
+                },
+                {
+                  "ms": 103.29200000000037,
+                  "peakRssKiB": 59076
+                },
+                {
+                  "ms": 102.14570000000003,
+                  "peakRssKiB": 59272
+                },
+                {
+                  "ms": 102.73160000000007,
+                  "peakRssKiB": 59604
+                }
+              ]
+            }
+          },
+          {
+            "name": "tight-impossible",
+            "requestsPerProcess": 32,
+            "expected": {
+              "status": "unschedulable",
+              "stats": {
+                "nodes": 1439,
+                "pruned": 720,
+                "decisions": 719,
+                "charged_work": 3885037
+              }
+            },
+            "samples": {
+              "baseline": [
+                {
+                  "ms": 202.04290000000037,
+                  "peakRssKiB": 54756
+                },
+                {
+                  "ms": 187.04999999999927,
+                  "peakRssKiB": 52176
+                },
+                {
+                  "ms": 184.1247000000003,
+                  "peakRssKiB": 51944
+                },
+                {
+                  "ms": 201.27009999999973,
+                  "peakRssKiB": 52480
+                },
+                {
+                  "ms": 183.78089999999975,
+                  "peakRssKiB": 51992
+                },
+                {
+                  "ms": 190.59109999999964,
+                  "peakRssKiB": 51940
+                },
+                {
+                  "ms": 190.16040000000066,
+                  "peakRssKiB": 52724
+                },
+                {
+                  "ms": 185.79230000000098,
+                  "peakRssKiB": 51776
+                },
+                {
+                  "ms": 184.5627999999997,
+                  "peakRssKiB": 51896
+                }
+              ],
+              "candidate": [
+                {
+                  "ms": 178.5555000000004,
+                  "peakRssKiB": 51176
+                },
+                {
+                  "ms": 181.89480000000003,
+                  "peakRssKiB": 51844
+                },
+                {
+                  "ms": 181.73040000000037,
+                  "peakRssKiB": 51820
+                },
+                {
+                  "ms": 192.09840000000077,
+                  "peakRssKiB": 52304
+                },
+                {
+                  "ms": 180.72149999999965,
+                  "peakRssKiB": 51628
+                },
+                {
+                  "ms": 186.66029999999955,
+                  "peakRssKiB": 51860
+                },
+                {
+                  "ms": 180.0720999999994,
+                  "peakRssKiB": 52052
+                },
+                {
+                  "ms": 180.16740000000027,
+                  "peakRssKiB": 51676
+                },
+                {
+                  "ms": 175.19410000000062,
+                  "peakRssKiB": 51492
+                }
+              ]
+            }
+          },
+          {
+            "name": "exact-budgets",
+            "requestsPerProcess": 8,
+            "expected": {
+              "status": "planned",
+              "stats": {
+                "nodes": 24,
+                "pruned": 0,
+                "decisions": 23,
+                "charged_work": 3108528
+              }
+            },
+            "samples": {
+              "baseline": [
+                {
+                  "ms": 99.58959999999934,
+                  "peakRssKiB": 56320
+                },
+                {
+                  "ms": 100.26189999999951,
+                  "peakRssKiB": 56108
+                },
+                {
+                  "ms": 100.06880000000092,
+                  "peakRssKiB": 56400
+                },
+                {
+                  "ms": 101.34130000000005,
+                  "peakRssKiB": 56380
+                },
+                {
+                  "ms": 101.17690000000039,
+                  "peakRssKiB": 56504
+                },
+                {
+                  "ms": 102.65950000000157,
+                  "peakRssKiB": 56144
+                },
+                {
+                  "ms": 101.12179999999898,
+                  "peakRssKiB": 56176
+                },
+                {
+                  "ms": 100.64040000000023,
+                  "peakRssKiB": 56356
+                },
+                {
+                  "ms": 100.69380000000092,
+                  "peakRssKiB": 56476
+                }
+              ],
+              "candidate": [
+                {
+                  "ms": 101.46980000000076,
+                  "peakRssKiB": 56112
+                },
+                {
+                  "ms": 99.28120000000126,
+                  "peakRssKiB": 55860
+                },
+                {
+                  "ms": 101.45550000000003,
+                  "peakRssKiB": 56436
+                },
+                {
+                  "ms": 99.0593000000008,
+                  "peakRssKiB": 56288
+                },
+                {
+                  "ms": 100.4382999999998,
+                  "peakRssKiB": 56252
+                },
+                {
+                  "ms": 99.89050000000134,
+                  "peakRssKiB": 56164
+                },
+                {
+                  "ms": 99.73989999999867,
+                  "peakRssKiB": 55912
+                },
+                {
+                  "ms": 100.66109999999935,
+                  "peakRssKiB": 56084
+                },
+                {
+                  "ms": 109.92150000000038,
+                  "peakRssKiB": 56376
+                }
+              ]
+            }
+          },
+          {
+            "name": "node-limit",
+            "requestsPerProcess": 8,
+            "expected": {
+              "status": "error",
+              "code": "limit_exceeded",
+              "message": "planning node budget exhausted; no feasibility conclusion"
+            },
+            "samples": {
+              "baseline": [
+                {
+                  "ms": 99.48500000000058,
+                  "peakRssKiB": 56164
+                },
+                {
+                  "ms": 101.51980000000003,
+                  "peakRssKiB": 56292
+                },
+                {
+                  "ms": 101.42329999999856,
+                  "peakRssKiB": 56440
+                },
+                {
+                  "ms": 100.95579999999973,
+                  "peakRssKiB": 56688
+                },
+                {
+                  "ms": 99.68039999999928,
+                  "peakRssKiB": 56588
+                },
+                {
+                  "ms": 113.17469999999958,
+                  "peakRssKiB": 56396
+                },
+                {
+                  "ms": 99.14350000000013,
+                  "peakRssKiB": 56452
+                },
+                {
+                  "ms": 105.1867000000002,
+                  "peakRssKiB": 56244
+                },
+                {
+                  "ms": 102.04279999999926,
+                  "peakRssKiB": 56276
+                }
+              ],
+              "candidate": [
+                {
+                  "ms": 100.1257000000005,
+                  "peakRssKiB": 55904
+                },
+                {
+                  "ms": 101.820099999999,
+                  "peakRssKiB": 56076
+                },
+                {
+                  "ms": 101.62199999999939,
+                  "peakRssKiB": 56120
+                },
+                {
+                  "ms": 97.90269999999873,
+                  "peakRssKiB": 55960
+                },
+                {
+                  "ms": 101.36629999999968,
+                  "peakRssKiB": 56060
+                },
+                {
+                  "ms": 101.62589999999909,
+                  "peakRssKiB": 56128
+                },
+                {
+                  "ms": 100.9956000000002,
+                  "peakRssKiB": 56816
+                },
+                {
+                  "ms": 99.61229999999887,
+                  "peakRssKiB": 56192
+                },
+                {
+                  "ms": 107.15679999999884,
+                  "peakRssKiB": 56332
+                }
+              ]
+            }
+          },
+          {
+            "name": "work-limit",
+            "requestsPerProcess": 8,
+            "expected": {
+              "status": "error",
+              "code": "limit_exceeded",
+              "message": "planning work budget exhausted; no feasibility conclusion"
+            },
+            "samples": {
+              "baseline": [
+                {
+                  "ms": 94.10770000000048,
+                  "peakRssKiB": 56596
+                },
+                {
+                  "ms": 93.6323999999986,
+                  "peakRssKiB": 56204
+                },
+                {
+                  "ms": 93.83819999999832,
+                  "peakRssKiB": 56364
+                },
+                {
+                  "ms": 93.11620000000039,
+                  "peakRssKiB": 56416
+                },
+                {
+                  "ms": 93.40159999999742,
+                  "peakRssKiB": 55916
+                },
+                {
+                  "ms": 99.30560000000332,
+                  "peakRssKiB": 56184
+                },
+                {
+                  "ms": 102.24150000000009,
+                  "peakRssKiB": 56328
+                },
+                {
+                  "ms": 99.62850000000253,
+                  "peakRssKiB": 56312
+                },
+                {
+                  "ms": 101.21999999999753,
+                  "peakRssKiB": 56392
+                }
+              ],
+              "candidate": [
+                {
+                  "ms": 94.11750000000029,
+                  "peakRssKiB": 55968
+                },
+                {
+                  "ms": 95.41889999999694,
+                  "peakRssKiB": 56404
+                },
+                {
+                  "ms": 94.88810000000012,
+                  "peakRssKiB": 56024
+                },
+                {
+                  "ms": 96.24200000000201,
+                  "peakRssKiB": 56052
+                },
+                {
+                  "ms": 97.24539999999979,
+                  "peakRssKiB": 56180
+                },
+                {
+                  "ms": 100.95449999999983,
+                  "peakRssKiB": 56120
+                },
+                {
+                  "ms": 100.33510000000024,
+                  "peakRssKiB": 56336
+                },
+                {
+                  "ms": 99.29019999999946,
+                  "peakRssKiB": 56328
+                },
+                {
+                  "ms": 102.32790000000023,
+                  "peakRssKiB": 56088
+                }
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "argumentOrder": [
+          "candidate",
+          "baseline"
+        ],
+        "node": "v24.14.0",
+        "platform": "win32",
+        "arch": "x64",
+        "recordedAt": "2026-11-18T17:00:13.595Z",
+        "warmupPairs": 2,
+        "samplesPerVariant": 9,
+        "rows": [
+          {
+            "name": "maintenance",
+            "requestsPerProcess": 64,
+            "expected": {
+              "status": "planned",
+              "stats": {
+                "nodes": 3,
+                "pruned": 1,
+                "decisions": 1,
+                "charged_work": 561
+              }
+            },
+            "samples": {
+              "candidate": [
+                {
+                  "ms": 79.05639999999994,
+                  "peakRssKiB": 49640
+                },
+                {
+                  "ms": 79.57630000000006,
+                  "peakRssKiB": 49816
+                },
+                {
+                  "ms": 78.33339999999998,
+                  "peakRssKiB": 49952
+                },
+                {
+                  "ms": 79.71270000000004,
+                  "peakRssKiB": 49996
+                },
+                {
+                  "ms": 80.55420000000004,
+                  "peakRssKiB": 50592
+                },
+                {
+                  "ms": 79.95350000000008,
+                  "peakRssKiB": 49684
+                },
+                {
+                  "ms": 79.75720000000001,
+                  "peakRssKiB": 50464
+                },
+                {
+                  "ms": 80.2376999999999,
+                  "peakRssKiB": 49740
+                },
+                {
+                  "ms": 83.7938999999999,
+                  "peakRssKiB": 50336
+                }
+              ],
+              "baseline": [
+                {
+                  "ms": 79.41989999999998,
+                  "peakRssKiB": 51208
+                },
+                {
+                  "ms": 83.83799999999997,
+                  "peakRssKiB": 50028
+                },
+                {
+                  "ms": 80.48770000000002,
+                  "peakRssKiB": 49720
+                },
+                {
+                  "ms": 78.76059999999995,
+                  "peakRssKiB": 49820
+                },
+                {
+                  "ms": 81.81529999999998,
+                  "peakRssKiB": 49636
+                },
+                {
+                  "ms": 78.59619999999995,
+                  "peakRssKiB": 49896
+                },
+                {
+                  "ms": 82.57249999999999,
+                  "peakRssKiB": 49972
+                },
+                {
+                  "ms": 80.60120000000006,
+                  "peakRssKiB": 49664
+                },
+                {
+                  "ms": 80.14179999999988,
+                  "peakRssKiB": 50020
+                }
+              ]
+            }
+          },
+          {
+            "name": "max-root",
+            "requestsPerProcess": 64,
+            "expected": {
+              "status": "planned",
+              "stats": {
+                "nodes": 1,
+                "pruned": 0,
+                "decisions": 0,
+                "charged_work": 128947
+              }
+            },
+            "samples": {
+              "candidate": [
+                {
+                  "ms": 120.29329999999982,
+                  "peakRssKiB": 72924
+                },
+                {
+                  "ms": 126.02800000000025,
+                  "peakRssKiB": 72028
+                },
+                {
+                  "ms": 123.22899999999981,
+                  "peakRssKiB": 72072
+                },
+                {
+                  "ms": 134.92209999999977,
+                  "peakRssKiB": 71916
+                },
+                {
+                  "ms": 130.29259999999977,
+                  "peakRssKiB": 72632
+                },
+                {
+                  "ms": 119.48099999999977,
+                  "peakRssKiB": 71828
+                },
+                {
+                  "ms": 119.66650000000027,
+                  "peakRssKiB": 72172
+                },
+                {
+                  "ms": 124.26929999999993,
+                  "peakRssKiB": 73064
+                },
+                {
+                  "ms": 126.41820000000007,
+                  "peakRssKiB": 71780
+                }
+              ],
+              "baseline": [
+                {
+                  "ms": 123.20839999999998,
+                  "peakRssKiB": 71520
+                },
+                {
+                  "ms": 136.93679999999995,
+                  "peakRssKiB": 72684
+                },
+                {
+                  "ms": 127.19730000000027,
+                  "peakRssKiB": 71972
+                },
+                {
+                  "ms": 129.43769999999995,
+                  "peakRssKiB": 71720
+                },
+                {
+                  "ms": 136.63979999999992,
+                  "peakRssKiB": 72328
+                },
+                {
+                  "ms": 133.5392999999999,
+                  "peakRssKiB": 71824
+                },
+                {
+                  "ms": 121.34290000000055,
+                  "peakRssKiB": 71208
+                },
+                {
+                  "ms": 120.22689999999966,
+                  "peakRssKiB": 71276
+                },
+                {
+                  "ms": 125.43409999999949,
+                  "peakRssKiB": 72600
+                }
+              ]
+            }
+          },
+          {
+            "name": "max-model",
+            "requestsPerProcess": 16,
+            "expected": {
+              "status": "planned",
+              "stats": {
+                "nodes": 24,
+                "pruned": 0,
+                "decisions": 23,
+                "charged_work": 3108528
+              }
+            },
+            "samples": {
+              "candidate": [
+                {
+                  "ms": 103.38349999999991,
+                  "peakRssKiB": 59200
+                },
+                {
+                  "ms": 100.7418000000007,
+                  "peakRssKiB": 58176
+                },
+                {
+                  "ms": 105.78279999999995,
+                  "peakRssKiB": 59364
+                },
+                {
+                  "ms": 102.25830000000042,
+                  "peakRssKiB": 59520
+                },
+                {
+                  "ms": 98.8096999999998,
+                  "peakRssKiB": 59352
+                },
+                {
+                  "ms": 102.1880000000001,
+                  "peakRssKiB": 59816
+                },
+                {
+                  "ms": 102.25669999999991,
+                  "peakRssKiB": 59484
+                },
+                {
+                  "ms": 102.58740000000034,
+                  "peakRssKiB": 59156
+                },
+                {
+                  "ms": 102.19290000000001,
+                  "peakRssKiB": 59312
+                }
+              ],
+              "baseline": [
+                {
+                  "ms": 101.15949999999975,
+                  "peakRssKiB": 59052
+                },
+                {
+                  "ms": 105.1869999999999,
+                  "peakRssKiB": 59356
+                },
+                {
+                  "ms": 101.86189999999988,
+                  "peakRssKiB": 59088
+                },
+                {
+                  "ms": 101.51290000000063,
+                  "peakRssKiB": 59448
+                },
+                {
+                  "ms": 103.42470000000048,
+                  "peakRssKiB": 59596
+                },
+                {
+                  "ms": 103.61009999999987,
+                  "peakRssKiB": 59184
+                },
+                {
+                  "ms": 104.46669999999995,
+                  "peakRssKiB": 59636
+                },
+                {
+                  "ms": 103.24519999999939,
+                  "peakRssKiB": 59104
+                },
+                {
+                  "ms": 102.52460000000065,
+                  "peakRssKiB": 59500
+                }
+              ]
+            }
+          },
+          {
+            "name": "tight-impossible",
+            "requestsPerProcess": 32,
+            "expected": {
+              "status": "unschedulable",
+              "stats": {
+                "nodes": 1439,
+                "pruned": 720,
+                "decisions": 719,
+                "charged_work": 3885037
+              }
+            },
+            "samples": {
+              "candidate": [
+                {
+                  "ms": 182.57040000000052,
+                  "peakRssKiB": 51124
+                },
+                {
+                  "ms": 174.5607,
+                  "peakRssKiB": 51556
+                },
+                {
+                  "ms": 176.14840000000004,
+                  "peakRssKiB": 51440
+                },
+                {
+                  "ms": 176.17000000000007,
+                  "peakRssKiB": 51512
+                },
+                {
+                  "ms": 176.27000000000044,
+                  "peakRssKiB": 51712
+                },
+                {
+                  "ms": 179.1216000000004,
+                  "peakRssKiB": 51880
+                },
+                {
+                  "ms": 188.67020000000048,
+                  "peakRssKiB": 51772
+                },
+                {
+                  "ms": 178.1833999999999,
+                  "peakRssKiB": 51640
+                },
+                {
+                  "ms": 184.47270000000026,
+                  "peakRssKiB": 51672
+                }
+              ],
+              "baseline": [
+                {
+                  "ms": 180.6301000000003,
+                  "peakRssKiB": 51888
+                },
+                {
+                  "ms": 183.4315000000006,
+                  "peakRssKiB": 52108
+                },
+                {
+                  "ms": 179.72550000000047,
+                  "peakRssKiB": 51872
+                },
+                {
+                  "ms": 181.41140000000087,
+                  "peakRssKiB": 52108
+                },
+                {
+                  "ms": 197.8747000000003,
+                  "peakRssKiB": 53012
+                },
+                {
+                  "ms": 182.1135000000013,
+                  "peakRssKiB": 52200
+                },
+                {
+                  "ms": 183.76959999999963,
+                  "peakRssKiB": 52232
+                },
+                {
+                  "ms": 184.07010000000082,
+                  "peakRssKiB": 52104
+                },
+                {
+                  "ms": 195.59350000000086,
+                  "peakRssKiB": 52200
+                }
+              ]
+            }
+          },
+          {
+            "name": "exact-budgets",
+            "requestsPerProcess": 8,
+            "expected": {
+              "status": "planned",
+              "stats": {
+                "nodes": 24,
+                "pruned": 0,
+                "decisions": 23,
+                "charged_work": 3108528
+              }
+            },
+            "samples": {
+              "candidate": [
+                {
+                  "ms": 101.50870000000032,
+                  "peakRssKiB": 56224
+                },
+                {
+                  "ms": 100.74880000000121,
+                  "peakRssKiB": 56172
+                },
+                {
+                  "ms": 100.11340000000018,
+                  "peakRssKiB": 56252
+                },
+                {
+                  "ms": 107.56630000000041,
+                  "peakRssKiB": 57312
+                },
+                {
+                  "ms": 102.79389999999876,
+                  "peakRssKiB": 56256
+                },
+                {
+                  "ms": 96.5018,
+                  "peakRssKiB": 56356
+                },
+                {
+                  "ms": 95.5536000000011,
+                  "peakRssKiB": 56288
+                },
+                {
+                  "ms": 102.96749999999884,
+                  "peakRssKiB": 56504
+                },
+                {
+                  "ms": 100.97229999999945,
+                  "peakRssKiB": 56248
+                }
+              ],
+              "baseline": [
+                {
+                  "ms": 100.37489999999889,
+                  "peakRssKiB": 56332
+                },
+                {
+                  "ms": 99.46310000000085,
+                  "peakRssKiB": 56676
+                },
+                {
+                  "ms": 101.97409999999945,
+                  "peakRssKiB": 56328
+                },
+                {
+                  "ms": 107.01730000000134,
+                  "peakRssKiB": 56280
+                },
+                {
+                  "ms": 97.66129999999976,
+                  "peakRssKiB": 56328
+                },
+                {
+                  "ms": 95.95910000000003,
+                  "peakRssKiB": 56520
+                },
+                {
+                  "ms": 97.5604000000003,
+                  "peakRssKiB": 56244
+                },
+                {
+                  "ms": 99.86519999999837,
+                  "peakRssKiB": 56392
+                },
+                {
+                  "ms": 101.68059999999969,
+                  "peakRssKiB": 56512
+                }
+              ]
+            }
+          },
+          {
+            "name": "node-limit",
+            "requestsPerProcess": 8,
+            "expected": {
+              "status": "error",
+              "code": "limit_exceeded",
+              "message": "planning node budget exhausted; no feasibility conclusion"
+            },
+            "samples": {
+              "candidate": [
+                {
+                  "ms": 109.08100000000013,
+                  "peakRssKiB": 56012
+                },
+                {
+                  "ms": 94.91250000000036,
+                  "peakRssKiB": 56164
+                },
+                {
+                  "ms": 92.28319999999985,
+                  "peakRssKiB": 56300
+                },
+                {
+                  "ms": 92.42230000000018,
+                  "peakRssKiB": 56188
+                },
+                {
+                  "ms": 92.26550000000134,
+                  "peakRssKiB": 56312
+                },
+                {
+                  "ms": 92.75690000000031,
+                  "peakRssKiB": 56280
+                },
+                {
+                  "ms": 96.48940000000039,
+                  "peakRssKiB": 56076
+                },
+                {
+                  "ms": 99.46910000000025,
+                  "peakRssKiB": 56108
+                },
+                {
+                  "ms": 102.3174999999992,
+                  "peakRssKiB": 56112
+                }
+              ],
+              "baseline": [
+                {
+                  "ms": 92.85980000000018,
+                  "peakRssKiB": 56144
+                },
+                {
+                  "ms": 94.05839999999989,
+                  "peakRssKiB": 56388
+                },
+                {
+                  "ms": 116.03800000000047,
+                  "peakRssKiB": 56360
+                },
+                {
+                  "ms": 95.63979999999901,
+                  "peakRssKiB": 56424
+                },
+                {
+                  "ms": 94.40649999999914,
+                  "peakRssKiB": 56764
+                },
+                {
+                  "ms": 93.72240000000056,
+                  "peakRssKiB": 56416
+                },
+                {
+                  "ms": 99.38969999999972,
+                  "peakRssKiB": 56148
+                },
+                {
+                  "ms": 102.08699999999953,
+                  "peakRssKiB": 56412
+                },
+                {
+                  "ms": 98.87760000000162,
+                  "peakRssKiB": 56344
+                }
+              ]
+            }
+          },
+          {
+            "name": "work-limit",
+            "requestsPerProcess": 8,
+            "expected": {
+              "status": "error",
+              "code": "limit_exceeded",
+              "message": "planning work budget exhausted; no feasibility conclusion"
+            },
+            "samples": {
+              "candidate": [
+                {
+                  "ms": 91.8166999999994,
+                  "peakRssKiB": 56292
+                },
+                {
+                  "ms": 92.48860000000059,
+                  "peakRssKiB": 56208
+                },
+                {
+                  "ms": 94.1114000000016,
+                  "peakRssKiB": 56136
+                },
+                {
+                  "ms": 90.97869999999966,
+                  "peakRssKiB": 56108
+                },
+                {
+                  "ms": 99.65749999999753,
+                  "peakRssKiB": 56456
+                },
+                {
+                  "ms": 100.03499999999985,
+                  "peakRssKiB": 55944
+                },
+                {
+                  "ms": 102.01929999999993,
+                  "peakRssKiB": 56320
+                },
+                {
+                  "ms": 100.92749999999796,
+                  "peakRssKiB": 56028
+                },
+                {
+                  "ms": 100.23029999999926,
+                  "peakRssKiB": 56312
+                }
+              ],
+              "baseline": [
+                {
+                  "ms": 92.1887999999999,
+                  "peakRssKiB": 56664
+                },
+                {
+                  "ms": 91.60469999999987,
+                  "peakRssKiB": 56184
+                },
+                {
+                  "ms": 93.57489999999962,
+                  "peakRssKiB": 56172
+                },
+                {
+                  "ms": 106.63880000000063,
+                  "peakRssKiB": 56496
+                },
+                {
+                  "ms": 99.67599999999948,
+                  "peakRssKiB": 56072
+                },
+                {
+                  "ms": 101.42699999999968,
+                  "peakRssKiB": 56248
+                },
+                {
+                  "ms": 101.00350000000253,
+                  "peakRssKiB": 56172
+                },
+                {
+                  "ms": 99.57420000000275,
+                  "peakRssKiB": 55996
+                },
+                {
+                  "ms": 106.4377999999997,
+                  "peakRssKiB": 56324
+                }
+              ]
+            }
+          }
+        ]
+      }
+    ],
+    "libraryRounds": [
+      {
+        "argumentOrder": [
+          "baseline",
+          "candidate"
+        ],
+        "recordedAt": "2026-11-18T17:00:47.733Z",
+        "node": "v24.14.0",
+        "callsPerSample": 500,
+        "processPairs": 3,
+        "warmupsPerProcess": 3,
+        "rows": [
+          {
+            "name": "maintenance",
+            "medianMs": {
+              "baseline": 1.6534000000000049,
+              "candidate": 1.8387000000000029
+            },
+            "samples": {
+              "baseline": [
+                [2.1451999999999956, 1.8573000000000022, 2.2095999999999947, 1.572899999999997, 1.5752000000000024, 1.720399999999998, 1.4052000000000007, 1.5493000000000023, 1.4763999999999982],
+                [2.2436000000000007, 1.890900000000002, 2.4986999999999995, 1.7167999999999992, 1.6534000000000049, 1.7697000000000003, 1.5823999999999998, 1.4093000000000018, 1.591000000000001],
+                [2.3464000000000027, 1.8981999999999957, 2.4701999999999984, 1.8843999999999994, 1.4789999999999992, 1.5040000000000049, 1.379800000000003, 1.5367000000000033, 1.4819999999999993]
+              ],
+              "candidate": [
+                [2.0037999999999982, 2.0076000000000036, 2.590199999999996, 1.7164000000000001, 1.6796000000000006, 1.6030000000000015, 1.4243999999999986, 1.7327000000000012, 1.5936000000000021],
+                [2.366100000000003, 2.825000000000003, 2.938200000000002, 1.997399999999999, 1.914200000000001, 2.059199999999997, 1.6321999999999974, 1.8387000000000029, 1.8012000000000015],
+                [1.8718999999999966, 2.4057999999999993, 2.3933000000000035, 2.275800000000004, 1.5803000000000011, 1.5793999999999997, 1.4119000000000028, 1.5520999999999958, 1.506999999999998]
+              ]
+            },
+            "work": "280500",
+            "checksum": "3000"
+          },
+          {
+            "name": "independent",
+            "medianMs": {
+              "baseline": 14.5231,
+              "candidate": 8.642399999999995
+            },
+            "samples": {
+              "baseline": [
+                [14.864099999999993, 15.070999999999998, 14.629999999999995, 14.242100000000008, 13.993099999999998, 15.390199999999993, 14.5231, 14.538999999999987, 14.533299999999997],
+                [15.706299999999999, 15.123599999999996, 13.299599999999998, 13.725400000000008, 14.553599999999989, 14.063699999999983, 12.986599999999981, 14.02849999999998, 15.044600000000003],
+                [14.3168, 14.240200000000002, 14.801900000000003, 14.976400000000012, 14.888800000000003, 14.474400000000003, 13.403400000000005, 14.002699999999976, 14.021200000000022]
+              ],
+              "candidate": [
+                [11.04440000000001, 9.6768, 7.576899999999995, 8.18549999999999, 8.642399999999995, 9.084600000000009, 8.302299999999988, 8.369900000000001, 7.473099999999988],
+                [9.440900000000006, 9.262800000000013, 9.070099999999996, 10.343000000000004, 10.373599999999996, 9.227100000000007, 8.915700000000015, 9.615399999999994, 9.193900000000014],
+                [7.897900000000007, 9.677500000000009, 7.457299999999989, 7.137799999999999, 7.476200000000006, 7.6599000000000075, 6.978800000000007, 7.2113000000000085, 6.839100000000002]
+              ]
+            },
+            "work": "61273500",
+            "checksum": "500"
+          },
+          {
+            "name": "distinct-resources",
+            "medianMs": {
+              "baseline": 14.094400000000007,
+              "candidate": 7.787999999999997
+            },
+            "samples": {
+              "baseline": [
+                [14.862300000000005, 16.02300000000001, 13.795299999999997, 14.110899999999987, 14.120800000000003, 14.694299999999998, 13.216899999999981, 14.317299999999989, 13.50230000000002],
+                [15.572099999999992, 15.68610000000001, 14.047399999999996, 13.691199999999995, 13.739100000000008, 13.806700000000006, 13.062000000000012, 15.100200000000001, 13.447000000000003],
+                [14.534900000000007, 14.5501, 13.717099999999988, 14.094400000000007, 14.29170000000002, 14.435100000000006, 13.94550000000001, 13.630500000000012, 13.53279999999998]
+              ],
+              "candidate": [
+                [8.461999999999996, 8.531499999999994, 7.8947, 7.536500000000004, 8.00330000000001, 8.026799999999994, 7.392899999999997, 7.786899999999989, 7.787999999999997],
+                [9.184399999999997, 8.360100000000003, 7.2287000000000035, 7.900300000000001, 7.509399999999999, 7.4254999999999995, 7.543199999999999, 9.491, 7.783699999999996],
+                [8.389400000000002, 8.500799999999998, 7.584900000000005, 7.742399999999989, 7.980400000000003, 7.3670999999999935, 7.333500000000001, 9.062399999999997, 7.563499999999991]
+              ]
+            },
+            "work": "61273500",
+            "checksum": "500"
+          },
+          {
+            "name": "first-pair",
+            "medianMs": {
+              "baseline": 14.91040000000001,
+              "candidate": 8.775000000000006
+            },
+            "samples": {
+              "baseline": [
+                [14.91040000000001, 14.883300000000006, 15.652600000000007, 14.596599999999995, 14.0899, 14.867700000000013, 14.339499999999987, 14.768100000000004, 14.780299999999983],
+                [15.069699999999997, 15.56750000000001, 15.632100000000008, 14.950700000000012, 15.349999999999994, 14.999500000000012, 15.698300000000017, 14.935100000000006, 15.015000000000015],
+                [15.117199999999997, 14.643600000000006, 14.73790000000001, 14.763100000000009, 14.571500000000015, 15.042200000000008, 14.850200000000001, 15.520400000000024, 14.769899999999978]
+              ],
+              "candidate": [
+                [9.001800000000003, 8.84190000000001, 8.7838, 8.356200000000001, 8.165000000000006, 9.383899999999997, 9.019299999999987, 9.249899999999997, 8.931099999999986],
+                [8.6567, 8.775000000000006, 7.915399999999991, 8.285800000000009, 8.723500000000001, 8.966499999999996, 8.048099999999991, 8.543499999999995, 8.0257],
+                [9.892799999999994, 8.590499999999992, 8.281300000000002, 8.828999999999994, 8.823999999999998, 8.895399999999995, 8.36229999999999, 8.066699999999997, 10.699000000000012]
+              ]
+            },
+            "work": "122572000",
+            "checksum": "1500"
+          },
+          {
+            "name": "last-pair",
+            "medianMs": {
+              "baseline": 16.24600000000001,
+              "candidate": 9.149699999999996
+            },
+            "samples": {
+              "baseline": [
+                [16.630399999999995, 16.4337, 16.9499, 16.79159999999999, 17.583799999999997, 19.03709999999998, 16.846199999999982, 15.204000000000008, 19.830700000000007],
+                [16.24600000000001, 17.001800000000003, 18.72189999999999, 15.92779999999999, 15.34559999999999, 15.604399999999998, 16.183999999999997, 15.56819999999999, 16.346300000000014],
+                [15.872199999999992, 16.935500000000005, 15.405599999999993, 15.204100000000011, 16.03, 16.336900000000014, 15.461299999999994, 15.55589999999998, 15.058999999999997]
+              ],
+              "candidate": [
+                [9.768, 9.079000000000008, 8.947199999999995, 9.096199999999996, 9.988499999999988, 10.069299999999998, 9.3403, 9.335899999999981, 8.7543],
+                [10.211300000000008, 8.831599999999995, 8.959099999999992, 8.616100000000003, 9.418500000000009, 9.149699999999996, 8.822799999999987, 10.023799999999994, 8.638599999999997],
+                [9.156300000000002, 8.957100000000011, 9.616799999999998, 9.35260000000001, 8.99629999999999, 9.427300000000002, 8.587999999999994, 8.785899999999998, 9.176099999999991]
+              ]
+            },
+            "work": "122572000",
+            "checksum": "2000"
+          },
+          {
+            "name": "four-resources",
+            "medianMs": {
+              "baseline": 56.45969999999994,
+              "candidate": 46.90040000000005
+            },
+            "samples": {
+              "baseline": [
+                [54.94999999999999, 56.78910000000002, 56.057799999999986, 57.461900000000014, 56.1293, 54.668799999999976, 56.48809999999992, 55.06499999999994, 56.4153],
+                [55.80420000000001, 56.403999999999996, 56.85089999999997, 55.59800000000001, 56.54820000000001, 56.45969999999994, 54.4307, 56.42859999999996, 59.84280000000001],
+                [61.763799999999975, 60.63319999999999, 57.202200000000005, 56.63100000000003, 59.03890000000001, 56.50579999999991, 55.533000000000015, 55.52449999999999, 57.29370000000006]
+              ],
+              "candidate": [
+                [50.29069999999999, 46.710399999999964, 46.55740000000003, 46.86149999999998, 47.77780000000001, 48.49899999999997, 46.90040000000005, 45.68909999999994, 46.60889999999995],
+                [48.059, 48.63170000000002, 47.1121, 49.32330000000002, 48.48190000000005, 47.07960000000003, 47.462099999999964, 46.763900000000035, 46.313800000000015],
+                [48.9657, 47.3922, 46.22389999999996, 45.80650000000003, 47.19229999999999, 46.439099999999996, 45.63799999999998, 45.79380000000003, 46.65769999999998]
+              ]
+            },
+            "work": "1291993500",
+            "checksum": "5500"
+          },
+          {
+            "name": "one-resource",
+            "medianMs": {
+              "baseline": 107.07219999999995,
+              "candidate": 99.26190000000008
+            },
+            "samples": {
+              "baseline": [
+                [107.11740000000003, 106.29199999999997, 107.82600000000002, 111.04700000000003, 110.12379999999996, 111.72439999999995, 113.32380000000012, 108.35249999999996, 107.12480000000005],
+                [105.2364, 106.20189999999997, 107.4588, 109.56640000000004, 115.79019999999991, 104.99789999999996, 107.13710000000003, 104.41740000000004, 104.89609999999993],
+                [108.20859999999999, 107.07219999999995, 104.56110000000001, 105.94540000000006, 104.12040000000002, 104.98669999999993, 104.01339999999993, 104.2643999999998, 106.77559999999994]
+              ],
+              "candidate": [
+                [97.58120000000002, 99.48749999999995, 98.74549999999999, 98.29179999999997, 97.54060000000004, 99.60410000000002, 99.49119999999994, 101.98760000000016, 100.19290000000001],
+                [99.8483, 100.16790000000003, 99.68830000000003, 99.26190000000008, 98.5507, 99.49770000000001, 100.71710000000007, 99.5673999999999, 100.36770000000001],
+                [98.13920000000002, 98.59099999999995, 99.78750000000002, 96.149, 98.57129999999995, 97.70350000000008, 98.49969999999996, 97.9692, 97.71530000000007]
+              ]
+            },
+            "work": "1477464000",
+            "checksum": "23500"
+          },
+          {
+            "name": "max-root",
+            "medianMs": {
+              "baseline": 26.612099999999998,
+              "candidate": 14.33680000000001
+            },
+            "samples": {
+              "baseline": [
+                [27.233599999999996, 26.612099999999998, 26.937900000000013, 26.119699999999995, 26.280100000000004, 26.322900000000004, 26.523699999999963, 26.734399999999994, 27.41500000000002],
+                [27.894899999999993, 27.82249999999999, 26.34819999999999, 27.055200000000013, 27.03480000000002, 28.447400000000016, 26.073699999999974, 25.9443, 28.20119999999997],
+                [27.73790000000001, 30.684600000000017, 25.785200000000003, 25.891599999999983, 26.571500000000015, 26.27109999999999, 27.108900000000006, 25.053600000000017, 25.322900000000004]
+              ],
+              "candidate": [
+                [15.695000000000007, 14.22099999999999, 13.881100000000004, 14.558599999999998, 14.195300000000003, 14.44810000000001, 13.676199999999994, 13.87469999999999, 13.504700000000014],
+                [15.2607, 14.336299999999994, 14.090699999999998, 14.43259999999998, 14.798500000000018, 14.520499999999998, 14.793199999999985, 14.33680000000001, 14.155200000000008],
+                [15.442400000000006, 14.3981, 14.126199999999997, 14.318000000000012, 13.807600000000008, 16.419700000000006, 14.160800000000023, 20.074399999999997, 22.506100000000004]
+              ]
+            },
+            "work": "64473500",
+            "checksum": "500"
+          },
+          {
+            "name": "max-model",
+            "medianMs": {
+              "baseline": 189.97199999999998,
+              "candidate": 174.15560000000005
+            },
+            "samples": {
+              "baseline": [
+                [189.97199999999998, 190.38599999999997, 190.2179, 188.36760000000004, 189.57219999999984, 190.65869999999995, 195.2677000000001, 187.3186000000003, 188.48030000000017],
+                [189.86610000000007, 188.8717999999999, 189.95140000000015, 189.6748, 188.2364, 189.3922, 192.84259999999995, 188.1938, 190.41809999999987],
+                [196.68470000000002, 191.846, 192.36389999999994, 189.8021000000001, 192.76099999999997, 191.80849999999987, 193.11609999999996, 195.15530000000012, 187.56770000000006]
+              ],
+              "candidate": [
+                [174.02030000000002, 171.94990000000007, 172.0245000000001, 171.6525999999999, 175.5248999999999, 175.05680000000007, 173.7817, 171.37940000000003, 179.13010000000008],
+                [174.48969999999997, 172.44819999999993, 174.15560000000005, 177.33960000000002, 178.91499999999996, 180.11349999999993, 177.63369999999986, 174.53869999999984, 169.04729999999972],
+                [172.32439999999997, 172.93319999999994, 178.957, 181.9760000000001, 175.6894000000002, 172.89539999999988, 173.5503000000001, 172.87249999999995, 176.0577000000003]
+              ]
+            },
+            "work": "1554264000",
+            "checksum": "23500"
+          }
+        ]
+      },
+      {
+        "argumentOrder": [
+          "candidate",
+          "baseline"
+        ],
+        "recordedAt": "2026-11-18T17:01:22.254Z",
+        "node": "v24.14.0",
+        "callsPerSample": 500,
+        "processPairs": 3,
+        "warmupsPerProcess": 3,
+        "rows": [
+          {
+            "name": "maintenance",
+            "medianMs": {
+              "candidate": 1.578800000000001,
+              "baseline": 1.7336000000000027
+            },
+            "samples": {
+              "candidate": [
+                [2.2102000000000004, 2.0183000000000035, 2.3362999999999943, 1.4562999999999988, 1.4120999999999952, 1.5033999999999992, 1.3958000000000013, 1.956000000000003, 1.518899999999995],
+                [2.0655, 2.312199999999997, 2.6482000000000028, 1.7376000000000005, 1.798499999999997, 1.658300000000004, 1.3947000000000003, 1.578800000000001, 1.2852000000000032],
+                [2.034800000000004, 2.0709000000000017, 2.6084999999999994, 1.526299999999999, 1.3574999999999946, 1.473700000000001, 1.3900000000000006, 1.4774999999999991, 1.3864000000000019]
+              ],
+              "baseline": [
+                [2.299199999999999, 1.8736000000000033, 2.1244999999999976, 1.8506, 1.3274000000000044, 1.5004999999999953, 1.5512999999999977, 1.4996999999999971, 1.5516999999999967],
+                [2.1717999999999975, 2.023600000000002, 2.1378000000000057, 1.7336000000000027, 1.2986999999999966, 1.4151999999999987, 1.2641000000000062, 1.453000000000003, 1.3399],
+                [2.602800000000002, 1.8689000000000036, 2.2091999999999956, 2.033200000000001, 1.6777999999999977, 1.895699999999998, 1.7725000000000009, 1.6522000000000006, 1.5685000000000002]
+              ]
+            },
+            "work": "280500",
+            "checksum": "3000"
+          },
+          {
+            "name": "independent",
+            "medianMs": {
+              "candidate": 7.813699999999997,
+              "baseline": 14.23729999999999
+            },
+            "samples": {
+              "candidate": [
+                [8.145700000000005, 8.834600000000009, 7.430800000000005, 7.926500000000004, 7.328299999999999, 7.915999999999997, 7.326599999999999, 7.813699999999997, 7.212400000000002],
+                [8.10909999999999, 8.141900000000007, 7.242000000000004, 7.133200000000002, 7.243600000000001, 7.029399999999995, 7.328100000000006, 7.012600000000006, 7.187799999999996],
+                [8.281899999999993, 8.712099999999992, 7.704899999999995, 8.064000000000007, 8.290600000000012, 8.454300000000003, 7.758200000000002, 7.864100000000008, 8.703000000000003]
+              ],
+              "baseline": [
+                [14.3022, 14.322000000000003, 14.58359999999999, 14.23729999999999, 14.762900000000002, 14.403300000000002, 14.527500000000003, 13.697999999999979, 14.132999999999981],
+                [14.585799999999992, 15.179599999999994, 12.889700000000005, 13.3442, 13.341499999999996, 13.669899999999984, 13.305700000000002, 12.955799999999982, 12.641300000000001],
+                [14.520700000000005, 15.5638, 15.52039999999998, 14.594600000000014, 13.617400000000004, 14.39670000000001, 13.709399999999988, 13.0839, 13.406600000000026]
+              ]
+            },
+            "work": "61273500",
+            "checksum": "500"
+          },
+          {
+            "name": "distinct-resources",
+            "medianMs": {
+              "candidate": 7.4628999999999905,
+              "baseline": 13.914699999999982
+            },
+            "samples": {
+              "candidate": [
+                [8.462400000000002, 9.031400000000005, 7.399100000000004, 7.310099999999991, 7.994900000000001, 8.678600000000003, 7.094999999999999, 7.293899999999994, 7.281400000000005],
+                [8.146899999999995, 8.7534, 7.038399999999996, 7.4628999999999905, 7.30919999999999, 7.457800000000006, 7.330700000000007, 7.775999999999996, 7.512599999999992],
+                [8.238000000000007, 8.581199999999995, 7.1555000000000035, 7.17710000000001, 7.623000000000005, 7.727099999999993, 7.0257000000000005, 8.043300000000002, 7.020400000000009]
+              ],
+              "baseline": [
+                [15.081999999999994, 14.777999999999992, 13.741, 13.689299999999989, 13.250199999999978, 14.257199999999983, 13.7894, 14.088000000000022, 13.893900000000002],
+                [14.011299999999991, 15.569699999999997, 13.221199999999996, 13.84060000000001, 14.265500000000003, 13.620999999999981, 13.06910000000002, 13.914699999999982, 13.476300000000009],
+                [14.423899999999989, 14.273200000000003, 13.800399999999996, 13.669799999999995, 14.259899999999988, 14.30159999999998, 14.537800000000004, 14.468700000000013, 13.174000000000007]
+              ]
+            },
+            "work": "61273500",
+            "checksum": "500"
+          },
+          {
+            "name": "first-pair",
+            "medianMs": {
+              "candidate": 8.42349999999999,
+              "baseline": 15.051599999999993
+            },
+            "samples": {
+              "candidate": [
+                [8.931300000000007, 9.713800000000006, 8.568799999999996, 8.257500000000007, 8.641499999999994, 8.8403, 8.489400000000018, 8.022999999999996, 8.568999999999988],
+                [8.872800000000012, 8.42349999999999, 8.576999999999998, 8.201900000000009, 8.031800000000004, 8.211099999999988, 8.28670000000001, 8.240499999999997, 8.649100000000004],
+                [10.527600000000007, 8.367999999999995, 8.171400000000006, 7.8917, 8.506900000000002, 8.418000000000006, 8.366100000000003, 7.918600000000012, 8.4469]
+              ],
+              "baseline": [
+                [15.821200000000005, 14.747199999999992, 14.835999999999984, 15.271999999999991, 14.77940000000001, 15.939600000000013, 14.514800000000008, 14.72229999999999, 14.75200000000001],
+                [15.048699999999997, 14.701000000000008, 14.874799999999993, 15.4769, 14.311900000000009, 14.857499999999987, 15.385200000000026, 15.825299999999999, 15.457899999999995],
+                [15.58850000000001, 15.243200000000002, 15.051599999999993, 15.496899999999982, 14.66919999999999, 15.652999999999992, 14.875500000000017, 15.468500000000006, 15.244499999999988]
+              ]
+            },
+            "work": "122572000",
+            "checksum": "1500"
+          },
+          {
+            "name": "last-pair",
+            "medianMs": {
+              "candidate": 8.98830000000001,
+              "baseline": 15.351499999999987
+            },
+            "samples": {
+              "candidate": [
+                [10.277699999999996, 9.401600000000002, 8.080299999999994, 8.752700000000004, 8.540199999999999, 9.430999999999997, 8.287400000000005, 8.867599999999982, 8.22890000000001],
+                [9.8403, 8.759600000000006, 9.426199999999994, 9.553899999999999, 9.18010000000001, 9.057199999999995, 8.550300000000007, 8.98830000000001, 8.534700000000015],
+                [9.674500000000009, 9.51769999999999, 8.671199999999999, 9.258600000000001, 9.953699999999998, 8.615200000000002, 8.931999999999988, 8.633199999999988, 9.106500000000011]
+              ],
+              "baseline": [
+                [16.4649, 15.242599999999996, 15.087599999999995, 15.409899999999993, 15.263400000000019, 15.234400000000022, 15.27279999999999, 15.289500000000004, 14.898800000000023],
+                [15.880400000000009, 15.668099999999995, 15.16579999999999, 15.24199999999999, 15.416699999999992, 16.010699999999986, 15.587299999999999, 15.531800000000004, 15.351499999999987],
+                [15.856300000000005, 15.687699999999992, 15.967500000000001, 15.250900000000001, 15.018900000000002, 16.339, 15.050099999999986, 15.795199999999994, 14.840199999999982]
+              ]
+            },
+            "work": "122572000",
+            "checksum": "2000"
+          },
+          {
+            "name": "four-resources",
+            "medianMs": {
+              "candidate": 47.51290000000006,
+              "baseline": 56.455899999999986
+            },
+            "samples": {
+              "candidate": [
+                [48.09700000000001, 46.317699999999974, 46.994699999999966, 48.67909999999995, 46.709599999999966, 47.8913, 45.90680000000003, 47.42169999999999, 46.2355],
+                [49.1121, 47.52340000000004, 45.311199999999985, 47.37190000000004, 49.0874, 47.20660000000004, 47.26420000000002, 47.51290000000006, 45.55129999999997],
+                [48.4794, 48.03710000000001, 48.433100000000024, 48.002999999999986, 47.545799999999986, 47.95840000000004, 46.903399999999976, 48.327999999999975, 46.87549999999999]
+              ],
+              "baseline": [
+                [64.1738, 62.58300000000003, 61.09480000000002, 60.95830000000001, 58.12790000000001, 56.67529999999999, 55.895399999999995, 55.68139999999994, 57.95590000000004],
+                [55.20930000000001, 57.32560000000001, 53.94939999999997, 56.455899999999986, 56.58969999999999, 55.01989999999995, 57.56460000000004, 54.47180000000003, 58.749000000000024],
+                [53.988699999999966, 57.688800000000015, 54.2749, 55.364499999999964, 53.83969999999999, 56.087999999999965, 53.812200000000075, 54.100900000000024, 59.729600000000005]
+              ]
+            },
+            "work": "1291993500",
+            "checksum": "5500"
+          },
+          {
+            "name": "one-resource",
+            "medianMs": {
+              "candidate": 99.32350000000008,
+              "baseline": 107.1409000000001
+            },
+            "samples": {
+              "candidate": [
+                [96.80359999999996, 97.15460000000002, 96.53520000000003, 95.64749999999992, 97.0589, 97.39030000000002, 97.1902, 96.88529999999992, 98.4681999999998],
+                [100.3075, 106.12100000000004, 107.78500000000008, 104.41129999999998, 99.32350000000008, 98.87019999999995, 101.58069999999987, 99.32169999999996, 99.40980000000013],
+                [97.48200000000003, 103.24190000000004, 105.30239999999992, 100.89729999999997, 97.90509999999995, 100.36649999999997, 102.59599999999989, 99.83780000000002, 102.67900000000009]
+              ],
+              "baseline": [
+                [114.07339999999999, 115.91039999999998, 111.02779999999996, 106.91089999999997, 105.69479999999999, 107.0566, 107.1409000000001, 106.04019999999991, 105.60290000000009],
+                [104.16319999999996, 107.00610000000006, 106.6508, 107.5227000000001, 104.5193999999999, 106.80010000000004, 127.44340000000011, 104.22419999999988, 104.39990000000012],
+                [109.0367, 110.231, 110.17059999999992, 107.8809, 111.77660000000003, 109.50689999999997, 110.60000000000014, 112.47640000000001, 106.125]
+              ]
+            },
+            "work": "1477464000",
+            "checksum": "23500"
+          },
+          {
+            "name": "max-root",
+            "medianMs": {
+              "candidate": 14.93689999999998,
+              "baseline": 28.283500000000004
+            },
+            "samples": {
+              "candidate": [
+                [14.778800000000004, 15.076899999999995, 15.247299999999996, 16.663099999999986, 14.93689999999998, 13.940100000000001, 16.3416, 14.794100000000014, 15.465900000000005],
+                [15.355400000000003, 14.40849999999999, 14.633599999999987, 15.752600000000001, 13.84790000000001, 15.7911, 14.581800000000015, 14.542699999999996, 13.982799999999997],
+                [16.559799999999996, 14.334600000000009, 14.352599999999995, 15.182700000000011, 14.725500000000011, 15.723900000000015, 14.91579999999999, 15.213700000000017, 15.378299999999996]
+              ],
+              "baseline": [
+                [27.57249999999999, 28.62440000000001, 28.634799999999984, 28.236700000000013, 27.383399999999966, 29.222999999999956, 29.466999999999985, 27.25490000000002, 27.899900000000002],
+                [29.23219999999999, 28.05170000000001, 28.283500000000004, 29.518100000000004, 28.43859999999998, 28.376899999999978, 28.43149999999997, 29.204999999999984, 27.988400000000013],
+                [29.669999999999987, 28.639499999999998, 29.771599999999978, 26.838299999999975, 27.712099999999964, 28.12990000000002, 26.879099999999994, 26.976500000000044, 27.594799999999964]
+              ]
+            },
+            "work": "64473500",
+            "checksum": "500"
+          },
+          {
+            "name": "max-model",
+            "medianMs": {
+              "candidate": 178.71730000000002,
+              "baseline": 195.57409999999982
+            },
+            "samples": {
+              "candidate": [
+                [173.32889999999998, 180.91589999999997, 178.12720000000002, 177.5639000000001, 181.09080000000017, 181.4534000000001, 183.9817999999998, 186.14509999999996, 178.71730000000002],
+                [179.04150000000004, 181.01430000000005, 178.64640000000009, 179.01060000000007, 177.66179999999986, 177.01390000000015, 179.9369999999999, 177.98980000000006, 176.2335999999998],
+                [177.7351, 178.08270000000005, 190.1339999999999, 188.9362000000001, 181.01679999999988, 177.22569999999996, 175.1467, 176.16000000000008, 179.36509999999976]
+              ],
+              "baseline": [
+                [202.69169999999997, 198.71480000000008, 194.3197, 192.66689999999994, 192.0326, 187.71620000000007, 188.38750000000005, 185.6409000000001, 195.57409999999982],
+                [197.5702, 198.17319999999995, 200.19880000000012, 198.90359999999987, 192.35439999999994, 199.5766000000001, 197.115, 195.45849999999996, 193.29669999999987],
+                [202.59749999999997, 194.8660000000001, 196.77800000000002, 195.23419999999987, 200.2735, 204.4179999999999, 201.25580000000014, 192.8987000000002, 193.89090000000033]
+              ]
+            },
+            "work": "1554264000",
+            "checksum": "23500"
+          }
+        ]
+      }
+    ],
+    "numericControl": {
+      "recordedAt": "2026-11-18T17:01:42.636Z",
+      "node": "v24.14.0",
+      "samples": 9,
+      "includesProcessStartup": true,
+      "rows": [
+        {
+          "name": "disconnected",
+          "requestsPerSample": 8,
+          "currentMedianMs": 75.08789999999999,
+          "samplesMs": {
+            "current": [75.08789999999999, 76.43520000000001, 74.9959, 75.77510000000007, 73.69689999999991, 77.65549999999985, 71.86349999999993, 72.32159999999999, 77.30520000000001],
+            "baseline": [81.2699, 77.78410000000008, 74.70569999999998, 73.5127, 73.91830000000004, 73.31240000000003, 76.91399999999999, 71.68729999999982, 83.99539999999979]
+          },
+          "baselineMedianMs": 74.70569999999998,
+          "speedup": 0.9949099655204099
+        },
+        {
+          "name": "disconnected-budget-exhausted",
+          "requestsPerSample": 8,
+          "currentMedianMs": 72.92389999999978,
+          "samplesMs": {
+            "current": [73.12530000000015, 72.92389999999978, 74.51769999999988, 70.8725999999997, 91.24200000000019, 79.39270000000033, 70.24439999999959, 69.26540000000023, 71.31620000000021],
+            "baseline": [70.70539999999983, 79.83449999999993, 69.48509999999987, 89.7452000000003, 77.22400000000016, 75.19490000000042, 77.40719999999965, 70.39919999999984, 69.35339999999997]
+          },
+          "baselineMedianMs": 75.19490000000042,
+          "speedup": 1.031142053565438
+        },
+        {
+          "name": "chain",
+          "requestsPerSample": 8,
+          "currentMedianMs": 80.51049999999941,
+          "samplesMs": {
+            "current": [80.51049999999941, 78.2480999999998, 78.74080000000049, 82.28130000000056, 80.77939999999944, 80.64810000000034, 79.19889999999941, 80.40619999999944, 98.72140000000036],
+            "baseline": [79.71739999999954, 79.70910000000003, 83.82409999999982, 85.92839999999978, 81.84850000000006, 85.97860000000037, 82.26699999999983, 88.65570000000025, 80.8797999999997]
+          },
+          "baselineMedianMs": 82.26699999999983,
+          "speedup": 1.0218170300768277
+        },
+        {
+          "name": "chain-budget-exhausted",
+          "requestsPerSample": 8,
+          "currentMedianMs": 75.35150000000067,
+          "samplesMs": {
+            "current": [75.31840000000011, 76.43479999999909, 75.47280000000137, 75.09039999999914, 76.01870000000054, 74.99189999999908, 75.35150000000067, 77.40030000000115, 75.28439999999864],
+            "baseline": [75.28729999999996, 75.27269999999953, 73.96140000000014, 74.8064000000013, 74.98910000000069, 76.30689999999959, 74.89550000000054, 74.74279999999999, 75.2408000000014]
+          },
+          "baselineMedianMs": 74.98910000000069,
+          "speedup": 0.9951905403343002
+        },
+        {
+          "name": "connected",
+          "requestsPerSample": 8,
+          "currentMedianMs": 97.35109999999986,
+          "samplesMs": {
+            "current": [97.35659999999916, 97.070099999999, 97.16009999999915, 95.84989999999925, 97.35109999999986, 95.29029999999875, 100.73869999999988, 100.19260000000031, 98.8798999999999],
+            "baseline": [98.71470000000045, 98.6197000000011, 98.1885000000002, 97.8189999999995, 97.28319999999985, 98.6247999999996, 101.40729999999894, 100.06710000000021, 102.0048999999999]
+          },
+          "baselineMedianMs": 98.6247999999996,
+          "speedup": 1.013083570704386
+        },
+        {
+          "name": "connected-budget-exhausted",
+          "requestsPerSample": 8,
+          "currentMedianMs": 100.57340000000113,
+          "samplesMs": {
+            "current": [100.21270000000004, 100.57340000000113, 101.96419999999853, 101.12720000000263, 99.3775999999998, 100.72320000000036, 99.15020000000004, 101.71359999999913, 100.46330000000307],
+            "baseline": [100.98129999999946, 101.65209999999934, 100.91400000000067, 102.76650000000154, 98.24859999999899, 102.16589999999997, 101.06459999999788, 100.29579999999987, 101.00240000000122]
+          },
+          "baselineMedianMs": 101.00240000000122,
+          "speedup": 1.0042655413856953
+        }
+      ]
+    }
+  }
+}

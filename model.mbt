@@ -93,27 +93,55 @@ pub fn network(
   names : Array[String],
   constraints : Array[Constraint],
 ) -> Network raise StnError {
+  let (_, edges) = compile_edges(names, constraints, (
+    id,
+    source,
+    target,
+    bound,
+    side,
+  ) => { id, from: names[source], to: names[target], bound, side, })
+  { names: names.copy(), edges, }
+}
+
+///|
+fn lookup_name(
+  index : Map[String, Int32],
+  name : String,
+) -> Int32 raise StnError {
+  guard index.get(name) is Some(i) else {
+    raise StnError("invalid_input", "unknown timepoint: " + name)
+  }
+  i
+}
+
+///|
+/// Validate names and rules in input order and emit upper then lower edges.
+fn[E] compile_edges(
+  names : Array[String],
+  constraints : Array[Constraint],
+  make_edge : (String, Int32, Int32, Int64, String) -> E,
+) -> (Map[String, Int32], Array[E]) raise StnError {
   if names.length() == 0 || names.length() > 64 || constraints.length() > 512 {
     raise StnError(
       "limit_exceeded", "require 1..64 timepoints and at most 512 constraints",
     )
   }
-  let seen : Map[String, Bool] = Map([])
-  for name in names {
-    if !valid_name(name) || seen.contains(name) {
+  let index : Map[String, Int32] = Map([])
+  for i, name in names {
+    if !valid_name(name) || index.contains(name) {
       raise StnError("invalid_input", "invalid or duplicate timepoint name")
     }
-    seen[name] = true
+    index[name] = i
   }
   let ids : Map[String, Bool] = Map([])
-  let edges : Array[Edge] = []
+  let edges : Array[E] = []
   for c in constraints {
     if !valid_name(c.id) || ids.contains(c.id) {
       raise StnError("invalid_input", "invalid or duplicate constraint id")
     }
     ids[c.id] = true
-    find_name(names, c.from) |> ignore
-    find_name(names, c.to) |> ignore
+    let from = lookup_name(index, c.from)
+    let to = lookup_name(index, c.to)
     if c.lower is None && c.upper is None {
       raise StnError(
         "invalid_input", "constraint must have a lower or upper bound",
@@ -128,25 +156,13 @@ pub fn network(
     }
     // Reversed intervals are legitimate inconsistent constraints, not syntax errors.
     if c.upper is Some(v) {
-      edges.push({
-        id: c.id,
-        from: c.from,
-        to: c.to,
-        bound: v.to_int64(),
-        side: "upper",
-      })
+      edges.push(make_edge(c.id, from, to, v.to_int64(), "upper"))
     }
     if c.lower is Some(v) {
-      edges.push({
-        id: c.id,
-        from: c.to,
-        to: c.from,
-        bound: -v.to_int64(),
-        side: "lower",
-      })
+      edges.push(make_edge(c.id, to, from, -v.to_int64(), "lower"))
     }
   }
-  { names: names.copy(), edges, }
+  (index, edges)
 }
 
 ///|
@@ -173,7 +189,7 @@ pub fn Solution::bounds(
 
 ///|
 pub fn version() -> String {
-  "0.2.4"
+  "0.2.5"
 }
 
 ///|

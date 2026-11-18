@@ -70,6 +70,7 @@ function benchmarkCli() {
   const {nodes, charged_work} = complete.stats;
   const cases = [
     ['maintenance', ordinary, 64, 'planned'],
+    ['max-root', {...full, tasks: full.tasks.map(task => ({...task, resource: task.id}))}, 64, 'planned'],
     ['max-model', full, 16, 'planned'],
     ['tight-impossible', tight, 32, 'unschedulable'],
     ['exact-budgets', {...full, max_nodes: nodes, max_work: charged_work}, 8, 'planned'],

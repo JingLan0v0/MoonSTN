@@ -2,6 +2,50 @@
 
 Project MoonSTN / JingLan0v0/stn, published 0.2.4.
 
+## Planning predecessor review — 2026-11-19
+
+Baseline `5331298` uses the 0.2.4 runtime. Two MoonBit candidates tested
+whether avoiding predecessor allocation and writes speeds up planning.
+One passed an optional array to the shared relaxation loop. The other
+specialized the loop for an array in numeric solves and for a no-op
+recorder in planning. The generated JS used separate loops for the
+specialized build. Both candidates kept numeric certificate construction.
+
+Each CLI comparison used two warm-up pairs and nine measured pairs. Each
+library comparison used four process pairs, with three warm-ups and nine
+samples per process. The second measurement round reversed the argument
+order. CLI timings include startup and transport. Library timings cover
+16 solves on a prepared model. All measured planning outputs matched.
+
+| Tight unschedulable model, median ms | Round 1 baseline → candidate | Round 2 baseline → candidate |
+|---|---:|---:|
+| Optional array, 32 CLI requests | 191.27 → 189.75 | 189.29 → 189.44 |
+| Optional array, 16 library calls | 45.85 → 46.24 | 45.08 → 45.60 |
+| Specialized recorder, 32 CLI requests | 188.32 → 184.09 | 183.59 → 186.41 |
+| Specialized recorder, 16 library calls | 45.35 → 45.73 | 45.76 → 46.32 |
+
+The specialized candidate was 2.2% faster in the first tight CLI round
+and 1.5% slower in the second. Both library rounds were slightly slower.
+The ordinary and maximum-model CLI controls also varied by round. Median
+peak process RSS for tight CLI batches varied by less than 300 KiB within
+each pair. In one numeric run, all six graph and budget combinations and
+30 additional limit comparisons matched. The dense budget-exhausted
+scenario's median rose from 91.45 to 96.67 ms in that run.
+
+The specialized candidate passed full local debug and release verification,
+including 25 unit tests, 4,096 numeric networks and 1,794 planning cases
+per mode. Ordered negative cycles, schedules, search statistics and budget
+errors matched the baseline CLI. Generated interfaces and PowerShell smoke
+passed. The observed timings support retaining the 0.2.4 implementation.
+
+The evidence file contains both source patches, binary hashes and ordered
+samples. Join the `patch` array with newlines and add a final newline to
+apply a candidate to a copy of the baseline with `git apply`. Build the
+release CLI and library fixture with the pinned toolchain. Use
+`scripts/benchmark-deep-search.mjs` and its `--library` mode as in the
+deep-search reproduction. Use `scripts/benchmark.mjs` for the numeric
+control. [Raw samples and candidate patches](planning-predecessor-review.json)
+
 ## Larger planning models — 2026-11-19
 
 The verifier adds 98 independent comparisons against a fresh release build

@@ -1,10 +1,16 @@
 # Continue MoonSTN optimization
 
 The [optimization roadmap](optimization-roadmap.md) records the next measurement
-and its acceptance criteria. The larger-model verifier adds 98 comparisons
-on 8–24 tasks with multiple resources, mixed dependencies and tight windows.
-Both build modes matched the 0.2.4 baseline. Next, measure the cost of tracking
-predecessors during planning. [Verification evidence](acceptance.md)
+and its acceptance criteria. Two predecessor-recording candidates were
+benchmarked. Tight-window CLI and library timings support retaining the
+0.2.4 solver. Next, measure planning arc indexing and name lookup.
+[Measurements](planning-predecessor-review.json)
+
+## Larger planning models — 2026-11-19
+
+The verifier adds 98 comparisons on 8–24 tasks with multiple resources,
+mixed dependencies and tight windows. Both build modes matched the 0.2.4
+baseline. [Verification evidence](acceptance.md)
 
 ## Deep-search profiling — 2026-11-19
 

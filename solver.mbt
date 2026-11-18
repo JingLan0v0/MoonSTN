@@ -94,8 +94,9 @@ fn relax(
   let mut changed = -1
   for _round = 0; _round < n; _round = _round + 1 {
     changed = -1
+    // A pass visits every arc. Reserve it before writing any local values.
+    budget.charge(arcs.length())
     for i = 0; i < arcs.length(); i = i + 1 {
-      budget.tick()
       let { source: a, target: b, bound, } = arcs[i]
       let candidate = values[a] + bound
       if candidate < values[b] {

@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.2.4 — 2026-11-19
+
+- Reserve the cost of each complete relaxation pass once. Tight, exhaustive
+  resource searches spend less time charging individual arcs.
+- Cover the numeric conflict-certificate budget boundary and add paired
+  deep-search benchmarks with exact limits, recovery and peak process memory.
+
 ## 0.2.3 — published, 2026-11-18
 
 - Stop scanning task pairs at the first resource conflict in input order and

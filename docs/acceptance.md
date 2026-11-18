@@ -1,6 +1,59 @@
-# Acceptance evidence — updated 2026-11-18
+# Acceptance evidence — updated 2026-11-19
 
 Project MoonSTN / JingLan0v0/stn, published 0.2.3.
+
+## Deep-search profiling and relaxation budget — 2026-11-19
+
+Baseline `564faa9` runs the published 0.2.3 algorithms. Six unit-duration
+tasks sharing a five-unit window require 1,439 nodes, 720 prunes, 719 decisions
+and 3,885,037 work units to prove infeasibility. A 24-task, 64-dependency
+single-resource case finishes in 24 nodes and 3,108,528 work units.
+
+In a baseline CPU profile, relaxation accounted for 289 of 533 self samples
+on the tight case and 35 of 202 on the maximum model. In a separate instrumented
+public-library run (194 plan calls including two boundary errors), relaxation
+took 499.8 ms of 717.3 ms total. Branch compilation took 149.7 ms inclusive,
+of which the two array copies took 35.2 ms. Wrapper timing adds overhead.
+A diagnostic library build omitting predecessor allocation and writes measured
+46.56 ms vs 49.40 ms per 16 calls. This comparison includes code-generation
+effects. The production change targets the relaxation loop and retains the
+predecessors used to recover an ordered conflict certificate.
+
+0.2.4 reserves a whole arc scan at the start of each Bellman–Ford pass. Each
+started pass visits every arc before testing for early termination. An
+insufficient budget raises the existing error, and all intermediate data are
+local to that solve. The order of updates and the number of billable arcs
+on a completed pass are identical.
+
+| Windows release measurement | 0.2.3, ms | Candidate, ms |
+|---|---:|---:|
+| CLI, 32 tight unschedulable requests, round 1 | 193.00 | 184.80 |
+| Same batch, reversed starting order, round 2 | 198.52 | 187.02 |
+| Library, 16 calls on one prepared tight model | 48.60 | 45.38 |
+| CLI, 16 maximum-model requests, rounds 1 / 2 | 105.51 / 110.00 | 103.63 / 110.91 |
+| CLI, 64 maintenance requests, rounds 1 / 2 | 81.04 / 82.83 | 82.48 / 82.56 |
+
+The tight CLI batches took 4.2% and 5.8% less time. Their median peak process RSS
+was 52,120 / 52,184 KiB for baseline and 52,140 / 52,168 KiB for candidate.
+The library median fell 6.6%. The ordinary and maximum-model controls varied
+in direction. The numeric control exercised all six graph/budget combinations
+and 30 extra budget checks. All measured outputs matched.
+
+Reproduce with the pinned toolchain, Node 24.14.0 and two release CLI builds.
+Run `node scripts/benchmark-deep-search.mjs BASE.js CANDIDATE.js`, then reverse
+the arguments. Each case has two warm-up and nine measured pairs. Set
+`MOONSTN_CPU_DIR` to an existing directory for separate baseline CPU profiles.
+For each library build, copy `scripts/fixtures/deep-search-benchmark.mbt` as
+`deepbench/main.mbt` and `examples/library/moon.pkg` as `deepbench/moon.pkg`,
+then run `moon build deepbench --target js --release`. Pass both resulting JS
+files to the same script after `--library`. Four alternating process pairs
+each warm up three times and record nine samples.
+[Timings, peak RSS, search statistics and profiles](optimization-0.2.4.json)
+
+Local debug and release each passed 25 unit tests, including budgets 1 through
+11 on a reusable negative-cycle network. All 4,096 numeric and 1,696 planning
+oracle cases per mode also matched the 0.2.3 CLI. The PowerShell pipeline and
+six scenarios passed. Generated public interfaces matched Git.
 
 ## Numeric solver performance recheck — 2026-11-18
 

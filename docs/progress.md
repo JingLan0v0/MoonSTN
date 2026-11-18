@@ -1,8 +1,12 @@
 # Continue MoonSTN optimization
 
 The [optimization roadmap](optimization-roadmap.md) records the next measurement
-and its acceptance criteria. The numeric STN recheck is complete. Start with
-deep-search time and memory profiling when asked to continue optimizing.
+and its acceptance criteria. Deep-search profiling located the main cost in
+temporal relaxation. The 0.2.4 candidate reduced exhaustive tight-window batch
+time by 4.2% and 5.8% in two rounds. The next item is independent verification
+on larger planning models. [Deep-search evidence](acceptance.md)
+
+## Numeric STN recheck — 2026-11-18
 
 The two-round numeric recheck did not reproduce the earlier dense-network slowdown.
 The released version remains 0.2.3. [Results and reproduction steps](acceptance.md)

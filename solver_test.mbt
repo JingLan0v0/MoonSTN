@@ -45,6 +45,28 @@ test "reversed interval produces authentic conflict" {
 }
 
 ///|
+test "multi-pass conflict retains exact scan and certificate budgets" {
+  let net = @stn.network(["zero", "a", "b"], [
+    edge("one", "a", "b", Some(3), None),
+    edge("two", "a", "b", None, Some(2)),
+  ])
+  // Three two-arc passes, three predecessor steps, then two certificate edges.
+  for steps = 1; steps < 11; steps = steps + 1 {
+    let failed = try {
+      @stn.solve(net, max_steps=steps) |> ignore
+      false
+    } catch {
+      @stn.StnError(code, _) => code == "limit_exceeded"
+    }
+    assert_true(failed)
+  }
+  guard @stn.solve(net, max_steps=11) is @stn.Inconsistent(cycle) else {
+    fail("expected a conflict at the exact budget")
+  }
+  assert_true(@stn.verify_conflict(net, cycle))
+}
+
+///|
 test "negative self loop" {
   let net = @stn.network(["a"], [edge("self", "a", "a", None, Some(-1))])
   guard @stn.solve(net) is @stn.Inconsistent(c) else {

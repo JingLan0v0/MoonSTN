@@ -1,3 +1,9 @@
+# Continue MoonSTN optimization
+
+The [optimization roadmap](optimization-roadmap.md) records the next measurement,
+its acceptance criteria and the order of subsequent work. Start with resource
+conflict scanning when asked to continue optimizing.
+
 # Indexed planning arcs — 2026-11-18
 
 The 0.2.2 release compiles validated temporal arcs once per plan call. In the

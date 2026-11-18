@@ -10,12 +10,12 @@ pub fn solve(
   let budget = { remaining: max_steps, }
   let n = net.names.length()
   let arcs = indexed_arcs(net)
-  let (values, pred, changed) = relax(net, arcs, budget)
+  let (values, pred, changed) = relax(n, arcs, budget)
   if changed != -1 {
     let mut node = changed
     for _i = 0; _i < n; _i = _i + 1 {
       budget.tick()
-      node = arcs[pred[node]].0
+      node = arcs[pred[node]].source
     }
     let start = node
     let cycle : Array[Edge] = []
@@ -23,7 +23,7 @@ pub fn solve(
       budget.tick()
       let i = pred[node]
       cycle.push(net.edges[i])
-      node = arcs[i].0
+      node = arcs[i].source
       if node == start {
         break
       }
@@ -39,8 +39,7 @@ pub fn solve(
   }
   for i = 0; i < arcs.length(); i = i + 1 {
     budget.tick()
-    let (a, b) = arcs[i]
-    let w = net.edges[i].bound
+    let { source: a, target: b, bound: w, } = arcs[i]
     if distances[a][b] is None || distances[a][b].unwrap() > w {
       distances[a][b] = Some(w)
     }
@@ -68,17 +67,27 @@ pub fn solve(
 }
 
 ///|
-fn indexed_arcs(net : Network) -> Array[(Int32, Int32)] raise StnError {
-  net.edges.map(e => (find_name(net.names, e.from), find_name(net.names, e.to)))
+priv struct TemporalArc {
+  source : Int32
+  target : Int32
+  bound : Int64
+}
+
+///|
+fn indexed_arcs(net : Network) -> Array[TemporalArc] raise StnError {
+  net.edges.map(e => {
+    source: find_name(net.names, e.from),
+    target: find_name(net.names, e.to),
+    bound: e.bound,
+  })
 }
 
 ///|
 fn relax(
-  net : Network,
-  arcs : Array[(Int32, Int32)],
+  n : Int32,
+  arcs : Array[TemporalArc],
   budget : Budget,
 ) -> (Array[Int64], Array[Int32], Int32) raise StnError {
-  let n = net.names.length()
   // An implicit zero-cost super-source reaches every connected component.
   let values : Array[Int64] = Array::make(n, 0L)
   let pred : Array[Int32] = Array::make(n, -1)
@@ -87,8 +96,8 @@ fn relax(
     changed = -1
     for i = 0; i < arcs.length(); i = i + 1 {
       budget.tick()
-      let (a, b) = arcs[i]
-      let candidate = values[a] + net.edges[i].bound
+      let { source: a, target: b, bound, } = arcs[i]
+      let candidate = values[a] + bound
       if candidate < values[b] {
         values[b] = candidate
         pred[b] = i
@@ -114,11 +123,11 @@ fn normalize(values : Array[Int64]) -> Unit {
 /// A change on the last round proves inconsistency. Planning only needs this
 /// decision and the normalized values of a feasible branch.
 fn feasible_values(
-  net : Network,
+  n : Int32,
+  arcs : Array[TemporalArc],
   max_steps : Int32,
 ) -> Array[Int64]? raise StnError {
-  let arcs = indexed_arcs(net)
-  let (values, _, changed) = relax(net, arcs, { remaining: max_steps, })
+  let (values, _, changed) = relax(n, arcs, { remaining: max_steps, })
   if changed != -1 {
     return None
   }

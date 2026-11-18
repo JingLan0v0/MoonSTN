@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.2.2
+
+- Compile the validated temporal arcs once per planning request and extend
+  them with one ordering arc per search child.
+- Preserve readable planning model fields, relaxation order, budgets and
+  diagnostics. Exercise the maximum task and dependency counts and child
+  validation after a caller updates the readable rules array.
+- Save individual timing and peak process memory samples in the planning benchmark.
+
 ## 0.2.1 — published, 2026-11-18
 
 - Use Bellman–Ford feasibility witnesses during resource search, skipping

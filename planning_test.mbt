@@ -74,6 +74,37 @@ test "planning keeps 0.2.0 schedules, statistics and exact budget thresholds" {
 }
 
 ///|
+test "planning recompiles readable rules and preserves child validation order" {
+  let p = @stn.planning_problem(
+    [task("a", 2, 4, Some("r")), task("b", 2, 4, Some("r"))],
+    [],
+  )
+  let original = p.rules[0]
+  p.rules[0] = { ..original, id: "order0_1", }
+  for
+    (max_nodes, expected) in [
+      (
+        1,
+        (
+          "limit_exceeded", "planning node budget exhausted; no feasibility conclusion",
+        ),
+      ),
+      (2, ("invalid_input", "invalid or duplicate constraint id")),
+    ] {
+    let error = try {
+      @stn.plan(p, max_nodes~) |> ignore
+      None
+    } catch {
+      @stn.StnError(code, message) => Some((code, message))
+    }
+    assert_eq(error, Some(expected))
+  }
+  p.rules[0] = original
+  guard @stn.plan(p) is @stn.Planned(s, _) else { fail("expected a plan") }
+  assert_true(@stn.verify_plan(p, s))
+}
+
+///|
 test "planning exhaustion is error and problem remains reusable" {
   let p = @stn.planning_problem(
     [task("a", 2, 4, Some("r")), task("b", 2, 4, Some("r"))],
@@ -182,11 +213,28 @@ test "planning model limits and invalid fields" {
 }
 
 ///|
-test "24 task boundary and independent verification" {
+test "maximum task and dependency counts preserve work accounting" {
   let p = @stn.planning_problem(
     Array::makei(24, i => task(i.to_string(), 1, 4, None)),
-    [],
+    Array::makei(64, i => {
+      before: (i % 24).to_string(),
+      after: ((i + 1) % 24).to_string(),
+      kind: "SS",
+      min_lag: 0,
+      max_lag: Some(0),
+    }),
   )
-  guard @stn.plan(p) is @stn.Planned(s, _) else { fail("plan") }
+  // 49 points and 224 arcs. Each dependency contributes both bounds.
+  let failed = try {
+    @stn.plan(p, max_work=128946) |> ignore
+    false
+  } catch {
+    @stn.StnError(code, _) => code == "limit_exceeded"
+  }
+  assert_true(failed)
+  guard @stn.plan(p, max_work=128947) is @stn.Planned(s, stats) else {
+    fail("plan")
+  }
+  assert_eq(stats, { nodes: 1, pruned: 0, decisions: 0, charged_work: 128947, })
   assert_true(@stn.verify_plan(p, s))
 }

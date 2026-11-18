@@ -82,6 +82,11 @@ STN solving. A change on the last round prunes the branch. Planning only needs
 the feasibility decision and witness, so it skips conflict certificate construction
 and all-pairs closure.
 
+Each plan call validates its base network and converts the edges to indexed arcs.
+Sibling branches share the validated parent arcs until visited. A child validates
+and appends one zero-weight ordering arc while retaining the original edge order.
+The cap is 500 directed arcs at 24 tasks, 64 two-sided dependencies and 276 orders.
+
 Before each branch, reserve n^3 + n*e + e + 2*n logical work, the conservative full
 STN solve bound used in 0.2.0. Keeping the charge preserves the exact work thresholds
 and charged_work diagnostics, including for early-pruned nodes. The global remaining

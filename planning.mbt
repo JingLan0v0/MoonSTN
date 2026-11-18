@@ -200,6 +200,42 @@ pub fn verify_plan(
 }
 
 ///|
+priv struct PlanBranch {
+  arcs : Array[TemporalArc]
+  rule_ids : Array[String]
+  order : (Int32, Int32)?
+}
+
+///|
+fn PlanBranch::compile(
+  self : PlanBranch,
+  names : Array[String],
+) -> (Array[TemporalArc], Array[String]) raise StnError {
+  guard self.order is Some((before, after)) else {
+    return (self.arcs, self.rule_ids)
+  }
+  // The validated parent is shared by both children. Check only the new rule.
+  // Rule IDs and caps also cover callers using the readable model arrays.
+  if self.rule_ids.length() == 512 {
+    raise StnError(
+      "limit_exceeded", "require 1..64 timepoints and at most 512 constraints",
+    )
+  }
+  let id = "order" + before.to_string() + "_" + after.to_string()
+  if self.rule_ids.contains(id) {
+    raise StnError("invalid_input", "invalid or duplicate constraint id")
+  }
+  let finish = find_name(names, point(before, true))
+  let start = find_name(names, point(after, false))
+  let arcs = self.arcs.copy()
+  // finish(before) <= start(after) is a zero-weight lower-bound arc.
+  arcs.push({ source: start, target: finish, bound: 0L, })
+  let ids = self.rule_ids.copy()
+  ids.push(id)
+  (arcs, ids)
+}
+
+///|
 /// Bounded disjunctive search. Budget exhaustion raises, never returns Unschedulable.
 pub fn plan(
   p : PlanningProblem,
@@ -211,7 +247,15 @@ pub fn plan(
       "invalid_input", "planning budgets: nodes 1..10000, work 1..100000000",
     )
   }
-  let stack : Array[Array[Constraint]] = [p.rules.copy()]
+  let net = network(p.names, p.rules)
+  let n = net.names.length()
+  let stack : Array[PlanBranch] = [
+    {
+      arcs: indexed_arcs(net),
+      rule_ids: p.rules.map(rule => rule.id),
+      order: None,
+    },
+  ]
   let mut nodes = 0
   let mut pruned = 0
   let mut decisions = 0
@@ -222,10 +266,8 @@ pub fn plan(
         "limit_exceeded", "planning node budget exhausted; no feasibility conclusion",
       )
     }
-    let rules = stack.pop().unwrap()
-    let net = network(p.names, rules)
-    let n = net.names.length()
-    let e = net.edges.length()
+    let (arcs, rule_ids) = stack.pop().unwrap().compile(net.names)
+    let e = arcs.length()
     // Keep the 0.2.0 full-solve charge while computing only a feasibility witness.
     let work = n * n * n + n * e + e + 2 * n
     if work > max_work - charged {
@@ -235,7 +277,7 @@ pub fn plan(
     }
     charged += work
     nodes += 1
-    match feasible_values(net, work) {
+    match feasible_values(n, arcs, work) {
       None => pruned += 1
       Some(values) => {
         let schedule = p.tasks.mapi((i, t) => {
@@ -267,15 +309,7 @@ pub fn plan(
             decisions += 1
             // Positive durations imply exactly one order must hold on this resource.
             for (a, b) in [(j, i), (i, j)] {
-              let child = rules.copy()
-              child.push({
-                id: "order" + a.to_string() + "_" + b.to_string(),
-                from: point(a, true),
-                to: point(b, false),
-                lower: Some(0),
-                upper: None,
-              })
-              stack.push(child)
+              stack.push({ arcs, rule_ids, order: Some((a, b)), })
             }
           }
         }

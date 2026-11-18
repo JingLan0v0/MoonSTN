@@ -2,6 +2,37 @@
 
 Project MoonSTN / JingLan0v0/stn, published 0.2.1.
 
+## Reuse of indexed planning arcs — 2026-11-18
+
+Baseline `e833a154a4e6c64ae41ffa56df500fed356bf508` (0.2.1) built from a fresh
+checkout on Windows with moon 0.1.20261028, moonc v0.10.18+6c83a7f62 and Node 24.14.0.
+In a CPU profile of eight 24-task requests that exhaust their work budget,
+network construction and endpoint indexing accounted for 153 of 334 samples.
+Each plan call now prepares indexed arcs once and appends only the new order at
+each child. The generated public interface, including readable model fields,
+is unchanged. The child is validated after the node limit check, as in 0.2.1.
+
+Paired release CLI samples include process startup and the peak RSS probe.
+Each scenario used three warm-up pairs and nine measured pairs with alternating
+starting order. Build time is outside these measurements. All measured results
+matched 0.2.1 exactly. Ranges are minimum and maximum observed times in ms.
+
+| Scenario | Requests per process | Median ms before → after | Range ms before → after | Median peak RSS MiB before → after |
+|---|---:|---:|---:|---:|
+| Maintenance example | 64 | 83.73 → 84.90 | 82.39–99.66 → 83.32–87.13 | 53.82 → 48.82 |
+| 24 tasks with no shared resources | 64 | 103.90 → 106.53 | 99.77–109.38 → 102.75–118.83 | 58.04 → 58.25 |
+| 24 tasks on four resources | 8 | 101.67 → 101.42 | 100.18–103.31 → 98.66–102.96 | 54.17 → 52.76 |
+| 24 tasks on one resource | 2 | 85.01 → 85.75 | 82.66–102.83 → 82.28–117.74 | 52.55 → 50.29 |
+| 24 tasks on one resource, budget exhausted | 2 | 202.62 → 123.87 | 195.35–206.28 → 123.05–126.00 | 52.00 → 50.70 |
+
+The overload scenario took 38.9% less elapsed time in this run. The other timing
+ranges overlapped. A separate numeric STN benchmark matched outputs and budget
+errors with median changes from 1.1% faster to 3.6% slower. Library-only
+latency and compile time were outside the performance comparison.
+
+Reproduce using `node scripts/benchmark-planning.mjs /absolute/path/to/0.2.1-main.js`.
+See [raw samples and profile counts](optimization-0.2.2.json).
+
 ## Mooncakes 0.2.1 publication — 2026-11-18
 
 Source `7469c5fdda3bdb96de2e0354bd124801b9988e25` passed Windows and Ubuntu

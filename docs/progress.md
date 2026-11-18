@@ -1,10 +1,13 @@
 # Continue MoonSTN optimization
 
 The [optimization roadmap](optimization-roadmap.md) records the next measurement
-and its acceptance criteria. The 0.2.5 candidate emits indexed planning edges
+and its acceptance criteria. The 0.2.5 release emits indexed planning edges
 during validation. Both maximum-size library workloads improved in two rounds.
 Next, profile large-model construction and CLI request handling.
 [Measurements](optimization-0.2.5.json)
+
+Published source `70af910` passed Windows and Ubuntu CI. A fresh consumer
+installed 0.2.5 and passed both build modes. [Release receipts](publication-0.2.5.json)
 
 ## Planning predecessor review — 2026-11-19
 

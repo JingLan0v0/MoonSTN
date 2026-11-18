@@ -1,6 +1,24 @@
 # Acceptance evidence — updated 2026-11-19
 
-Project MoonSTN / JingLan0v0/stn, published 0.2.4.
+Project MoonSTN / JingLan0v0/stn, published 0.2.5.
+
+## Mooncakes 0.2.5 publication — 2026-11-19
+
+Source `70af91076d3378b6f77b00b200d1557e79b865f3` passed Windows and Ubuntu
+[CI run 44354461672](https://github.com/JingLan0v0/MoonSTN/actions/runs/44354461672).
+In both the working checkout and a fresh extraction of the 75-file package,
+debug and release passed 26 unit tests, 4,096 numeric networks and 1,794
+planning cases per mode. The numeric and planning comparison batches matched
+0.2.4. The added unit test revalidates caller-edited names, checks node-budget
+and unknown-timepoint error order, and restores the model for reuse. Generated
+interfaces and PowerShell smoke passed.
+
+Preflight returned 202 and publication returned 200. The registry recorded
+2026-11-19 01:05:49 Asia/Shanghai. The downloaded and preflight packages
+share SHA-256 `5aca2ddf26ee47ad092c13a7f5f95597b983d9d26f9981bc1efbc350b214f06a`.
+An independent project with an empty cache installed exactly 0.2.5, passed
+both public API examples in debug and release, and had all 75 installed
+files match the public archive. [Release receipts](publication-0.2.5.json)
 
 ## Planning edge indexing and name lookup — 2026-11-19
 
@@ -23,6 +41,8 @@ the distinct-resource model's library median by 33.6% and 36.0%, with
 slower medians on the two-task library case. The selected candidate emits
 indexed edges during constraint validation. It uses the same index to
 resolve ordering edges against the caller's current names.
+The index belongs to one plan call. Constraints still validate in input
+order, and upper edges still precede lower edges.
 
 | Selected candidate | Round 1 baseline → candidate, ms | Round 2 baseline → candidate, ms |
 |---|---:|---:|

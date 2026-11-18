@@ -2,6 +2,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import assert from 'node:assert/strict';
 import {spawnSync} from 'node:child_process';
+import {largerPlanningCases, planningSeed} from './verify-planning-larger.mjs';
 const root=path.resolve(import.meta.dirname,'..');process.chdir(root);
 const baseline=process.argv[2] && path.resolve(process.argv[2]);
 const receipt=path.join(root,'_build/planning-verification.json');fs.rmSync(receipt,{force:true});
@@ -22,6 +23,7 @@ for(const da of [1,2])for(const db of [1,2])for(const ra of [0,1])for(const rb o
 let seed=7123;const rand=n=>{seed=(Math.imul(seed,1664525)+1013904223)>>>0;return Math.floor(seed/4294967296*n);};
 for(let i=0;i<256;i++){const tasks=Array.from({length:3},(_,j)=>task('t'+j,1+rand(2),rand(2),3+rand(3),rand(2)?'r':null));const dependencies=[];for(let j=0;j<3;j++){if(rand(2))dependencies.push({before:'t'+j,after:'t'+((j+1)%3),kind:['FS','SS','FF','SF'][rand(4)],min_lag:rand(3)-1,max_lag:2});}const req={tasks,dependencies};cases.push({req,feasible:exists(req)});}
 const reports=[];
+const larger = largerPlanningCases();
 for(const mode of ['debug','release']){
  const cli=path.join(root,`_build/js/${mode}/build/cmd/main/main.js`);
  const invoke=(args,input)=>spawnSync(process.execPath,['--max-old-space-size=192',cli,...args],{input,encoding:'utf8',timeout:15000,maxBuffer:4*1024*1024});
@@ -37,6 +39,37 @@ for(const mode of ['debug','release']){
   return results;
  };
  for(let i=0;i<cases.length;i+=64){const chunk=cases.slice(i,i+64),out=batch(chunk.map(x=>x.req));assert.equal(out.length,chunk.length);out.forEach((o,j)=>{assert.equal(o.status,chunk[j].feasible?'planned':'unschedulable',JSON.stringify(chunk[j].req));if(o.status==='planned')assert(valid(chunk[j].req,o.schedule));});}
+ const largerResults = [];
+ let budgetBoundaryCases = 0;
+ for (let i = 0; i < larger.length; i += 32) {
+   const chunk = larger.slice(i, i + 32);
+   const results = batch(chunk.map(test => test.req));
+   assert.equal(results.length, chunk.length);
+   for (const [j, result] of results.entries()) {
+     const {name, req, feasible} = chunk[j];
+     const context = `${mode} ${name} seed=${planningSeed} ${JSON.stringify(req)}`;
+     assert.equal(result.status, feasible ? 'planned' : 'unschedulable', context);
+     if (feasible) assert(valid(req, result.schedule), context);
+     largerResults.push({name, status: result.status, stats: result.stats});
+     if (req.tasks.length === 24) {
+       assert(result.stats.nodes > 1, context);
+       const exact = {...req, max_nodes: result.stats.nodes, max_work: result.stats.charged_work};
+       const [before, nodeLimit, workLimit, after] = batch([
+         exact, {...exact, max_nodes: exact.max_nodes - 1},
+         {...exact, max_work: exact.max_work - 1}, exact,
+       ]);
+       assert.deepEqual(before, result, context);
+       assert.deepEqual(after, result, context);
+       assert.equal(nodeLimit.status, 'error', context);
+       assert.equal(nodeLimit.code, 'limit_exceeded', context);
+       assert.match(nodeLimit.message, /node budget/, context);
+       assert.equal(workLimit.status, 'error', context);
+       assert.equal(workLimit.code, 'limit_exceeded', context);
+       assert.match(workLimit.message, /work budget/, context);
+       budgetBoundaryCases++;
+     }
+   }
+ }
  const good={tasks:[task('a',1,0,3,null)]};
  const overlap={tasks:[task('a',2,0,4,'r'),task('b',2,0,4,'r')]};
  const bad=[null,{}, {...good,extra:1},{tasks:[]},{tasks:Array.from({length:25},(_,i)=>task('t'+i,1,0,4,null))},{...good,max_nodes:0},{...good,max_work:0},{...good,max_work:1},{...overlap,max_nodes:1},{tasks:[{...good.tasks[0],min_duration:0}]},{tasks:[{...good.tasks[0],max_duration:0}]},{tasks:[{...good.tasks[0],release:0.5}]},{...good,dependencies:[{before:'missing',after:'a',kind:'FS',min_lag:0}]},{...good,dependencies:[{before:'a',after:'a',kind:'XX',min_lag:0}]},{...good,dependencies:Array(65).fill({before:'a',after:'a',kind:'SS',min_lag:0})}];
@@ -44,6 +77,8 @@ for(const mode of ['debug','release']){
  for(const text of ['[','{"tasks":[],"tasks":[]}','['.repeat(17)+'0'+']'.repeat(17),JSON.stringify(Array(65).fill(good))]){const r=invoke(['--plan-batch','-'],text);assert.equal(r.status,2);assert.equal(r.stdout,'');}
  assert.deepEqual(batch([]),[]);
  for(const name of ['release-plan','maintenance-plan','impossible-plan']){const req=JSON.parse(fs.readFileSync('examples/'+name+'.json','utf8'));const r=invoke(['--plan','examples/'+name+'.json']);assert.equal(r.status,0,r.stderr);const o=JSON.parse(r.stdout);assert.equal(o.status,name==='impossible-plan'?'unschedulable':'planned');if(o.status==='planned')assert(valid(req,o.schedule));if(name==='maintenance-plan')assert(o.stats.decisions>0&&o.stats.pruned>0);}
- reports.push({mode,exhaustiveTwoTaskCases:1440,seededThreeTaskCases:256,invalidBatchItems:bad.length,scenarios:3});console.log(`PASS ${mode}: ${cases.length} independent planning cases, original-rule witness validation and planning I/O`);
+ reports.push({mode,exhaustiveTwoTaskCases:1440,seededThreeTaskCases:256,invalidBatchItems:bad.length,scenarios:3,
+   largerPlanningCases: larger.length, budgetBoundaryCases, largerResults});
+ console.log(`PASS ${mode}: ${cases.length + larger.length} independent planning cases, original-rule witness validation and planning I/O`);
 }
-fs.writeFileSync(receipt,JSON.stringify({recordedAt:new Date().toISOString(),status:'passed',...(baseline ? {baselineCompared:true}:{}),reports},null,2)+'\n');
+fs.writeFileSync(receipt,JSON.stringify({recordedAt:new Date().toISOString(),status:'passed',planningSeed,...(baseline ? {baselineCompared:true}:{}),reports},null,2)+'\n');

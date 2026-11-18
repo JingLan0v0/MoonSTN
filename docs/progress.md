@@ -1,10 +1,16 @@
 # Continue MoonSTN optimization
 
 The [optimization roadmap](optimization-roadmap.md) records the next measurement
-and its acceptance criteria. Deep-search profiling located the main cost in
-temporal relaxation. The 0.2.4 release reduced exhaustive tight-window batch
-time by 4.2% and 5.8% in two rounds. The next item is independent verification
-on larger planning models. [Deep-search evidence](acceptance.md)
+and its acceptance criteria. The larger-model verifier adds 98 comparisons
+on 8–24 tasks with multiple resources, mixed dependencies and tight windows.
+Both build modes matched the 0.2.4 baseline. Next, measure the cost of tracking
+predecessors during planning. [Verification evidence](acceptance.md)
+
+## Deep-search profiling — 2026-11-19
+
+Deep-search profiling located the main cost in temporal relaxation.
+The 0.2.4 release reduced exhaustive tight-window batch time by 4.2%
+and 5.8% in two rounds. [Deep-search evidence](acceptance.md)
 
 Published source `00c2841` passed Windows and Ubuntu CI. A fresh consumer
 installed exactly 0.2.4 and passed both build modes. [Release receipts](publication-0.2.4.json)

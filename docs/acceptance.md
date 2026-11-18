@@ -2,6 +2,38 @@
 
 Project MoonSTN / JingLan0v0/stn, published 0.2.4.
 
+## Larger planning models — 2026-11-19
+
+The verifier adds 98 independent comparisons against a fresh release build
+of baseline `5389225` (0.2.4). Seed 169603 generates 48 models with 8–12
+tasks on three resources and 48 variants with one shifted dependency.
+The cases use all four endpoint pairs, bounded and open-ended lags, variable
+durations, and tight windows starting near zero or 999,980.
+
+The independent oracle enumerates integer task intervals and filters the
+remaining domains against the original resource and dependency rules.
+Two additional models reach 24 tasks and 64 dependencies on four resources.
+In the feasible model, each resource fits six unit tasks into six slots.
+In its overloaded counterpart, four tasks on one resource have just three
+slots. The planner reached the expected conclusions in 5 and 47 nodes,
+charging 645,235 and 6,069,709 work units respectively.
+
+Of the 98 cases, 71 were feasible and 27 were unschedulable. The verifier
+checked every returned schedule directly. In 46 feasible cases the planner
+pruned at least one branch before finding a schedule. Both maximum-size
+models reached their conclusions with exact budgets. Lowering either
+budget by one returned the corresponding `limit_exceeded` error, and the
+following batch item reached the original conclusion.
+
+Local Windows debug and release each passed 25 unit tests, 4,096 numeric
+networks and 1,794 planning cases, with identical baseline CLI outputs.
+Generated interfaces matched Git and the PowerShell smoke checks passed.
+The change extends verification. The published package is 0.2.4.
+
+Run `node scripts/verify.mjs`, optionally with the absolute path to the saved
+baseline CLI. The verifier writes per-case status and search statistics to
+`_build/planning-verification.json`.
+
 ## Mooncakes 0.2.4 publication — 2026-11-19
 
 Source `00c2841465c61af53d5c4442629106e26ebbed5f` passed Windows and Ubuntu

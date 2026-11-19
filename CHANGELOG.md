@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.2.8 — 2026-11-19
+
+- Resolve numeric JSON query endpoints once with the validated name index.
+  Use those positions to read tight bounds in request order.
+- Benchmark 256-query workloads and check output bytes, exact budgets,
+  query error precedence and the ordered negative-cycle certificate.
+
 ## 0.2.7 — 2026-11-19
 
 - Build schedule entries directly in their final JSON maps. The measured

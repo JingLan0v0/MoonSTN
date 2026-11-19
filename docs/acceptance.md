@@ -2,6 +2,49 @@
 
 Project MoonSTN / JingLan0v0/stn, published 0.2.7.
 
+## Numeric bound queries — 2026-11-19
+
+Baseline `cb0d8e7` uses the 0.2.7 runtime. The pinned release JS toolchain
+and Node 24.14.0 ran on Windows. On 64-point networks the benchmark checks
+256 ordered query entries against independent formulas for the empty graph,
+directed chain and clockwise eight-neighbor graph.
+
+| Instrumented baseline median | Batch size | Name lookup calls | Query validation, ms | Closure, ms | Feasible result build, ms |
+|---|---:|---:|---:|---:|---:|
+| Sparse, no edges | 48 | 49,152 | 7.85 | 0.92 | 14.58 |
+| Chain | 32 | 36,800 | 5.87 | 6.73 | 11.24 |
+| Dense | 16 | 32,768 | 4.19 | 14.57 | 5.79 |
+
+The recorded name lookup time includes wrapper overhead and overlaps
+query validation, arc indexing and result construction. The all-isolated
+case calls name lookup twice per endpoint, for validation and for reading
+bounds. The candidate reuses the validated name map from network construction,
+stores endpoint positions at validation time and reads both bounds directly.
+The named library lookup and negative-cycle path retain their behavior.
+
+| Plain CLI median, ms | Round 1 baseline → candidate | Round 2 baseline → candidate |
+|---|---:|---:|
+| Sparse | 136.77 → 134.02 | 139.99 → 135.13 |
+| Chain | 140.14 → 137.75 | 137.87 → 135.05 |
+| Dense | 153.44 → 146.31 | 149.42 → 147.35 |
+| Ordinary | 79.82 → 80.04 | 79.60 → 79.05 |
+
+Corresponding improvements were 2.0% / 3.5%, 1.7% / 2.0% and 4.6% / 1.4%
+for the three large fixtures. Dense median peak RSS was 89,104 → 88,760 KiB
+and 89,328 → 88,596 KiB. The ordinary control varied by less than 1%.
+The small-query numeric control also matched all outputs across six
+workloads and 30 additional budget checks.
+
+All six timed batches matched byte for byte. The mixed check covers
+257 queries, validation of the first unknown endpoint before solve,
+invalid budget priority, a disconnected negative cycle with exact
+certificate budget and one step less, plus successful neighbors.
+Run `node scripts/benchmark-numeric-queries.mjs BASE.js CANDIDATE.js`
+and reverse the arguments for the second paired run. Each round measures
+nine process pairs after two warm-up pairs. For baseline phase timing,
+set `MOONSTN_PROFILE_QUERIES=1` and pass only the 0.2.7 CLI. The phase
+markers depend on the pinned generated JS. [Raw measurements](optimization-0.2.8.json)
+
 ## Mooncakes 0.2.7 publication — 2026-11-19
 
 Source `d9c7224801186146995bc4e6ff7059185b0c6bde` passed Windows and Ubuntu

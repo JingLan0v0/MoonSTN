@@ -1,9 +1,14 @@
 # Continue MoonSTN optimization
 
 The [optimization roadmap](optimization-roadmap.md) records the next measurement
-and its acceptance criteria. The 0.2.7 release reduces object construction
-time for wide schedule batches. Next, measure numeric STN requests with many
-bound queries. [Measurements](optimization-0.2.7.json)
+and its acceptance criteria. The 0.2.8 candidate reuses the validated name
+index for numeric queries and reads tight bounds by position. Next, measure
+dense numeric closure. [Measurements](optimization-0.2.8.json)
+
+## Planning result construction — 2026-11-19
+
+The 0.2.7 release reduces object construction time for wide schedule batches.
+[Measurements](optimization-0.2.7.json)
 
 Published source `d9c7224` passed Windows and Ubuntu CI. A fresh installation
 passed both build modes and matched the prior release byte-for-byte on the

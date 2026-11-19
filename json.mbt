@@ -120,7 +120,7 @@ fn fields(
 }
 
 ///|
-fn parse_network(value : Json) -> Network raise StnError {
+fn parse_network(value : Json) -> (Network, Map[String, Int32]) raise StnError {
   guard value is Object(obj) else {
     raise StnError("invalid_input", "network must be an object")
   }
@@ -149,7 +149,7 @@ fn parse_network(value : Json) -> Network raise StnError {
       upper: bound(c, "upper"),
     })
   }
-  network(names, constraints)
+  network_with_index(names, constraints)
 }
 
 ///|
@@ -163,7 +163,7 @@ fn number(value : Int64?) -> Json {
 ///|
 /// One JSON request. Inconsistency is a valid result, while malformed input raises.
 pub fn analyze(value : Json) -> Json raise StnError {
-  let net = parse_network(value)
+  let (net, index) = parse_network(value)
   guard value is Object(obj) else { abort("validated object") }
   let steps = match obj.get("max_steps") {
     None => 2000000
@@ -176,7 +176,7 @@ pub fn analyze(value : Json) -> Json raise StnError {
       n
     }
   }
-  let queries : Array[(String, String)] = []
+  let queries : Array[(Int32, Int32)] = []
   match obj.get("queries") {
     None => ()
     Some(Array(qs)) => {
@@ -190,9 +190,9 @@ pub fn analyze(value : Json) -> Json raise StnError {
         fields(q, ["from", "to"])
         let a = text(required(q, "from"), "from")
         let b = text(required(q, "to"), "to")
-        find_name(net.names, a) |> ignore
-        find_name(net.names, b) |> ignore
-        queries.push((a, b))
+        let from = lookup_name(index, a)
+        let to = lookup_name(index, b)
+        queries.push((from, to))
       }
     }
     _ => raise StnError("invalid_input", "queries must be an array")
@@ -204,11 +204,12 @@ pub fn analyze(value : Json) -> Json raise StnError {
         assignment[name] = number(Some(value))
       }
       let ranges = queries.map(q => {
-        let (lower, upper) = solution.bounds(q.0, q.1)
+        let (from, to) = q
+        let (lower, upper) = solution.bounds_at(from, to)
         Json::object(
           Map([
-            ("from", Json::string(q.0)),
-            ("to", Json::string(q.1)),
+            ("from", Json::string(net.names[from])),
+            ("to", Json::string(net.names[to])),
             ("lower", number(lower)),
             ("upper", number(upper)),
           ]),

@@ -93,14 +93,23 @@ pub fn network(
   names : Array[String],
   constraints : Array[Constraint],
 ) -> Network raise StnError {
-  let (_, edges) = compile_edges(names, constraints, (
+  let (net, _) = network_with_index(names, constraints)
+  net
+}
+
+///|
+fn network_with_index(
+  names : Array[String],
+  constraints : Array[Constraint],
+) -> (Network, Map[String, Int32]) raise StnError {
+  let (index, edges) = compile_edges(names, constraints, (
     id,
     source,
     target,
     bound,
     side,
   ) => { id, from: names[source], to: names[target], bound, side, })
-  { names: names.copy(), edges, }
+  ({ names: names.copy(), edges, }, index)
 }
 
 ///|
@@ -184,12 +193,21 @@ pub fn Solution::bounds(
 ) -> (Int64?, Int64?) raise StnError {
   let a = find_name(self.names, from)
   let b = find_name(self.names, to)
+  self.bounds_at(a, b)
+}
+
+///|
+fn Solution::bounds_at(
+  self : Solution,
+  a : Int32,
+  b : Int32,
+) -> (Int64?, Int64?) {
   (self.distances[b][a].map(v => -v), self.distances[a][b])
 }
 
 ///|
 pub fn version() -> String {
-  "0.2.7"
+  "0.2.8"
 }
 
 ///|

@@ -1,8 +1,20 @@
 # Continue MoonSTN optimization
 
 The [optimization roadmap](optimization-roadmap.md) records the next measurement
-and its acceptance criteria. Next, measure wide-matrix candidate-column
-scans on sparse numeric networks.
+and its acceptance criteria. Next, measure model validation and arc
+construction for large numeric JSON requests.
+
+## Sparse column scans in the wide closure — 2026-11-20
+
+Version 0.2.19 reuses reachable column indices within wide-closure pivot
+passes. Paired library times fell 72–75% on the chain and 38–43% on
+signed branches. Both orders of 12 CLI cases matched output bytes.
+[Measurements](optimization-0.2.19.json)
+
+Source c451f76 passed Windows and Ubuntu CI. An empty-cache install
+verified the public API. The public CLI passed the signed wide bounds
+and budget checks in both modes.
+[Release receipts](publication-0.2.19.json)
 
 ## Numeric closure budget before allocation — 2026-11-20
 

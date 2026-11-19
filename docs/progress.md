@@ -1,9 +1,13 @@
 # Continue MoonSTN optimization
 
 The [optimization roadmap](optimization-roadmap.md) records the next measurement
-and its acceptance criteria. The 0.2.8 candidate reuses the validated name
+and its acceptance criteria. The 0.2.8 release reuses the validated name
 index for numeric queries and reads tight bounds by position. Next, measure
 dense numeric closure. [Measurements](optimization-0.2.8.json)
+
+Published source `99f4bd9` passed Windows and Ubuntu CI. A fresh installation
+returned the exact same 256 bounds at the work threshold in both build modes.
+[Release receipts](publication-0.2.8.json)
 
 ## Planning result construction — 2026-11-19
 

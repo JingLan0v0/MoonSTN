@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.2.11 — 2026-11-19
+
+- Index dense numeric arcs with a per-solve name map, and reuse the
+  validated map for JSON requests.
+- Cover edited names, duplicate-name lookup order and changed edges
+  through the public numeric API.
+
 ## 0.2.10 — 2026-11-19
 
 - Use a flat Int32 matrix for eligible dense numeric closure and convert

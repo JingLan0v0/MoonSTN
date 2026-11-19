@@ -197,7 +197,8 @@ pub fn analyze(value : Json) -> Json raise StnError {
     }
     _ => raise StnError("invalid_input", "queries must be an array")
   }
-  match solve(net, max_steps=steps) {
+  let arcs = arcs_with_index(net, index)
+  match solve_indexed(net, arcs, steps) {
     Feasible(solution) => {
       let assignment : Map[String, Json] = Map([])
       for (name, value) in solution.assignment() {

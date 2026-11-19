@@ -7,9 +7,18 @@ pub fn solve(
   if max_steps < 1 || max_steps > 10000000 {
     raise StnError("invalid_input", "max_steps must be 1..10000000")
   }
+  let arcs = indexed_arcs(net)
+  solve_indexed(net, arcs, max_steps)
+}
+
+///|
+fn solve_indexed(
+  net : Network,
+  arcs : Array[TemporalArc],
+  max_steps : Int32,
+) -> Outcome raise StnError {
   let budget = { remaining: max_steps, }
   let n = net.names.length()
-  let arcs = indexed_arcs(net)
   let (values, pred, changed) = relax(n, arcs, budget)
   if changed != -1 {
     let mut node = changed
@@ -156,9 +165,30 @@ priv struct TemporalArc {
 
 ///|
 fn indexed_arcs(net : Network) -> Array[TemporalArc] raise StnError {
+  let n = net.names.length()
+  if n >= 16 && n <= 64 && net.edges.length() >= 2 * n {
+    let index : Map[String, Int32] = Map([], capacity=n)
+    // Readable names can be edited. Reverse insertion keeps the first match.
+    for i = n - 1; i >= 0; i = i - 1 {
+      index[net.names[i]] = i
+    }
+    return arcs_with_index(net, index)
+  }
   net.edges.map(e => {
     source: find_name(net.names, e.from),
     target: find_name(net.names, e.to),
+    bound: e.bound,
+  })
+}
+
+///|
+fn arcs_with_index(
+  net : Network,
+  index : Map[String, Int32],
+) -> Array[TemporalArc] raise StnError {
+  net.edges.map(e => {
+    source: lookup_name(index, e.from),
+    target: lookup_name(index, e.to),
     bound: e.bound,
   })
 }

@@ -356,3 +356,29 @@ test "dense closure preserves long paths at the per-edge bound" {
   assert_eq(solution.bounds("v0", "v63"), (Some(-16000000L), Some(63000000L)))
   assert_eq(solution.bounds("v63", "v0"), (Some(-63000000L), Some(16000000L)))
 }
+
+///|
+test "numeric arc indexing reads edited arrays and keeps the first match" {
+  let names = Array::makei(32, i => "v" + i.to_string())
+  let net = @stn.network(
+    names,
+    Array::makei(128, i => edge("e" + i.to_string(), "v0", "v31", None, Some(1))),
+  )
+  net.names[0] = "renamed"
+  let error = try {
+    @stn.solve(net, max_steps=1) |> ignore
+    None
+  } catch {
+    @stn.StnError(code, message) => Some((code, message))
+  }
+  assert_eq(error, Some(("invalid_input", "unknown timepoint: v0")))
+  net.names[0] = "v0"
+  net.names[1] = "v0"
+  let original = net.edges[0]
+  net.edges[0] = { ..original, bound: -2L, }
+  guard @stn.solve(net) is @stn.Feasible(solution) else {
+    fail("expected feasible with edited edges")
+  }
+  assert_eq(solution.bounds("v0", "v31"), (None, Some(-2L)))
+  assert_eq(solution.values[31], -2L)
+}

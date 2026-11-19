@@ -2,6 +2,46 @@
 
 Project MoonSTN / JingLan0v0/stn, published 0.2.10.
 
+## Numeric arc indexing and widening — 2026-11-19
+
+The 0.2.10 baseline is `9efac87`. On Windows release JS with Node 24.14.0,
+the instrumented dense library driver executed 1,536 solves per process,
+including fixture warmups. Its phase medians were 140.62 ms for arc
+indexing, 201.41 ms for the closure loop and 34.02 ms for widening.
+That is approximately 0.092, 0.131 and 0.022 ms per solve respectively.
+In the dense exhausted-budget control, indexing took 140.45 ms and
+the narrow closure and widening counters stayed at zero. The phase
+wrappers add timing overhead.
+
+The selected candidate reuses the validated JSON name map. A library
+solve builds a fresh map when it has 16–64 names and at least two arcs
+per point on average. Reverse insertion keeps the first occurrence
+when a caller has edited the readable names to contain duplicates.
+The small library path uses linear lookup. The solver consumes arcs in
+their original order and retains the existing closure representation.
+
+| Selected candidate median, ms | Round 1 baseline → candidate | Round 2 baseline → candidate |
+|---|---:|---:|
+| Dense library, 128 successful solves | 32.02 → 21.45 | 32.34 → 21.98 |
+| Dense library, 128 exhausted-budget calls | 12.22 → 2.41 | 12.39 → 2.46 |
+| Dense CLI, 16 requests with 256 queries | 135.98 → 134.01 | 134.92 → 133.78 |
+| Chain library, 128 exhausted-budget calls | 2.17 → 2.34 | 2.10 → 2.25 |
+
+Dense library gains were 33.0% and 32.0% on success, and about 80% on
+exhaustion. End-to-end dense CLI medians fell 1.5% and 0.8%. The chain
+exhausted workload grew by 0.15–0.17 ms per 128 calls. The CLI peak RSS
+medians in the dense case differed by at most 308 KiB per round.
+
+All ten CLI comparison workloads and the mixed boundary batch matched
+output bytes. A new library test checks the first unknown endpoint before
+a spend-limit error, then edits the same network's names and an edge and
+checks the result with duplicate names. The two-round timings use the
+existing numeric query and library benchmark scripts with reversed
+arguments. Set `MOONSTN_BENCH_DENSITY=1` for the extra CLI workloads.
+Run `node scripts/profile-numeric-library.mjs LIB-BASE.js` for the pinned
+0.2.10 compiler markers and phase samples.
+[Raw measurements](optimization-0.2.11.json)
+
 ## Mooncakes 0.2.10 publication — 2026-11-19
 
 Source `73209944809859d6a34a9f1b838ffd78ffd05f25` passed Windows and Ubuntu

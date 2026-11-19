@@ -1,12 +1,9 @@
 ///|
 fn plan_int(v : Json) -> Int32 raise StnError {
-  guard v is Number(n, ..) &&
-    n >= -100000000.0 &&
-    n <= 100000000.0 &&
-    n.floor() == n else {
+  guard bounded_integer(v, -100000000.0, 100000000.0) is Some(n) else {
     raise StnError("invalid_input", "expected bounded integer")
   }
-  n.to_int()
+  n
 }
 
 ///|

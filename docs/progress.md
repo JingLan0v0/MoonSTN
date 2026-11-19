@@ -1,10 +1,16 @@
 # Continue MoonSTN optimization
 
 The [optimization roadmap](optimization-roadmap.md) records the next measurement
-and its acceptance criteria. Phase timings show core JSON decoding is the
-largest measured stage in the maximum-size CLI batches. An indexed preflight
-scan reduced phase time without repeatable end-to-end gains. Mooncakes
-remains at 0.2.5. Next, break down core decoding and request conversion.
+and its acceptance criteria. The 0.2.6 candidate fixes integer validation
+for JSON numbers rounded by binary64. Next, measure result construction and
+stringification on successful batches with large schedules.
+[Measurements](optimization-0.2.6.json)
+
+## Planning CLI phase review — 2026-11-19
+
+Core JSON decoding was the largest measured stage in the maximum-size CLI
+batches. An indexed preflight scan reduced phase time without repeatable
+end-to-end gains.
 [Measurements](planning-cli-review.json)
 
 ## Planning edge indexing — 2026-11-19

@@ -15,16 +15,95 @@ fn required(obj : Map[String, Json], field : String) -> Json raise StnError {
 }
 
 ///|
+fn bounded_integer(value : Json, min : Double, max : Double) -> Int32? {
+  guard value is Number(n, repr~) && n >= min && n <= max && n.floor() == n else {
+    return None
+  }
+  if repr is Some(source) && !integer_spelling(source) {
+    return None
+  }
+  Some(n.to_int())
+}
+
+///|
+/// The decimal is integral when the exponent covers every fractional digit
+/// except trailing zeros. The parser has already checked the number grammar.
+fn integer_spelling(source : String) -> Bool {
+  let length = source.length()
+  if length == 0 || length > 1048576 {
+    return false
+  }
+  let mut i = if source.at(0) == '-'.to_int().to_uint16() { 1 } else { 0 }
+  let mut after_point = false
+  let mut fractional_digits = 0
+  let mut trailing_zeros = 0
+  let mut nonzero = false
+  while i < length {
+    let c = source.at(i).to_int()
+    if c == 'e'.to_int() || c == 'E'.to_int() {
+      break
+    }
+    if c == '.'.to_int() {
+      after_point = true
+    } else {
+      if c < '0'.to_int() || c > '9'.to_int() {
+        return false
+      }
+      if after_point {
+        fractional_digits += 1
+      }
+      if c == '0'.to_int() {
+        trailing_zeros += 1
+      } else {
+        trailing_zeros = 0
+        nonzero = true
+      }
+    }
+    i += 1
+  }
+  if !nonzero {
+    return true
+  }
+  let needed = fractional_digits - trailing_zeros
+  if i == length {
+    return needed <= 0
+  }
+  i += 1
+  guard i < length else { return false }
+  let sign = source.at(i).to_int()
+  let negative = sign == '-'.to_int()
+  if negative || sign == '+'.to_int() {
+    i += 1
+  }
+  guard i < length else { return false }
+  let mut exponent = 0
+  while i < length {
+    let digit = source.at(i).to_int() - '0'.to_int()
+    if digit < 0 || digit > 9 {
+      return false
+    }
+    // Saturation keeps even very long exponents in range.
+    if exponent <= length {
+      exponent = exponent * 10 + digit
+    }
+    i += 1
+  }
+  (if negative { -exponent } else { exponent }) >= needed
+}
+
+///|
 fn bound(obj : Map[String, Json], field : String) -> Int32? raise StnError {
   match obj.get(field) {
     None | Some(Null) => None
-    Some(Number(v, ..)) if v >= -1000000.0 && v <= 1000000.0 && v.floor() == v =>
-      Some(v.to_int())
-    _ =>
-      raise StnError(
-        "invalid_input",
-        field + " must be null or an integer in -1000000..1000000",
-      )
+    Some(v) => {
+      guard bounded_integer(v, -1000000.0, 1000000.0) is Some(n) else {
+        raise StnError(
+          "invalid_input",
+          field + " must be null or an integer in -1000000..1000000",
+        )
+      }
+      Some(n)
+    }
   }
 }
 
@@ -88,12 +167,14 @@ pub fn analyze(value : Json) -> Json raise StnError {
   guard value is Object(obj) else { abort("validated object") }
   let steps = match obj.get("max_steps") {
     None => 2000000
-    Some(Number(v, ..)) if v >= 1.0 && v <= 10000000.0 && v.floor() == v =>
-      v.to_int()
-    _ =>
-      raise StnError(
-        "invalid_input", "max_steps must be an integer in 1..10000000",
-      )
+    Some(v) => {
+      guard bounded_integer(v, 1.0, 10000000.0) is Some(n) else {
+        raise StnError(
+          "invalid_input", "max_steps must be an integer in 1..10000000",
+        )
+      }
+      n
+    }
   }
   let queries : Array[(String, String)] = []
   match obj.get("queries") {
@@ -238,7 +319,12 @@ pub fn parse_json(source : String) -> Json raise StnError {
       }
     }
   }
-  @json.parse(source, max_nesting_depth=16, reject_duplicate_keys=true) catch {
+  @json.parse(
+    source,
+    max_nesting_depth=16,
+    reject_duplicate_keys=true,
+    preserve_number_repr=true,
+  ) catch {
     _ => raise StnError("invalid_json", "invalid JSON text")
   }
 }

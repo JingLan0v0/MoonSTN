@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.2.6 — 2026-11-19
+
+- Check the exact source spelling of integer JSON fields. Fractional values
+  that round to an integer or underflow to zero now produce a validation error.
+- Accept decimal and exponent spellings whose value is an in-range integer.
+  Preserve number spellings in the value returned by `parse_json`.
+
 ## 0.2.5 — 2026-11-19
 
 - Compile indexed planning edges as constraints are validated, and reuse the

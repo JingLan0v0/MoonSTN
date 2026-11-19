@@ -18,6 +18,12 @@
 
 The core JSON parser also enforces depth and rejects duplicate keys. Unknown
 schema fields are errors, preventing misspelled bounds from silently disappearing.
+JSON text parsing retains number spellings for exact integer validation.
+Decimal and exponent spellings are accepted in integer fields when their
+exact value is an integer in range. For example, `100e-2` denotes 1.
+A nonzero fraction that would round or underflow to an integer is rejected.
+For a programmatically constructed JSON number without a spelling, validation
+uses the supplied double value.
 A direct analyze(Json) call validates model shapes without recursively traversing
 arbitrary unexpected objects. Data schema arrays and names are checked before
 expensive solving. Model validation is bounded but is outside the logical step

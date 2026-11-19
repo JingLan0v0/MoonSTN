@@ -2,6 +2,43 @@
 
 Project MoonSTN / JingLan0v0/stn, published 0.2.5.
 
+## JSON number exactness — 2026-11-19
+
+The 0.2.5 baseline `f0ddf67` accepted `1000000.00000000001` as 1,000,000
+and `1e-400` as zero in numeric constraints. Binary64 rounded both before
+schema validation. The same conversion affected planning fields and work
+budgets. 0.2.6 retains the source number spelling through core parsing and
+checks that its decimal scale makes the value integral. It still imposes
+each field's existing bounds. Core syntax and decoded duplicate-key checks
+still run first.
+
+Twelve baseline CPU profiles used 64 copies of a 24-task, 64-dependency
+model. Among 1,502 samples, identifiable core self samples included 44 in
+object parsing, 37 in map membership checks, 17 in map writes, 15 in string
+lexing and 43 in number lexing. Ten self samples landed in MoonSTN's field
+validator. Inlined work may be attributed to its caller. On this fixture,
+the baseline phase medians were 19.33 ms for core grammar and 5.42 ms for
+request and result conversion.
+
+The correctness fix intentionally retains more numeric text. With ordinary
+integer JSON, two uninstrumented maximum-size CLI batch medians changed
+from 123.37 to 125.25 ms and from 125.40 to 125.88 ms. Ordinary two-task
+maintenance medians increased 0.9% and 1.6%. The one-run numeric control
+matched all outputs and 30 extra budget comparisons, with timings ranging
+from 1.1% faster to 5.7% slower across its cases.
+
+Raw CLI tests cover normal and exponent spellings, rounded fractions,
+underflow, escaped duplicate keys, first-error order and batch isolation.
+An additional seeded probe compared 487 spellings against an independent
+BigInt calculation of divisibility and range. The main numeric and planning
+comparison suites still match the 0.2.5 baseline for their existing inputs.
+
+The raw report contains the profile sample counts, phase timings, CLI
+sample pairs, peak process RSS and build hashes. Reproduce phase timing
+with `scripts/profile-planning-cli.mjs` and use
+`scripts/benchmark-deep-search.mjs` with reversed argument order for paired
+CLI timing. [Raw measurements](optimization-0.2.6.json)
+
 ## Planning CLI phase review — 2026-11-19
 
 Baseline `470e2cb` is the published 0.2.5 runtime. Release JS builds

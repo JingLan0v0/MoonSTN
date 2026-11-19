@@ -28,6 +28,43 @@ for(let mask=0;mask<4096;mask++){
  const bounds=queries.map(({from,to})=>({from,to,lower:reach[names.indexOf(to)][names.indexOf(from)]&&feasible.length?Math.min(...feasible.map(x=>x[to]-x[from])):null,upper:reach[names.indexOf(from)][names.indexOf(to)]&&feasible.length?Math.max(...feasible.map(x=>x[to]-x[from])):null}));
  cases.push({request:{timepoints:names,constraints,queries},feasible:feasible.length>0,bounds});
 }
+function verifyIntegerSpellings(invoke) {
+ const numeric = bound =>
+   `{"timepoints":["a","b"],"constraints":[{"id":"x","from":"a","to":"b","upper":${bound}}],"queries":[{"from":"a","to":"b"}]}`;
+ const planning = (release, work = '20000000') =>
+   `{"t\\u0061sks":[{"id":"a","min_duration":1,"max_duration":1,"release":${release},"deadline":10}],"max_work":${work}}`;
+ const variants = [
+   ['--batch', numeric, '100e-2', ['1000000.00000000001', '1.00000000000000001', '1e-400']],
+   ['--plan-batch', planning, '0.20e1', ['1e-400', '2.00000000000000001']],
+ ];
+ for (const [flag, request, exact, fractions] of variants) {
+   const good = request(exact);
+   const raw = '[' + [good, ...fractions.map(n => request(n)), good].join(',') + ']';
+   const r = invoke([flag, '-'], raw);
+   assert.equal(r.status, 0, r.stderr);
+   const results = JSON.parse(r.stdout);
+   assert.equal(results.length, fractions.length + 2);
+   assert.deepEqual(results[0], results.at(-1));
+   if (flag === '--batch') {
+     assert.equal(results[0].status, 'feasible');
+     assert.equal(results[0].bounds[0].upper, 1);
+   } else {
+     assert.equal(results[0].status, 'planned');
+     assert.equal(results[0].schedule[0].start, 2);
+   }
+   for (const out of results.slice(1, -1)) assert.equal(out.code, 'invalid_input');
+ }
+ for (const [input, reason] of [
+   ['{"tasks":[],"t\\u0061sks":[]}', 'invalid_json: invalid JSON text'],
+   [planning('1e-400').replace('{"id"', '{"typo":1,"id"'), 'invalid_input: unknown field: typo'],
+   [planning('0', '20000000.0000000000001'), 'invalid_input: expected bounded integer'],
+ ]) {
+   const r = invoke(['--plan', '-'], input);
+   assert.equal(r.status, 2);
+   assert.equal(r.stdout, '');
+   assert.equal(r.stderr.trim(), reason);
+ }
+}
 function validate(request,result){
  const arcs=request.constraints.flatMap(e=>[...(e.upper==null?[]:[{id:e.id,from:e.from,to:e.to,bound:e.upper,side:'upper'}]),...(e.lower==null?[]:[{id:e.id,from:e.to,to:e.from,bound:-e.lower,side:'lower'}])]);
  if(result.status==='feasible'){assert.deepEqual(Object.keys(result.assignment).sort(),[...request.timepoints].sort());assert.equal(result.assignment[request.timepoints[0]],0);assert(arcs.every(e=>result.assignment[e.to]-result.assignment[e.from]<=e.bound));}
@@ -61,9 +98,10 @@ for(const mode of ['debug','release']){
  const transport=['{"timepoints":["a"],"timepoints":["b"],"constraints":[]}', '[', '['.repeat(17)+'0'+']'.repeat(17), ' '.repeat(1048577),'"'+'x'.repeat(257)+'"',JSON.stringify(Array(65).fill(good))];
  for(const input of transport){const r=invoke(['--batch','-'],input);assert.equal(r.status,2);assert.equal(r.stdout,'');assert(r.stderr.length>0);}
  const utf=invoke(['-'],Buffer.from([0xff]));assert.equal(utf.status,2);assert.equal(utf.stdout,'');
+ verifyIntegerSpellings(invoke);
  const bom=invoke(['-'],'\ufeff'+JSON.stringify(good));assert.equal(bom.status,0,bom.stderr);
  for(const args of [[],['--unknown'],['x','y'],['missing-file.json']]){const r=invoke(args,'');assert.equal(r.status,2);assert.equal(r.stdout,'');}
- assert.equal(invoke(['--version'],'').stdout.trim(),'0.2.5');
+ assert.equal(invoke(['--version'],'').stdout.trim(),'0.2.6');
  const fd=fs.openSync(path.join(root,'moon.mod'),'r');try{const r=spawnSync(process.execPath,[cli,'--version'],{stdio:['ignore',fd,'pipe'],encoding:'utf8',timeout:15000});assert.equal(r.status,2);}finally{fs.closeSync(fd);}
  const scenarios=['deployment','delivery','conflict'];
  for(const name of scenarios){const request=JSON.parse(fs.readFileSync(`examples/${name}.json`,'utf8'));const r=invoke([`examples/${name}.json`],'');assert.equal(r.status,0,r.stderr);const result=JSON.parse(r.stdout);validate(request,result);assert.equal(result.status,name==='conflict'?'inconsistent':'feasible');if(name==='deployment')assert.deepEqual(result.bounds,[{from:'zero',to:'release',lower:15,upper:35}]);if(name==='delivery')assert.deepEqual(result.bounds,[{from:'pickup',to:'arrival',lower:20,upper:40}]);}

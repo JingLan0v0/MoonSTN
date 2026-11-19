@@ -30,14 +30,17 @@ fn main raise {
     let degree = match args[0] {
       "disconnected" => 0
       "chain" => if i < 63 { 1 } else { 0 }
-      "connected" => 8
+      "ring-four" => 4
+      "connected" | "four-groups" => 8
       _ => fail("unknown shape")
     }
+    let width = if args[0] == "four-groups" { 16 } else { 64 }
+    let group = i / width * width
     for j = 1; j <= degree; j = j + 1 {
       edges.push({
         id: "e" + edges.length().to_string(),
         from: names[i],
-        to: names[(i + j) % 64],
+        to: names[group + (i + j) % width],
         lower: None,
         upper: Some(1),
       })
@@ -48,7 +51,8 @@ fn main raise {
   let steps = if exhausted { 64 * 64 * 64 + 2 * edges.length() - 1 } else { 2000000 }
   let expected = if exhausted { -2L } else {
     match args[0] {
-      "disconnected" => -1L
+      "disconnected" | "four-groups" => -1L
+      "ring-four" => 16L
       "chain" => 63L
       _ => 8L
     }

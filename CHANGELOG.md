@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.2.12 — 2026-11-19
+
+- Reuse each flat Int32 pivot row's reachable columns and weights across
+  its contributing rows.
+- Check signed bounds across separated components and the exact closure
+  budget at the narrow path's density threshold.
+
 ## 0.2.11 — 2026-11-19
 
 - Index dense numeric arcs with a per-solve name map, and reuse the

@@ -10,7 +10,7 @@ window, or a negative cycle identifying contradictory original rules.
 
 [中文说明](README.zh-CN.md) · Apache-2.0 · Pure MoonBit core · JS CLI
 
-**Package version [JingLan0v0/stn@0.2.11](https://mooncakes.io/docs/JingLan0v0/stn@0.2.11).**
+**Package version [JingLan0v0/stn@0.2.12](https://mooncakes.io/docs/JingLan0v0/stn@0.2.12).**
 Verification and installation receipts: [acceptance](docs/acceptance.md).
 Repository: [JingLan0v0/MoonSTN](https://github.com/JingLan0v0/MoonSTN).
 
@@ -73,7 +73,7 @@ leave partial bytes; consumers must check the process exit status.
 Install the published package in your consumer module:
 
 ```sh
-moon add JingLan0v0/stn@0.2.11
+moon add JingLan0v0/stn@0.2.12
 ```
 
 Import `JingLan0v0/stn` as `stn` in `moon.pkg`. A complete runnable example is in

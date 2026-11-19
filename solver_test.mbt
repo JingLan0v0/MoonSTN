@@ -382,3 +382,35 @@ test "numeric arc indexing reads edited arrays and keeps the first match" {
   assert_eq(solution.bounds("v0", "v31"), (None, Some(-2L)))
   assert_eq(solution.values[31], -2L)
 }
+
+///|
+test "narrow closure keeps signed bounds inside separate components" {
+  let n = 32
+  let names = Array::makei(n, i => "v" + i.to_string())
+  let constraints = Array::makei(n * 4, i => {
+    let source = i / 4
+    let local_target = (source + i % 4 + 1) % 16
+    let target = source / 16 * 16 + local_target
+    // Potential difference plus one gives signed edges and positive cycles.
+    let weight = local_target - source % 16 + 1
+    edge("e" + i.to_string(), names[source], names[target], None, Some(weight))
+  })
+  let net = @stn.network(names, constraints)
+  // Three feasibility passes, one arc scan and every logical closure triple.
+  let steps = 4 * constraints.length() + n * n * n
+  let exhausted = try {
+    @stn.solve(net, max_steps=steps - 1) |> ignore
+    false
+  } catch {
+    @stn.StnError(code, _) => code == "limit_exceeded"
+  }
+  assert_true(exhausted)
+  guard @stn.solve(net, max_steps=steps) is @stn.Feasible(solution) else {
+    fail("expected two feasible components")
+  }
+  assert_eq(solution.bounds("v0", "v15"), (Some(14L), Some(19L)))
+  assert_eq(solution.bounds("v31", "v16"), (Some(-19L), Some(-14L)))
+  assert_eq(solution.bounds("v0", "v31"), (None, None))
+  assert_eq(solution.bounds("v31", "v0"), (None, None))
+  assert_true(@stn.verify_assignment(net, solution.assignment()))
+}

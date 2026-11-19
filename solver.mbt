@@ -123,8 +123,21 @@ fn narrow_distances(
     return None
   }
   budget.charge(work)
+  // The zero diagonal and absence of negative cycles keep the pivot row
+  // unchanged for this pass, so enumerate its finite cells just once.
+  let columns = FixedArray::make(n, 0)
+  let weights = FixedArray::make(n, 0)
   for k = 0; k < n; k = k + 1 {
     let pivot = k * n
+    let mut count = 0
+    for j = 0; j < n; j = j + 1 {
+      let weight = cells[pivot + j]
+      if weight != no_path {
+        columns[count] = j
+        weights[count] = weight
+        count += 1
+      }
+    }
     for i = 0; i < n; i = i + 1 {
       if i == k {
         continue
@@ -134,10 +147,11 @@ fn narrow_distances(
       if a == no_path {
         continue
       }
-      for j = 0; j < n; j = j + 1 {
-        let b = cells[pivot + j]
-        if b != no_path && a + b < cells[row + j] {
-          cells[row + j] = a + b
+      for j = 0; j < count; j = j + 1 {
+        let index = row + columns[j]
+        let weight = a + weights[j]
+        if weight < cells[index] {
+          cells[index] = weight
         }
       }
     }

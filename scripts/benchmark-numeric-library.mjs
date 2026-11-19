@@ -9,7 +9,10 @@ const peakRss = 'data:text/javascript,' + encodeURIComponent(
 );
 const median = xs => xs.toSorted((a, b) => a - b)[Math.floor(xs.length / 2)];
 const rows = [];
-for (const shape of ['disconnected', 'chain', 'connected']) {
+const density = process.env.MOONSTN_BENCH_DENSITY === '1';
+const shapes = ['disconnected', 'chain', 'connected'];
+if (density) shapes.push('ring-four', 'four-groups');
+for (const shape of shapes) {
   for (const budget of ['default', 'exhausted']) {
     const measurements = drivers.map(() => []);
     // Each driver runs once in each position.
@@ -34,6 +37,6 @@ for (const shape of ['disconnected', 'chain', 'connected']) {
 }
 console.log(JSON.stringify({
   recordedAt: new Date().toISOString(), node: process.version, drivers: drivers.map(file => basename(file)),
-  callsPerSample: {disconnected: 2048, chain: 128, connected: 128},
+  callsPerSample: Object.fromEntries(shapes.map(shape => [shape, shape === 'disconnected' ? 2048 : 128])),
   warmups: 3, samplesPerProcess: 9, rows,
 }, null, 2));

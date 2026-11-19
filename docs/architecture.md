@@ -54,6 +54,10 @@ be simplified by removing nonnegative cycles. Its absolute weight is at
 most 63 × 10^6, so a relaxation sum fits within ±126 × 10^6, below the
 unreachable sentinel and within Int32. The diagonal stays zero. The solver
 widening step returns the existing Int64 distances and unbounded markers.
+For each pivot, the narrow loop collects its finite columns and weights
+once and reuses that list for every other reachable row. Skipping the
+pivot row preserves the list for the whole pass. Matrix and scratch
+accesses use checked indices.
 Inputs outside the gate use the Int64 closure, including caller-edited wide
 edge weights. Both paths charge the same arc and closure work.
 

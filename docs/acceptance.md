@@ -2,6 +2,52 @@
 
 Project MoonSTN / JingLan0v0/stn, published 0.2.11.
 
+## Flat closure pivot rows — 2026-11-19
+
+Baseline `ad31ee7` was built on Windows using the pinned MoonBit JS backend
+and Node 24.14.0. For 1,536 dense solves per process, the phase probe recorded
+201.62 ms for the flat closure loop, 30.98 ms to widen and 20.43 ms to index
+arcs. The closure measurement is about 0.131 ms per solve and includes probe
+overhead. In a separate CPU profile, the narrow closure function accounted
+for 480 of 594 samples, including its setup and widening. The generated
+inner loop recomputed the destination index and path sum on an update.
+
+The first two candidates computed each sum once, with and without bounds
+checks. They improved the connected rings by about 5–8% at their median
+across processes. The same-binary connected control varied by up to about
+7%. The nested checked Int32 matrix was slower for every eligible shape.
+The selected flat variant collects finite columns and weights once per
+pivot, then uses them for all reachable rows. All matrix accesses are
+checked, and the logical budget charge is still the full number of triples.
+
+| Selected candidate median, ms | Round 1 baseline → candidate | Round 2 baseline → candidate |
+|---|---:|---:|
+| Connected library, 128 solves | 21.98 → 14.92 | 21.64 → 15.12 |
+| Four arcs per point ring, 128 solves | 18.97 → 9.56 | 18.81 → 9.69 |
+| Four groups, 128 library solves | 10.10 → 7.01 | 10.91 → 7.25 |
+| Dense CLI, 16 requests with 256 queries | 135.04 → 132.07 | 134.63 → 132.84 |
+
+The two dense CLI medians fell 2.2% and 1.3%, with peak RSS lower by
+304 and 208 KiB. The other CLI medians differed by at most 2.3%. Dense
+exhausted library calls took an additional 0.04–0.18 ms per 128 calls.
+The no-edge exhausted control was flat in one library round and 0.67 ms
+slower per 2,048 calls in the other. Both exhausted paths stop before the
+changed loop.
+
+All ten CLI comparison workloads and the mixed boundary batch matched
+output bytes in both runs. The new public regression uses two signed
+components at 32 points with 128 distinct arcs. It verifies signed paths,
+unreachable pairs, an independently checked assignment and the exact
+33,280-step budget. The same test passes on the baseline.
+
+Compile `scripts/fixtures/numeric-benchmark.mbt` as a JS executable
+importing `JingLan0v0/stn` against each source revision. Run the
+numeric library and numeric query benchmarks with
+`MOONSTN_BENCH_DENSITY=1`. The sample file includes the variant patches,
+binary hashes and raw paired samples. The phase probe uses the original
+0.2.11 library fixture and its compiler markers.
+[Measurements](optimization-0.2.12.json)
+
 ## Mooncakes 0.2.11 publication — 2026-11-19
 
 Source `f1e9c78a8b2f2c26024be363575b37cee24cc03e` passed Windows and Ubuntu

@@ -1,9 +1,13 @@
 # Continue MoonSTN optimization
 
 The [optimization roadmap](optimization-roadmap.md) records the next measurement
-and its acceptance criteria. The 0.2.6 release fixes integer validation
-for JSON numbers rounded by binary64. Next, measure result construction and
-stringification on successful batches with large schedules.
+and its acceptance criteria. The 0.2.7 candidate reduces object construction
+time for wide schedule batches. Next, measure numeric STN requests with many
+bound queries. [Measurements](optimization-0.2.7.json)
+
+## JSON number exactness — 2026-11-19
+
+The 0.2.6 release fixes integer validation for JSON numbers rounded by binary64.
 [Measurements](optimization-0.2.6.json)
 
 Published source `3f510a8` passed Windows and Ubuntu CI. An empty-cache

@@ -80,13 +80,11 @@ pub fn analyze_plan(value : Json) -> Json raise StnError {
       out["status"] = Json::string("planned")
       out["schedule"] = Json::array(
         schedule.map(s => {
-          Json::object(
-            Map([
-              ("id", Json::string(s.id)),
-              ("start", number(Some(s.start))),
-              ("finish", number(Some(s.finish))),
-            ]),
-          )
+          let entry : Map[String, Json] = Map([], capacity=3)
+          entry["id"] = Json::string(s.id)
+          entry["start"] = Json::number(s.start.to_double())
+          entry["finish"] = Json::number(s.finish.to_double())
+          Json::object(entry)
         }),
       )
       stats

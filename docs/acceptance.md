@@ -2,6 +2,47 @@
 
 Project MoonSTN / JingLan0v0/stn, published 0.2.6.
 
+## Planning result construction — 2026-11-19
+
+Baseline `7e61c8f` uses the 0.2.6 runtime. The pinned release JS toolchain
+and Node 24.14.0 ran on Windows. Each fixture sends 64 requests. The phase
+profiler measures success or unschedulable object construction, error
+object construction and final JSON stringification in instrumented copies.
+Every copy is checked against the plain CLI's output.
+
+| Baseline output phase | Output bytes | Result build, ms | Error build, ms | Stringify, ms |
+|---|---:|---:|---:|---:|
+| Maximum dependency model | 60,226 | 1.03 | 0 | 3.42 |
+| Wide schedules, 24 tasks with 64-character IDs | 167,746 | 1.33 | 0 | 3.46 |
+| Unschedulable | 5,826 | 0.26 | 0 | 0.73 |
+| Work-budget error | 7,234 | 0 | 0.16 | 0.75 |
+| Mixed outcomes | 61,948 | 1.05 | 0.07 | 1.92 |
+
+The candidate creates each successful schedule entry in a map sized for the
+three fields. It fills the fields in their existing order and avoids the
+temporary array of key-value pairs. All six batch outputs matched byte for
+byte, including the ordinary maintenance fixture.
+
+| Candidate comparison, median | Round 1 baseline → candidate | Round 2 baseline → candidate |
+|---|---:|---:|
+| Wide schedule result build, ms | 1.277 → 1.164 | 1.543 → 1.126 |
+| Mixed outcome result build, ms | 0.991 → 0.582 | 1.145 → 0.570 |
+| Wide schedule plain CLI, ms | 106.15 → 105.35 | 108.19 → 107.58 |
+| Wide schedule plain CLI peak RSS, KiB | 60,720 → 59,004 | 60,200 → 60,012 |
+| Maximum dependency plain CLI, ms | 123.69 → 127.29 | 128.41 → 124.70 |
+
+The wide schedule's end-to-end improvement was under 1% in both rounds.
+The maximum dependency workload varied by round. The candidate reduces
+construction time for wide and mixed results. The stringify medians show
+no consistent improvement across workloads.
+
+Run `node scripts/benchmark-planning-results.mjs BASE.js CANDIDATE.js`
+from the repository root, then reverse the arguments. Set
+`MOONSTN_PROFILE_RESULTS=1` to enable the compiler-specific phase markers.
+Each round has two warm-up and nine measured process pairs. The report
+retains ordered samples, peak process RSS, byte counts and output hashes.
+[Raw measurements](optimization-0.2.7.json)
+
 ## Mooncakes 0.2.6 publication — 2026-11-19
 
 Source `3f510a868b609c2872fa9e2c948d1c39b1f20eb7` passed Windows and Ubuntu

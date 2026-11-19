@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.2.7 — 2026-11-19
+
+- Build schedule entries directly in their final JSON maps. The measured
+  planning batches produce identical output bytes.
+- Add a paired benchmark for result construction, serialization and peak
+  process memory across successful and failed planning batches.
+
 ## 0.2.6 — 2026-11-19
 
 - Check the exact source spelling of integer JSON fields. Fractional values

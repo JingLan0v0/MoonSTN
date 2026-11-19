@@ -6,7 +6,9 @@ import {basename, resolve} from 'node:path';
 
 const [baseline, candidate] = process.argv.slice(2).map(file => resolve(file));
 assert(baseline, 'Pass the baseline CLI and optionally the candidate CLI');
-const profiling = process.env.MOONSTN_PROFILE_NUMERIC_RESULTS === '1';
+const profileRequests = process.env.MOONSTN_PROFILE_NUMERIC_REQUESTS === '1';
+const requests = profileRequests || process.env.MOONSTN_BENCH_NUMERIC_REQUESTS === '1';
+const profiling = profileRequests || process.env.MOONSTN_PROFILE_NUMERIC_RESULTS === '1';
 const keys = ['10', '2', '01', '__proto__', 'constructor', 'toString'];
 const names = keys.concat(Array.from({length: 58}, (_, i) => 'p' + i));
 const longNames = names.map((name, i) => i < keys.length ? name : name.padEnd(64, '-'));
@@ -31,12 +33,18 @@ const ring = {
 };
 ring.constraints.push({id: 'last', from: names[0], to: names[63], lower: 1});
 const noBudget = {...feasible(names, 0), max_steps: 1};
+const manyConstraints = feasible(names, 4);
+manyConstraints.constraints.push(...Array.from({length: 510}, (_, i) => {
+  const source = 3 + Math.floor(i / 9);
+  return {id:'noise' + i, from:names[source], to:names[3 + (source - 3 + i % 9 + 1) % 61], upper:1000};
+}));
 const unknown = {...feasible(names, 0), queries: [{from: 'line\n"\u2603', to: names[1]}]};
 const cases = [
   {name: 'ordinary', requests: 64, inputs: [feasible(names.slice(0, 4), 4)]},
   {name: 'assignment-only', requests: 64, inputs: [feasible(names, 0)]},
   {name: 'four-queries', requests: 64, inputs: [feasible(names, 4)]},
   {name: '256-queries', requests: 64, inputs: [feasible(names, 256)]},
+  ...(requests ? [{name: 'dense-model', requests: 12, inputs: [manyConstraints]}] : []),
   {name: 'long-names', requests: 24, inputs: [feasible(longNames, 256)]},
   {name: 'cycle-64', requests: 64, inputs: [ring]},
   {name: 'mixed', requests: 64, inputs: [feasible(names, 4), ring, noBudget, unknown]},
@@ -86,6 +94,32 @@ function instrument(source) {
   }
   return lines.join('\n') + '\n' + source.slice(0, start) + body + source.slice(end);
 }
+function instrumentRequests(source) {
+  source = source.replaceAll('\r\n', '\n');
+  const analyze = 'function _M0FP210JingLan0v03stn7analyze(';
+  const start = source.indexOf(analyze);
+  const end = source.indexOf('\nfunction ', start + analyze.length);
+  assert(start >= 0 && end > start);
+  let body = source.slice(start, end);
+  const beginQueries = /^    (?:const queries = \[\]|let queries);$/m;
+  const endQueries = /^    const .* = _M0FP210JingLan0v03stn17arcs__with__index\(/m;
+  assert(beginQueries.test(body) && endQueries.test(body), 'Missing generated query markers');
+  body = body
+    .replace(beginQueries, '    const queryStarted = performance.now();\n$&')
+    .replace(endQueries, '    numericResultPhases.queryMs += performance.now() - queryStarted;\n$&');
+  const symbols = {
+    decodeMs: '_M0FP210JingLan0v03stn11parse__json',
+    modelMs: '_M0FP210JingLan0v03stn14parse__network',
+  };
+  const header = ['globalThis.numericResultPhases = {decodeMs:0,modelMs:0,queryMs:0};'];
+  for (const [key, fn] of Object.entries(symbols)) {
+    assert(source.includes('function ' + fn + '('), 'Missing compiler function ' + fn);
+    header.push('const saved_' + key + ' = ' + fn + '; ' + fn + ' = (...args) => {',
+      'const start = performance.now(); try { return saved_' + key + '(...args); }',
+      'finally { numericResultPhases.' + key + ' += performance.now() - start; } };');
+  }
+  return header.join('\n') + '\n' + source.slice(0, start) + body + source.slice(end);
+}
 const exactUpper = new Map([['0:1', 5], ['0:2', 2], ['1:2', -3]]);
 function checkResult(actual, request) {
   if (request === noBudget || request === unknown) {
@@ -125,7 +159,7 @@ try {
   if (tmp) {
     active = variants.map(([label, file]) => {
       const target = resolve(tmp, label + '.js');
-      writeFileSync(target, instrument(readFileSync(file, 'utf8')));
+      writeFileSync(target, (profileRequests ? instrumentRequests : instrument)(readFileSync(file, 'utf8')));
       return [label, target];
     });
   }
@@ -146,7 +180,8 @@ try {
       for (const [label, cli] of pair % 2 ? active.toReversed() : active) {
         const {output, sample} = invoke(cli, input);
         assert.equal(output, reference, name + '/' + label);
-        if (profiling) assert(sample.stringifyMs > 0);
+        if (profileRequests) assert(sample.decodeMs > 0 && sample.modelMs > 0);
+        else if (profiling) assert(sample.stringifyMs > 0);
         if (pair >= 2) samples[label].push(sample);
       }
     }

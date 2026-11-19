@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.2.16 — 2026-11-19
+
+- Resolve both fields of a two-field numeric query directly, with the
+  original validation path for other shapes.
+- Check error precedence, escaped duplicate query keys and batch recovery.
+
 ## 0.2.15 — 2026-11-19
 
 - Write bounded numeric CLI result trees directly, using core JSON

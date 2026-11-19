@@ -2,6 +2,46 @@
 
 Project MoonSTN / JingLan0v0/stn, published 0.2.15.
 
+## Numeric JSON query validation — 2026-11-19
+
+The 0.2.15 baseline is edba91b. On Windows release JS and Node 24.14.0,
+the first phase run measured 22.48 ms for JSON decoding including its
+preflight scan, 3.46 ms for model validation and 5.89 ms for query parsing
+across 64 requests with 256 queries each. Query parsing took 10.31 ms
+for the long-name batch. Model validation took 10.05 ms for 12 requests
+with 512 constraints each. The query phase includes endpoint lookups
+and counts only requests that reach arc indexing. Timing probes add overhead.
+
+The selected path reads both fields directly when the map has two entries
+and contains both required keys. Other maps still go through ordered
+unknown-field checking. Both branches check the two value types before
+resolving endpoints. A one-pass map traversal failed to improve the
+256-query phase, and a preallocated query-array variant had inconsistent
+end-to-end results in the two test orders.
+
+| Median CLI elapsed, ms | Baseline first | Candidate first | Final release build |
+|---|---:|---:|---:|
+| 64 requests × 256 queries | 146.63 → 143.05 | 147.16 → 145.26 | 151.32 → 147.39 |
+| 24 long-name requests × 256 queries | 124.92 → 126.23 | 124.01 → 127.05 | 126.79 → 125.66 |
+| 64 mixed requests | 106.57 → 103.84 | 103.95 → 106.40 | 101.43 → 102.86 |
+
+The short-name 256-query batch fell 2.4%, 1.3% and 2.6%. The separate
+phase pairing measured 6.06 → 3.08 ms in query parsing for that workload.
+Its same-binary elapsed control differed by 1.1%. The long-name and mixed
+elapsed results varied by run. The final build's ordinary-request batch
+was 3.2% slower. Its peak RSS on the 256-query batch was 444 KiB higher.
+
+All eight CLI workload outputs matched byte for byte. The verifier
+checks error precedence for unknown fields, missing fields, wrong types
+and unknown endpoints, plus escaped duplicate keys and recovery in the
+same batch. The new fixed error-order checks also pass against 0.2.15.
+
+Use MOONSTN_BENCH_NUMERIC_REQUESTS=1 with scripts/benchmark-numeric-results.mjs
+for the dense-model control. Use MOONSTN_PROFILE_NUMERIC_REQUESTS=1
+for the generated JS phase probes. The evidence includes the candidate
+patches, binary hashes and individual timings and memory samples.
+[Measurements](optimization-0.2.16.json)
+
 ## Mooncakes 0.2.15 publication — 2026-11-19
 
 Source `76bfdd8735bc9f5b1ed43fade541d1c356934ced` passed Windows and Ubuntu

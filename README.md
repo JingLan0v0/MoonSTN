@@ -10,7 +10,7 @@ window, or a negative cycle identifying contradictory original rules.
 
 [中文说明](README.zh-CN.md) · Apache-2.0 · Pure MoonBit core · JS CLI
 
-**Package version [JingLan0v0/stn@0.2.15](https://mooncakes.io/docs/JingLan0v0/stn@0.2.15).**
+**Package version [JingLan0v0/stn@0.2.16](https://mooncakes.io/docs/JingLan0v0/stn@0.2.16).**
 Verification and installation receipts: [acceptance](docs/acceptance.md).
 Repository: [JingLan0v0/MoonSTN](https://github.com/JingLan0v0/MoonSTN).
 
@@ -18,17 +18,18 @@ Repository: [JingLan0v0/MoonSTN](https://github.com/JingLan0v0/MoonSTN).
 
 | Version | Date | Main changes |
 | --- | --- | --- |
+| 0.2.16 | 2026-11-19 | Resolve the two fields of well-formed numeric queries directly and preserve validation order. |
 | 0.2.15 | 2026-11-19 | Write numeric CLI responses directly for faster large query batches, with field order and JSON escaping preserved. |
 | 0.2.14 | 2026-11-19 | Speed up multi-pass numeric feasibility with packed arc endpoints and exact bounded arithmetic. Keep the original cycle evidence and budget thresholds. |
 | 0.2.13 | 2026-11-19 | Reuse adjacent equal distance conversions when the closure has repeated values. Repeated-value dense library solves took 4.4–9.9% less time across four paired comparisons. |
 | 0.2.12 | 2026-11-19 | Reuse reachable columns during dense closure. Median dense library solve time fell 30–32% in two benchmark rounds. |
-| 0.2.11 | 2026-11-19 | Speed up arc indexing by reusing validated names for JSON requests and building a name map for dense library calls. |
 
 <details>
 <summary>Earlier versions</summary>
 
 | Version | Date | Main changes |
 | --- | --- | --- |
+| 0.2.11 | 2026-11-19 | Speed up arc indexing by reusing validated names for JSON requests and building a name map for dense library calls. |
 | 0.2.10 | 2026-11-19 | Use exact Int32 arithmetic for eligible dense networks and return tight bounds as Int64. |
 | 0.2.9 | 2026-11-19 | Skip closure updates that cannot improve the pivot row. Add an independent comparison for signed bounds on a 64-point network. |
 | 0.2.8 | 2026-11-19 | Resolve query endpoints once and read tight bounds directly by index. |
@@ -107,7 +108,7 @@ leave partial bytes; consumers must check the process exit status.
 Install the published package in your consumer module:
 
 ```sh
-moon add JingLan0v0/stn@0.2.15
+moon add JingLan0v0/stn@0.2.16
 ```
 
 Import `JingLan0v0/stn` as `stn` in `moon.pkg`. A complete runnable example is in

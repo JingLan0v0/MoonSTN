@@ -88,6 +88,29 @@ function verifyNumericEncoding(invoke) {
  assert.equal(mixed.status, 0, mixed.stderr);
  assert.equal(mixed.stdout, '['+[goodBytes,cycleBytes,errorBytes,goodBytes].join(',')+']\n');
 }
+function verifyQueryErrorOrder(invoke) {
+ const good = {timepoints:['a','b'], constraints:[], queries:[{to:'b',from:'a'}]};
+ const cases = [
+   [{from:false,zeta:0,alpha:0}, 'unknown field: zeta'],
+   [{to:false}, 'missing field: from'],
+   [{from:false}, 'from must be a string'],
+   [{from:'a'}, 'missing field: to'],
+   [{from:'x',to:false}, 'to must be a string'],
+   [{from:'x',to:'y'}, 'unknown timepoint: x'],
+   [{from:'a',to:'y'}, 'unknown timepoint: y'],
+ ];
+ const input = JSON.stringify([good, ...cases.map(([q]) => ({...good,max_steps:1,queries:[good.queries[0],q]})), good]);
+ const r = invoke(['--batch','-'],input);
+ assert.equal(r.status,0,r.stderr);
+ const results = JSON.parse(r.stdout);
+ assert.equal(results[0].status,'feasible');
+ assert.deepEqual(results[0],results.at(-1));
+ assert.deepEqual(results.slice(1,-1),cases.map(([,message]) => ({status:'error',code:'invalid_input',message})));
+ const duplicate = invoke(['-'],'{"timepoints":["a"],"constraints":[],"queries":[{"from":"a","f\\u0072om":"a","to":"a"}]}');
+ assert.equal(duplicate.status,2);
+ assert.equal(duplicate.stdout,'');
+ assert.equal(duplicate.stderr.trim(),'invalid_json: invalid JSON text');
+}
 function signedClosureCase() {
  const size = 64;
  const timepoints = Array.from({length: size}, (_, i) => 'p' + i);
@@ -173,14 +196,15 @@ for(const mode of ['debug','release']){
  const utf=invoke(['-'],Buffer.from([0xff]));assert.equal(utf.status,2);assert.equal(utf.stdout,'');
  verifyIntegerSpellings(invoke);
  verifyNumericEncoding(invoke);
+ verifyQueryErrorOrder(invoke);
  const bom=invoke(['-'],'\ufeff'+JSON.stringify(good));assert.equal(bom.status,0,bom.stderr);
  for(const args of [[],['--unknown'],['x','y'],['missing-file.json']]){const r=invoke(args,'');assert.equal(r.status,2);assert.equal(r.stdout,'');}
- assert.equal(invoke(['--version'],'').stdout.trim(),'0.2.15');
+ assert.equal(invoke(['--version'],'').stdout.trim(),'0.2.16');
  const fd=fs.openSync(path.join(root,'moon.mod'),'r');try{const r=spawnSync(process.execPath,[cli,'--version'],{stdio:['ignore',fd,'pipe'],encoding:'utf8',timeout:15000});assert.equal(r.status,2);}finally{fs.closeSync(fd);}
  const scenarios=['deployment','delivery','conflict'];
  for(const name of scenarios){const request=JSON.parse(fs.readFileSync(`examples/${name}.json`,'utf8'));const r=invoke([`examples/${name}.json`],'');assert.equal(r.status,0,r.stderr);const result=JSON.parse(r.stdout);validate(request,result);assert.equal(result.status,name==='conflict'?'inconsistent':'feasible');if(name==='deployment')assert.deepEqual(result.bounds,[{from:'zero',to:'release',lower:15,upper:35}]);if(name==='delivery')assert.deepEqual(result.bounds,[{from:'pickup',to:'arrival',lower:20,upper:40}]);}
  console.log(`PASS ${mode}: malformed input, batch isolation, process I/O and three scenarios`);
- reports.push({mode,unitTests:units.trim(),exhaustiveNetworks:4096,signedClosureBounds:256,...(baselineCli ? {numericBaselineCompared:true}:{}),invalidBatchItems:invalid.length,numericEncodingCompared:true,transportRejects:transport.length+1,scenarios});
+ reports.push({mode,unitTests:units.trim(),exhaustiveNetworks:4096,signedClosureBounds:256,...(baselineCli ? {numericBaselineCompared:true}:{}),invalidBatchItems:invalid.length,numericEncodingCompared:true,queryErrorOrderCompared:true,transportRejects:transport.length+1,scenarios});
 }
 process.stdout.write(run(process.execPath,['scripts/verify-planning.mjs',...process.argv.slice(2)]));
 fs.writeFileSync(summary,JSON.stringify({status:'passed',recordedAt:new Date().toISOString(),node:process.version,reports},null,2)+'\n');

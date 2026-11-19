@@ -187,9 +187,14 @@ pub fn analyze(value : Json) -> Json raise StnError {
         guard q is Object(q) else {
           raise StnError("invalid_input", "query must be an object")
         }
-        fields(q, ["from", "to"])
-        let a = text(required(q, "from"), "from")
-        let b = text(required(q, "to"), "to")
+        let (a, b) = if q.length() == 2 &&
+          q.get("from") is Some(from) &&
+          q.get("to") is Some(to) {
+          (text(from, "from"), text(to, "to"))
+        } else {
+          fields(q, ["from", "to"])
+          (text(required(q, "from"), "from"), text(required(q, "to"), "to"))
+        }
         let from = lookup_name(index, a)
         let to = lookup_name(index, b)
         queries.push((from, to))

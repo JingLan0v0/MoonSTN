@@ -53,13 +53,17 @@ pub fn solve(
     for i = 0; i < n; i = i + 1 {
       let row = distances[i]
       guard row[k] is Some(a) else { continue }
+      // Adding a zero diagonal cannot improve the pivot row itself.
+      if i == k && a == 0L {
+        continue
+      }
       for j = 0; j < n; j = j + 1 {
-        if via[j] is Some(b) {
-          let w = a + b
-          if row[j] is None || row[j].unwrap() > w {
-            row[j] = Some(w)
-          }
+        guard via[j] is Some(b) else { continue }
+        let w = a + b
+        if row[j] is Some(best) && best <= w {
+          continue
         }
+        row[j] = Some(w)
       }
     }
   }

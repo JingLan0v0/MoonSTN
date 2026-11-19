@@ -2,6 +2,51 @@
 
 Project MoonSTN / JingLan0v0/stn, published 0.2.8.
 
+## Numeric closure review — 2026-11-19
+
+Baseline `1a7a36a` uses the 0.2.8 runtime. Measurements used the pinned
+Windows JS release toolchain and Node 24.14.0. In a dense library CPU
+profile, the solver accounted for 940 of 1,189 samples. Two inlined
+array-access lines had 313 position ticks, with another 155 on the
+closure addition. A same-binary library control had a 3.3% dense
+median difference between argument positions.
+
+Reading each existing cell once produced mixed dense timings. The variant
+with unchecked access in proven-sized matrix loops lowered chained solve
+medians by 5.6% and 5.2%. Its dense difference was smaller than the
+same-binary control, and sparse CLI medians were slower in both rounds.
+
+The selected change keeps checked access. It reads the existing cell once
+and skips the pivot row when its diagonal is zero. Adding zero to that
+row's known values yields those same values. The full logical budget is
+reserved first. Negative cycles still return their certificate before
+closure.
+
+| Selected library median, ms | Round 1 baseline → candidate | Round 2 baseline → candidate |
+|---|---:|---:|
+| Empty graph, 2,048 solves | 24.94 → 15.80 | 24.98 → 16.41 |
+| Chain, 128 solves | 20.92 → 20.31 | 21.11 → 20.15 |
+| Dense, 128 solves | 50.97 → 50.68 | 50.28 → 50.35 |
+
+Empty-graph times fell 36.7% and 34.3%, and chain times fell 2.9% and 4.6%.
+Dense times varied within the control range. The empty-graph CLI varied by
+round. Dense CLI timings improved 1.7% and 0.2% in the 256-query workload.
+The second dense library run with insufficient budget was 6.8% slower.
+That path returns before traversing the closure. Raw samples include peak
+process RSS and control workloads.
+
+The query benchmark matched all six batch outputs byte for byte, including
+budget errors and the negative-cycle certificate. The regression suite
+compares another 256 tight bounds on a 64-point signed network with Dijkstra
+on nonnegative weights adjusted by endpoint potentials. This exercises
+large magnitudes and constraints with both lower and upper limits.
+
+Build two release CLIs and the two library drivers as in the numeric
+recheck reproduction. Run `scripts/benchmark-numeric-queries.mjs` and
+`scripts/benchmark-numeric-library.mjs` in both argument orders. The report
+retains samples, CPU attribution, binary hashes and the three candidate
+patches. [Raw measurements](optimization-0.2.9.json)
+
 ## Mooncakes 0.2.8 publication — 2026-11-19
 
 Source `99f4bd9b207336aa43aba15d3eb2e8ac54f8e617` passed Windows and Ubuntu

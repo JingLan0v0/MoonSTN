@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.2.9 — 2026-11-19
+
+- Skip a closure pivot row when its diagonal is zero and read each existing
+  cell once. Keep the same logical closure budget.
+- Compare 256 tight bounds on a signed 64-point network against an
+  independent shortest-path calculation.
+
 ## 0.2.8 — 2026-11-19
 
 - Resolve numeric JSON query endpoints once with the validated name index.

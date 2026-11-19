@@ -65,6 +65,52 @@ function verifyIntegerSpellings(invoke) {
    assert.equal(r.stderr.trim(), reason);
  }
 }
+function signedClosureCase() {
+ const size = 64;
+ const timepoints = Array.from({length: size}, (_, i) => 'p' + i);
+ const potential = timepoints.map((_, i) => (i * 323917) % 800000);
+ const adjacency = timepoints.map(() => []);
+ const constraints = timepoints.flatMap((from, i) => [1, 3, 11, 19].map((jump, k) => {
+   const j = (i + jump) % size;
+   const forward = (i * 8131 + jump * 931) % 150000;
+   const reverse = (j * 8719 + jump * 811) % 150000;
+   adjacency[i].push([j, forward]);
+   if (k % 2 === 0) adjacency[j].push([i, reverse]);
+   const offset = potential[j] - potential[i];
+   return {id: 'e' + i + '-' + jump, from, to: timepoints[j], upper: offset + forward,
+     lower: k % 2 === 0 ? offset - reverse : null};
+ }));
+ // Dijkstra on nonnegative weights, before adding endpoint potential differences.
+ const distance = timepoints.map((_, source) => {
+   const cost = Array(size).fill(Infinity);
+   const visited = Array(size).fill(false);
+   cost[source] = 0;
+   for (let step = 0; step < size; step++) {
+     let best = -1;
+     for (let i = 0; i < size; i++) {
+       if (!visited[i] && (best === -1 || cost[i] < cost[best])) best = i;
+     }
+     visited[best] = true;
+     for (const [target, weight] of adjacency[best]) {
+       cost[target] = Math.min(cost[target], cost[best] + weight);
+     }
+   }
+   return cost;
+ });
+ const queries = Array.from({length: 256}, (_, k) => {
+   const a = k % size;
+   const b = (a * 11 + Math.floor(k / size) * 13) % size;
+   return {a, b, from: timepoints[a], to: timepoints[b]};
+ });
+ return {
+   request: {timepoints, constraints, queries: queries.map(({from,to}) => ({from,to}))},
+   bounds: queries.map(({a,b,from,to}) => ({
+     from, to, lower: potential[b] - potential[a] - distance[b][a],
+     upper: potential[b] - potential[a] + distance[a][b],
+   })),
+ };
+}
+const signedClosure = signedClosureCase();
 function validate(request,result){
  const arcs=request.constraints.flatMap(e=>[...(e.upper==null?[]:[{id:e.id,from:e.from,to:e.to,bound:e.upper,side:'upper'}]),...(e.lower==null?[]:[{id:e.id,from:e.to,to:e.from,bound:-e.lower,side:'lower'}])]);
  if(result.status==='feasible'){assert.deepEqual(Object.keys(result.assignment).sort(),[...request.timepoints].sort());assert.equal(result.assignment[request.timepoints[0]],0);assert(arcs.every(e=>result.assignment[e.to]-result.assignment[e.from]<=e.bound));}
@@ -91,6 +137,10 @@ for(const mode of ['debug','release']){
    return results;
  };
  for(let start=0;start<cases.length;start+=64){const chunk=cases.slice(start,start+64);const actual=batch(chunk.map(c=>c.request));assert.equal(actual.length,chunk.length);actual.forEach((result,i)=>{const c=chunk[i];assert.equal(result.status,c.feasible?'feasible':'inconsistent',`network ${start+i}`);validate(c.request,result);if(c.feasible)assert.deepEqual(result.bounds,c.bounds,`bounds ${start+i}`);});}
+ const [signed] = batch([signedClosure.request]);
+ assert.equal(signed.status, 'feasible');
+ validate(signedClosure.request, signed);
+ assert.deepEqual(signed.bounds, signedClosure.bounds, `${mode} signed 64-point closure`);
  console.log(`PASS ${mode}: 4096 exhaustive networks, assignments, bounds and conflict certificates`);
  const good={timepoints:['zero'],constraints:[]};
  const invalid=[null,{}, {...good,typo:1},{...good,timepoints:['a','a']},{...good,timepoints:['a b']},{...good,constraints:[{id:'c',from:'zero',to:'x',upper:1}]},{...good,constraints:[{id:'c',from:'zero',to:'zero',upper:1.5}]},{...good,constraints:[{id:'c',from:'zero',to:'zero',upper:1e100}]},{...good,constraints:[{id:'c',from:'zero',to:'zero'}]},{...good,max_steps:0},{...good,max_steps:1.5},{...good,queries:[{from:'zero',to:'missing'}]},{...good,timepoints:Array.from({length:65},(_,i)=>`v${i}`)},{...good,constraints:Array.from({length:513},(_,i)=>({id:`c${i}`,from:'zero',to:'zero',upper:0}))},{...good,timepoints:['a','b'],max_steps:1}];
@@ -101,12 +151,12 @@ for(const mode of ['debug','release']){
  verifyIntegerSpellings(invoke);
  const bom=invoke(['-'],'\ufeff'+JSON.stringify(good));assert.equal(bom.status,0,bom.stderr);
  for(const args of [[],['--unknown'],['x','y'],['missing-file.json']]){const r=invoke(args,'');assert.equal(r.status,2);assert.equal(r.stdout,'');}
- assert.equal(invoke(['--version'],'').stdout.trim(),'0.2.8');
+ assert.equal(invoke(['--version'],'').stdout.trim(),'0.2.9');
  const fd=fs.openSync(path.join(root,'moon.mod'),'r');try{const r=spawnSync(process.execPath,[cli,'--version'],{stdio:['ignore',fd,'pipe'],encoding:'utf8',timeout:15000});assert.equal(r.status,2);}finally{fs.closeSync(fd);}
  const scenarios=['deployment','delivery','conflict'];
  for(const name of scenarios){const request=JSON.parse(fs.readFileSync(`examples/${name}.json`,'utf8'));const r=invoke([`examples/${name}.json`],'');assert.equal(r.status,0,r.stderr);const result=JSON.parse(r.stdout);validate(request,result);assert.equal(result.status,name==='conflict'?'inconsistent':'feasible');if(name==='deployment')assert.deepEqual(result.bounds,[{from:'zero',to:'release',lower:15,upper:35}]);if(name==='delivery')assert.deepEqual(result.bounds,[{from:'pickup',to:'arrival',lower:20,upper:40}]);}
  console.log(`PASS ${mode}: malformed input, batch isolation, process I/O and three scenarios`);
- reports.push({mode,unitTests:units.trim(),exhaustiveNetworks:4096,...(baselineCli ? {numericBaselineCompared:true}:{}),invalidBatchItems:invalid.length,transportRejects:transport.length+1,scenarios});
+ reports.push({mode,unitTests:units.trim(),exhaustiveNetworks:4096,signedClosureBounds:256,...(baselineCli ? {numericBaselineCompared:true}:{}),invalidBatchItems:invalid.length,transportRejects:transport.length+1,scenarios});
 }
 process.stdout.write(run(process.execPath,['scripts/verify-planning.mjs',...process.argv.slice(2)]));
 fs.writeFileSync(summary,JSON.stringify({status:'passed',recordedAt:new Date().toISOString(),node:process.version,reports},null,2)+'\n');

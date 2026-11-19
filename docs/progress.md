@@ -1,8 +1,18 @@
 # Continue MoonSTN optimization
 
 The [optimization roadmap](optimization-roadmap.md) records the next measurement
-and its acceptance criteria. Next, profile numeric JSON request validation
-and query endpoint resolution.
+and its acceptance criteria. Next, measure the JSON preflight scan and
+the core decoder separately on numeric request batches.
+
+## Numeric JSON query validation — 2026-11-19
+
+Version 0.2.16 resolves both fields of well-formed numeric queries directly.
+The 256-query batch was 2.4% and 1.3% faster in the paired trials and 2.6%
+faster with the final release build. [Measurements](optimization-0.2.16.json)
+
+Source 0a3114d passed Windows and Ubuntu CI. A fresh installation passed
+both modes. The public archive CLI preserved query error precedence.
+[Release receipts](publication-0.2.16.json)
 
 ## Numeric CLI result serialization — 2026-11-19
 

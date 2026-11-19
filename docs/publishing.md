@@ -1,4 +1,4 @@
-# Publishing — 0.2.15 published 2026-11-19
+# Publishing — 0.2.16 published 2026-11-19
 
 The owner authorized Mooncakes publication on 2026-11-11. Require actual registry
 and fresh-consumer receipts; do not overwrite an existing version.
@@ -95,3 +95,7 @@ precise fallback for a caller-edited wide edge.
 Version 0.2.15 returned `200 OK` on 2026-11-19. The public archive matched
 all 104 installed files. The CLI built from the public archive passed
 fixed-byte checks in both modes. [Receipts](publication-0.2.15.json)
+
+Version 0.2.16 returned 200 OK on 2026-11-19. The public archive matched
+all 106 installed files. Both CLI build modes preserved query errors and
+output bytes. [Receipts](publication-0.2.16.json)

@@ -1,8 +1,19 @@
 # Continue MoonSTN optimization
 
 The [optimization roadmap](optimization-roadmap.md) records the next measurement
-and its acceptance criteria. Next, evaluate the flat closure loop's cell access
-and repeated arithmetic.
+and its acceptance criteria. Next, measure conversion and materialization
+of closure distances for library and JSON calls.
+
+## Flat closure pivot rows — 2026-11-19
+
+The 0.2.12 release reuses reachable columns and weights from each pivot row.
+The two dense library batch medians fell 32.1% and 30.1%. The four-arc
+ring medians fell 49.6% and 48.5%.
+[Measurements](optimization-0.2.12.json)
+
+Published source `85fd1a5` passed Windows and Ubuntu CI. A fresh installation
+passed both modes, including signed separated components and exact budgets.
+[Release receipts](publication-0.2.12.json)
 
 ## Numeric arc indexing — 2026-11-19
 

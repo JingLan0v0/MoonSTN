@@ -1,6 +1,22 @@
 # Acceptance evidence — updated 2026-11-19
 
-Project MoonSTN / JingLan0v0/stn, published 0.2.11.
+Project MoonSTN / JingLan0v0/stn, published 0.2.12.
+
+## Mooncakes 0.2.12 publication — 2026-11-19
+
+Source `85fd1a540cbe1f399d78c01edf0cf2992a2f355d` passed Windows and Ubuntu
+[CI run 44494072876](https://github.com/JingLan0v0/MoonSTN/actions/runs/44494072876).
+Both build modes passed 31 unit tests, 4,096 numeric networks, 256 signed
+network bounds and 1,794 planning cases in the checkout and a fresh
+extraction. PowerShell smoke passed and generated interfaces matched.
+
+Preflight returned 202 and publication returned 200. The registry recorded
+2026-11-19 17:13:23 Asia/Shanghai. The public and preflight ZIP archives share
+SHA-256 `081c80127503c83ca23af324471746ed698f6ae77550ea8c103c3a20b4b21301`.
+A fresh consumer installed exactly 0.2.12 and passed both build modes with
+signed separated components, unreachable pairs and exact budgets. All 94
+installed files matched the public archive.
+[Release receipts](publication-0.2.12.json)
 
 ## Flat closure pivot rows — 2026-11-19
 

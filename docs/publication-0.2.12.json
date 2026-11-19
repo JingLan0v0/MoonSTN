@@ -1,0 +1,69 @@
+{
+  "version": "0.2.12",
+  "sourceCommit": "85fd1a540cbe1f399d78c01edf0cf2992a2f355d",
+  "baselineCommit": "ad31ee7a6174606aa75f95a7e3d72ef0cc2c4468",
+  "verification": {
+    "checkoutCompletedAt": "2026-11-19T09:07:26.263Z",
+    "packageExtractionCompletedAt": "2026-11-19T09:12:38.411Z",
+    "modes": [
+      "debug",
+      "release"
+    ],
+    "unitTestsPerMode": 31,
+    "stnOracleCasesPerMode": 4096,
+    "signedClosureBoundsPerMode": 256,
+    "planningOracleCasesPerMode": 1794,
+    "baselineComparedForExistingSuites": true,
+    "byteIdenticalBenchmarkWorkloads": 10,
+    "generatedInterfaces": "unchanged",
+    "powerShellSmoke": "passed in checkout and extraction"
+  },
+  "ci": {
+    "run": 44494072876,
+    "ubuntu": {
+      "job": 135456688326,
+      "conclusion": "success"
+    },
+    "windows": {
+      "job": 135456687888,
+      "conclusion": "success"
+    }
+  },
+  "packageFiles": 94,
+  "sha256": "081c80127503c83ca23af324471746ed698f6ae77550ea8c103c3a20b4b21301",
+  "preflight": "202 Accepted",
+  "publication": "200 OK",
+  "registryCreatedAt": "2026-11-19T09:13:23.383453+00:00",
+  "publicVersionPageStatus": 200,
+  "consumer": {
+    "checkedAt": "2026-11-19T09:15:55.557107+00:00",
+    "freshCache": true,
+    "credentials": false,
+    "workspaceDependency": false,
+    "modes": [
+      "debug",
+      "release"
+    ],
+    "checks": [
+      "exact version",
+      "assignment",
+      "tight bounds",
+      "conflict certificate",
+      "resource-order backtracking",
+      "independent plan verification",
+      "resource-induced unschedulability",
+      "planning budget recovery",
+      "exact decimal and exponent spellings",
+      "nonzero underflow rejection",
+      "byte-identical mixed planning batch",
+      "byte-identical 256-query numeric response at exact budget",
+      "dense closure at exact and one-step-short budgets",
+      "63,000,000 tight upper bound",
+      "edited \u00b13,000,000,000 edges and subsequent reuse",
+      "edited names, first duplicate-name match, unknown endpoint before budget exhaustion and edited edges",
+      "signed 32-point separate components, exact closure budget, unreachable pairs and checked assignment"
+    ],
+    "registryArchiveMatches": true,
+    "installedFilesMatch": true
+  }
+}

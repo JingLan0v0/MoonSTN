@@ -326,6 +326,15 @@ test "wide edited edges keep exact bounds and closure work thresholds" {
     assert_eq(solution.bounds("v31", "v0"), (Some(-bound), None))
     assert_true(@stn.verify_assignment(net, solution.assignment()))
   }
+  // An edited edge can hit the Int64 fallback beyond exact binary64 integers.
+  let bound = -9007199254740993L
+  net.edges[tail] = { ..original, bound, }
+  let steps = n * n * n + 3 * net.edges.length()
+  guard @stn.solve(net, max_steps=steps) is @stn.Feasible(solution) else {
+    fail("expected a feasible wide closure")
+  }
+  assert_eq(solution.values[31], bound)
+  assert_eq(solution.bounds("v0", "v31"), (None, Some(bound)))
 }
 
 ///|
@@ -443,4 +452,30 @@ test "repeated distance widening preserves the complete signed matrix" {
     }
   }
   assert_true(@stn.verify_assignment(net, solution.assignment()))
+}
+
+///|
+test "large negative potentials preserve the last original cycle edge" {
+  let n = 64
+  let names = Array::makei(n, i => "v" + i.to_string())
+  // 512 negative self edges drive the potential below Int32 during relaxation.
+  let constraints = Array::makei(512, i => {
+    edge("loop" + i.to_string(), "v0", "v0", None, Some(-1000000))
+  })
+  let net = @stn.network(names, constraints)
+  let exact = n * constraints.length() + n + 1
+  for steps in [n * constraints.length() - 1, exact - 1] {
+    let exhausted = try {
+      @stn.solve(net, max_steps=steps) |> ignore
+      false
+    } catch {
+      @stn.StnError(code, _) => code == "limit_exceeded"
+    }
+    assert_true(exhausted)
+  }
+  guard @stn.solve(net, max_steps=exact) is @stn.Inconsistent(cycle) else {
+    fail("expected a checked negative cycle")
+  }
+  assert_eq(cycle, [net.edges[511]])
+  assert_true(@stn.verify_conflict(net, cycle))
 }

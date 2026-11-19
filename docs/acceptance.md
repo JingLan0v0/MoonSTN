@@ -2,6 +2,56 @@
 
 Project MoonSTN / JingLan0v0/stn, published 0.2.13.
 
+## Numeric feasibility relaxation — 2026-11-19
+
+Baseline `f7732bf` was measured on Windows release JS using Node 24.14.0.
+Three 64-point, 512-arc fixtures isolate one-pass feasibility, 64-pass
+signed feasibility and 64-pass infeasibility with a 64-edge certificate.
+The phase probe recorded about 0.004 ms per solve for one-pass relaxation,
+0.138 ms for the signed feasible case and 0.135 ms for the negative-cycle
+case. Certificate construction added about 0.002 ms. Probe timings
+include instrumentation overhead.
+
+Direct exact binary64 relaxation and switching after the first pass
+without packing gave mixed results on exact-budget cases. The selected
+version preserves the first Int64 pass and packs each checked arc's
+endpoint pair into an integer for subsequent passes. It uses checked
+scratch arrays and exact binary64 integers, preserving scan order, strict
+updates and the full logical budget. An unchecked variant was also
+measured. The selected version retains index checks.
+[Integer range proof](architecture.md)
+
+| Median, ms per 64 library solves | Pair 1 baseline → candidate | Pair 2 baseline → candidate |
+|---|---:|---:|
+| One-pass feasible, exact budget | 8.33 → 8.56 | 8.21 → 7.98 |
+| Signed chain, exact budget | 15.85 → 13.65 | 16.41 → 13.66 |
+| Signed chain, one step short | 9.09 → 6.39 | 8.69 → 7.00 |
+| Late cycle, exact budget | 8.44 → 6.11 | 8.37 → 6.21 |
+| Late cycle, one step short | 9.05 → 6.19 | 9.12 → 6.39 |
+
+The exact-budget signed chain improved 13.9% and 16.8%. The exact-budget
+late cycle improved 27.6% and 25.9%. One-pass library medians stayed in
+the same-binary control range. In two cold-process rounds of 12 requests,
+the exact-budget signed CLI batch stayed within 0.3%. The late-cycle batch
+one step short improved 2.0% and 2.2%, with median peak RSS 3,392 and
+3,280 KiB lower.
+
+All six relaxation and 16 query/density CLI workloads matched output
+bytes, as did both mixed boundary batches. The late-cycle comparison
+checks authentic edge identity, ordering, negative sum and failures during
+relaxation and certificate construction. New regressions check a potential
+as low as −32,768,000,000 with an original self-loop certificate, plus
+exact fallback for a caller-edited edge of −9,007,199,254,740,993. Both
+also pass on the baseline. The full verifier compares planning to the
+same baseline in both build modes.
+
+Compile `scripts/fixtures/numeric-relax-benchmark.mbt` as a JS executable
+importing `JingLan0v0/stn`. Run `node scripts/benchmark-numeric-relaxation.mjs
+profile BASE-LIB.js` for the 0.2.13 compiler markers. The `library` and
+`cli` modes accept two builds. The evidence file includes variant patches,
+binary hashes and raw paired timing and memory samples.
+[Measurements](optimization-0.2.14.json)
+
 ## Mooncakes 0.2.13 publication — 2026-11-19
 
 Source `33f6c98452c1e19a54ade49cfa5d1d3c102b0e24` passed Windows and Ubuntu

@@ -16,6 +16,16 @@ steps enter a cycle. Reversing its collected edges produces an ordered closed
 walk. A separate verifier checks edge authenticity, adjacency and negative sum.
 It does not trust a claimed status or forged numeric edge weight.
 
+For numeric networks with 32–64 points and 4V–1,024 arcs, a changing first
+Int64 pass can be followed by exact binary64 integer relaxation. The solver
+rechecks weights against ±1,000,000 and packs each pair of endpoint indices
+in two six-bit fields. After at most 64 × 1,024 attempted relaxations, a
+candidate represents a sum of at most that many checked edges. Its
+magnitude is below 2^36, within the exact integer range of binary64.
+Values convert back to Int64 before normalization. The arc order, strict
+comparison, predecessor updates and full per-pass work charge are retained.
+Planning and caller-edited wider weights use Int64 relaxation.
+
 If feasible, subtract the first timepoint's potential from all potentials. This
 preserves every difference and anchors that point at zero. verify_assignment
 checks every original edge rather than recomputing the solver. It accepts any

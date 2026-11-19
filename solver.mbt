@@ -19,7 +19,7 @@ fn solve_indexed(
 ) -> Outcome raise StnError {
   let budget = { remaining: max_steps, }
   let n = net.names.length()
-  let (values, pred, changed) = relax(n, arcs, budget)
+  let (values, pred, changed) = relax(n, arcs, budget, numeric=true)
   if changed != -1 {
     let mut node = changed
     for _i = 0; _i < n; _i = _i + 1 {
@@ -248,10 +248,55 @@ fn arcs_with_index(
 }
 
 ///|
+fn resume_relax_doubles(
+  n : Int32,
+  arcs : Array[TemporalArc],
+  budget : Budget,
+  values : Array[Int64],
+  pred : Array[Int32],
+) -> (Array[Int64], Array[Int32], Int32)? raise StnError {
+  let count = arcs.length()
+  let weights = FixedArray::make(count, 0.0)
+  let endpoints = FixedArray::make(count, 0)
+  for i = 0; i < count; i = i + 1 {
+    let { source, target, bound, } = arcs[i]
+    if bound < -1000000L || bound > 1000000L {
+      return None
+    }
+    weights[i] = bound.to_double()
+    // Validated endpoint indices are in 0..63, so two six-bit fields fit.
+    endpoints[i] = (source << 6) | target
+  }
+  // At most 64 * 1024 relaxations can add one checked edge each.
+  // Every candidate has magnitude below 2^36, so Double is exact.
+  let narrow = FixedArray::makei(n, i => values[i].to_double())
+  let mut changed = -1
+  for round = 1; round < n; round = round + 1 {
+    changed = -1
+    budget.charge(count)
+    for i = 0; i < count; i = i + 1 {
+      let pair = endpoints[i]
+      let b = pair & 63
+      let candidate = narrow[pair >> 6] + weights[i]
+      if candidate < narrow[b] {
+        narrow[b] = candidate
+        pred[b] = i
+        changed = b
+      }
+    }
+    if changed == -1 {
+      break
+    }
+  }
+  Some((Array::makei(n, i => narrow[i].to_int64()), pred, changed))
+}
+
+///|
 fn relax(
   n : Int32,
   arcs : Array[TemporalArc],
   budget : Budget,
+  numeric~ : Bool = false,
 ) -> (Array[Int64], Array[Int32], Int32) raise StnError {
   // An implicit zero-cost super-source reaches every connected component.
   let values : Array[Int64] = Array::make(n, 0L)
@@ -272,6 +317,16 @@ fn relax(
     }
     if changed == -1 {
       break
+    }
+    if _round == 0 &&
+      numeric &&
+      n >= 32 &&
+      n <= 64 &&
+      arcs.length() >= 4 * n &&
+      arcs.length() <= 1024 &&
+      budget.remaining >= arcs.length() &&
+      resume_relax_doubles(n, arcs, budget, values, pred) is Some(result) {
+      return result
     }
   }
   (values, pred, changed)

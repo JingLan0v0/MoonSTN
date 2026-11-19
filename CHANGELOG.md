@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.2.14 — 2026-11-19
+
+- Pack arc endpoints and use exact binary64 integers after the first
+  relaxation pass on eligible dense numeric networks.
+- Preserve logical work charges and ordered original-edge certificates.
+- Check potentials below the Int32 range and precise fallback for an
+  edited edge beyond the binary64 exact-integer range.
+
 ## 0.2.13 — 2026-11-19
 
 - Reuse Int64 conversions for adjacent equal distances when the narrow

@@ -1,8 +1,19 @@
 # Continue MoonSTN optimization
 
 The [optimization roadmap](optimization-roadmap.md) records the next measurement
-and its acceptance criteria. Next, measure the JSON preflight scan and
-the core decoder separately on numeric request batches.
+and its acceptance criteria. Next, measure the numeric closure allocation
+cost when the remaining work budget is too small.
+
+## Numeric JSON preflight — 2026-11-20
+
+Version 0.2.17 traverses JSON input directly during the resource scan.
+The 256-query workload's preflight phase fell from 3.28 ms to 2.48 ms.
+Final elapsed times fell 2.4% and 1.8% for that workload.
+[Measurements](optimization-0.2.17.json)
+
+Source 9e58a1c passed both CI platforms. The public archive passed
+scan-limit checks in both modes, and an empty-cache install verified the API.
+[Release receipts](publication-0.2.17.json)
 
 ## Numeric JSON query validation — 2026-11-19
 

@@ -1,0 +1,87 @@
+{
+  "version": "0.2.17",
+  "sourceCommit": "9e58a1c1ff8f1bdd6a82cbcacc6c69173b09c18d",
+  "baselineCommit": "8efc1b24b3dbfaf26b4cf8f848c78bf9901f19c8",
+  "verification": {
+    "checkoutCompletedAt": "2026-11-19T16:05:20.840Z",
+    "packageExtractionCompletedAt": "2026-11-19T16:09:17.970Z",
+    "modes": [
+      "debug",
+      "release"
+    ],
+    "unitTestsPerMode": 33,
+    "stnOracleCasesPerMode": 4096,
+    "signedClosureBoundsPerMode": 256,
+    "planningOracleCasesPerMode": 1794,
+    "baselineComparedForExistingSuites": true,
+    "byteIdenticalBenchmarkWorkloads": 9,
+    "generatedInterfaces": "unchanged",
+    "powerShellSmoke": "passed in checkout and extraction",
+    "fixedNumericEncodingBaselineCompared": true,
+    "publicArchiveNumericCliEncoding": [
+      "debug",
+      "release"
+    ],
+    "fixedQueryErrorOrderBaselineCompared": true,
+    "publicArchiveQueryErrorOrder": [
+      "debug",
+      "release"
+    ],
+    "fixedJsonScanBoundsBaselineCompared": true,
+    "publicArchiveJsonScanBounds": [
+      "debug",
+      "release"
+    ]
+  },
+  "ci": {
+    "run": 44562704002,
+    "ubuntu": {
+      "job": 135696016848,
+      "conclusion": "success"
+    },
+    "windows": {
+      "job": 135696016425,
+      "conclusion": "success"
+    }
+  },
+  "packageFiles": 108,
+  "sha256": "12958341270f12ba313d6ec8137e14a35699566b8603e0388259414d16ddb3b7",
+  "preflight": "202 Accepted",
+  "publication": "200 OK",
+  "registryCreatedAt": "2026-11-19T16:10:23.771763+00:00",
+  "publicVersionPageStatus": 200,
+  "consumer": {
+    "checkedAt": "2026-11-19T16:12:40.929945+00:00",
+    "freshCache": true,
+    "credentials": false,
+    "workspaceDependency": false,
+    "modes": [
+      "debug",
+      "release"
+    ],
+    "checks": [
+      "exact version",
+      "assignment",
+      "tight bounds",
+      "conflict certificate",
+      "resource-order backtracking",
+      "independent plan verification",
+      "resource-induced unschedulability",
+      "planning budget recovery",
+      "exact decimal and exponent spellings",
+      "nonzero underflow rejection",
+      "byte-identical mixed planning batch",
+      "byte-identical 256-query numeric response at exact budget",
+      "dense closure at exact and one-step-short budgets",
+      "63,000,000 tight upper bound",
+      "edited \u00b13,000,000,000 edges and subsequent reuse",
+      "edited names, first duplicate-name match, unknown endpoint before budget exhaustion and edited edges",
+      "signed 32-point separate components, exact closure budget, unreachable pairs and checked assignment",
+      "complete public matrix with 1,024 signed, repeated and unreachable cells",
+      "negative potentials beyond Int32, exact cycle identity and both work-exhaustion boundaries",
+      "edited edge beyond binary64 exact integer range"
+    ],
+    "registryArchiveMatches": true,
+    "installedFilesMatch": true
+  }
+}

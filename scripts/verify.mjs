@@ -65,6 +65,29 @@ function verifyIntegerSpellings(invoke) {
    assert.equal(r.stderr.trim(), reason);
  }
 }
+function verifyNumericEncoding(invoke) {
+ const name = 'bad\n\t"\\雪';
+ const good = {
+   timepoints: ['10', '2', '__proto__'],
+   constraints: [{id:'signed', from:'10', to:'2', upper:-2}],
+   queries: [{from:'10', to:'2'}, {from:'__proto__', to:'10'}],
+ };
+ const cycle = {
+   timepoints: ['10'],
+   constraints: [{id:'zero', from:'10', to:'10', lower:1}],
+ };
+ const bad = {...good, queries:[{from:name, to:'2'}]};
+ const goodBytes = '{"status":"feasible","assignment":{"10":0,"2":-2,"__proto__":0},"bounds":' +
+   '[{"from":"10","to":"2","lower":null,"upper":-2},{"from":"__proto__","to":"10","lower":null,"upper":null}]}';
+ const cycleBytes = '{"status":"inconsistent","cycle":[{"id":"zero","from":"10","to":"10","bound":-1,"side":"lower"}]}';
+ const errorBytes = JSON.stringify({status:'error', code:'invalid_input', message:'unknown timepoint: '+name});
+ const single = invoke(['-'], JSON.stringify(good));
+ assert.equal(single.status, 0, single.stderr);
+ assert.equal(single.stdout, goodBytes+'\n');
+ const mixed = invoke(['--batch','-'], JSON.stringify([good,cycle,bad,good]));
+ assert.equal(mixed.status, 0, mixed.stderr);
+ assert.equal(mixed.stdout, '['+[goodBytes,cycleBytes,errorBytes,goodBytes].join(',')+']\n');
+}
 function signedClosureCase() {
  const size = 64;
  const timepoints = Array.from({length: size}, (_, i) => 'p' + i);
@@ -149,14 +172,15 @@ for(const mode of ['debug','release']){
  for(const input of transport){const r=invoke(['--batch','-'],input);assert.equal(r.status,2);assert.equal(r.stdout,'');assert(r.stderr.length>0);}
  const utf=invoke(['-'],Buffer.from([0xff]));assert.equal(utf.status,2);assert.equal(utf.stdout,'');
  verifyIntegerSpellings(invoke);
+ verifyNumericEncoding(invoke);
  const bom=invoke(['-'],'\ufeff'+JSON.stringify(good));assert.equal(bom.status,0,bom.stderr);
  for(const args of [[],['--unknown'],['x','y'],['missing-file.json']]){const r=invoke(args,'');assert.equal(r.status,2);assert.equal(r.stdout,'');}
- assert.equal(invoke(['--version'],'').stdout.trim(),'0.2.14');
+ assert.equal(invoke(['--version'],'').stdout.trim(),'0.2.15');
  const fd=fs.openSync(path.join(root,'moon.mod'),'r');try{const r=spawnSync(process.execPath,[cli,'--version'],{stdio:['ignore',fd,'pipe'],encoding:'utf8',timeout:15000});assert.equal(r.status,2);}finally{fs.closeSync(fd);}
  const scenarios=['deployment','delivery','conflict'];
  for(const name of scenarios){const request=JSON.parse(fs.readFileSync(`examples/${name}.json`,'utf8'));const r=invoke([`examples/${name}.json`],'');assert.equal(r.status,0,r.stderr);const result=JSON.parse(r.stdout);validate(request,result);assert.equal(result.status,name==='conflict'?'inconsistent':'feasible');if(name==='deployment')assert.deepEqual(result.bounds,[{from:'zero',to:'release',lower:15,upper:35}]);if(name==='delivery')assert.deepEqual(result.bounds,[{from:'pickup',to:'arrival',lower:20,upper:40}]);}
  console.log(`PASS ${mode}: malformed input, batch isolation, process I/O and three scenarios`);
- reports.push({mode,unitTests:units.trim(),exhaustiveNetworks:4096,signedClosureBounds:256,...(baselineCli ? {numericBaselineCompared:true}:{}),invalidBatchItems:invalid.length,transportRejects:transport.length+1,scenarios});
+ reports.push({mode,unitTests:units.trim(),exhaustiveNetworks:4096,signedClosureBounds:256,...(baselineCli ? {numericBaselineCompared:true}:{}),invalidBatchItems:invalid.length,numericEncodingCompared:true,transportRejects:transport.length+1,scenarios});
 }
 process.stdout.write(run(process.execPath,['scripts/verify-planning.mjs',...process.argv.slice(2)]));
 fs.writeFileSync(summary,JSON.stringify({status:'passed',recordedAt:new Date().toISOString(),node:process.version,reports},null,2)+'\n');

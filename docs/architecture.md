@@ -75,6 +75,12 @@ the same complete public matrix and preserve unreachable entries.
 Inputs outside the gate use the Int64 closure, including caller-edited wide
 edge weights. Both paths charge the same arc and closure work.
 
+The numeric CLI serializes bounded analyzer responses by walking the result
+tree directly in map insertion order. String values and keys use the core
+JSON encoder when they contain a quote, backslash or control character.
+The public analyzers return Json for library consumers. Planning CLI output
+uses the core JSON serializer.
+
 Core files: model.mbt (validation/snapshots), solver.mbt (reasoning/certificates),
 json.mbt (bounded exchange). cmd/main/host.mbt contains only Node I/O. JS test code
 is an independent oracle and is not used by the runtime.

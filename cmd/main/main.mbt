@@ -48,7 +48,12 @@ fn main {
     } else {
       @stn.analyze(value)
     }
-    write_stdout(result.stringify() + "\n")
+    let output = if planning {
+      result.stringify()
+    } else {
+      numeric_output(result)
+    }
+    write_stdout(output + "\n")
   } catch {
     @stn.StnError(code, message) => {
       write_stderr(code + ": " + message + "\n")

@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.2.15 — 2026-11-19
+
+- Write bounded numeric CLI result trees directly, using core JSON
+  escaping for strings that need it.
+- Check field order, numeric-looking names, unbounded intervals,
+  escaped errors and recovery in one mixed CLI batch.
+
 ## 0.2.14 — 2026-11-19
 
 - Pack arc endpoints and use exact binary64 integers after the first

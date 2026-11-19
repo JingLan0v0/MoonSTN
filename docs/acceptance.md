@@ -2,6 +2,49 @@
 
 Project MoonSTN / JingLan0v0/stn, published 0.2.14.
 
+## Numeric CLI result serialization — 2026-11-19
+
+Baseline `54540c6` was built on Windows release JS with Node 24.14.0.
+For 64 requests with 256 queries each, the first phase run measured
+1.06 ms for assignments, 7.67 ms for bound objects and 28.52 ms for
+serialization. The 64-edge conflict batch spent 2.69 ms constructing
+cycle objects and 8.06 ms serializing them. Timings include probe overhead.
+
+Direct result maps and removal of interim assignment tuples gave small,
+mixed end-to-end changes. The selected numeric CLI writer traverses the
+bounded result tree directly. It writes map entries in insertion order,
+checks every key and string for quotes, backslashes and control characters,
+and uses the core encoder for strings that need escaping. It uses the
+same primitive number formatting. The public analyzers return the same
+Json values and the planning CLI uses the core serializer.
+
+| Median CLI elapsed, ms | Round 1 baseline → candidate | Round 2 baseline → candidate |
+|---|---:|---:|
+| 64 requests × 256 queries | 158.29 → 144.58 | 150.49 → 143.66 |
+| 24 long-name requests × 256 queries | 129.25 → 122.44 | 123.95 → 121.29 |
+| 64 negative cycles with 64 edges each | 121.22 → 117.21 | 122.07 → 117.43 |
+| 64 mixed feasible, inconsistent and error responses | 103.00 → 99.21 | 105.63 → 100.60 |
+
+The 256-query medians fell 8.7% and 4.5%, and mixed batch medians fell
+3.7% and 4.8%. A separate instrumented comparison put 256-query
+serialization at 27.21 → 18.27 ms. Median peak RSS for that workload
+changed by −992 and +16 KiB across the two uninstrumented rounds.
+The four-query control changed by −0.6% and +0.1%, and ordinary
+requests changed by +0.3% and −2.1%.
+
+Both rounds matched all seven output batches byte for byte. Independent
+checks cover assignment key order with numeric-looking and prototype-like
+names, query order and null bounds, signed numbers, and a certificate
+with lower and upper edges. The verifier checks exact output for a
+single request and a mixed batch containing tabs, newlines, quotes,
+backslashes and Unicode in the error text, followed by a feasible result.
+
+Run `node scripts/benchmark-numeric-results.mjs BASE.js CANDIDATE.js` for
+paired CLI timings. Set `MOONSTN_PROFILE_NUMERIC_RESULTS=1` for the
+generated JS phase probes. The evidence file includes binary hashes,
+alternate implementation patches and raw timing and memory samples.
+[Measurements](optimization-0.2.15.json)
+
 ## Mooncakes 0.2.14 publication — 2026-11-19
 
 Source `00686bbb6151ce039851a14e205b0f861a5b88e2` passed Windows and Ubuntu

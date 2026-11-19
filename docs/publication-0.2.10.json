@@ -1,0 +1,67 @@
+{
+  "version": "0.2.10",
+  "sourceCommit": "73209944809859d6a34a9f1b838ffd78ffd05f25",
+  "baselineCommit": "ab6b73ee569c52ab6b77945048bfaf3828f39eef",
+  "verification": {
+    "checkoutCompletedAt": "2026-11-19T08:38:10.724Z",
+    "packageExtractionCompletedAt": "2026-11-19T08:40:34.901Z",
+    "modes": [
+      "debug",
+      "release"
+    ],
+    "unitTestsPerMode": 29,
+    "stnOracleCasesPerMode": 4096,
+    "signedClosureBoundsPerMode": 256,
+    "planningOracleCasesPerMode": 1794,
+    "baselineComparedForExistingSuites": true,
+    "byteIdenticalBenchmarkWorkloads": 10,
+    "generatedInterfaces": "unchanged",
+    "powerShellSmoke": "passed in checkout and extraction"
+  },
+  "ci": {
+    "run": 44489510424,
+    "ubuntu": {
+      "job": 135441264443,
+      "conclusion": "success"
+    },
+    "windows": {
+      "job": 135441265010,
+      "conclusion": "success"
+    }
+  },
+  "packageFiles": 89,
+  "sha256": "92cbf9c82c44ade7b9b51549ab7174b4124cf32c576a68b37a29c77cdb5d2b58",
+  "preflight": "202 Accepted",
+  "publication": "200 OK",
+  "registryCreatedAt": "2026-11-19T16:41:29.242678+08:00",
+  "publicVersionPageStatus": 200,
+  "consumer": {
+    "checkedAt": "2026-11-19T08:42:41.848615+00:00",
+    "freshCache": true,
+    "credentials": false,
+    "workspaceDependency": false,
+    "modes": [
+      "debug",
+      "release"
+    ],
+    "checks": [
+      "exact version",
+      "assignment",
+      "tight bounds",
+      "conflict certificate",
+      "resource-order backtracking",
+      "independent plan verification",
+      "resource-induced unschedulability",
+      "planning budget recovery",
+      "exact decimal and exponent spellings",
+      "nonzero underflow rejection",
+      "byte-identical mixed planning batch",
+      "byte-identical 256-query numeric response at exact budget",
+      "dense closure at exact and one-step-short budgets",
+      "63,000,000 tight upper bound",
+      "edited \u00b13,000,000,000 edges and subsequent reuse"
+    ],
+    "registryArchiveMatches": true,
+    "installedFilesMatch": true
+  }
+}

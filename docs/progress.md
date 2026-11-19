@@ -1,9 +1,13 @@
 # Continue MoonSTN optimization
 
 The [optimization roadmap](optimization-roadmap.md) records the next measurement
-and its acceptance criteria. The 0.2.10 candidate uses exact Int32 arithmetic
+and its acceptance criteria. The 0.2.10 release uses exact Int32 arithmetic
 for eligible dense closure, widening the result to Int64. Next, profile
 numeric arc indexing and matrix widening. [Measurements](optimization-0.2.10.json)
+
+Published source `7320994` passed Windows and Ubuntu CI. An empty-cache
+installation verified the narrow and wide paths in both build modes.
+[Release receipts](publication-0.2.10.json)
 
 ## Numeric closure review — 2026-11-19
 

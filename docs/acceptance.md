@@ -1,6 +1,22 @@
 # Acceptance evidence — updated 2026-11-19
 
-Project MoonSTN / JingLan0v0/stn, published 0.2.9.
+Project MoonSTN / JingLan0v0/stn, published 0.2.10.
+
+## Mooncakes 0.2.10 publication — 2026-11-19
+
+Source `73209944809859d6a34a9f1b838ffd78ffd05f25` passed Windows and Ubuntu
+[CI run 44489510424](https://github.com/JingLan0v0/MoonSTN/actions/runs/44489510424).
+Both build modes passed 29 unit tests, 4,096 numeric networks, 256 signed
+network bounds and 1,794 planning cases in the checkout and a fresh
+extraction. PowerShell smoke and generated interfaces passed.
+
+Preflight returned 202 and publication returned 200. The registry recorded
+2026-11-19 16:41:29 Asia/Shanghai. The public and preflight ZIP archives
+share SHA-256 `92cbf9c82c44ade7b9b51549ab7174b4124cf32c576a68b37a29c77cdb5d2b58`.
+A fresh consumer installed exactly 0.2.10 and verified both build modes
+with the dense closure budget boundary, the 63,000,000 upper bound and
+edited edge weights of ±3,000,000,000. All 89 installed files matched the ZIP.
+[Release receipts](publication-0.2.10.json)
 
 ## Exact narrow arithmetic for dense closure — 2026-11-19
 

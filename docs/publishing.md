@@ -1,4 +1,4 @@
-# Publishing — 0.2.9 published 2026-11-19
+# Publishing — 0.2.10 published 2026-11-19
 
 The owner authorized Mooncakes publication on 2026-11-11. Require actual registry
 and fresh-consumer receipts; do not overwrite an existing version.
@@ -65,3 +65,7 @@ both build modes, including 256 bounds at the exact work threshold.
 Version 0.2.9 returned `200 OK` on 2026-11-19. The public archive matched
 all 87 installed files, and a fresh consumer passed both build modes,
 including dense closure budget boundaries. [Receipts](publication-0.2.9.json)
+
+Version 0.2.10 returned `200 OK` on 2026-11-19. The public archive matched
+all 89 installed files. A fresh consumer verified long dense paths, edited
+wide edge weights and exact budgets in both modes. [Receipts](publication-0.2.10.json)

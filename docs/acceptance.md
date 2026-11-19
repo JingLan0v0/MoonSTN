@@ -2,6 +2,49 @@
 
 Project MoonSTN / JingLan0v0/stn, published 0.2.18.
 
+## Sparse column scans in the wide closure — 2026-11-20
+
+Baseline b0683a0 was measured on Windows release JS and Node 24.14.0.
+A 64-point chain checked 129,024 columns per solve, of which 125,055
+were unreachable. The branching fixture missed 16,431 of 16,896
+checks, and the disjoint chains missed 29,820 of 30,720. Separate
+phase timings measured about 157 microseconds for the chain closure,
+32 for the branching fixtures and 47 for the disjoint chains.
+Instrumentation overhead is included.
+
+The selected version collects finite column indices lazily and reuses
+them for reachable rows. The pivot row retains ordered scanning when
+its diagonal is nonzero, then invalidates the indices. The closure
+budget still counts all logical triples. A variant also stored the
+weights in scratch memory. Index-only enumeration has comparable
+sparse gains and needs one scratch array.
+
+| Library median, ms per 128 solves | Baseline first | Candidate first |
+|---|---:|---:|
+| Chain | 20.591 → 5.771 | 21.636 → 5.516 |
+| Positive branches | 5.616 → 3.328 | 5.276 → 3.605 |
+| Signed branches | 5.792 → 3.295 | 5.341 → 3.296 |
+| Disjoint chains | 7.398 → 4.391 | 8.450 → 3.694 |
+| Wide fallback with an edited weight | 41.591 → 31.695 | 41.170 → 31.528 |
+
+CLI elapsed changes were smaller. The chain shortened 1.9% and 0.2%,
+and the signed branch batch took 0.5% and 0.9% longer. One final
+four-neighbor ring library sample was 11.3% slower on the narrow-path
+control. The opposite pairing improved 1.5%.
+
+All 12 CLI workloads matched output bytes in both orders. The
+independent ancestor oracle checks 256 signed bounds, including
+unreachable pairs. An exact-budget request succeeds, one step short
+fails, and the repeated request recovers. 0.2.18 passes the same
+regression. Existing tests cover caller-edited weights and certificates.
+
+Use scripts/profile-wide-closure.mjs with the compiled 0.2.18 library
+driver from scripts/fixtures/numeric-benchmark.mbt for the phase probe.
+Set MOONSTN_BENCH_WIDE=1 and MOONSTN_BENCH_DENSITY=1 when running the
+numeric library and query benchmarks. The evidence includes individual
+timings, memory samples, binary hashes and candidate patches.
+[Measurements](optimization-0.2.19.json)
+
 ## Mooncakes 0.2.18 publication — 2026-11-20
 
 Source 60c8c5a6ddb7a967d1be67d5ff3a6439e800e590 passed Windows and Ubuntu

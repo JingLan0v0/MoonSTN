@@ -170,6 +170,35 @@ function verifyClosureBudgetOrder(invoke) {
  assert.deepEqual(results[8],{status:'error',code:'invalid_input',message:'unknown timepoint: x'});
  assert.deepEqual(results[2],results[9]);
 }
+function verifyWideColumns(invoke) {
+ const timepoints=Array.from({length:64},(_,i)=>'v'+i);
+ const parent=i=>Math.floor((i-1)/2);
+ const constraints=timepoints.slice(1).map((to,i)=>({id:'e'+i,from:timepoints[parent(i+1)],to,upper:-1}));
+ const pairs=Array.from({length:256},(_,i)=>[i%64,(i*23+Math.floor(i/64)*17)%64]);
+ pairs.splice(0,3,[0,63],[63,0],[1,2]);
+ const queries=pairs.map(([a,b])=>({from:timepoints[a],to:timepoints[b]}));
+ const steps=64**3+3*constraints.length;
+ const request={timepoints,constraints,queries,max_steps:steps};
+ const input=JSON.stringify([request,{...request,max_steps:steps-1},request]);
+ const out=invoke(['--batch','-'],input);
+ assert.equal(out.status,0,out.stderr);
+ const [first,short,again]=JSON.parse(out.stdout);
+ assert.equal(first.status,'feasible');
+ validate(request,first);
+ const hops=(ancestor,descendant)=>{
+   for(let count=0;descendant>=0;count++,descendant=parent(descendant)){
+     if(descendant===ancestor) return count;
+   }
+   return null;
+ };
+ const expected=pairs.map(([a,b],i)=>{
+   const forward=hops(a,b), reverse=hops(b,a);
+   return {...queries[i],lower:reverse,upper:forward===null ? null : forward===0 ? 0 : -forward};
+ });
+ assert.deepEqual(first.bounds,expected);
+ assert.deepEqual(short,{status:'error',code:'limit_exceeded',message:'work budget exhausted; no feasibility conclusion'});
+ assert.deepEqual(again,first);
+}
 function signedClosureCase() {
  const size = 64;
  const timepoints = Array.from({length: size}, (_, i) => 'p' + i);
@@ -258,14 +287,15 @@ for(const mode of ['debug','release']){
  verifyQueryErrorOrder(invoke);
  verifyJsonScanBounds(invoke);
  verifyClosureBudgetOrder(invoke);
+ verifyWideColumns(invoke);
  const bom=invoke(['-'],'\ufeff'+JSON.stringify(good));assert.equal(bom.status,0,bom.stderr);
  for(const args of [[],['--unknown'],['x','y'],['missing-file.json']]){const r=invoke(args,'');assert.equal(r.status,2);assert.equal(r.stdout,'');}
- assert.equal(invoke(['--version'],'').stdout.trim(),'0.2.18');
+ assert.equal(invoke(['--version'],'').stdout.trim(),'0.2.19');
  const fd=fs.openSync(path.join(root,'moon.mod'),'r');try{const r=spawnSync(process.execPath,[cli,'--version'],{stdio:['ignore',fd,'pipe'],encoding:'utf8',timeout:15000});assert.equal(r.status,2);}finally{fs.closeSync(fd);}
  const scenarios=['deployment','delivery','conflict'];
  for(const name of scenarios){const request=JSON.parse(fs.readFileSync(`examples/${name}.json`,'utf8'));const r=invoke([`examples/${name}.json`],'');assert.equal(r.status,0,r.stderr);const result=JSON.parse(r.stdout);validate(request,result);assert.equal(result.status,name==='conflict'?'inconsistent':'feasible');if(name==='deployment')assert.deepEqual(result.bounds,[{from:'zero',to:'release',lower:15,upper:35}]);if(name==='delivery')assert.deepEqual(result.bounds,[{from:'pickup',to:'arrival',lower:20,upper:40}]);}
  console.log(`PASS ${mode}: malformed input, batch isolation, process I/O and three scenarios`);
- reports.push({mode,unitTests:units.trim(),exhaustiveNetworks:4096,signedClosureBounds:256,...(baselineCli ? {numericBaselineCompared:true}:{}),invalidBatchItems:invalid.length,numericEncodingCompared:true,queryErrorOrderCompared:true,jsonScanBoundsCompared:true,closureBudgetOrderCompared:true,transportRejects:transport.length+1,scenarios});
+ reports.push({mode,unitTests:units.trim(),exhaustiveNetworks:4096,signedClosureBounds:256,...(baselineCli ? {numericBaselineCompared:true}:{}),invalidBatchItems:invalid.length,numericEncodingCompared:true,queryErrorOrderCompared:true,jsonScanBoundsCompared:true,closureBudgetOrderCompared:true,wideColumnsCompared:true,transportRejects:transport.length+1,scenarios});
 }
 process.stdout.write(run(process.execPath,['scripts/verify-planning.mjs',...process.argv.slice(2)]));
 fs.writeFileSync(summary,JSON.stringify({status:'passed',recordedAt:new Date().toISOString(),node:process.version,reports},null,2)+'\n');

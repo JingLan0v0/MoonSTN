@@ -7,7 +7,7 @@ extern "js" fn arguments() -> FixedArray[String] =
   #|() => process.argv.slice(2)
 
 ///|
-fn query(net : @stn.Network, steps : Int) -> Int64 raise {
+fn query(net : @stn.Network, steps : Int32) -> Int64 raise {
   let result = @stn.solve(net, max_steps=steps) catch {
     @stn.StnError(code, msg) =>
       if code == "limit_exceeded" {
@@ -30,16 +30,35 @@ fn main raise {
     let degree = match args[0] {
       "disconnected" => 0
       "chain" => if i < 63 { 1 } else { 0 }
+      "chain-groups" => if i % 16 < 15 { 1 } else { 0 }
+      "branches" | "signed-branches" =>
+        if i < 31 {
+          2
+        } else if i == 31 {
+          1
+        } else {
+          0
+        }
       "ring-four" => 4
-      "connected" | "connected-varied" | "four-groups" => 8
+      "connected" | "connected-varied" | "four-groups" | "edited-wide" => 8
       _ => fail("unknown shape")
     }
-    let width = if args[0] == "four-groups" { 16 } else { 64 }
+    let width = if args[0] == "four-groups" || args[0] == "chain-groups" {
+      16
+    } else {
+      64
+    }
     let group = i / width * width
     for j = 1; j <= degree; j = j + 1 {
-      let target = group + (i + j) % width
+      let target = if args[0] == "branches" || args[0] == "signed-branches" {
+        2 * i + j
+      } else {
+        group + (i + j) % width
+      }
       let upper = if args[0] == "connected-varied" {
         100000 + 23 * (target * target - i * i)
+      } else if args[0] == "signed-branches" {
+        -1
       } else {
         1
       }
@@ -53,13 +72,23 @@ fn main raise {
     }
   }
   let net = @stn.network(names, edges)
+  if args[0] == "edited-wide" {
+    let old = net.edges[0]
+    net.edges[0] = { ..old, bound: 3000000000L, }
+  }
   let exhausted = args[1] == "exhausted"
-  let steps = if exhausted { 64 * 64 * 64 + 2 * edges.length() - 1 } else { 2000000 }
-  let expected = if exhausted { -2L } else {
+  let scans = if args[0] == "signed-branches" { 3 } else { 2 }
+  let exact = 64 * 64 * 64 + scans * edges.length()
+  let steps = if exhausted { exact - 1 } else { 2000000 }
+  let expected = if exhausted {
+    -2L
+  } else {
     match args[0] {
-      "disconnected" | "four-groups" => -1L
+      "disconnected" | "four-groups" | "chain-groups" => -1L
       "ring-four" => 16L
       "chain" => 63L
+      "branches" => 6L
+      "signed-branches" => -6L
       "connected-varied" => 891287L
       _ => 8L
     }

@@ -61,26 +61,57 @@ fn solve_indexed(
       distances[a][b] = Some(w)
     }
   }
+  let use_columns = n >= 16 && n <= 64 && !arcs.is_empty()
+  let capacity = if use_columns { n } else { 0 }
+  let columns = FixedArray::make(capacity, 0)
   for k = 0; k < n; k = k + 1 {
     let via = distances[k]
+    let mut count = -1
     for i = 0; i < n; i = i + 1 {
       let row = distances[i]
       guard row[k] is Some(a) else { continue }
-      // Adding a zero diagonal cannot improve the pivot row itself.
-      if i == k && a == 0L {
-        continue
-      }
-      for j = 0; j < n; j = j + 1 {
-        guard via[j] is Some(b) else { continue }
-        let w = a + b
-        if row[j] is Some(best) && best <= w {
+      if i == k || !use_columns {
+        if i == k && a == 0L {
           continue
         }
-        row[j] = Some(w)
+        for j = 0; j < n; j = j + 1 {
+          guard via[j] is Some(b) else { continue }
+          update_wide_cell(row, j, a + b)
+        }
+        // A nonzero diagonal can update the pivot row in place.
+        count = -1
+        continue
+      }
+      // Populate the scratch row only when another row can reach this pivot.
+      if count < 0 {
+        count = 0
+        for j = 0; j < n; j = j + 1 {
+          if via[j] is Some(_) {
+            columns[count] = j
+            count += 1
+          }
+        }
+      }
+      for entry = 0; entry < count; entry = entry + 1 {
+        let j = columns[entry]
+        update_wide_cell(row, j, a + via[j].unwrap())
       }
     }
   }
   Feasible({ names: net.names.copy(), values, distances, })
+}
+
+///|
+#inline
+fn update_wide_cell(
+  row : Array[Int64?],
+  column : Int32,
+  weight : Int64,
+) -> Unit {
+  if row[column] is Some(best) && best <= weight {
+    return
+  }
+  row[column] = Some(weight)
 }
 
 ///|

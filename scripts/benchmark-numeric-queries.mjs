@@ -32,6 +32,16 @@ if (process.env.MOONSTN_BENCH_CLOSURE_BUDGET === '1') {
     ['dense-init-budget', 16, {...sparse, constraints: dense, max_steps: dense.length}, 'error'],
   );
 }
+if (process.env.MOONSTN_BENCH_WIDE === '1') {
+  const branches = names.slice(1).map((to, i) => ({
+    id: 'branch-' + i, from: names[Math.floor(i / 2)], to, upper: -1,
+  }));
+  const groups = chain.filter((_, i) => (i + 1) % 16 !== 0);
+  cases.push(
+    ['signed-branches', 32, {...sparse, constraints: branches, max_steps: 64 ** 3 + 3 * branches.length}, 'feasible'],
+    ['chain-groups', 32, {...sparse, constraints: groups, max_steps: 64 ** 3 + 2 * groups.length}, 'feasible'],
+  );
+}
 if (process.env.MOONSTN_BENCH_DENSITY === '1') {
   for (const size of [31, 32]) {
     const timepoints = names.slice(0, size);

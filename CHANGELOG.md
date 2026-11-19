@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.2.19 — 2026-11-20
+
+- Collect reachable pivot columns lazily in the wide closure.
+- Verify signed bounds and unreachable pairs on a 64-point branching tree.
+
 ## 0.2.18 — 2026-11-20
 
 - Charge numeric closure arc initialization and logical triples before

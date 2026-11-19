@@ -40,6 +40,10 @@ Rows with no path from i to k skip their inner traversal. Reachable rows reuse t
 distance(i,k). This value stays fixed during a feasible closure iteration because
 distance(k,k)=0 and no negative cycles remain. This preserves results and the
 existing budget boundary; worst-case complexity is unchanged.
+For eligible wide matrices, the first reachable row of each pivot gathers
+its reachable columns. Later rows reuse the column indices. When the pivot
+row is updated with a nonzero diagonal, the loop reads it in order and
+invalidates the cached indices for subsequent rows.
 The lower bound for b-a is -distance(b,a). No path means unbounded, including
 between disconnected components. Each requested bound is individually tight;
 arbitrary choices of all pairwise extrema need not form one joint assignment.

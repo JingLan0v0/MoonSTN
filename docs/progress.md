@@ -1,8 +1,19 @@
 # Continue MoonSTN optimization
 
 The [optimization roadmap](optimization-roadmap.md) records the next measurement
-and its acceptance criteria. Next, measure conversion and materialization
-of closure distances for library and JSON calls.
+and its acceptance criteria. Next, profile numeric feasibility relaxation in
+signed feasible and inconsistent networks.
+
+## Widening repeated closure distances — 2026-11-19
+
+The 0.2.13 release reuses adjacent equal finite distances when widening a
+closure with many repeats. Repeated-value dense library medians fell
+4.4–9.9% in four paired comparisons.
+[Measurements](optimization-0.2.13.json)
+
+Published source `33f6c98` passed Windows and Ubuntu CI. An empty-cache
+installation verified the complete public matrix in both build modes.
+[Release receipts](publication-0.2.13.json)
 
 ## Flat closure pivot rows — 2026-11-19
 

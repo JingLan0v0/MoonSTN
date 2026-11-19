@@ -1,0 +1,65 @@
+{
+  "version": "0.2.9",
+  "sourceCommit": "06cecce6d42c446f14eab394b360fb1390c46196",
+  "baselineCommit": "1a7a36a500c9e4abcb966b4f40b6b6515b9464f8",
+  "verification": {
+    "checkoutCompletedAt": "2026-11-19T06:30:34.817Z",
+    "packageExtractionCompletedAt": "2026-11-19T06:32:31.033Z",
+    "modes": [
+      "debug",
+      "release"
+    ],
+    "unitTestsPerMode": 27,
+    "stnOracleCasesPerMode": 4096,
+    "signedClosureBoundsPerMode": 256,
+    "planningOracleCasesPerMode": 1794,
+    "baselineComparedForExistingSuites": true,
+    "byteIdenticalBenchmarkWorkloads": 6,
+    "generatedInterfaces": "unchanged",
+    "powerShellSmoke": "passed in checkout and extraction"
+  },
+  "ci": {
+    "run": 44472818822,
+    "ubuntu": {
+      "job": 135386145060,
+      "conclusion": "success"
+    },
+    "windows": {
+      "job": 135386145613,
+      "conclusion": "success"
+    }
+  },
+  "packageFiles": 87,
+  "sha256": "7f40b846ea5b946d29c82dea61da4c55500a0fe25be58ee63b3e7221394c9e06",
+  "preflight": "202 Accepted",
+  "publication": "200 OK",
+  "registryCreatedAt": "2026-11-19T14:33:23.480327+08:00",
+  "publicVersionPageStatus": 200,
+  "consumer": {
+    "checkedAt": "2026-11-19T06:35:06.486504+00:00",
+    "freshCache": true,
+    "credentials": false,
+    "workspaceDependency": false,
+    "modes": [
+      "debug",
+      "release"
+    ],
+    "checks": [
+      "exact version",
+      "assignment",
+      "tight bounds",
+      "conflict certificate",
+      "resource-order backtracking",
+      "independent plan verification",
+      "resource-induced unschedulability",
+      "planning budget recovery",
+      "exact decimal and exponent spellings",
+      "nonzero underflow rejection",
+      "byte-identical mixed planning batch",
+      "byte-identical 256-query numeric response at exact budget",
+      "dense closure at exact and one-step-short budgets"
+    ],
+    "registryArchiveMatches": true,
+    "installedFilesMatch": true
+  }
+}

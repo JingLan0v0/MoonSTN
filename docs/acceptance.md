@@ -2,6 +2,50 @@
 
 Project MoonSTN / JingLan0v0/stn, published 0.2.5.
 
+## Planning CLI phase review — 2026-11-19
+
+Baseline `470e2cb` is the published 0.2.5 runtime. Release JS builds
+used the pinned toolchain on Windows and Node 24.14.0. The phase profiler
+wraps generated functions in a temporary copy of the CLI and compares its
+stdout byte-for-byte with the plain build. It takes the median of seven
+measured processes per case after discarding the first instrumented run.
+The timings cover 64 requests per process and exclude startup and I/O.
+
+| Baseline phase median, ms | Ordinary maintenance | 24 tasks / 64 dependencies, no resources | Same size, four resources |
+|---|---:|---:|---:|
+| JSON preflight | 0.93 | 3.04 | 2.98 |
+| Core JSON grammar and duplicate keys | 3.78 | 19.11 | 18.92 |
+| Planning model construction | 0.86 | 3.27 | 2.62 |
+| Solve | 2.71 | 9.89 | 16.03 |
+| Request and result conversion | 2.16 | 5.94 | 5.49 |
+| Output stringify | 1.35 | 2.98 | 2.90 |
+
+The indexed UTF-16 scan candidate counted a valid surrogate pair once and
+delegated syntax and duplicate-key checks to the same parser. It lowered
+the uncontented maximum-size preflight median from 3.04 to 2.39 ms.
+The plain CLI paired runs use a separate 24-task, 64-dependency fixture
+with distinct resources. End-to-end medians for 64 such requests were
+122.46 to 132.43 ms and 122.37 to 120.86 ms. Ordinary CLI medians also
+changed direction across rounds. Numeric CLI medians varied by less than
+1% in the control run. All compared outputs and budget checks matched.
+The evidence supports keeping the 0.2.5 runtime.
+
+The regression suite covers an escaped quote at the 256-character string
+limit and a supplementary-plane character on either side of the 200,000
+outer-character limit. At the exact outer limit the invalid source reaches
+the grammar parser. One character more yields the existing limit error.
+
+Both the measured candidate and the retained implementation passed local
+debug and release verification. Each mode covered 27 unit tests, 4,096
+numeric networks and 1,794 planning cases. Comparison batches matched
+the baseline CLI. PowerShell smoke and the public interface check passed.
+
+Reproduce the phases with `node scripts/profile-planning-cli.mjs BASE.js`.
+Use `node scripts/benchmark-deep-search.mjs BASE.js CANDIDATE.js` twice with
+reversed argument order for the CLI timing pairs. The report preserves
+ordered samples, peak CLI process RSS, build hashes and the tested patch.
+[Raw measurements](planning-cli-review.json)
+
 ## Mooncakes 0.2.5 publication — 2026-11-19
 
 Source `70af91076d3378b6f77b00b200d1557e79b865f3` passed Windows and Ubuntu

@@ -209,6 +209,27 @@ test "JSON preflight depth string and size" {
 }
 
 ///|
+test "JSON preflight counts Unicode pairs and escaped quotes at the boundary" {
+  let prefix = "😀".repeat(253)
+  let quoted = "\"" + prefix + "\\\"" + "\""
+  assert_eq(@stn.parse_json(quoted), Json::string(prefix + "\""))
+  for
+    (source, expected) in [
+      ("\"" + prefix + "😀" + "\\\"" + "\"", "limit_exceeded"),
+      ("😀".repeat(200000), "invalid_json"),
+      ("😀".repeat(200001), "limit_exceeded"),
+    ] {
+    let code = try {
+      @stn.parse_json(source) |> ignore
+      None
+    } catch {
+      @stn.StnError(code, _) => Some(code)
+    }
+    assert_eq(code, Some(expected))
+  }
+}
+
+///|
 test "sparse closure preserves exact logical budget boundary" {
   for n in [1, 2, 8, 64] {
     let names = Array::makei(n, i => "v" + i.to_string())

@@ -1,4 +1,4 @@
-# Publishing — 0.2.13 published 2026-11-19
+# Publishing — 0.2.14 published 2026-11-19
 
 The owner authorized Mooncakes publication on 2026-11-11. Require actual registry
 and fresh-consumer receipts; do not overwrite an existing version.
@@ -86,3 +86,8 @@ Version 0.2.13 returned `200 OK` on 2026-11-19. The public archive matched
 all 96 installed files. Both modes verified the complete public matrix
 with repeated signed distances and unreachable entries.
 [Receipts](publication-0.2.13.json)
+
+Version 0.2.14 returned `200 OK` on 2026-11-19. The public archive matched
+all 100 installed files. Both modes verified authentic cycle edges and
+precise fallback for a caller-edited wide edge.
+[Receipts](publication-0.2.14.json)

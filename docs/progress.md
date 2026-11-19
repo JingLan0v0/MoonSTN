@@ -1,8 +1,20 @@
 # Continue MoonSTN optimization
 
 The [optimization roadmap](optimization-roadmap.md) records the next measurement
-and its acceptance criteria. Next, profile numeric feasibility relaxation in
-signed feasible and inconsistent networks.
+and its acceptance criteria. Next, measure numeric JSON result construction
+and serialization across query counts and mixed outcomes.
+
+## Numeric feasibility relaxation — 2026-11-19
+
+The 0.2.14 release packs arc endpoints and uses exact binary64 arithmetic
+after the first pass on eligible dense numeric networks. Exact-budget
+signed-chain library solves took 13.9% and 16.8% less time. Exact-budget
+late-cycle library solves took 27.6% and 25.9% less time.
+[Measurements](optimization-0.2.14.json)
+
+Published source `00686bb` passed Windows and Ubuntu CI. An empty-cache
+installation verified large negative potentials and wide edited edges.
+[Release receipts](publication-0.2.14.json)
 
 ## Widening repeated closure distances — 2026-11-19
 

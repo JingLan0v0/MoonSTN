@@ -1,8 +1,20 @@
 # Continue MoonSTN optimization
 
 The [optimization roadmap](optimization-roadmap.md) records the next measurement
-and its acceptance criteria. Next, measure numeric JSON result construction
-and serialization across query counts and mixed outcomes.
+and its acceptance criteria. Next, profile numeric JSON request validation
+and query endpoint resolution.
+
+## Numeric CLI result serialization — 2026-11-19
+
+The 0.2.15 release walks the numeric CLI result tree directly. Median
+end-to-end times fell 8.7% and 4.5% for 256-query requests and 3.7% and
+4.8% for mixed-outcome batches.
+[Measurements](optimization-0.2.15.json)
+
+Published source `76bfdd8` passed Windows and Ubuntu CI. A fresh installation
+passed both build modes, and the public archive CLI verified exact output
+for numeric-looking names and escaped errors.
+[Release receipts](publication-0.2.15.json)
 
 ## Numeric feasibility relaxation — 2026-11-19
 

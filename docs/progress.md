@@ -1,8 +1,19 @@
 # Continue MoonSTN optimization
 
 The [optimization roadmap](optimization-roadmap.md) records the next measurement
-and its acceptance criteria. Next, measure the numeric closure allocation
-cost when the remaining work budget is too small.
+and its acceptance criteria. Next, measure wide-matrix candidate-column
+scans on sparse numeric networks.
+
+## Numeric closure budget before allocation — 2026-11-20
+
+Version 0.2.18 reserves arc initialization and logical closure triples
+before matrix allocation. Near-budget library failures ran about 58–59%
+faster on the edgeless case, 30–33% on the chain and 22–28% on the dense
+ring. CLI elapsed results varied by run. [Measurements](optimization-0.2.18.json)
+
+Source 60c8c5a passed Windows and Ubuntu CI. An empty-cache install
+verified the public API, and the public CLI passed exact budget tests.
+[Release receipts](publication-0.2.18.json)
 
 ## Numeric JSON preflight — 2026-11-20
 

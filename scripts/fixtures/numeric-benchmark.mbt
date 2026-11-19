@@ -31,18 +31,24 @@ fn main raise {
       "disconnected" => 0
       "chain" => if i < 63 { 1 } else { 0 }
       "ring-four" => 4
-      "connected" | "four-groups" => 8
+      "connected" | "connected-varied" | "four-groups" => 8
       _ => fail("unknown shape")
     }
     let width = if args[0] == "four-groups" { 16 } else { 64 }
     let group = i / width * width
     for j = 1; j <= degree; j = j + 1 {
+      let target = group + (i + j) % width
+      let upper = if args[0] == "connected-varied" {
+        100000 + 23 * (target * target - i * i)
+      } else {
+        1
+      }
       edges.push({
         id: "e" + edges.length().to_string(),
         from: names[i],
-        to: names[group + (i + j) % width],
+        to: names[target],
         lower: None,
-        upper: Some(1),
+        upper: Some(upper),
       })
     }
   }
@@ -54,6 +60,7 @@ fn main raise {
       "disconnected" | "four-groups" => -1L
       "ring-four" => 16L
       "chain" => 63L
+      "connected-varied" => 891287L
       _ => 8L
     }
   }

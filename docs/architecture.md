@@ -58,6 +58,10 @@ For each pivot, the narrow loop collects its finite columns and weights
 once and reuses that list for every other reachable row. Skipping the
 pivot row preserves the list for the whole pass. Matrix and scratch
 accesses use checked indices.
+When the first row has at least `n / 4` adjacent equal finite distances
+(using integer division), widening reuses the previous conversion within
+each row. Otherwise each cell is converted directly. Both paths create
+the same complete public matrix and preserve unreachable entries.
 Inputs outside the gate use the Int64 closure, including caller-edited wide
 edge weights. Both paths charge the same arc and closure work.
 

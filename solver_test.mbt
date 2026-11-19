@@ -414,3 +414,33 @@ test "narrow closure keeps signed bounds inside separate components" {
   assert_eq(solution.bounds("v31", "v0"), (None, None))
   assert_true(@stn.verify_assignment(net, solution.assignment()))
 }
+
+///|
+test "repeated distance widening preserves the complete signed matrix" {
+  let n = 32
+  let names = Array::makei(n, i => "v" + i.to_string())
+  let constraints = Array::makei(n * 4, i => {
+    let source = i / 4
+    let start = if source < 24 { 0 } else { 24 }
+    let size = if source < 24 { 24 } else { 8 }
+    let target = start + (source - start + i % 4 + 1) % size
+    // The potential is constant for runs of four vertices, and cycles sum to zero.
+    let weight = target / 4 - source / 4
+    edge("e" + i.to_string(), names[source], names[target], None, Some(weight))
+  })
+  let net = @stn.network(names, constraints)
+  guard @stn.solve(net) is @stn.Feasible(solution) else {
+    fail("expected feasible zero-weight cycles")
+  }
+  for i = 0; i < n; i = i + 1 {
+    for j = 0; j < n; j = j + 1 {
+      let expected = if (i < 24) == (j < 24) {
+        Some((j / 4 - i / 4).to_int64())
+      } else {
+        None
+      }
+      assert_eq(solution.distances[i][j], expected)
+    }
+  }
+  assert_true(@stn.verify_assignment(net, solution.assignment()))
+}

@@ -12,6 +12,7 @@ const rows = [];
 const density = process.env.MOONSTN_BENCH_DENSITY === '1';
 const shapes = ['disconnected', 'chain', 'connected'];
 if (density) shapes.push('ring-four', 'four-groups');
+if (process.env.MOONSTN_BENCH_WIDENING === '1') shapes.push('connected-varied');
 for (const shape of shapes) {
   for (const budget of ['default', 'exhausted']) {
     const measurements = drivers.map(() => []);

@@ -4,7 +4,7 @@ import {mkdtempSync, readFileSync, rmSync, rmdirSync, writeFileSync} from 'node:
 import {resolve} from 'node:path';
 
 const [driver] = process.argv.slice(2);
-assert(driver, 'Pass the 0.2.10 release numeric library benchmark driver');
+assert(driver, 'Pass the 0.2.10–0.2.12 release numeric library benchmark driver');
 const source = readFileSync(resolve(driver), 'utf8').replaceAll('\r\n', '\n');
 const symbol = '_M0FP210JingLan0v03stn17narrow__distances';
 const begin = source.indexOf('function ' + symbol + '(');
@@ -32,8 +32,14 @@ const instrumented = resolve(tmp, 'probe.js');
 try {
   writeFileSync(instrumented, setup + source.slice(0, begin) + body + source.slice(end));
   const rows = [];
-  for (const [shape, budget] of [['disconnected', 'default'], ['chain', 'default'],
-    ['connected', 'default'], ['connected', 'exhausted']]) {
+  const cases = [['disconnected', 'default'], ['chain', 'default'],
+    ['connected', 'default'], ['connected', 'exhausted']];
+  const profiledShapes = ['connected'];
+  if (process.env.MOONSTN_BENCH_WIDENING === '1') {
+    profiledShapes.push('connected-varied', 'four-groups');
+    cases.splice(3, 0, ['connected-varied', 'default'], ['four-groups', 'default']);
+  }
+  for (const [shape, budget] of cases) {
     const samples = [];
     for (let i = 0; i < 7; i++) {
       const r = spawnSync(process.execPath, [instrumented, shape, budget], {encoding: 'utf8', timeout: 15000});
@@ -42,7 +48,7 @@ try {
       assert.equal(r.stdout.trim().split(/\r?\n/).length, 9);
       const result = JSON.parse(r.stderr);
       assert.equal(result.solves, (shape === 'disconnected' ? 2048 : 128) * 12);
-      if (shape === 'connected' && budget === 'default') {
+      if (profiledShapes.includes(shape) && budget === 'default') {
         assert(result.closure > 0 && result.widen > 0);
       } else {
         assert.equal(result.widen, 0);

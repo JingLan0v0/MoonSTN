@@ -2,6 +2,53 @@
 
 Project MoonSTN / JingLan0v0/stn, published 0.2.12.
 
+## Widening repeated closure distances — 2026-11-19
+
+Baseline `08653aa` was built on Windows with the pinned MoonBit JS backend
+and Node 24.14.0. Two 64-point strongly connected fixtures produce 9 and
+3,491 distinct finite distances. Per library solve, widening took about
+0.020 ms on both. The closure loop took about 0.081–0.082 ms. With four
+disconnected groups, widening took about 0.010 ms. The instrumented CLI
+spent 1.65–2.47 ms widening a cold batch of 12 requests across the six
+workloads with 0, 4 and 256 queries. Phase timing includes probe overhead.
+
+A small-value lookup table improved some repeated-distance library samples.
+Selecting only the requested narrow JSON bounds reduced the 256-query CLI
+medians, but 0- and 4-query results varied in direction. Unconditional reuse
+of adjacent conversions had a repeated-distance benefit and slowed three of
+four varied-distance library comparisons. The selected candidate samples the
+first row for adjacent finite repeats and uses direct conversion when their
+count is below `n / 4`. Reuse is scoped to one row.
+
+| Median, ms per 128 library solves | Baseline → candidate, first order | Baseline → candidate, reversed order |
+|---|---|---|
+| Connected, nine distinct values | 15.63 → 14.09 / 15.25 → 14.58 | 15.33 → 13.95 / 15.50 → 13.99 |
+| Four arcs per point ring | 9.91 → 9.21 / 10.25 → 9.22 | 9.89 → 9.05 / 9.97 → 8.96 |
+| Connected, 3,491 distinct values | 15.11 → 15.65 / 15.53 → 15.53 | 15.27 → 15.34 / 15.30 → 15.26 |
+| Four groups | 7.43 → 7.47 / 7.01 → 6.98 | 7.31 → 7.27 / 7.17 → 7.25 |
+
+The repeated-value connected library medians fell 4.4–9.9%, and the
+four-arc ring medians fell 7.1–10.1%. Variations for the diverse and
+grouped workloads were within the same-binary control range. In the
+two six-workload CLI comparisons, the repeated-value 256-query medians
+fell 1.0% and 1.5%, whereas the repeated-value four-query medians rose
+1.6% and 2.0%. The largest difference in median CLI peak RSS was 936 KiB.
+
+The final release build produced byte-identical output on all 16 CLI
+comparison workloads and the mixed boundary batch. A public regression
+checks all 1,024 cells of a closure with signed repeated distances,
+zero-weight cycles and unreachable pairs. It also passes on the baseline.
+
+Compile `scripts/fixtures/numeric-benchmark.mbt` as a JS executable
+importing `JingLan0v0/stn` against each source revision. Use
+`MOONSTN_BENCH_WIDENING=1` with the library or CLI benchmark for the extra
+workloads and `MOONSTN_BENCH_DENSITY=1` for connectivity controls.
+`MOONSTN_BENCH_WIDENING_ONLY=1` selects the six CLI widening cases.
+Use `MOONSTN_PROFILE_WIDENING=1` with the baseline CLI alone for phase
+timing. The evidence file includes variant patches, binary hashes and
+paired timing and memory samples.
+[Measurements](optimization-0.2.13.json)
+
 ## Mooncakes 0.2.12 publication — 2026-11-19
 
 Source `85fd1a540cbe1f399d78c01edf0cf2992a2f355d` passed Windows and Ubuntu

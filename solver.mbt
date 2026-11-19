@@ -156,18 +156,58 @@ fn narrow_distances(
       }
     }
   }
+  // A quick sample of the first row keeps conversion direct when few
+  // adjacent finite distances repeat.
+  let reuse = has_repeated_distances(cells, n, no_path)
   Some(
     Array::makei(n, i => {
-      Array::makei(n, j => {
-        let value = cells[i * n + j]
-        if value == no_path {
-          None
-        } else {
-          Some(value.to_int64())
-        }
-      })
+      let row = i * n
+      if reuse {
+        let mut previous = no_path
+        let mut widened = None
+        Array::makei(n, j => {
+          let value = cells[row + j]
+          if value != previous {
+            previous = value
+            widened = widen_distance(value, no_path)
+          }
+          widened
+        })
+      } else {
+        Array::makei(n, j => widen_distance(cells[row + j], no_path))
+      }
     }),
   )
+}
+
+///|
+fn widen_distance(value : Int32, no_path : Int32) -> Int64? {
+  if value == no_path {
+    None
+  } else {
+    Some(value.to_int64())
+  }
+}
+
+///|
+fn has_repeated_distances(
+  cells : FixedArray[Int32],
+  n : Int32,
+  no_path : Int32,
+) -> Bool {
+  let mut previous = cells[0]
+  let mut repeated = 0
+  for j = 1; j < n; j = j + 1 {
+    let value = cells[j]
+    if value != no_path && value == previous {
+      repeated += 1
+      if repeated >= n / 4 {
+        return true
+      }
+    }
+    previous = value
+  }
+  false
 }
 
 ///|

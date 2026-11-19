@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.2.13 — 2026-11-19
+
+- Reuse Int64 conversions for adjacent equal distances when the narrow
+  closure's first row has enough finite repeats.
+- Check the complete public matrix for signed repeats and unreachable pairs.
+- Benchmark repeated and varied closure results at 0, 4 and 256 JSON queries.
+
 ## 0.2.12 — 2026-11-19
 
 - Reuse each flat Int32 pivot row's reachable columns and weights across

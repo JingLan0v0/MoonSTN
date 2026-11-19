@@ -46,6 +46,23 @@ if (process.env.MOONSTN_BENCH_DENSITY === '1') {
     ['four-groups', 16, {...sparse, constraints: grouped, max_steps: 2000000}, 'feasible'],
   );
 }
+const wideningOnly = process.env.MOONSTN_BENCH_WIDENING_ONLY === '1';
+if (wideningOnly || process.env.MOONSTN_BENCH_WIDENING === '1') {
+  const potential = i => 23 * i * i;
+  const varied = dense.map((edge, index) => {
+    const source = Math.floor(index / 8);
+    const target = (source + index % 8 + 1) % 64;
+    return {...edge, upper: 100000 + potential(target) - potential(source)};
+  });
+  for (const [style, constraints] of [['repeated', dense], ['varied', varied]]) {
+    for (const count of [0, 4, 256]) {
+      cases.push([`widen-${style}-${count}`, 12, {
+        timepoints: names, constraints, queries: queries.slice(0, count),
+        max_steps: 64 ** 3 + 2 * constraints.length,
+      }, 'feasible']);
+    }
+  }
+}
 const probe = 'data:text/javascript,' + encodeURIComponent(
   'process.once("exit", () => console.error(JSON.stringify({peakRssKiB: process.resourceUsage().maxRSS, ...globalThis.queryPhases})));',
 );
@@ -93,15 +110,31 @@ function profile(source) {
     '_M0FP210JingLan0v03stn10find__name = (...args) => { const start = performance.now();\n' +
     'try {return lookup(...args)} finally {queryPhases.lookupCalls++; queryPhases.lookupMs += performance.now()-start} };\n' + source;
 }
-const profiling = process.env.MOONSTN_PROFILE_QUERIES === '1';
-assert(!profiling || !candidate, 'Phase markers require a single 0.2.7 baseline CLI');
+function profileWidening(source) {
+  const start = source.indexOf('function _M0FP210JingLan0v03stn17narrow__distances(');
+  const end = source.indexOf('\nfunction ', start + 1);
+  assert(start >= 0 && end > start, 'Missing 0.2.12 narrow closure symbol');
+  const body = source.slice(start, end);
+  const materialize = '  let _tmp$4;\n  if (n <= 0)';
+  const returned = '  return new _M0DTPC16result6ResultGORPB5ArrayGRPB5ArrayGOlEERP210JingLan0v03stn8StnErrorE2Ok(new';
+  assert(body.includes(materialize) && body.includes(returned), 'Missing 0.2.12 widening markers');
+  const marked = body
+    .replace(materialize, '  const widenStart = performance.now();\n' + materialize)
+    .replace(returned, '  queryPhases.widenMs += performance.now() - widenStart;\n  queryPhases.widenCalls++;\n' + returned);
+  return 'globalThis.queryPhases = {widenMs: 0, widenCalls: 0};\n' + source.slice(0, start) + marked + source.slice(end);
+}
+const wideningProfile = process.env.MOONSTN_PROFILE_WIDENING === '1';
+const profiling = wideningProfile || process.env.MOONSTN_PROFILE_QUERIES === '1';
+assert(!profiling || !candidate, 'Phase markers require a single matching baseline CLI');
 const tmp = profiling ? mkdtempSync(resolve('_build', 'query-profile-')) : null;
 const file = tmp ? resolve(tmp, 'profile.js') : baseline;
 
 try {
-  if (tmp) writeFileSync(file, profile(readFileSync(baseline, 'utf8').replaceAll('\r\n', '\n')));
+  if (tmp) writeFileSync(file, (wideningProfile ? profileWidening : profile)(readFileSync(baseline, 'utf8').replaceAll('\r\n', '\n')));
   const rows = [];
+  const runs = wideningOnly ? 7 : 11;
   for (const [name, count, request, status] of cases) {
+    if (wideningOnly && !name.startsWith('widen-')) continue;
     const batch = Array(count).fill(request);
     const expected = invoke(baseline, batch).output;
     const results = JSON.parse(expected);
@@ -112,6 +145,17 @@ try {
       if (status === 'inconsistent') assert.deepEqual(result.cycle, [
         {id: 'cycle', from: names[63], to: names[63], bound: -1, side: 'upper'},
       ]);
+      if (name.startsWith('widen-')) {
+        const scale = name.startsWith('widen-varied-') ? 100000 : 1;
+        assert.deepEqual(result.bounds, pairs.slice(0, request.queries.length).map(([a, b]) => {
+          const delta = scale === 1 ? 0 : 23 * (b * b - a * a);
+          return {
+            from: names[a], to: names[b],
+            lower: delta - scale * Math.ceil(((a - b + 64) % 64) / 8),
+            upper: delta + scale * Math.ceil(((b - a + 64) % 64) / 8),
+          };
+        }));
+      }
       if (['sparse', 'chain', 'dense'].includes(name)) {
         assert.deepEqual(result.bounds, pairs.map(([a, b]) => ({
           from: names[a], to: names[b],
@@ -121,10 +165,11 @@ try {
     }
     const variants = candidate ? [['baseline', baseline], ['candidate', candidate]] : [['baseline', file]];
     const samples = Object.fromEntries(variants.map(([label]) => [label, []]));
-    for (let pair = 0; pair < 11; pair++) {
+    for (let pair = 0; pair < runs; pair++) {
       for (const [label, cli] of (pair % 2 ? variants.toReversed() : variants)) {
         const {output, sample} = invoke(cli, batch);
         assert.equal(output, expected, name);
+        if (wideningProfile && name.startsWith('widen-')) assert.equal(sample.widenCalls, count);
         if (pair >= 2) samples[label].push(sample);
       }
     }
@@ -144,7 +189,7 @@ try {
   assert.deepEqual(results[0], results.at(-1));
   if (candidate) assert.equal(invoke(candidate, checks).output, expected);
   console.log(JSON.stringify({node: process.version, profiling, recordedAt: new Date().toISOString(),
-    warmupPairs: 2, measuredPairs: 9, checkedBatchItems: checks.length, rows}, null, 2));
+    warmupPairs: 2, measuredPairs: runs - 2, checkedBatchItems: checks.length, rows}, null, 2));
 } finally {
   if (tmp) {
     rmSync(file, {force: true});

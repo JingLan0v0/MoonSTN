@@ -6,9 +6,11 @@ import {basename, resolve} from 'node:path';
 
 const [baseline, candidate] = process.argv.slice(2).map(file => resolve(file));
 assert(baseline, 'Pass the baseline CLI and optionally the candidate CLI');
+const preflight = process.env.MOONSTN_BENCH_NUMERIC_PREFLIGHT === '1';
+const profilePreflight = process.env.MOONSTN_PROFILE_NUMERIC_PREFLIGHT === '1';
 const profileRequests = process.env.MOONSTN_PROFILE_NUMERIC_REQUESTS === '1';
-const requests = profileRequests || process.env.MOONSTN_BENCH_NUMERIC_REQUESTS === '1';
-const profiling = profileRequests || process.env.MOONSTN_PROFILE_NUMERIC_RESULTS === '1';
+const requests = profilePreflight || preflight || profileRequests || process.env.MOONSTN_BENCH_NUMERIC_REQUESTS === '1';
+const profiling = profilePreflight || profileRequests || process.env.MOONSTN_PROFILE_NUMERIC_RESULTS === '1';
 const keys = ['10', '2', '01', '__proto__', 'constructor', 'toString'];
 const names = keys.concat(Array.from({length: 58}, (_, i) => 'p' + i));
 const longNames = names.map((name, i) => i < keys.length ? name : name.padEnd(64, '-'));
@@ -40,6 +42,9 @@ manyConstraints.constraints.push(...Array.from({length: 510}, (_, i) => {
 }));
 const unknown = {...feasible(names, 0), queries: [{from: 'line\n"\u2603', to: names[1]}]};
 const cases = [
+  ...(preflight || profilePreflight ? [{
+    name: 'near-byte-limit', requests: 1, inputs: [feasible(names.slice(0, 4), 4)], pad: true,
+  }] : []),
   {name: 'ordinary', requests: 64, inputs: [feasible(names.slice(0, 4), 4)]},
   {name: 'assignment-only', requests: 64, inputs: [feasible(names, 0)]},
   {name: 'four-queries', requests: 64, inputs: [feasible(names, 4)]},
@@ -109,6 +114,7 @@ function instrumentRequests(source) {
     .replace(endQueries, '    numericResultPhases.queryMs += performance.now() - queryStarted;\n$&');
   const symbols = {
     decodeMs: '_M0FP210JingLan0v03stn11parse__json',
+    ...(profilePreflight ? {grammarMs: '_M0FPC14json13parse_2einner'} : {}),
     modelMs: '_M0FP210JingLan0v03stn14parse__network',
   };
   const header = ['globalThis.numericResultPhases = {decodeMs:0,modelMs:0,queryMs:0};'];
@@ -118,6 +124,7 @@ function instrumentRequests(source) {
       'const start = performance.now(); try { return saved_' + key + '(...args); }',
       'finally { numericResultPhases.' + key + ' += performance.now() - start; } };');
   }
+  if (profilePreflight) header.push('numericResultPhases.grammarMs = 0;');
   return header.join('\n') + '\n' + source.slice(0, start) + body + source.slice(end);
 }
 const exactUpper = new Map([['0:1', 5], ['0:2', 2], ['1:2', -3]]);
@@ -159,14 +166,15 @@ try {
   if (tmp) {
     active = variants.map(([label, file]) => {
       const target = resolve(tmp, label + '.js');
-      writeFileSync(target, (profileRequests ? instrumentRequests : instrument)(readFileSync(file, 'utf8')));
+      writeFileSync(target, ((profilePreflight || profileRequests) ? instrumentRequests : instrument)(readFileSync(file, 'utf8')));
       return [label, target];
     });
   }
   const rows = [];
-  for (const {name, requests, inputs} of cases) {
+  for (const {name, requests, inputs, pad} of cases) {
     const batch = Array.from({length: requests}, (_, i) => inputs[i % inputs.length]);
-    const input = JSON.stringify(batch);
+    const payload = JSON.stringify(batch);
+    const input = pad ? payload.padEnd(1048576, ' ') : payload;
     assert(input.length <= 1048576);
     const reference = invoke(baseline, input).output;
     const decoded = JSON.parse(reference);
@@ -180,7 +188,10 @@ try {
       for (const [label, cli] of pair % 2 ? active.toReversed() : active) {
         const {output, sample} = invoke(cli, input);
         assert.equal(output, reference, name + '/' + label);
-        if (profileRequests) assert(sample.decodeMs > 0 && sample.modelMs > 0);
+        if (profilePreflight) {
+          assert(sample.decodeMs >= sample.grammarMs && sample.grammarMs > 0);
+          sample.preflightMs = sample.decodeMs - sample.grammarMs;
+        } else if (profileRequests) assert(sample.decodeMs > 0 && sample.modelMs > 0);
         else if (profiling) assert(sample.stringifyMs > 0);
         if (pair >= 2) samples[label].push(sample);
       }

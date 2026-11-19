@@ -1,6 +1,47 @@
-# Acceptance evidence — updated 2026-11-19
+# Acceptance evidence — updated 2026-11-20
 
 Project MoonSTN / JingLan0v0/stn, published 0.2.16.
+
+## Numeric JSON preflight and core decoding — 2026-11-20
+
+Baseline 8efc1b2 was measured on Windows release JS with Node 24.14.0.
+On 64 requests with 256 queries each, the first phase run measured 3.16 ms
+for preflight and 18.71 ms in the core decoder. The whitespace-padded 1 MiB
+fixture measured 5.43 ms and 3.70 ms respectively. The reported preflight
+phase subtracts the timed core decode from the full parse_json call and
+includes instrumentation overhead.
+
+The selected version uses MoonBit's direct character traversal in the
+existing scanner. Generated JS uses an indexed loop and combines surrogate
+pairs. The resource conditions and the decoder call are preserved. A
+separate whitespace branch and manual UTF-16 indexing were also sampled,
+with mixed elapsed results and more source changes than direct traversal.
+
+| Final paired phase medians, ms | Preflight baseline → candidate | Core decode baseline → candidate |
+|---|---:|---:|
+| 64 requests × 256 queries | 3.28 → 2.48 | 20.59 → 20.02 |
+| 12 requests × 512 constraints | 2.74 → 2.08 | 18.01 → 18.64 |
+| Long names and 256 queries | 4.17 → 3.46 | 10.27 → 10.33 |
+| Whitespace-padded 1 MiB | 5.38 → 5.25 | 3.76 → 3.77 |
+
+Uninstrumented final-build runs shortened the 256-query batch by 2.4%
+and 1.8%. The dense-model and long-name batches improved about 2–3%
+in both prototype orders and in the reversed final-build run. Both were
+slightly slower in the other final-build run. The mixed batch took 5.0%
+longer in one final-build run and was almost flat in reverse order.
+The 1 MiB elapsed measurements also varied by order.
+
+All nine benchmark outputs matched byte for byte. The baseline and final
+verifier cover exact and just-over limits for CLI input bytes, scanned
+characters, depth, supplementary Unicode strings and escaped quotes.
+They check that malformed input keeps its original error classification.
+Existing checks for duplicate keys and numeric spellings passed.
+
+Set MOONSTN_BENCH_NUMERIC_PREFLIGHT=1 with scripts/benchmark-numeric-results.mjs
+for the padded workload. Set MOONSTN_PROFILE_NUMERIC_PREFLIGHT=1 for the
+phase probes. The evidence includes paired samples, memory readings,
+candidate patches and binary hashes.
+[Measurements](optimization-0.2.17.json)
 
 ## Mooncakes 0.2.16 publication — 2026-11-19
 

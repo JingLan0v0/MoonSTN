@@ -111,6 +111,39 @@ function verifyQueryErrorOrder(invoke) {
  assert.equal(duplicate.stdout,'');
  assert.equal(duplicate.stderr.trim(),'invalid_json: invalid JSON text');
 }
+function verifyJsonScanBounds(invoke) {
+ const valid = '{"timepoints":["a"],"constraints":[]}';
+ const padded = valid.padEnd(1048576, ' ');
+ const decoded = invoke(['-'], padded);
+ assert.equal(decoded.status,0,decoded.stderr);
+ assert.equal(decoded.stdout,'{"status":"feasible","assignment":{"a":0},"bounds":[]}\n');
+ const tokens = '[10,' + '0,'.repeat(99997) + '0]';
+ assert.equal(tokens.length,200000);
+ const unicode = '"' + '\u{1f600}'.repeat(255);
+ const escaped = '"' + '\\"'.repeat(127) + 'a';
+ const stringError = 'limit_exceeded: JSON string exceeds 256 source characters';
+ const scanError = 'limit_exceeded: JSON nesting or token budget exceeded';
+ const wrongType = 'invalid_input: network must be an object';
+ const cases = [
+   [padded+' ', 'io: input exceeds 1 MiB'],
+   [tokens+' \r\n\t', wrongType],
+   [tokens.replace('[10,','[100,'), scanError],
+   ['['.repeat(16)+'0'+']'.repeat(16), wrongType],
+   ['['.repeat(17)+'0'+']'.repeat(17), scanError],
+   [']'+'['.repeat(17)+'0'+']'.repeat(17), 'invalid_json: invalid JSON text'],
+   [unicode+'"', wrongType],
+   [unicode+'x"', stringError],
+   [escaped+'"', wrongType],
+   [escaped+'x"', stringError],
+   ['"'+' '.repeat(257), stringError],
+ ];
+ for (const [input, expected] of cases) {
+   const out = invoke(['-'], input);
+   assert.equal(out.status,2,out.error ?? out.stderr);
+   assert.equal(out.stdout,'');
+   assert.equal(out.stderr.trim(),expected);
+ }
+}
 function signedClosureCase() {
  const size = 64;
  const timepoints = Array.from({length: size}, (_, i) => 'p' + i);
@@ -197,14 +230,15 @@ for(const mode of ['debug','release']){
  verifyIntegerSpellings(invoke);
  verifyNumericEncoding(invoke);
  verifyQueryErrorOrder(invoke);
+ verifyJsonScanBounds(invoke);
  const bom=invoke(['-'],'\ufeff'+JSON.stringify(good));assert.equal(bom.status,0,bom.stderr);
  for(const args of [[],['--unknown'],['x','y'],['missing-file.json']]){const r=invoke(args,'');assert.equal(r.status,2);assert.equal(r.stdout,'');}
- assert.equal(invoke(['--version'],'').stdout.trim(),'0.2.16');
+ assert.equal(invoke(['--version'],'').stdout.trim(),'0.2.17');
  const fd=fs.openSync(path.join(root,'moon.mod'),'r');try{const r=spawnSync(process.execPath,[cli,'--version'],{stdio:['ignore',fd,'pipe'],encoding:'utf8',timeout:15000});assert.equal(r.status,2);}finally{fs.closeSync(fd);}
  const scenarios=['deployment','delivery','conflict'];
  for(const name of scenarios){const request=JSON.parse(fs.readFileSync(`examples/${name}.json`,'utf8'));const r=invoke([`examples/${name}.json`],'');assert.equal(r.status,0,r.stderr);const result=JSON.parse(r.stdout);validate(request,result);assert.equal(result.status,name==='conflict'?'inconsistent':'feasible');if(name==='deployment')assert.deepEqual(result.bounds,[{from:'zero',to:'release',lower:15,upper:35}]);if(name==='delivery')assert.deepEqual(result.bounds,[{from:'pickup',to:'arrival',lower:20,upper:40}]);}
  console.log(`PASS ${mode}: malformed input, batch isolation, process I/O and three scenarios`);
- reports.push({mode,unitTests:units.trim(),exhaustiveNetworks:4096,signedClosureBounds:256,...(baselineCli ? {numericBaselineCompared:true}:{}),invalidBatchItems:invalid.length,numericEncodingCompared:true,queryErrorOrderCompared:true,transportRejects:transport.length+1,scenarios});
+ reports.push({mode,unitTests:units.trim(),exhaustiveNetworks:4096,signedClosureBounds:256,...(baselineCli ? {numericBaselineCompared:true}:{}),invalidBatchItems:invalid.length,numericEncodingCompared:true,queryErrorOrderCompared:true,jsonScanBoundsCompared:true,transportRejects:transport.length+1,scenarios});
 }
 process.stdout.write(run(process.execPath,['scripts/verify-planning.mjs',...process.argv.slice(2)]));
 fs.writeFileSync(summary,JSON.stringify({status:'passed',recordedAt:new Date().toISOString(),node:process.version,reports},null,2)+'\n');

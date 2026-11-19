@@ -290,7 +290,7 @@ pub fn parse_json(source : String) -> Json raise StnError {
   let mut escaped = false
   let mut tokens = 0
   let mut string_units = 0
-  for c in source.iter() {
+  for c in source {
     if quoted {
       string_units += 1
       if string_units > 256 {

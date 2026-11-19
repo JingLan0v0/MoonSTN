@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.2.17 — 2026-11-20
+
+- Traverse source characters directly in JSON resource preflight.
+- Check exact input size, scan count, depth and Unicode string boundaries.
+
 ## 0.2.16 — 2026-11-19
 
 - Resolve both fields of a two-field numeric query directly, with the

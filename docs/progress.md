@@ -1,10 +1,19 @@
 # Continue MoonSTN optimization
 
 The [optimization roadmap](optimization-roadmap.md) records the next measurement
-and its acceptance criteria. The 0.2.11 candidate uses a name map to index
-numeric arcs and improves dense library solves. Next, evaluate the flat
-closure loop's cell access and repeated arithmetic.
+and its acceptance criteria. Next, evaluate the flat closure loop's cell access
+and repeated arithmetic.
+
+## Numeric arc indexing — 2026-11-19
+
+The 0.2.11 release reuses the validated JSON name map and builds a current
+name map for dense library solves. The median elapsed times for the two dense library batches
+fell 33.0% and 32.0%.
 [Measurements](optimization-0.2.11.json)
+
+Published source `f1e9c78` passed Windows and Ubuntu CI. A fresh installation
+passed both build modes, including caller-edited names and edges.
+[Release receipts](publication-0.2.11.json)
 
 ## Exact narrow arithmetic — 2026-11-19
 

@@ -1,0 +1,68 @@
+{
+  "version": "0.2.11",
+  "sourceCommit": "f1e9c78a8b2f2c26024be363575b37cee24cc03e",
+  "baselineCommit": "9efac87002453f2e6e9fccd670e9ae562d545c39",
+  "verification": {
+    "checkoutCompletedAt": "2026-11-19T08:52:00.762Z",
+    "packageExtractionCompletedAt": "2026-11-19T08:54:03.632Z",
+    "modes": [
+      "debug",
+      "release"
+    ],
+    "unitTestsPerMode": 30,
+    "stnOracleCasesPerMode": 4096,
+    "signedClosureBoundsPerMode": 256,
+    "planningOracleCasesPerMode": 1794,
+    "baselineComparedForExistingSuites": true,
+    "byteIdenticalBenchmarkWorkloads": 10,
+    "generatedInterfaces": "unchanged",
+    "powerShellSmoke": "passed in checkout and extraction"
+  },
+  "ci": {
+    "run": 44491437629,
+    "ubuntu": {
+      "job": 135447766954,
+      "conclusion": "success"
+    },
+    "windows": {
+      "job": 135447766524,
+      "conclusion": "success"
+    }
+  },
+  "packageFiles": 92,
+  "sha256": "4157dc4f081d3421a169c169fb825f479e8035acf2f75cee3556db11a7054be9",
+  "preflight": "202 Accepted",
+  "publication": "Confirmed by the public registry index and downloadable archive",
+  "registryCreatedAt": "2026-11-19T16:54:59.96217+08:00",
+  "publicVersionPageStatus": 200,
+  "consumer": {
+    "checkedAt": "2026-11-19T08:58:00.955482+00:00",
+    "freshCache": true,
+    "credentials": false,
+    "workspaceDependency": false,
+    "modes": [
+      "debug",
+      "release"
+    ],
+    "checks": [
+      "exact version",
+      "assignment",
+      "tight bounds",
+      "conflict certificate",
+      "resource-order backtracking",
+      "independent plan verification",
+      "resource-induced unschedulability",
+      "planning budget recovery",
+      "exact decimal and exponent spellings",
+      "nonzero underflow rejection",
+      "byte-identical mixed planning batch",
+      "byte-identical 256-query numeric response at exact budget",
+      "dense closure at exact and one-step-short budgets",
+      "63,000,000 tight upper bound",
+      "edited \u00b13,000,000,000 edges and subsequent reuse",
+      "edited names, first duplicate-name match, unknown endpoint before budget exhaustion and edited edges"
+    ],
+    "registryArchiveMatches": true,
+    "installedFilesMatch": true
+  }
+}

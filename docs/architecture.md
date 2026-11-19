@@ -32,10 +32,10 @@ checks every original edge rather than recomputing the solver. It accepts any
 complete feasible assignment within its documented proof-coordinate bound.
 
 Floyd-Warshall on feasible networks computes tight all-pairs upper bounds.
-Before closure traversal, reserve the fixed V^3 logical triples in one budget
-check. This fits Int32 because V <= 64. If insufficient, return the same budget
-error immediately: all intermediate state is local, and no partial solution is
-observable. Negative-cycle detection still runs first with its original budget.
+After feasibility is established, reserve the edge-initialization charge and
+the fixed V^3 logical triples before allocating the distance matrix. The triple
+count fits Int32 because V <= 64. An insufficient budget returns an error
+before setup. Negative cycles use the separate certificate budget.
 Rows with no path from i to k skip their inner traversal. Reachable rows reuse the row references and
 distance(i,k). This value stays fixed during a feasible closure iteration because
 distance(k,k)=0 and no negative cycles remain. This preserves results and the

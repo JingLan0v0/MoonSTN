@@ -25,6 +25,13 @@ const cases = [
   ['budget-limit', 32, {...sparse, max_steps: sparse.max_steps - 1}, 'error'],
   ['negative-cycle', 32, impossible, 'inconsistent'],
 ];
+if (process.env.MOONSTN_BENCH_CLOSURE_BUDGET === '1') {
+  cases.push(
+    ['chain-closure-budget', 32, {...sparse, constraints: chain, max_steps: 64 ** 3 + 2 * chain.length - 1}, 'error'],
+    ['dense-closure-budget', 16, {...sparse, constraints: dense, max_steps: 64 ** 3 + 2 * dense.length - 1}, 'error'],
+    ['dense-init-budget', 16, {...sparse, constraints: dense, max_steps: dense.length}, 'error'],
+  );
+}
 if (process.env.MOONSTN_BENCH_DENSITY === '1') {
   for (const size of [31, 32]) {
     const timepoints = names.slice(0, size);

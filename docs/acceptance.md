@@ -2,6 +2,46 @@
 
 Project MoonSTN / JingLan0v0/stn, published 0.2.17.
 
+## Numeric closure budget before allocation — 2026-11-20
+
+Baseline baa28f4 was measured on Windows release JS and Node 24.14.0.
+The allocation phase from the wide matrix constructor through arc
+initialization measured 2.78 microseconds per edgeless solve, 6.22 for
+a chain and 6.06 for a dense ring. These 64-point solves ran one work
+unit short of closure and failed after the measured phase. Probe time
+includes instrumentation overhead.
+
+The selected version charges arc initialization and all logical closure
+triples after feasibility and before either matrix. An unsuccessful
+narrow-matrix trial can still fall back to the wide matrix within that
+reservation. The negative-cycle path continues to charge its own walk
+and certificate. A guard-only candidate also cut failed-call times.
+Prepayment let the two matrix paths share the same charge.
+
+| Exhausted library median, ms | Baseline first | Candidate first |
+|---|---:|---:|
+| Edgeless, 2,048 solves | 5.155 → 2.162 | 5.391 → 2.218 |
+| Chain, 128 solves | 2.515 → 1.774 | 2.780 → 1.866 |
+| Dense ring, 128 solves | 2.561 → 2.004 | 2.464 → 1.765 |
+
+The final library build reduced failed-call medians on all five graph
+shapes. Successful-call timings were mixed for the edgeless and dense
+controls. CLI elapsed results varied by run and workload. The edgeless
+budget-limit batch had 2,024 and 1,912 KiB lower median peak RSS.
+
+All 13 CLI workloads matched output bytes in both orders. Independent
+regressions cover full and one-short budgets on a dense ring and on
+parallel arcs that select the wide matrix. They also cover missing arc
+initialization budget, malformed endpoints, a negative-cycle certificate
+with and without its final work unit, and recovery in the same batch.
+The 0.2.17 baseline also passes these behavioral checks.
+
+Use scripts/profile-closure-budget.mjs with the compiled 0.2.17 driver
+from scripts/fixtures/numeric-benchmark.mbt to reproduce the allocation
+probe. Use MOONSTN_BENCH_CLOSURE_BUDGET=1 and MOONSTN_BENCH_DENSITY=1 with
+scripts/benchmark-numeric-queries.mjs for targeted CLI cases.
+[Measurements](optimization-0.2.18.json)
+
 ## Mooncakes 0.2.17 publication — 2026-11-20
 
 Source 9e58a1c1ff8f1bdd6a82cbcacc6c69173b09c18d passed Windows and Ubuntu

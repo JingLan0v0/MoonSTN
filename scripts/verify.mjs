@@ -144,6 +144,32 @@ function verifyJsonScanBounds(invoke) {
    assert.equal(out.stderr.trim(),expected);
  }
 }
+function verifyClosureBudgetOrder(invoke) {
+ const names=Array.from({length:32},(_,i)=>'v'+i);
+ const ring=names.flatMap((from,i)=>Array.from({length:4},(_,j)=>
+   ({id:'e'+i+'-'+j,from,to:names[(i+j+1)%32],upper:1})));
+ // Both cases have enough arcs to try the narrow path. Parallel arcs
+ // fail its distinct-pair check and use the wide matrix.
+ const parallel=ring.map(edge=>({...edge,from:'v0',to:'v1'}));
+ const exact=names.length**3+2*ring.length;
+ const variants=[ring,parallel].map(constraints=>({
+   timepoints:names,constraints,queries:[{from:'v0',to:'v31'}],max_steps:exact,
+ }));
+ const cycle={timepoints:['a','b'],constraints:[{id:'loop',from:'a',to:'a',upper:-1}],max_steps:5};
+ const bad={timepoints:['a'],constraints:[{id:'missing',from:'a',to:'x',upper:1}],max_steps:1};
+ const input=variants.flatMap(ok=>[{...ok,max_steps:ring.length},{...ok,max_steps:exact-1},ok]);
+ input.push({...cycle,max_steps:4},cycle,bad,variants[0]);
+ const out=invoke(['--batch','-'],JSON.stringify(input));
+ assert.equal(out.status,0,out.stderr);
+ const results=JSON.parse(out.stdout);
+ const exhausted={status:'error',code:'limit_exceeded',message:'work budget exhausted; no feasibility conclusion'};
+ for (const i of [0,1,3,4,6]) assert.deepEqual(results[i],exhausted);
+ assert.deepEqual(results[2].bounds,[{from:'v0',to:'v31',lower:-1,upper:8}]);
+ assert.deepEqual(results[5].bounds,[{from:'v0',to:'v31',lower:null,upper:null}]);
+ assert.deepEqual(results[7],{status:'inconsistent',cycle:[{id:'loop',from:'a',to:'a',bound:-1,side:'upper'}]});
+ assert.deepEqual(results[8],{status:'error',code:'invalid_input',message:'unknown timepoint: x'});
+ assert.deepEqual(results[2],results[9]);
+}
 function signedClosureCase() {
  const size = 64;
  const timepoints = Array.from({length: size}, (_, i) => 'p' + i);
@@ -231,14 +257,15 @@ for(const mode of ['debug','release']){
  verifyNumericEncoding(invoke);
  verifyQueryErrorOrder(invoke);
  verifyJsonScanBounds(invoke);
+ verifyClosureBudgetOrder(invoke);
  const bom=invoke(['-'],'\ufeff'+JSON.stringify(good));assert.equal(bom.status,0,bom.stderr);
  for(const args of [[],['--unknown'],['x','y'],['missing-file.json']]){const r=invoke(args,'');assert.equal(r.status,2);assert.equal(r.stdout,'');}
- assert.equal(invoke(['--version'],'').stdout.trim(),'0.2.17');
+ assert.equal(invoke(['--version'],'').stdout.trim(),'0.2.18');
  const fd=fs.openSync(path.join(root,'moon.mod'),'r');try{const r=spawnSync(process.execPath,[cli,'--version'],{stdio:['ignore',fd,'pipe'],encoding:'utf8',timeout:15000});assert.equal(r.status,2);}finally{fs.closeSync(fd);}
  const scenarios=['deployment','delivery','conflict'];
  for(const name of scenarios){const request=JSON.parse(fs.readFileSync(`examples/${name}.json`,'utf8'));const r=invoke([`examples/${name}.json`],'');assert.equal(r.status,0,r.stderr);const result=JSON.parse(r.stdout);validate(request,result);assert.equal(result.status,name==='conflict'?'inconsistent':'feasible');if(name==='deployment')assert.deepEqual(result.bounds,[{from:'zero',to:'release',lower:15,upper:35}]);if(name==='delivery')assert.deepEqual(result.bounds,[{from:'pickup',to:'arrival',lower:20,upper:40}]);}
  console.log(`PASS ${mode}: malformed input, batch isolation, process I/O and three scenarios`);
- reports.push({mode,unitTests:units.trim(),exhaustiveNetworks:4096,signedClosureBounds:256,...(baselineCli ? {numericBaselineCompared:true}:{}),invalidBatchItems:invalid.length,numericEncodingCompared:true,queryErrorOrderCompared:true,jsonScanBoundsCompared:true,transportRejects:transport.length+1,scenarios});
+ reports.push({mode,unitTests:units.trim(),exhaustiveNetworks:4096,signedClosureBounds:256,...(baselineCli ? {numericBaselineCompared:true}:{}),invalidBatchItems:invalid.length,numericEncodingCompared:true,queryErrorOrderCompared:true,jsonScanBoundsCompared:true,closureBudgetOrderCompared:true,transportRejects:transport.length+1,scenarios});
 }
 process.stdout.write(run(process.execPath,['scripts/verify-planning.mjs',...process.argv.slice(2)]));
 fs.writeFileSync(summary,JSON.stringify({status:'passed',recordedAt:new Date().toISOString(),node:process.version,reports},null,2)+'\n');

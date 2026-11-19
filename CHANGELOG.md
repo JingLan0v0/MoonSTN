@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.2.18 — 2026-11-20
+
+- Charge numeric closure arc initialization and logical triples before
+  allocating the distance matrix.
+- Check exact and insufficient budgets across both matrix paths and
+  negative-cycle certificate construction.
+
 ## 0.2.17 — 2026-11-20
 
 - Traverse source characters directly in JSON resource preflight.

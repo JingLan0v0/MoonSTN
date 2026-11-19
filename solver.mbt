@@ -40,11 +40,12 @@ fn solve_indexed(
     return Inconsistent(cycle.rev())
   }
   normalize(values)
-  // Only try the narrow path if the full arc and closure charge fits.
+  // Reserve arc initialization and all logical triples before allocating
+  // either closure matrix. Negative cycles use the certificate budget above.
+  budget.charge(arcs.length())
+  budget.charge(n * n * n)
   if n >= 32 && n <= 64 && arcs.length() >= 4 * n && arcs.length() <= 1024 {
-    let work = arcs.length() + n * n * n
-    if budget.remaining >= work &&
-      narrow_distances(n, arcs, budget, work) is Some(distances) {
+    if narrow_distances(n, arcs) is Some(distances) {
       return Feasible({ names: net.names.copy(), values, distances, })
     }
   }
@@ -55,16 +56,11 @@ fn solve_indexed(
     distances[i][i] = Some(0L)
   }
   for i = 0; i < arcs.length(); i = i + 1 {
-    budget.tick()
     let { source: a, target: b, bound: w, } = arcs[i]
     if distances[a][b] is None || distances[a][b].unwrap() > w {
       distances[a][b] = Some(w)
     }
   }
-  // Closure is computed only after feasibility, avoiding negative-cycle amplification.
-  // Closure has exactly n^3 logical triples; reserve once before any traversal.
-  // All state is local, so an insufficient budget cannot expose a partial result.
-  budget.charge(n * n * n)
   for k = 0; k < n; k = k + 1 {
     let via = distances[k]
     for i = 0; i < n; i = i + 1 {
@@ -94,9 +90,7 @@ fn solve_indexed(
 fn narrow_distances(
   n : Int32,
   arcs : Array[TemporalArc],
-  budget : Budget,
-  work : Int32,
-) -> Array[Array[Int64?]]? raise StnError {
+) -> Array[Array[Int64?]]? {
   let no_path = 0x7fffffff
   let cells = FixedArray::make(n * n, no_path)
   for i = 0; i < n; i = i + 1 {
@@ -122,7 +116,6 @@ fn narrow_distances(
   if connected_pairs < 4 * n {
     return None
   }
-  budget.charge(work)
   // The zero diagonal and absence of negative cycles keep the pivot row
   // unchanged for this pass, so enumerate its finite cells just once.
   let columns = FixedArray::make(n, 0)

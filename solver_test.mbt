@@ -294,3 +294,65 @@ test "reachable closure rows preserve exact budget and network reuse" {
     }
   }
 }
+
+///|
+test "wide edited edges keep exact bounds and closure work thresholds" {
+  let n = 32
+  let names = Array::makei(n, i => "v" + i.to_string())
+  // A separate component supplies enough distinct arcs for the narrow path.
+  let constraints = Array::makei(150, i => {
+    let source = 1 + i / 5
+    let target = 1 + (source - 1 + i % 5 + 1) % 30
+    edge("arc" + i.to_string(), names[source], names[target], None, Some(0))
+  })
+  constraints.push(edge("tail", "v0", "v31", None, Some(1)))
+  let net = @stn.network(names, constraints)
+  let tail = net.edges.length() - 1
+  let original = net.edges[tail]
+  for (bound, passes) in [(3000000000L, 1), (-3000000000L, 2), (1L, 1)] {
+    net.edges[tail] = { ..original, bound, }
+    let steps = n * n * n + (passes + 1) * net.edges.length()
+    let exhausted = try {
+      @stn.solve(net, max_steps=steps - 1) |> ignore
+      false
+    } catch {
+      @stn.StnError(code, _) => code == "limit_exceeded"
+    }
+    assert_true(exhausted)
+    guard @stn.solve(net, max_steps=steps) is @stn.Feasible(solution) else {
+      fail("expected a feasible closure")
+    }
+    assert_eq(solution.bounds("v0", "v31"), (None, Some(bound)))
+    assert_eq(solution.bounds("v31", "v0"), (Some(-bound), None))
+    assert_true(@stn.verify_assignment(net, solution.assignment()))
+  }
+}
+
+///|
+test "dense closure preserves long paths at the per-edge bound" {
+  let n = 64
+  let names = Array::makei(n, i => "v" + i.to_string())
+  let constraints = Array::makei(n - 1, i => {
+    edge("forward" + i.to_string(), names[i], names[i + 1], None, Some(1000000))
+  })
+  for i = 1; i < n; i = i + 1 {
+    for jump = 1; jump <= 4 && jump <= i; jump = jump + 1 {
+      constraints.push(
+        edge(
+          "back" + i.to_string() + "_" + jump.to_string(),
+          names[i],
+          names[i - jump],
+          None,
+          Some(1000000),
+        ),
+      )
+    }
+  }
+  let net = @stn.network(names, constraints)
+  let steps = n * n * n + 2 * constraints.length()
+  guard @stn.solve(net, max_steps=steps) is @stn.Feasible(solution) else {
+    fail("expected dense feasible closure")
+  }
+  assert_eq(solution.bounds("v0", "v63"), (Some(-16000000L), Some(63000000L)))
+  assert_eq(solution.bounds("v63", "v0"), (Some(-63000000L), Some(16000000L)))
+}

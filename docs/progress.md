@@ -1,9 +1,14 @@
 # Continue MoonSTN optimization
 
 The [optimization roadmap](optimization-roadmap.md) records the next measurement
-and its acceptance criteria. The 0.2.9 release skips zero-diagonal pivot
-rows, reducing empty and chain library solve times in both rounds. Next,
-evaluate exact arithmetic representation in dense closure.
+and its acceptance criteria. The 0.2.10 candidate uses exact Int32 arithmetic
+for eligible dense closure, widening the result to Int64. Next, profile
+numeric arc indexing and matrix widening. [Measurements](optimization-0.2.10.json)
+
+## Numeric closure review — 2026-11-19
+
+The 0.2.9 release skips zero-diagonal pivot rows, reducing empty and chain
+library solve times in both rounds.
 [Measurements](optimization-0.2.9.json)
 
 Published source `06cecce` passed Windows and Ubuntu CI. A fresh installation

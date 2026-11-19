@@ -25,6 +25,27 @@ const cases = [
   ['budget-limit', 32, {...sparse, max_steps: sparse.max_steps - 1}, 'error'],
   ['negative-cycle', 32, impossible, 'inconsistent'],
 ];
+if (process.env.MOONSTN_BENCH_DENSITY === '1') {
+  for (const size of [31, 32]) {
+    const timepoints = names.slice(0, size);
+    const constraints = timepoints.flatMap((from, i) => Array.from({length: 4}, (_, j) => ({
+      id: 'e' + i + '-' + j, from, to: timepoints[(i + j + 1) % size], upper: 1,
+    })));
+    cases.push(['ring-' + size, 32, {timepoints, constraints, queries: queries.filter(
+      ({from, to}) => timepoints.includes(from) && timepoints.includes(to),
+    )}, 'feasible']);
+  }
+  const repeated = dense.map(edge => ({...edge, from: names[0], to: names[63]}));
+  const grouped = dense.map(({id, from, upper}, i) => {
+    const source = Math.floor(i / 8);
+    const group = Math.floor(source / 16) * 16;
+    return {id, from, upper, to: names[group + (source % 16 + i % 8 + 1) % 16]};
+  });
+  cases.push(
+    ['parallel-only', 16, {...sparse, constraints: repeated, max_steps: 2000000}, 'feasible'],
+    ['four-groups', 16, {...sparse, constraints: grouped, max_steps: 2000000}, 'feasible'],
+  );
+}
 const probe = 'data:text/javascript,' + encodeURIComponent(
   'process.once("exit", () => console.error(JSON.stringify({peakRssKiB: process.resourceUsage().maxRSS, ...globalThis.queryPhases})));',
 );
@@ -91,7 +112,7 @@ try {
       if (status === 'inconsistent') assert.deepEqual(result.cycle, [
         {id: 'cycle', from: names[63], to: names[63], bound: -1, side: 'upper'},
       ]);
-      if (status === 'feasible' && name !== 'ordinary') {
+      if (['sparse', 'chain', 'dense'].includes(name)) {
         assert.deepEqual(result.bounds, pairs.map(([a, b]) => ({
           from: names[a], to: names[b],
           ...expectedBounds(name, a, b),

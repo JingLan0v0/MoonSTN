@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.2.10 — 2026-11-19
+
+- Use a flat Int32 matrix for eligible dense numeric closure and convert
+  distances back to the public Int64 representation.
+- Test exact closure budgets with caller-edited wide edges and a 64-point
+  path of length 63,000,000.
+
 ## 0.2.9 — 2026-11-19
 
 - Skip a closure pivot row when its diagonal is zero and read each existing

@@ -31,6 +31,14 @@ pub fn solve(
     return Inconsistent(cycle.rev())
   }
   normalize(values)
+  // Only try the narrow path if the full arc and closure charge fits.
+  if n >= 32 && n <= 64 && arcs.length() >= 4 * n && arcs.length() <= 1024 {
+    let work = arcs.length() + n * n * n
+    if budget.remaining >= work &&
+      narrow_distances(n, arcs, budget, work) is Some(distances) {
+      return Feasible({ names: net.names.copy(), values, distances, })
+    }
+  }
   let distances : Array[Array[Int64?]] = Array::makei(n, _ => {
     Array::make(n, None)
   })
@@ -68,6 +76,75 @@ pub fn solve(
     }
   }
   Feasible({ names: net.names.copy(), values, distances, })
+}
+
+///|
+/// With no negative cycle, each finite intermediate shortest path can be
+/// made simple. At 64 points and ±1,000,000 per edge, two paths sum within
+/// ±126,000,000. The unreachable marker exceeds every finite distance.
+fn narrow_distances(
+  n : Int32,
+  arcs : Array[TemporalArc],
+  budget : Budget,
+  work : Int32,
+) -> Array[Array[Int64?]]? raise StnError {
+  let no_path = 0x7fffffff
+  let cells = FixedArray::make(n * n, no_path)
+  for i = 0; i < n; i = i + 1 {
+    cells[i * n + i] = 0
+  }
+  let mut connected_pairs = 0
+  for arc in arcs {
+    // The caller can edit the network's readable edges between solves.
+    if arc.bound < -1000000L || arc.bound > 1000000L {
+      return None
+    }
+    let cell = arc.source * n + arc.target
+    let weight = arc.bound.to_int()
+    let previous = cells[cell]
+    if previous == no_path {
+      connected_pairs += 1
+    }
+    if weight < previous {
+      cells[cell] = weight
+    }
+  }
+  // The initialized diagonals and parallel edges contribute no extra pairs.
+  if connected_pairs < 4 * n {
+    return None
+  }
+  budget.charge(work)
+  for k = 0; k < n; k = k + 1 {
+    let pivot = k * n
+    for i = 0; i < n; i = i + 1 {
+      if i == k {
+        continue
+      }
+      let row = i * n
+      let a = cells[row + k]
+      if a == no_path {
+        continue
+      }
+      for j = 0; j < n; j = j + 1 {
+        let b = cells[pivot + j]
+        if b != no_path && a + b < cells[row + j] {
+          cells[row + j] = a + b
+        }
+      }
+    }
+  }
+  Some(
+    Array::makei(n, i => {
+      Array::makei(n, j => {
+        let value = cells[i * n + j]
+        if value == no_path {
+          None
+        } else {
+          Some(value.to_int64())
+        }
+      })
+    }),
+  )
 }
 
 ///|

@@ -2,6 +2,49 @@
 
 Project MoonSTN / JingLan0v0/stn, published 0.2.9.
 
+## Exact narrow arithmetic for dense closure — 2026-11-19
+
+Baseline `ab6b73e` uses the 0.2.9 runtime. The dense library CPU profile
+had 1,183 samples. The solver had 954 self samples, with 160 position ticks
+on the Int64 addition and 75 on the signed comparison. The library
+same-binary control differed by 0.3% in the dense successful scenario.
+
+The first Int32 candidate used nested optional cells. Dense library
+medians improved 1.6% and 2.9%, with an empty-graph regression. A flat
+matrix preserved the original Int64 fallback and gave a larger dense
+gain. The selected variant counts distinct directed pairs while preparing
+its flat matrix. Parallel and self edges do not inflate that count.
+[Range proof and eligibility](architecture.md)
+
+| Selected candidate median | Round 1 baseline → candidate | Round 2 baseline → candidate |
+|---|---:|---:|
+| Dense library, 128 solves, ms | 49.32 → 32.02 | 50.08 → 32.78 |
+| Dense CLI, 16 requests with 256 queries, ms | 141.19 → 135.03 | 142.36 → 135.30 |
+| Dense CLI peak RSS, KiB | 88,648 → 85,688 | 88,804 → 85,724 |
+| Empty graph CLI, ms | 132.28 → 135.60 | 132.30 → 133.85 |
+| Parallel edges only, CLI, ms | 128.91 → 130.14 | 130.28 → 131.28 |
+
+The library medians on the dense workload fell 35.1% and 34.5%, with
+end-to-end improvements of 4.4% and 5.0%. Empty-graph CLI medians increased
+2.5% and 1.2%. The library comparisons reuse prepared networks and include
+widening the matrix back to its public representation. CLI timings include
+startup, decoding and serialization.
+
+The ten CLI workloads, including 31/32-point rings, parallel arcs and
+separate groups, matched output bytes. The mixed batch checked exact and
+one-step-short budgets and the ordered negative-cycle certificate. The
+signed 64-point Dijkstra comparison still matches all 256 expected bounds.
+New library regressions cover a tight bound of 63,000,000 and edits to
+±3,000,000,000 with exact and one-step-short budgets, then reuse the model
+with the original weight.
+
+Reproduce by building the pinned release CLI and numeric library fixture
+for both revisions. Run `scripts/benchmark-numeric-library.mjs` and
+`scripts/benchmark-numeric-queries.mjs` in both argument orders. Set
+`MOONSTN_BENCH_DENSITY=1` for the extra selection controls. The report
+includes all three patches, ordered samples, build hashes and peak RSS.
+[Raw measurements](optimization-0.2.10.json)
+
 ## Mooncakes 0.2.9 publication — 2026-11-19
 
 Source `06cecce6d42c446f14eab394b360fb1390c46196` passed Windows and Ubuntu

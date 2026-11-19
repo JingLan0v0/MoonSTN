@@ -46,6 +46,17 @@ shortest simple paths use <=63 edges. Closure never runs on negative-cycle graph
 All arithmetic is well inside signed Int64 and the exact JSON binary64 integer
 range. Public proof coordinates are limited to ±10^11 before subtraction.
 
+Dense feasible graphs can use a flat Int32 closure matrix. The current
+eligibility gate requires 32–64 points, at least four distinct off-diagonal
+arcs per point on average and at most 1,024 arcs. The current edge weights
+are rechecked against ±10^6. Every finite intermediate shortest path can
+be simplified by removing nonnegative cycles. Its absolute weight is at
+most 63 × 10^6, so a relaxation sum fits within ±126 × 10^6, below the
+unreachable sentinel and within Int32. The diagonal stays zero. The solver
+widening step returns the existing Int64 distances and unbounded markers.
+Inputs outside the gate use the Int64 closure, including caller-edited wide
+edge weights. Both paths charge the same arc and closure work.
+
 Core files: model.mbt (validation/snapshots), solver.mbt (reasoning/certificates),
 json.mbt (bounded exchange). cmd/main/host.mbt contains only Node I/O. JS test code
 is an independent oracle and is not used by the runtime.

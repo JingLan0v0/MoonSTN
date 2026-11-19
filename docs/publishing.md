@@ -8,6 +8,10 @@ public repository and authorized upload on 2026-11-10. Use normal Git history,
 never force-push over existing content. Verify Windows/Ubuntu CI on its exact
 commit SHA and record actual results. The proposal uses the repository root URL.
 
+For each version, add a summary to both README release history tables and
+record the full changes in CHANGELOG.md. Keep the five latest versions
+visible and move older entries into the collapsible table.
+
 For each future authorized publication: align manifest repository/version, run full local
 and remote checks, inspect the package archive, validate a fresh extraction,
 perform preflight, publish only a new version, then install the exact version in

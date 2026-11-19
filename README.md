@@ -14,6 +14,37 @@ window, or a negative cycle identifying contradictory original rules.
 Verification and installation receipts: [acceptance](docs/acceptance.md).
 Repository: [JingLan0v0/MoonSTN](https://github.com/JingLan0v0/MoonSTN).
 
+## Release history
+
+| Version | Date | Main changes |
+| --- | --- | --- |
+| 0.2.12 | 2026-11-19 | Reuse reachable columns during dense closure. Median dense library solve time fell 30–32% in two benchmark rounds. |
+| 0.2.11 | 2026-11-19 | Speed up arc indexing by reusing validated names for JSON requests and building a name map for dense library calls. |
+| 0.2.10 | 2026-11-19 | Use exact Int32 arithmetic for eligible dense networks and return tight bounds as Int64. |
+| 0.2.9 | 2026-11-19 | Skip closure updates that cannot improve the pivot row. Add an independent comparison for signed bounds on a 64-point network. |
+| 0.2.8 | 2026-11-19 | Resolve query endpoints once and read tight bounds directly by index. |
+
+<details>
+<summary>Earlier versions</summary>
+
+| Version | Date | Main changes |
+| --- | --- | --- |
+| 0.2.7 | 2026-11-19 | Build planning results directly in their final JSON form. |
+| 0.2.6 | 2026-11-19 | Fix integer validation for JSON fractions that round to integers or underflow to zero. |
+| 0.2.5 | 2026-11-19 | Reuse timepoint indices when building planning constraints and resource-order edges. |
+| 0.2.4 | 2026-11-19 | Charge the work budget once per complete relaxation pass to reduce overhead in deep searches. |
+| 0.2.3 | 2026-11-18 | Stop scanning task pairs at the first exclusive-resource conflict. |
+| 0.2.2 | 2026-11-18 | Build temporal arcs once per planning request and reuse them across search branches. |
+| 0.2.1 | 2026-11-18 | Check feasibility directly during resource search, avoiding all-pairs closure on each branch. |
+| 0.2.0 | 2026-11-17 | Add task planning with duration ranges, time windows, dependencies, exclusive resources and independent schedule verification. |
+| 0.1.2 | 2026-11-16 | Check the full closure budget before traversing the matrix. |
+| 0.1.1 | 2026-11-11 | Skip unreachable closure rows and reuse references to reachable rows. |
+| 0.1.0 | 2026-11-11 | First release with numeric time constraints, tight bounds, verifiable conflict cycles and batch JSON processing. |
+
+</details>
+
+[Full changelog](CHANGELOG.md) · [Benchmarks and verification](docs/acceptance.md)
+
 ## New in 0.2.0: resource-aware task planning
 
 ```sh

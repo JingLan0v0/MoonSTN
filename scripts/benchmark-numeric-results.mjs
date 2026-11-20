@@ -10,9 +10,11 @@ const preflight = process.env.MOONSTN_BENCH_NUMERIC_PREFLIGHT === '1';
 const profilePreflight = process.env.MOONSTN_PROFILE_NUMERIC_PREFLIGHT === '1';
 const profileRequests = process.env.MOONSTN_PROFILE_NUMERIC_REQUESTS === '1';
 const profileModel = process.env.MOONSTN_PROFILE_NUMERIC_MODEL === '1';
+const profileConstraints = process.env.MOONSTN_PROFILE_NUMERIC_CONSTRAINTS === '1';
+const constraintFields = profileConstraints || process.env.MOONSTN_BENCH_NUMERIC_CONSTRAINTS === '1';
 const model = profileModel || process.env.MOONSTN_BENCH_NUMERIC_MODEL === '1';
 const requests = profilePreflight || preflight || profileRequests || process.env.MOONSTN_BENCH_NUMERIC_REQUESTS === '1';
-const profiling = profileModel || profilePreflight || profileRequests || process.env.MOONSTN_PROFILE_NUMERIC_RESULTS === '1';
+const profiling = profileConstraints || profileModel || profilePreflight || profileRequests || process.env.MOONSTN_PROFILE_NUMERIC_RESULTS === '1';
 const keys = ['10', '2', '01', '__proto__', 'constructor', 'toString'];
 const names = keys.concat(Array.from({length: 58}, (_, i) => 'p' + i));
 const longNames = names.map((name, i) => i < keys.length ? name : name.padEnd(64, '-'));
@@ -48,7 +50,17 @@ const twoSided = {...manyConstraints, constraints: manyConstraints.constraints.m
 const lateError = {...twoSided, queries: unknown.queries};
 const longIds = {...twoSided, constraints: twoSided.constraints.map(rule =>
   ({...rule, id: rule.id.padEnd(64, '-')}))};
-const cases = model ? [
+const explicitNull = {...manyConstraints, constraints: manyConstraints.constraints.map(rule =>
+  ({lower: null, ...rule}))};
+const badConstraint = {...twoSided, constraints: twoSided.constraints.with(-1,
+  {...twoSided.constraints.at(-1), zeta: 0, alpha: 0})};
+const cases = constraintFields ? [
+  {name: 'ordinary', requests: 64, inputs: [feasible(names.slice(0, 4), 4)]},
+  {name: 'dense-one-sided', requests: 12, inputs: [manyConstraints]},
+  {name: 'dense-two-sided', requests: 12, inputs: [twoSided]},
+  {name: 'dense-explicit-null', requests: 12, inputs: [explicitNull]},
+  {name: 'dense-late-field-error', requests: 12, inputs: [badConstraint]},
+] : model ? [
   {name: 'ordinary', requests: 64, inputs: [feasible(names.slice(0, 4), 4)]},
   {name: 'dense-one-sided', requests: 12, inputs: [manyConstraints]},
   {name: 'dense-two-sided', requests: 12, inputs: [twoSided]},
@@ -159,9 +171,37 @@ function instrumentModel(source) {
   }
   return header.join('\n') + '\n' + source;
 }
+function instrumentConstraints(source) {
+  const phases = {
+    modelMs: ['14parse__network'],
+    constraintFieldsMs: ['6fields', 'args[1].length === 5'],
+    requiredLookupMs: ['8required', 'args[1] === "id" || args[1] === "from" || args[1] === "to"'],
+    boundMs: ['5bound'],
+    numberMs: ['16bounded__integer', 'args[1] === -1000000'],
+    constraintMs: ['17parse__constraint'],
+  };
+  const header = ['globalThis.numericResultPhases = ' +
+    JSON.stringify(Object.fromEntries(Object.keys(phases).map(key => [key, 0]))) + ';'];
+  for (const [key, [suffix, filter]] of Object.entries(phases)) {
+    const fn = '_M0FP210JingLan0v03stn' + suffix;
+    if (!source.includes('function ' + fn + '(')) {
+      assert(['boundMs', 'constraintMs'].includes(key), 'Missing compiler function ' + suffix);
+      continue;
+    }
+    header.push(`const saved_${key} = ${fn}; ${fn} = (...args) => {`,
+      ...(filter ? [`if (!(${filter})) return saved_${key}(...args);`] : []),
+      `const start = performance.now(); try { return saved_${key}(...args); }`,
+      `finally { numericResultPhases.${key} += performance.now() - start; } };`);
+  }
+  return header.join('\n') + '\n' + source;
+}
 const exactUpper = new Map([['0:1', 5], ['0:2', 2], ['1:2', -3]]);
 const twoSidedUpper = new Map([...exactUpper, ['1:0', 1000], ['2:0', 1003], ['2:1', 3]]);
 function checkResult(actual, request) {
+  if (request === badConstraint) {
+    assert.deepEqual(actual, {status: 'error', code: 'invalid_input', message: 'unknown field: zeta'});
+    return;
+  }
   if (request === noBudget || request === unknown || request === lateError) {
     assert.equal(actual.status, 'error');
     assert.equal(actual.code, request === noBudget ? 'limit_exceeded' : 'invalid_input');
@@ -200,7 +240,8 @@ try {
   if (tmp) {
     active = variants.map(([label, file]) => {
       const target = resolve(tmp, label + '.js');
-      const applyProfile = profileModel ? instrumentModel : (profilePreflight || profileRequests) ? instrumentRequests : instrument;
+      const applyProfile = profileConstraints ? instrumentConstraints : profileModel ? instrumentModel :
+        (profilePreflight || profileRequests) ? instrumentRequests : instrument;
       writeFileSync(target, applyProfile(readFileSync(file, 'utf8')));
       return [label, target];
     });
@@ -223,7 +264,10 @@ try {
       for (const [label, cli] of pair % 2 ? active.toReversed() : active) {
         const {output, sample} = invoke(cli, input);
         assert.equal(output, reference, name + '/' + label);
-        if (profileModel) {
+        if (profileConstraints) {
+          assert(sample.modelMs > 0 && sample.numberMs > 0);
+          assert(sample.constraintFieldsMs > 0 || sample.constraintMs > 0);
+        } else if (profileModel) {
           assert(sample.modelMs > 0 && sample.fieldsMs > 0 && sample.validationMs > 0);
         } else if (profilePreflight) {
           assert(sample.decodeMs >= sample.grammarMs && sample.grammarMs > 0);

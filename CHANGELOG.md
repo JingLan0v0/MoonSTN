@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.2.21 — 2026-11-20
+
+- Reuse numeric constraint field lookups and scan keys only when the recognized fields do not cover the object.
+- Check missing and null bounds, original number spellings, and error order in mixed batches.
+
 ## 0.2.20 — 2026-11-20
 
 - Scan ASCII names and IDs directly and size validation tables from the model.

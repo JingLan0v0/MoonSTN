@@ -8,7 +8,12 @@ fn text(value : Json, field : String) -> String raise StnError {
 
 ///|
 fn required(obj : Map[String, Json], field : String) -> Json raise StnError {
-  guard obj.get(field) is Some(v) else {
+  required_value(obj.get(field), field)
+}
+
+///|
+fn required_value(value : Json?, field : String) -> Json raise StnError {
+  guard value is Some(v) else {
     raise StnError("invalid_input", "missing field: " + field)
   }
   v
@@ -92,8 +97,8 @@ fn integer_spelling(source : String) -> Bool {
 }
 
 ///|
-fn bound(obj : Map[String, Json], field : String) -> Int32? raise StnError {
-  match obj.get(field) {
+fn bound(value : Json?, field : String) -> Int32? raise StnError {
+  match value {
     None | Some(Null) => None
     Some(v) => {
       guard bounded_integer(v, -1000000.0, 1000000.0) is Some(n) else {
@@ -120,6 +125,32 @@ fn fields(
 }
 
 ///|
+fn parse_constraint(value : Json) -> Constraint raise StnError {
+  guard value is Object(obj) else {
+    raise StnError("invalid_input", "constraint must be an object")
+  }
+  let id = obj.get("id")
+  let from = obj.get("from")
+  let to = obj.get("to")
+  let lower = obj.get("lower")
+  let upper = obj.get("upper")
+  let bound_keys = (if lower is Some(_) { 1 } else { 0 }) +
+    (if upper is Some(_) { 1 } else { 0 })
+  // A present null bound still occupies a key. Other shapes need an ordered scan.
+  if id is None || from is None || to is None || obj.length() != 3 + bound_keys {
+    fields(obj, ["id", "from", "to", "lower", "upper"])
+  }
+  // Unknown keys take precedence, then values are checked in schema order.
+  {
+    id: text(required_value(id, "id"), "id"),
+    from: text(required_value(from, "from"), "from"),
+    to: text(required_value(to, "to"), "to"),
+    lower: bound(lower, "lower"),
+    upper: bound(upper, "upper"),
+  }
+}
+
+///|
 fn parse_network(value : Json) -> (Network, Map[String, Int32]) raise StnError {
   guard value is Object(obj) else {
     raise StnError("invalid_input", "network must be an object")
@@ -137,17 +168,7 @@ fn parse_network(value : Json) -> (Network, Map[String, Int32]) raise StnError {
   let names = ns.map(v => text(v, "timepoint"))
   let constraints : Array[Constraint] = []
   for v in cs {
-    guard v is Object(c) else {
-      raise StnError("invalid_input", "constraint must be an object")
-    }
-    fields(c, ["id", "from", "to", "lower", "upper"])
-    constraints.push({
-      id: text(required(c, "id"), "id"),
-      from: text(required(c, "from"), "from"),
-      to: text(required(c, "to"), "to"),
-      lower: bound(c, "lower"),
-      upper: bound(c, "upper"),
-    })
+    constraints.push(parse_constraint(v))
   }
   network_with_index(names, constraints)
 }

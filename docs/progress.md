@@ -1,8 +1,16 @@
 # Continue MoonSTN optimization
 
 The [optimization roadmap](optimization-roadmap.md) records the next measurement
-and its acceptance criteria. Next, measure field iteration and extraction in
-numeric JSON constraint objects.
+and its acceptance criteria. Next, measure exact integer spelling checks for
+plain integers, decimals, and exponents.
+
+## Numeric constraint fields — 2026-11-20
+
+Version 0.2.21 reuses numeric constraint field lookups. At 512 constraints,
+two-sided CLI batches took 1.4–1.5% less time and late format errors took
+3.2–4.3% less in the two final pairings. Fixed cases cover omitted and null
+bounds, exact lexical integers, diagnostic order, and batch recovery.
+[Measurements](optimization-0.2.21.json)
 
 ## Numeric model validation — 2026-11-20
 

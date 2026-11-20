@@ -2,6 +2,49 @@
 
 Project MoonSTN / JingLan0v0/stn, published 0.2.20.
 
+## Numeric constraint fields — 2026-11-20
+
+On 0.2.20, a batch of twelve 64-point models with 512 two-sided
+constraints each spent about 1.32 ms checking keys, 1.77 ms reading
+required fields, and 3.97 ms handling bounds. The bound time includes
+1.47 ms of exact number validation. Timers wrap generated JS functions
+and include probe overhead.
+
+The selected parser reads the five supported keys once. When required
+keys are present and the recognized keys account for the whole object,
+it proceeds directly to validation. Other shapes use the existing
+ordered key scan. A present null value counts as a key. A single-pass
+map iteration also helped several cases, while the selected approach
+consistently reduced peak RSS on late format errors and dense two-sided
+models.
+
+| CLI median, milliseconds per batch | Baseline first | Candidate first |
+| --- | ---: | ---: |
+| Ordinary | 81.55 → 82.11 | 82.47 → 81.92 |
+| 512 one-sided constraints | 113.96 → 112.44 | 111.79 → 112.88 |
+| 512 two-sided constraints | 118.21 → 116.57 | 117.67 → 115.88 |
+| 512 explicit null lower bounds | 114.79 → 114.03 | 115.52 → 113.93 |
+| Unknown field on the final constraint | 106.27 → 102.85 | 104.72 → 100.23 |
+
+The final-constraint error batch used 3.72–3.74 MiB less peak RSS.
+The two-sided batch used 1.71–1.89 MiB less. The one-sided timing
+changed direction between final pairings.
+
+Eleven numeric and six planning payloads matched byte for byte. The
+64-point cycle control ran 1.2% longer and the largest planning-model
+control ran 1.3% longer in their broader single pairings.
+
+Fixed cases check reordered and escaped keys, missing and explicit null
+bounds, missing and wrongly typed required fields, and exact decimal and
+exponent spellings. Underflow and a fractional digit hidden by rounding
+are rejected. Unknown-field, required-field, and bound diagnostics appear
+in their original order, and later valid batch requests recover.
+
+Run `scripts/benchmark-numeric-results.mjs` with both release JS CLIs.
+Set `MOONSTN_BENCH_NUMERIC_CONSTRAINTS=1` for focused cases or
+`MOONSTN_PROFILE_NUMERIC_CONSTRAINTS=1` for phase probes.
+[Measurements](optimization-0.2.21.json)
+
 ## Mooncakes 0.2.20 publication — 2026-11-20
 
 Source 0f3441a5ae187cf96b6d9f5e9631390db39f6325 passed Windows and Ubuntu

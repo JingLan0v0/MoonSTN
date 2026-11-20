@@ -12,6 +12,10 @@ two-sided CLI batches took 1.4–1.5% less time and late format errors took
 bounds, exact lexical integers, diagnostic order, and batch recovery.
 [Measurements](optimization-0.2.21.json)
 
+Source bd963fe passed both CI platforms. A fresh registry installation
+matched all 118 files and passed the public batch API checks in both modes.
+[Release receipts](publication-0.2.21.json)
+
 ## Numeric model validation — 2026-11-20
 
 Version 0.2.20 validates names, IDs, and bounds with fewer allocations and

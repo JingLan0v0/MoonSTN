@@ -11,6 +11,10 @@ pass. In the maximum-size phase probe, request field processing went
 from 13.21 to 9.63 ms. Fixed tests cover optional values, exact lag,
 diagnostic order, and batch recovery. [Measurements](optimization-0.2.23.json)
 
+Source edb9ee9 passed Windows and Ubuntu CI. An empty-cache installation
+matched all 124 files and checked planning diagnostics in both modes.
+[Release receipts](publication-0.2.23.json)
+
 ## JSON decode and number text review — 2026-11-20
 
 On 0.2.22, the core decoder dominated the measured parse time. The

@@ -10,6 +10,7 @@ const [baseline, candidate] = process.argv.slice(2).map(file => resolve(file));
 assert(baseline, 'Pass the baseline CLI and optionally the candidate CLI');
 const profileFields = process.env.MOONSTN_PROFILE_PLAN_FIELDS === '1';
 const benchFields = profileFields || process.env.MOONSTN_BENCH_PLAN_FIELDS === '1';
+const benchEndpoints = process.env.MOONSTN_BENCH_PLAN_ENDPOINTS === '1';
 const example = name => JSON.parse(readFileSync(new URL('../examples/' + name + '-plan.json', import.meta.url)));
 const {req: full} = largerPlanningCases().find(test => test.name === 'capacity-exact');
 const max = {...full, tasks: full.tasks.map(task => ({...task, resource: null}))};
@@ -25,6 +26,11 @@ const optionalValues = {...max, tasks: max.tasks.map((task, i) => ({...task, res
 const badTask = {...max, tasks: max.tasks.with(-1, {...max.tasks.at(-1), zeta: 0, alpha: 0})};
 const badDependency = {...max, dependencies: max.dependencies.with(-1,
   {...max.dependencies.at(-1), zeta: 0, alpha: 0})};
+const longId = id => id.padStart(64, 'x');
+const longEndpoints = {...max, tasks: max.tasks.map(t => ({...t, id:longId(t.id)})),
+  dependencies: max.dependencies.map(d => ({...d, before:longId(d.before), after:longId(d.after)}))};
+const unknownEndpoint = {...max, dependencies: max.dependencies.with(-1,
+  {...max.dependencies.at(-1), after: 'missing-after'})};
 const cases = [
   ['maintenance', () => [example('maintenance'), 'planned']],
   ['max-model', () => [max, 'planned']],
@@ -38,6 +44,10 @@ const cases = [
     ['optional-values', () => [optionalValues, 'planned']],
     ['late-task-field', () => [badTask, 'error', 'invalid_input', 'unknown field: zeta']],
     ['late-dependency-field', () => [badDependency, 'error', 'invalid_input', 'unknown field: zeta']],
+  ] : []),
+  ...(benchEndpoints ? [
+    ['long-endpoints', () => [longEndpoints, 'planned'], 32],
+    ['late-unknown-endpoint', () => [unknownEndpoint, 'error', 'invalid_input', 'unknown task: missing-after']],
   ] : []),
 ];
 const probe = 'data:text/javascript,' + encodeURIComponent(
@@ -133,8 +143,8 @@ try {
   }
 
   const rows = [];
-  for (const [name, fixture] of cases) {
-    const entries = Array.from({length: 64}, (_, i) => fixture(i));
+  for (const [name, fixture, requests = 64] of cases) {
+    const entries = Array.from({length: requests}, (_, i) => fixture(i));
     const input = JSON.stringify(entries.map(entry => entry[0]));
     const expected = invoke(baseline, input).stdout;
     const results = JSON.parse(expected);

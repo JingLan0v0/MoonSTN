@@ -1,8 +1,17 @@
 # Continue MoonSTN optimization
 
 The [optimization roadmap](optimization-roadmap.md) records the next measurement
-and its acceptance criteria. Next, measure task ID lookups for dependency
-endpoints in planning model construction.
+and its acceptance criteria. Next, measure timepoint name construction for
+planning dependency rules.
+
+## Planning task ID lookup — 2026-11-20
+
+Version 0.2.24 stores task positions in the existing validation map. It
+uses direct scans for small models, long IDs, and the first two task
+positions. The spread fixture dropped from 1,520 string comparisons to
+250 comparisons and 116 map lookups per construction. Exact endpoint
+positions and diagnostics have dedicated public API regressions.
+[Measurements](optimization-0.2.24.json)
 
 ## Planning JSON dependency fields — 2026-11-20
 

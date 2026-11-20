@@ -238,6 +238,78 @@ test "task snapshot and relation validation" {
 }
 
 ///|
+test "dependency endpoints use the positions of exact task IDs" {
+  let tasks = [
+    task("spare", 1, 5, None),
+    task("2", 1, 5, None),
+    task("constructor", 1, 5, None),
+    task("__proto__", 1, 5, None),
+    task("10", 1, 5, None),
+    task("toString", 1, 5, None),
+  ]
+  let dependencies : Array[@stn.Dependency] = [
+    {
+      before: "10",
+      after: "__proto__",
+      kind: "FS",
+      min_lag: 1,
+      max_lag: Some(1),
+    },
+    {
+      before: "2",
+      after: "constructor",
+      kind: "SS",
+      min_lag: 1,
+      max_lag: Some(1),
+    },
+  ]
+  let p = @stn.planning_problem(tasks, dependencies)
+  assert_eq((p.rules[18].from, p.rules[18].to), ("t4f", "t3s"))
+  assert_eq((p.rules[19].from, p.rules[19].to), ("t1s", "t2s"))
+  guard @stn.plan(p) is @stn.Planned(schedule, _) else {
+    fail("expected a plan")
+  }
+  assert_true(@stn.verify_plan(p, schedule))
+}
+
+///|
+test "task validation and ordered dependency endpoint errors" {
+  let a = task("a", 1, 5, None)
+  let b = task("b", 1, 5, None)
+  let invalid : @stn.Dependency = {
+    before: "missing-before",
+    after: "missing-after",
+    kind: "XX",
+    min_lag: 0,
+    max_lag: Some(-1),
+  }
+  for
+    (tasks, dependency, expected) in [
+      ([a, a], invalid, "invalid or duplicate task id"),
+      ([a, b], invalid, "unknown task: missing-before"),
+      ([a, b], { ..invalid, before: "a", }, "unknown task: missing-after"),
+      (
+        [a, b],
+        { ..invalid, before: "a", after: "b", },
+        "dependency kind must be FS/SS/FF/SF and lag within +/-1000000",
+      ),
+      (
+        [a, b],
+        { ..invalid, before: "a", after: "b", kind: "FS", },
+        "invalid maximum lag",
+      ),
+    ] {
+    let actual = try {
+      @stn.planning_problem(tasks, [dependency]) |> ignore
+      None
+    } catch {
+      @stn.StnError(code, message) => Some((code, message))
+    }
+    assert_eq(actual, Some(("invalid_input", expected)))
+  }
+}
+
+///|
 test "planning model limits and invalid fields" {
   for
     tasks in [

@@ -2,6 +2,55 @@
 
 Project MoonSTN / JingLan0v0/stn, published 0.2.23.
 
+## Planning task ID lookup — 2026-11-20
+
+The 0.2.23 constructor scanned task IDs separately for each dependency
+endpoint. A 24-task, 64-dependency spread fixture made 128 endpoint calls
+and 1,520 string comparisons per construction. Checks for an endpoint in
+position zero or one needed one or two comparisons. Timing probes include
+their own overhead and count those operations separately from the paired
+construction timings.
+
+An all-map trial sped up short IDs and slowed the 63–64-character case by
+30–36% in the expanded runs. Tests at 8, 16, and 32 characters located the
+point where the gain tapered off. The selected constructor stores task
+positions in the validation map, reserves room for larger models, and
+uses direct scans for up to four tasks, IDs longer than 16 characters,
+and the first two positions. The spread fixture then made 250 string
+comparisons and 116 map lookups. The benchmark driver compiled from the
+final source matched the measured selected driver byte for byte.
+
+| Library median in milliseconds per 1,000 constructions | Baseline first | Candidate first |
+| --- | ---: | ---: |
+| Two tasks, one dependency | 0.457 → 0.505 | 0.504 → 0.504 |
+| 24 tasks, no dependencies | 2.694 → 2.501 | 2.681 → 2.480 |
+| First two endpoints | 5.635 → 5.451 | 6.081 → 5.571 |
+| Spread endpoints | 9.627 → 6.568 | 9.716 → 7.027 |
+| 16-character IDs | 13.623 → 11.713 | 13.092 → 11.493 |
+| 63–64-character IDs | 16.937 → 16.143 | 16.622 → 16.217 |
+| Unknown endpoint in final dependency | 10.084 → 7.074 | 9.805 → 7.019 |
+
+On the full CLI, the maximum-model batch took 1.5% and 2.6% less time.
+Maintenance took 0.7% and 0.4% more time, and the late-unknown CLI batch
+took 0.4% and 0.3% more. The two-task constructor was about 0.05 ms per
+1,000 builds slower in one order and essentially flat in the other.
+All eight CLI workloads matched output bytes in both orders.
+
+Public API tests check exact endpoint positions, prototype-like and
+numeric-looking IDs, duplicate task IDs, `before` and `after` error order,
+and independently verified schedules. These tests pass on the baseline
+source too. The existing planning oracle exercises the exact node and
+work budgets and recovery after exhaustion.
+
+Copy `scripts/fixtures/planning-benchmark.mbt` as `main.mbt` and
+`examples/library/moon.pkg` into an executable package named `lookupbench`.
+Build JS release drivers for both revisions. Run
+`scripts/benchmark-planning-library.mjs` with both drivers and
+`MOONSTN_BENCH_PLAN_CONSTRUCTION=1`. Set `MOONSTN_BENCH_PLAN_ID_LENGTHS=1`
+for the length sweep or `MOONSTN_PROFILE_PLAN_ENDPOINTS=1` for lookup probes.
+Set `MOONSTN_BENCH_PLAN_ENDPOINTS=1` for the CLI cases in
+`scripts/benchmark-planning-results.mjs`. [Measurements](optimization-0.2.24.json)
+
 ## Mooncakes 0.2.23 publication — 2026-11-20
 
 Source edb9ee95278ba608355dc7379e08595fad8c178d passed Windows and Ubuntu

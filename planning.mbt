@@ -47,11 +47,25 @@ pub(all) enum PlanResult {
 }
 
 ///|
-fn task_index(tasks : Array[Task], id : String) -> Int32 raise StnError {
-  for i = 0; i < tasks.length(); i = i + 1 {
+fn task_index(
+  tasks : Array[Task],
+  ids : Map[String, Int32],
+  id : String,
+) -> Int32 raise StnError {
+  // Small scans and long keys favor comparisons. Check the early positions
+  // directly on the indexed path as well.
+  let scan = if tasks.length() <= 4 || id.length() > 16 {
+    tasks.length()
+  } else {
+    2
+  }
+  for i = 0; i < scan; i = i + 1 {
     if tasks[i].id == id {
       return i
     }
+  }
+  if scan < tasks.length() && ids.get(id) is Some(i) {
+    return i
   }
   raise StnError("invalid_input", "unknown task: " + id)
 }
@@ -71,7 +85,11 @@ pub fn planning_problem(
       "limit_exceeded", "require 1..24 tasks and at most 64 dependencies",
     )
   }
-  let ids : Map[String, Bool] = Map([])
+  let ids : Map[String, Int32] = if tasks.length() <= 4 {
+    Map([])
+  } else {
+    Map([], capacity=tasks.length())
+  }
   let names = ["origin"]
   let rules : Array[Constraint] = []
   for i = 0; i < tasks.length(); i = i + 1 {
@@ -79,7 +97,7 @@ pub fn planning_problem(
     if !valid_name(t.id) || ids.contains(t.id) {
       raise StnError("invalid_input", "invalid or duplicate task id")
     }
-    ids[t.id] = true
+    ids[t.id] = i
     if t.min_duration < 1 ||
       t.max_duration < t.min_duration ||
       t.max_duration > 1000000 ||
@@ -122,8 +140,8 @@ pub fn planning_problem(
   }
   for i = 0; i < dependencies.length(); i = i + 1 {
     let d = dependencies[i]
-    let a = task_index(tasks, d.before)
-    let b = task_index(tasks, d.after)
+    let a = task_index(tasks, ids, d.before)
+    let b = task_index(tasks, ids, d.after)
     if !["FS", "SS", "FF", "SF"].contains(d.kind) ||
       d.min_lag < -1000000 ||
       d.min_lag > 1000000 {

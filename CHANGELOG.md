@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.2.24 — 2026-11-20
+
+- Reuse validated task positions when resolving planning dependency endpoints.
+- Scan small task lists, long IDs, and early positions directly.
+- Assert exact endpoint positions and validation order through the public planning API.
+
 ## 0.2.23 — 2026-11-20
 
 - Collect planning dependency fields in one ordered pass before validating their values.

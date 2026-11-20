@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.2.23 — 2026-11-20
+
+- Collect planning dependency fields in one ordered pass before validating their values.
+- Check missing, null, and present optional values, exact maximum lag, and task and dependency diagnostic order.
+
 ## 0.2.22 — 2026-11-20
 
 - Check exact integer spellings by tracking the decimal point and last nonzero digit.

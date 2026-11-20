@@ -15,6 +15,47 @@ function valid(req,ss){
  return true;
 }
 function exists(req){const ss=[];function visit(i){if(i===req.tasks.length)return valid(req,ss);const t=req.tasks[i];for(let start=t.release;start<=t.deadline;start++)for(let duration=t.min_duration;duration<=t.max_duration&&start+duration<=t.deadline;duration++){ss.push({id:t.id,start,finish:start+duration});if(visit(i+1))return true;ss.pop();}return false;}return visit(0);}
+function verifyPlanningFields(invoke) {
+ const a = {deadline:1, release:0, max_duration:1, min_duration:1, id:'a'};
+ const b = {...a, id:'b', deadline:2};
+ const edge = {min_lag:0, kind:'FS', after:'b', before:'a'};
+ const good = {tasks:[a,b], dependencies:[edge]};
+ const nulls = {tasks:[{...a,resource:null},{...b,resource:null}], dependencies:[{max_lag:null,...edge}]};
+ const assigned = {tasks:[{resource:'r',...a},{...b,resource:'r'}], dependencies:[{max_lag:0,...edge}]};
+ const tasks = rule => ({...good, tasks:[a,rule]});
+ const dependencies = rule => ({...good, dependencies:[rule]});
+ const errors = [
+   [tasks({...b, id:undefined, resource:false, zeta:0, alpha:0}), 'unknown field: zeta'],
+   [tasks({...b, id:undefined, resource:false}), 'resource must be a string'],
+   [tasks({...b, id:undefined, min_duration:false, resource:null}), 'missing field: id'],
+   [tasks({...b, id:false, min_duration:undefined}), 'id must be a string'],
+   [tasks({...b, min_duration:undefined, max_duration:false}), 'missing field: min_duration'],
+   [dependencies({...edge, before:undefined, max_lag:false, zeta:0, alpha:0}), 'unknown field: zeta'],
+   [dependencies({...edge, before:undefined, max_lag:'NUMBER'}), 'expected bounded integer'],
+   [dependencies({...edge, before:undefined, max_lag:null, after:false}), 'missing field: before'],
+   [dependencies({...edge, before:false, after:undefined}), 'before must be a string'],
+   [dependencies({...edge, kind:undefined, min_lag:false}), 'missing field: kind'],
+   [{...dependencies({...edge,zeta:0}),tasks:[{...a,id:'invalid name'},b]}, 'unknown field: zeta'],
+ ];
+ const inputs = [good, nulls, assigned, ...errors.map(([request]) => request), good];
+ const raw = JSON.stringify(inputs).replace('"NUMBER"', '1.00000000000000001');
+ const out = invoke(['--plan-batch','-'], raw);
+ assert.ifError(out.error);
+ assert.equal(out.status, 0, out.stderr);
+ const results = JSON.parse(out.stdout);
+ assert.equal(results.length, inputs.length);
+ const expected = [{id:'a',start:0,finish:1},{id:'b',start:1,finish:2}];
+ for (const [i, result] of results.slice(0, 3).entries()) {
+   assert.equal(result.status, 'planned');
+   assert.deepEqual(result.schedule, expected);
+   assert(valid(inputs[i], result.schedule));
+ }
+ assert.deepEqual(results[1], results[0]);
+ assert.deepEqual(results.at(-1), results[0]);
+ assert.deepEqual(results.slice(3, -1), errors.map(([,message]) =>
+   ({status:'error', code:'invalid_input', message})));
+ return out.stdout;
+}
 const task=(id,d,release,deadline,resource)=>({id,min_duration:d,max_duration:d+1,release,deadline,resource});
 const cases=[];
 for(const da of [1,2])for(const db of [1,2])for(const ra of [0,1])for(const rb of [0,1])for(const endA of [2,3,4])for(const endB of [2,3,4])for(const shared of [false,true])for(const kind of [null,'FS','SS','FF','SF']){
@@ -27,6 +68,11 @@ const larger = largerPlanningCases();
 for(const mode of ['debug','release']){
  const cli=path.join(root,`_build/js/${mode}/build/cmd/main/main.js`);
  const invoke=(args,input)=>spawnSync(process.execPath,['--max-old-space-size=192',cli,...args],{input,encoding:'utf8',timeout:15000,maxBuffer:4*1024*1024});
+ const fieldsOutput = verifyPlanningFields(invoke);
+ if (baseline) {
+   const previousInvoke = (args,input) => spawnSync(process.execPath,[baseline,...args],{input,encoding:'utf8',timeout:15000});
+   assert.equal(verifyPlanningFields(previousInvoke), fieldsOutput, `${mode} planning field output differs from baseline`);
+ }
  const batch=xs=>{
   const input=JSON.stringify(xs);
   const r=invoke(['--plan-batch','-'],input);assert.equal(r.error,undefined);assert.equal(r.status,0,r.stderr);
@@ -78,7 +124,7 @@ for(const mode of ['debug','release']){
  assert.deepEqual(batch([]),[]);
  for(const name of ['release-plan','maintenance-plan','impossible-plan']){const req=JSON.parse(fs.readFileSync('examples/'+name+'.json','utf8'));const r=invoke(['--plan','examples/'+name+'.json']);assert.equal(r.status,0,r.stderr);const o=JSON.parse(r.stdout);assert.equal(o.status,name==='impossible-plan'?'unschedulable':'planned');if(o.status==='planned')assert(valid(req,o.schedule));if(name==='maintenance-plan')assert(o.stats.decisions>0&&o.stats.pruned>0);}
  reports.push({mode,exhaustiveTwoTaskCases:1440,seededThreeTaskCases:256,invalidBatchItems:bad.length,scenarios:3,
-   largerPlanningCases: larger.length, budgetBoundaryCases, largerResults});
+   largerPlanningCases: larger.length, budgetBoundaryCases, fieldOrderCompared:true, largerResults});
  console.log(`PASS ${mode}: ${cases.length + larger.length} independent planning cases, original-rule witness validation and planning I/O`);
 }
 fs.writeFileSync(receipt,JSON.stringify({recordedAt:new Date().toISOString(),status:'passed',planningSeed,...(baseline ? {baselineCompared:true}:{}),reports},null,2)+'\n');

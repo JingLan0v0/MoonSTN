@@ -2,6 +2,48 @@
 
 Project MoonSTN / JingLan0v0/stn, published 0.2.22.
 
+## Planning JSON dependency fields — 2026-11-20
+
+On 0.2.22, 64 requests with 24 tasks and 64 dependencies each spent
+12.61 ms processing request fields before constructing the model.
+Unknown-field scans took 0.37 ms for tasks and 0.91 ms for dependencies.
+Required lookups took 2.93 ms, optional lookups 0.57 ms, and integer
+validation 1.62 ms. The timers include probe overhead and report nested
+components separately.
+
+Three trials compared known-key lookup reuse, a single ordered pass on
+both object types, and a single pass on dependencies. The first two
+increased peak RSS in multiple maximum-size success cases. The selected
+dependency parser collects known values while checking unknown keys in
+input order. It then validates the optional maximum lag and required
+values in their previous order. In a phase comparison, maximum-size
+request field processing took 13.21 → 9.63 ms.
+
+| CLI median in milliseconds per batch of 64 | Baseline first | Candidate first |
+| --- | ---: | ---: |
+| Maintenance | 88.84 → 86.62 | 85.76 → 84.84 |
+| Standard maximum-size model | 123.57 → 125.16 | 124.80 → 126.22 |
+| Optional fields omitted | 119.61 → 118.50 | 119.20 → 118.12 |
+| Optional fields null | 129.15 → 121.39 | 122.92 → 120.62 |
+| Optional fields with values | 123.01 → 121.37 | 124.24 → 121.71 |
+| Unknown field in the final dependency | 105.37 → 104.41 | 106.97 → 106.48 |
+
+On a final dependency error, peak RSS fell by 1,228 and 1,092 KiB.
+The unschedulable control took 4.7% and 0.2% longer. The standard
+maximum-size model took 1.3% and 1.1% longer, within its same-binary
+control spread. All 11 payloads matched output bytes in both orders.
+
+The fixed regression checks omitted, null, and present optional values,
+an exact schedule, unknown field order, optional-before-required errors,
+rounded fractions in maximum lag, and batch recovery. The planning oracle
+also checks exact node and work budgets, each one unit below the limit,
+and recovery on a repeated valid request.
+
+Run `scripts/benchmark-planning-results.mjs` with both release JS CLIs.
+Set `MOONSTN_BENCH_PLAN_FIELDS=1` to include field fixtures or
+`MOONSTN_PROFILE_PLAN_FIELDS=1` to time request fields and nested components.
+[Measurements](optimization-0.2.23.json)
+
 ## JSON decode and number text review — 2026-11-20
 
 On 0.2.22, dense numeric and planning batches spent 18–22 ms in the

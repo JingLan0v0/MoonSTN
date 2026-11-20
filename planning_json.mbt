@@ -7,6 +7,40 @@ fn plan_int(v : Json) -> Int32 raise StnError {
 }
 
 ///|
+fn parse_dependency(value : Json) -> Dependency raise StnError {
+  guard value is Object(obj) else {
+    raise StnError("invalid_input", "dependency must be object")
+  }
+  let mut before = None
+  let mut after = None
+  let mut kind = None
+  let mut min_lag = None
+  let mut max_lag = None
+  obj.each((key, field) => {
+    match key {
+      "before" => before = Some(field)
+      "after" => after = Some(field)
+      "kind" => kind = Some(field)
+      "min_lag" => min_lag = Some(field)
+      "max_lag" => max_lag = Some(field)
+      _ => raise StnError("invalid_input", "unknown field: " + key)
+    }
+  })
+  // Report unknown keys before checking the optional lag and required values.
+  let max_lag = match max_lag {
+    None | Some(Null) => None
+    Some(v) => Some(plan_int(v))
+  }
+  {
+    before: text(required_value(before, "before"), "before"),
+    after: text(required_value(after, "after"), "after"),
+    kind: text(required_value(kind, "kind"), "kind"),
+    min_lag: plan_int(required_value(min_lag, "min_lag")),
+    max_lag,
+  }
+}
+
+///|
 pub fn analyze_plan(value : Json) -> Json raise StnError {
   guard value is Object(obj) else {
     raise StnError("invalid_input", "plan request must be object")
@@ -44,23 +78,7 @@ pub fn analyze_plan(value : Json) -> Json raise StnError {
       if ds.length() > 64 {
         raise StnError("limit_exceeded", "at most 64 dependencies")
       }
-      ds.map(v => {
-        guard v is Object(d) else {
-          raise StnError("invalid_input", "dependency must be object")
-        }
-        fields(d, ["before", "after", "kind", "min_lag", "max_lag"])
-        let max_lag = match d.get("max_lag") {
-          None | Some(Null) => None
-          Some(v) => Some(plan_int(v))
-        }
-        {
-          before: text(required(d, "before"), "before"),
-          after: text(required(d, "after"), "after"),
-          kind: text(required(d, "kind"), "kind"),
-          min_lag: plan_int(required(d, "min_lag")),
-          max_lag,
-        }
-      })
+      ds.map(parse_dependency)
     }
     _ => raise StnError("invalid_input", "dependencies must be array")
   }

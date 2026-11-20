@@ -1,8 +1,15 @@
 # Continue MoonSTN optimization
 
 The [optimization roadmap](optimization-roadmap.md) records the next measurement
-and its acceptance criteria. Next, measure task and dependency field handling
-in planning JSON requests.
+and its acceptance criteria. Next, measure task ID lookups for dependency
+endpoints in planning model construction.
+
+## Planning JSON dependency fields — 2026-11-20
+
+Version 0.2.23 collects each planning dependency's fields in one ordered
+pass. In the maximum-size phase probe, request field processing went
+from 13.21 to 9.63 ms. Fixed tests cover optional values, exact lag,
+diagnostic order, and batch recovery. [Measurements](optimization-0.2.23.json)
 
 ## JSON decode and number text review — 2026-11-20
 

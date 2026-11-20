@@ -2,6 +2,45 @@
 
 Project MoonSTN / JingLan0v0/stn, published 0.2.22.
 
+## JSON decode and number text review — 2026-11-20
+
+On 0.2.22, dense numeric and planning batches spent 18–22 ms in the
+core JSON decoder and 1.3–2.4 ms in MoonSTN preflight. The decode-only
+control used the same binary and changed the core retention flag. The
+observed core medians were 0.31–1.88 ms lower across the larger cases
+with the flag disabled. The probes time both phases before serialization.
+
+The flag control kept the same rounded numeric values and changed the
+text of `-0`, `0.00`, `1.00000000000000001`, `1e-400`, and `1E+003`.
+Replaying the hidden fraction and the nonzero underflow through both
+CLI batch APIs demonstrated the loss of exact validation. Each input
+was rejected by the released binary and accepted by the flag control.
+
+Two scanner trials kept retention and the core grammar. Consolidating the
+character checks slowed the dense scan. Checking the depth only at opening
+delimiters reduced the padded-input scan from 3.83 to 3.13 ms and from 3.81
+to 3.28 ms. The same trial took 1.3% more CLI time on dense numeric decimals
+in each order. It shortened the dense plain planning batch by 0.7–0.9%,
+within the 2.2% same-binary control difference. Planning exponents showed
+different gains across orders, with one unusually slow baseline. Both
+trials matched all 13 retained decode outputs and all 11 CLI outputs.
+
+The released parser is retained. A public API regression verifies exact
+round-tripping of negative zero, trailing zeros, an underflow spelling,
+exponent spelling, a rounded fraction, and a wide integer in a nested
+object. The verifier also exercises duplicate keys, string and nesting
+limits, scan-count boundaries, and mixed-batch recovery in both modes.
+The checkout passed 35 unit tests, 4,096 numeric networks, and 1,794
+independent planning cases per mode, along with PowerShell smoke and
+generated interface checks. The verifier compared results with the
+0.2.22 release CLI.
+
+Set `MOONSTN_BENCH_JSON_DECODE=1` and run
+`scripts/benchmark-integer-spellings.mjs` with one release JS CLI to measure
+the retention flag, or pass two CLIs to compare their retained decode phases.
+Run the same script without that setting for full CLI measurements.
+[Measurements and control outputs](json-decode-review.json)
+
 ## Mooncakes 0.2.22 publication — 2026-11-20
 
 Source d77841238c35475ae4698ea12f14361f95dd8f26 passed Windows and Ubuntu

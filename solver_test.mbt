@@ -270,6 +270,14 @@ test "JSON preflight counts Unicode pairs and escaped quotes at the boundary" {
 }
 
 ///|
+test "public JSON decoding preserves the original number text" {
+  let source =
+    #|{"values":[-0,0.00,1.00000000000000001,1e-400,1E+003,{"wide":9007199254740993}]}
+  let decoded = @stn.parse_json(" \r\n\t" + source + "\r\n\t ")
+  assert_eq(decoded.stringify(), source)
+}
+
+///|
 test "sparse closure preserves exact logical budget boundary" {
   for n in [1, 2, 8, 64] {
     let names = Array::makei(n, i => "v" + i.to_string())

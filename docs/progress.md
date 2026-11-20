@@ -1,8 +1,17 @@
 # Continue MoonSTN optimization
 
 The [optimization roadmap](optimization-roadmap.md) records the next measurement
-and its acceptance criteria. Next, measure the cost of preserving number text
-within numeric and planning JSON decoding.
+and its acceptance criteria. Next, measure task and dependency field handling
+in planning JSON requests.
+
+## JSON decode and number text review — 2026-11-20
+
+On 0.2.22, the core decoder dominated the measured parse time. The
+retention flag added 0.31–1.88 ms in the larger cases and preserved
+text needed for exact validation. The scanner trials helped padded
+input but gave mixed full CLI results. The released implementation is
+retained and the public number round-trip is covered by a new test.
+[Measurements](json-decode-review.json)
 
 ## Exact integer spellings — 2026-11-20
 

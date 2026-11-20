@@ -13,6 +13,10 @@ cover negative zero, very long exponents, hidden fractions, and numbers
 constructed through the public JSON API.
 [Measurements](optimization-0.2.22.json)
 
+Source d778412 passed Windows and Ubuntu CI. An empty-cache installation
+matched all 121 files and checked both public batch APIs in both modes.
+[Release receipts](publication-0.2.22.json)
+
 ## Numeric constraint fields — 2026-11-20
 
 Version 0.2.21 reuses numeric constraint field lookups. At 512 constraints,

@@ -12,6 +12,10 @@ pairings. Eleven distinct payloads matched output bytes. Fixed regressions
 check diagnostic order, cycle evidence, exact budget, and batch recovery.
 [Measurements](optimization-0.2.20.json)
 
+Source 0f3441a passed Windows and Ubuntu CI. Mooncakes published the
+verified archive, and an empty-cache installation passed debug and release.
+[Release receipts](publication-0.2.20.json)
+
 ## Sparse column scans in the wide closure — 2026-11-20
 
 Version 0.2.19 reuses reachable column indices within wide-closure pivot

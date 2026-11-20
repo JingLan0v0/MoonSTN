@@ -62,17 +62,15 @@ fn Budget::charge(self : Budget, steps : Int32) -> Unit raise StnError {
 
 ///|
 fn valid_name(name : String) -> Bool {
-  if name.length() == 0 || name.length() > 64 {
+  let length = name.length()
+  if length == 0 || length > 64 {
     return false
   }
-  for c in name.iter() {
-    if !((c >= 'a' && c <= 'z') ||
-      (c >= 'A' && c <= 'Z') ||
-      (c >= '0' && c <= '9') ||
-      c == '_' ||
-      c == '-' ||
-      c == '.') {
-      return false
+  for i = 0; i < length; i = i + 1 {
+    // Only ASCII is accepted, so a UTF-16 code unit scan suffices.
+    match name.code_unit_at(i) {
+      'a'..<='z' | 'A'..<='Z' | '0'..<='9' | '_' | '-' | '.' => ()
+      _ => return false
     }
   }
   true
@@ -135,20 +133,22 @@ fn[E] compile_edges(
       "limit_exceeded", "require 1..64 timepoints and at most 512 constraints",
     )
   }
-  let index : Map[String, Int32] = Map([])
+  let index : Map[String, Int32] = Map([], capacity=names.length().max(8))
   for i, name in names {
     if !valid_name(name) || index.contains(name) {
       raise StnError("invalid_input", "invalid or duplicate timepoint name")
     }
     index[name] = i
   }
-  let ids : Map[String, Bool] = Map([])
+  let ids : @hashset.HashSet[String] = HashSet(
+    [],
+    capacity=(constraints.length() * 2).max(8),
+  )
   let edges : Array[E] = []
   for c in constraints {
-    if !valid_name(c.id) || ids.contains(c.id) {
+    if !valid_name(c.id) || !ids.add_and_check(c.id) {
       raise StnError("invalid_input", "invalid or duplicate constraint id")
     }
-    ids[c.id] = true
     let from = lookup_name(index, c.from)
     let to = lookup_name(index, c.to)
     if c.lower is None && c.upper is None {
@@ -156,12 +156,11 @@ fn[E] compile_edges(
         "invalid_input", "constraint must have a lower or upper bound",
       )
     }
-    for bound in [c.lower, c.upper] {
-      if bound is Some(v) && (v < -1000000 || v > 1000000) {
-        raise StnError(
-          "invalid_input", "bounds must be integers in -1000000..1000000",
-        )
-      }
+    if (c.lower is Some(lo) && (lo < -1000000 || lo > 1000000)) ||
+      (c.upper is Some(hi) && (hi < -1000000 || hi > 1000000)) {
+      raise StnError(
+        "invalid_input", "bounds must be integers in -1000000..1000000",
+      )
     }
     // Reversed intervals are legitimate inconsistent constraints, not syntax errors.
     if c.upper is Some(v) {
@@ -207,7 +206,7 @@ fn Solution::bounds_at(
 
 ///|
 pub fn version() -> String {
-  "0.2.19"
+  "0.2.20"
 }
 
 ///|

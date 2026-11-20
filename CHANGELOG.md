@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.2.20 — 2026-11-20
+
+- Scan ASCII names and IDs directly and size validation tables from the model.
+- Detect duplicate constraint IDs during insertion and check both bounds without a temporary array.
+- Verify constraint error order, two-sided cycle certificates, and exact work budgets in mixed batches.
+
 ## 0.2.19 — 2026-11-20
 
 - Collect reachable pivot columns lazily in the wide closure.

@@ -111,6 +111,46 @@ function verifyQueryErrorOrder(invoke) {
  assert.equal(duplicate.stdout,'');
  assert.equal(duplicate.stderr.trim(),'invalid_json: invalid JSON text');
 }
+function verifyModelValidation(invoke) {
+ const id = 'Rule.0_-'.padEnd(64, 'a');
+ const edge = {id, from:'a', to:'b', lower:-1000000, upper:1000000};
+ const good = {timepoints:['a','b'], constraints:[edge], queries:[{from:'a', to:'b'}], max_steps:12};
+ const invalid = {...edge, from:'x', to:'y'};
+ const cases = [
+   [[invalid, {...edge, zeta:0, alpha:0}], 'unknown field: zeta'],
+   [[invalid, {...edge, lower:0.5, upper:false}], 'lower must be null or an integer in -1000000..1000000'],
+   [[edge, invalid], 'invalid or duplicate constraint id'],
+   [[{...invalid, id:'abc\u{1f600}'}], 'invalid or duplicate constraint id'],
+   [[{...invalid, id:id+'a'}], 'invalid or duplicate constraint id'],
+   [[{...invalid, lower:null, upper:null}], 'unknown timepoint: x'],
+   [[{...invalid, from:'a', lower:null, upper:null}], 'unknown timepoint: y'],
+   [[{...edge, lower:null, upper:null}], 'constraint must have a lower or upper bound'],
+ ];
+ const errors = cases.map(([constraints]) => ({...good, constraints, max_steps:0}));
+ const reversed = {...good, constraints:[{...edge, lower:3, upper:2}]};
+ const batch = [good, ...errors, {...good, max_steps:11}, reversed, good];
+ const out = invoke(['--batch','-'], JSON.stringify(batch));
+ assert.equal(out.status, 0, out.stderr);
+ const results = JSON.parse(out.stdout);
+ assert.equal(results.length, batch.length);
+ assert.deepEqual(results[0], {
+   status:'feasible', assignment:{a:0,b:0}, bounds:[{from:'a',to:'b',lower:-1000000,upper:1000000}],
+ });
+ assert.deepEqual(results.slice(1, 1 + errors.length), cases.map(([,message]) =>
+   ({status:'error', code:'invalid_input', message})));
+ assert.deepEqual(results.at(-3), {
+   status:'error', code:'limit_exceeded', message:'work budget exhausted; no feasibility conclusion',
+ });
+ const cycle = results.at(-2);
+ assert.equal(cycle.status, 'inconsistent');
+ validate(reversed, cycle);
+ assert.deepEqual(cycle.cycle, [
+   {id, from:'a', to:'b', bound:2, side:'upper'},
+   {id, from:'b', to:'a', bound:-3, side:'lower'},
+ ]);
+ assert.deepEqual(results.at(-1), results[0]);
+ return out.stdout;
+}
 function verifyJsonScanBounds(invoke) {
  const valid = '{"timepoints":["a"],"constraints":[]}';
  const padded = valid.padEnd(1048576, ' ');
@@ -285,17 +325,22 @@ for(const mode of ['debug','release']){
  verifyIntegerSpellings(invoke);
  verifyNumericEncoding(invoke);
  verifyQueryErrorOrder(invoke);
+ const modelOutput = verifyModelValidation(invoke);
+ if (baselineCli) {
+   const baselineInvoke = (args,input) => spawnSync(process.execPath, [baselineCli,...args], {input,encoding:'utf8',timeout:15000});
+   assert.equal(verifyModelValidation(baselineInvoke), modelOutput, `${mode} model validation differs from baseline`);
+ }
  verifyJsonScanBounds(invoke);
  verifyClosureBudgetOrder(invoke);
  verifyWideColumns(invoke);
  const bom=invoke(['-'],'\ufeff'+JSON.stringify(good));assert.equal(bom.status,0,bom.stderr);
  for(const args of [[],['--unknown'],['x','y'],['missing-file.json']]){const r=invoke(args,'');assert.equal(r.status,2);assert.equal(r.stdout,'');}
- assert.equal(invoke(['--version'],'').stdout.trim(),'0.2.19');
+ assert.equal(invoke(['--version'],'').stdout.trim(),'0.2.20');
  const fd=fs.openSync(path.join(root,'moon.mod'),'r');try{const r=spawnSync(process.execPath,[cli,'--version'],{stdio:['ignore',fd,'pipe'],encoding:'utf8',timeout:15000});assert.equal(r.status,2);}finally{fs.closeSync(fd);}
  const scenarios=['deployment','delivery','conflict'];
  for(const name of scenarios){const request=JSON.parse(fs.readFileSync(`examples/${name}.json`,'utf8'));const r=invoke([`examples/${name}.json`],'');assert.equal(r.status,0,r.stderr);const result=JSON.parse(r.stdout);validate(request,result);assert.equal(result.status,name==='conflict'?'inconsistent':'feasible');if(name==='deployment')assert.deepEqual(result.bounds,[{from:'zero',to:'release',lower:15,upper:35}]);if(name==='delivery')assert.deepEqual(result.bounds,[{from:'pickup',to:'arrival',lower:20,upper:40}]);}
  console.log(`PASS ${mode}: malformed input, batch isolation, process I/O and three scenarios`);
- reports.push({mode,unitTests:units.trim(),exhaustiveNetworks:4096,signedClosureBounds:256,...(baselineCli ? {numericBaselineCompared:true}:{}),invalidBatchItems:invalid.length,numericEncodingCompared:true,queryErrorOrderCompared:true,jsonScanBoundsCompared:true,closureBudgetOrderCompared:true,wideColumnsCompared:true,transportRejects:transport.length+1,scenarios});
+ reports.push({mode,unitTests:units.trim(),exhaustiveNetworks:4096,signedClosureBounds:256,...(baselineCli ? {numericBaselineCompared:true}:{}),invalidBatchItems:invalid.length,numericEncodingCompared:true,queryErrorOrderCompared:true,modelValidationCompared:true,jsonScanBoundsCompared:true,closureBudgetOrderCompared:true,wideColumnsCompared:true,transportRejects:transport.length+1,scenarios});
 }
 process.stdout.write(run(process.execPath,['scripts/verify-planning.mjs',...process.argv.slice(2)]));
 fs.writeFileSync(summary,JSON.stringify({status:'passed',recordedAt:new Date().toISOString(),node:process.version,reports},null,2)+'\n');

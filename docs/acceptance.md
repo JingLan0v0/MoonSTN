@@ -2,6 +2,46 @@
 
 Project MoonSTN / JingLan0v0/stn, published 0.2.19.
 
+## Numeric model validation — 2026-11-20
+
+On 0.2.19, a batch of twelve 64-point models with 512 two-sided
+constraints each spent a median 12.69 ms parsing and validating models.
+Validation and edge construction took 5.87 ms of that time, while field
+checks took 1.92 ms. The subsequent arc reindexing took 0.95 ms. These
+release JS phase probes include instrumentation overhead.
+
+The selected implementation scans ASCII names and IDs directly, reserves
+capacity for the validation tables, checks duplicate IDs at insertion, and
+checks both bounds without a temporary array. The arc-reuse-only trial was
+inconsistent across workloads and increased peak memory on late query errors
+by 2.6 MiB. The final implementation retains the existing reindexing step.
+
+| CLI median, milliseconds per batch | Baseline first | Candidate first |
+| --- | ---: | ---: |
+| Ordinary | 84.66 → 82.71 | 82.03 → 83.42 |
+| 512 one-sided constraints | 113.50 → 112.53 | 115.08 → 114.55 |
+| 512 two-sided constraints | 120.35 → 117.32 | 122.38 → 118.58 |
+| 512 two-sided constraints with 64-character IDs | 128.49 → 121.86 | 127.90 → 122.60 |
+| Late query error after 512 two-sided constraints | 111.27 → 109.40 | 110.96 → 108.50 |
+
+The corresponding long-ID phase comparison went from 19.20 to 12.53 ms in
+model handling and from 12.52 to 6.58 ms in validation and edge construction.
+The long-ID peak RSS rose by 188 and 604 KiB in the final CLI runs. In the
+broader run, four-query and cycle controls took about 1.3% longer and the
+mixed batch took 1.5% less time. Eleven distinct payloads matched output bytes.
+
+The fixed mixed-batch regression compares 0.2.19 and the candidate byte for
+byte. It covers 64-character IDs, invalid Unicode and overlength IDs, parse
+errors before model errors, duplicate IDs and ordered endpoint errors,
+missing bounds, exact ±1,000,000 bounds, a two-sided negative-cycle
+certificate, one step short of budget, and recovery after prior failures.
+
+Run `scripts/benchmark-numeric-results.mjs` with the two release JS CLIs in
+both orders. Set `MOONSTN_BENCH_NUMERIC_MODEL=1` for the focused cases or
+`MOONSTN_PROFILE_NUMERIC_MODEL=1` for instrumented phase measurements.
+The evidence preserves raw samples, output and binary hashes, and trial patches.
+[Measurements](optimization-0.2.20.json)
+
 ## Mooncakes 0.2.19 publication — 2026-11-20
 
 Source c451f766594cb782d0a2c7b5d30e8579c1a1a431 passed Windows and Ubuntu

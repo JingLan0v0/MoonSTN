@@ -9,8 +9,10 @@ assert(baseline, 'Pass the baseline CLI and optionally the candidate CLI');
 const preflight = process.env.MOONSTN_BENCH_NUMERIC_PREFLIGHT === '1';
 const profilePreflight = process.env.MOONSTN_PROFILE_NUMERIC_PREFLIGHT === '1';
 const profileRequests = process.env.MOONSTN_PROFILE_NUMERIC_REQUESTS === '1';
+const profileModel = process.env.MOONSTN_PROFILE_NUMERIC_MODEL === '1';
+const model = profileModel || process.env.MOONSTN_BENCH_NUMERIC_MODEL === '1';
 const requests = profilePreflight || preflight || profileRequests || process.env.MOONSTN_BENCH_NUMERIC_REQUESTS === '1';
-const profiling = profilePreflight || profileRequests || process.env.MOONSTN_PROFILE_NUMERIC_RESULTS === '1';
+const profiling = profileModel || profilePreflight || profileRequests || process.env.MOONSTN_PROFILE_NUMERIC_RESULTS === '1';
 const keys = ['10', '2', '01', '__proto__', 'constructor', 'toString'];
 const names = keys.concat(Array.from({length: 58}, (_, i) => 'p' + i));
 const longNames = names.map((name, i) => i < keys.length ? name : name.padEnd(64, '-'));
@@ -41,7 +43,18 @@ manyConstraints.constraints.push(...Array.from({length: 510}, (_, i) => {
   return {id:'noise' + i, from:names[source], to:names[3 + (source - 3 + i % 9 + 1) % 61], upper:1000};
 }));
 const unknown = {...feasible(names, 0), queries: [{from: 'line\n"\u2603', to: names[1]}]};
-const cases = [
+const twoSided = {...manyConstraints, constraints: manyConstraints.constraints.map((rule, i) =>
+  ({...rule, lower: i === 1 ? -3 : -1000}))};
+const lateError = {...twoSided, queries: unknown.queries};
+const longIds = {...twoSided, constraints: twoSided.constraints.map(rule =>
+  ({...rule, id: rule.id.padEnd(64, '-')}))};
+const cases = model ? [
+  {name: 'ordinary', requests: 64, inputs: [feasible(names.slice(0, 4), 4)]},
+  {name: 'dense-one-sided', requests: 12, inputs: [manyConstraints]},
+  {name: 'dense-two-sided', requests: 12, inputs: [twoSided]},
+  {name: 'dense-long-ids', requests: 12, inputs: [longIds]},
+  {name: 'dense-late-error', requests: 12, inputs: [lateError]},
+] : [
   ...(preflight || profilePreflight ? [{
     name: 'near-byte-limit', requests: 1, inputs: [feasible(names.slice(0, 4), 4)], pad: true,
   }] : []),
@@ -127,12 +140,32 @@ function instrumentRequests(source) {
   if (profilePreflight) header.push('numericResultPhases.grammarMs = 0;');
   return header.join('\n') + '\n' + source.slice(0, start) + body + source.slice(end);
 }
+function instrumentModel(source) {
+  const phases = {
+    modelMs: '14parse__network', fieldsMs: '6fields', validationMs: '14compile__edges\\w*',
+    reindexMs: '17arcs__with__index',
+  };
+  const header = ['globalThis.numericResultPhases = ' +
+    JSON.stringify(Object.fromEntries(Object.keys(phases).map(key => [key, 0]))) + ';'];
+  for (const [key, suffix] of Object.entries(phases)) {
+    const symbols = [...source.matchAll(new RegExp('^function (_M0FP210JingLan0v03stn' + suffix + ')\\(', 'gm'))];
+    assert(symbols.length > 0 || key === 'reindexMs', 'Missing compiler function ' + suffix);
+    for (const [i, [, fn]] of symbols.entries()) {
+      const saved = `saved_${key}_${i}`;
+      header.push(`const ${saved} = ${fn}; ${fn} = (...args) => {`,
+        `const start = performance.now(); try { return ${saved}(...args); }`,
+        `finally { numericResultPhases.${key} += performance.now() - start; } };`);
+    }
+  }
+  return header.join('\n') + '\n' + source;
+}
 const exactUpper = new Map([['0:1', 5], ['0:2', 2], ['1:2', -3]]);
+const twoSidedUpper = new Map([...exactUpper, ['1:0', 1000], ['2:0', 1003], ['2:1', 3]]);
 function checkResult(actual, request) {
-  if (request === noBudget || request === unknown) {
+  if (request === noBudget || request === unknown || request === lateError) {
     assert.equal(actual.status, 'error');
     assert.equal(actual.code, request === noBudget ? 'limit_exceeded' : 'invalid_input');
-    if (request === unknown) assert.equal(actual.message, 'unknown timepoint: ' + unknown.queries[0].from);
+    if (request !== noBudget) assert.equal(actual.message, 'unknown timepoint: ' + unknown.queries[0].from);
     return;
   }
   if (request === ring) {
@@ -152,11 +185,12 @@ function checkResult(actual, request) {
   assert.equal(actual.status, 'feasible');
   assert.equal(Object.keys(actual.assignment).length, request.timepoints.length);
   for (const [i, name] of request.timepoints.entries()) assert.equal(actual.assignment[name], i === 2 ? -3 : 0);
+  const upper = request === twoSided || request === longIds ? twoSidedUpper : exactUpper;
   assert.deepEqual(actual.bounds, request.queries.map(({from, to}, i) => {
     const [a, b] = pairs[i];
-    const reverse = exactUpper.get(b + ':' + a);
+    const reverse = upper.get(b + ':' + a);
     return {from, to, lower: a === b ? 0 : reverse === undefined ? null : -reverse,
-      upper: a === b ? 0 : exactUpper.get(a + ':' + b) ?? null};
+      upper: a === b ? 0 : upper.get(a + ':' + b) ?? null};
   }));
 }
 const variants = candidate ? [['baseline', baseline], ['candidate', candidate]] : [['baseline', baseline]];
@@ -166,7 +200,8 @@ try {
   if (tmp) {
     active = variants.map(([label, file]) => {
       const target = resolve(tmp, label + '.js');
-      writeFileSync(target, ((profilePreflight || profileRequests) ? instrumentRequests : instrument)(readFileSync(file, 'utf8')));
+      const applyProfile = profileModel ? instrumentModel : (profilePreflight || profileRequests) ? instrumentRequests : instrument;
+      writeFileSync(target, applyProfile(readFileSync(file, 'utf8')));
       return [label, target];
     });
   }
@@ -188,7 +223,9 @@ try {
       for (const [label, cli] of pair % 2 ? active.toReversed() : active) {
         const {output, sample} = invoke(cli, input);
         assert.equal(output, reference, name + '/' + label);
-        if (profilePreflight) {
+        if (profileModel) {
+          assert(sample.modelMs > 0 && sample.fieldsMs > 0 && sample.validationMs > 0);
+        } else if (profilePreflight) {
           assert(sample.decodeMs >= sample.grammarMs && sample.grammarMs > 0);
           sample.preflightMs = sample.decodeMs - sample.grammarMs;
         } else if (profileRequests) assert(sample.decodeMs > 0 && sample.modelMs > 0);

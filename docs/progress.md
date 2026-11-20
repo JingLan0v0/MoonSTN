@@ -1,8 +1,16 @@
 # Continue MoonSTN optimization
 
 The [optimization roadmap](optimization-roadmap.md) records the next measurement
-and its acceptance criteria. Next, measure model validation and arc
-construction for large numeric JSON requests.
+and its acceptance criteria. Next, measure field iteration and extraction in
+numeric JSON constraint objects.
+
+## Numeric model validation — 2026-11-20
+
+Version 0.2.20 validates names, IDs, and bounds with fewer allocations and
+hash probes. The long-ID benchmark took 4.1–5.2% less CLI time in the two final
+pairings. Eleven distinct payloads matched output bytes. Fixed regressions
+check diagnostic order, cycle evidence, exact budget, and batch recovery.
+[Measurements](optimization-0.2.20.json)
 
 ## Sparse column scans in the wide closure — 2026-11-20
 

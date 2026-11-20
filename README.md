@@ -10,7 +10,7 @@ window, or a negative cycle identifying contradictory original rules.
 
 [中文说明](README.zh-CN.md) · Apache-2.0 · Pure MoonBit core · JS CLI
 
-**Package version [JingLan0v0/stn@0.2.19](https://mooncakes.io/docs/JingLan0v0/stn@0.2.19).**
+**Package version [JingLan0v0/stn@0.2.20](https://mooncakes.io/docs/JingLan0v0/stn@0.2.20).**
 Verification and installation receipts: [acceptance](docs/acceptance.md).
 Repository: [JingLan0v0/MoonSTN](https://github.com/JingLan0v0/MoonSTN).
 
@@ -18,17 +18,18 @@ Repository: [JingLan0v0/MoonSTN](https://github.com/JingLan0v0/MoonSTN).
 
 | Version | Date | Main changes |
 | --- | --- | --- |
+| 0.2.20 | 2026-11-20 | Reduce name, constraint ID, and bound validation work in large numeric models. |
 | 0.2.19 | 2026-11-20 | Reuse reachable column indices in the wide closure to speed up sparse numeric networks. |
 | 0.2.18 | 2026-11-20 | Reserve numeric closure work before allocating either distance matrix, so budget failures avoid setup costs. |
 | 0.2.17 | 2026-11-20 | Scan JSON input directly before decoding. Verify existing resource limits at and beyond their boundaries. |
 | 0.2.16 | 2026-11-19 | Resolve the two fields of well-formed numeric queries directly and preserve validation order. |
-| 0.2.15 | 2026-11-19 | Write numeric CLI responses directly for faster large query batches, with field order and JSON escaping preserved. |
 
 <details>
 <summary>Earlier versions</summary>
 
 | Version | Date | Main changes |
 | --- | --- | --- |
+| 0.2.15 | 2026-11-19 | Write numeric CLI responses directly for faster large query batches, with field order and JSON escaping preserved. |
 | 0.2.14 | 2026-11-19 | Speed up multi-pass numeric feasibility with packed arc endpoints and exact bounded arithmetic. Keep the original cycle evidence and budget thresholds. |
 | 0.2.13 | 2026-11-19 | Reuse adjacent equal distance conversions when the closure has repeated values. Repeated-value dense library solves took 4.4–9.9% less time across four paired comparisons. |
 | 0.2.12 | 2026-11-19 | Reuse reachable columns during dense closure. Median dense library solve time fell 30–32% in two benchmark rounds. |
@@ -111,7 +112,7 @@ leave partial bytes; consumers must check the process exit status.
 Install the published package in your consumer module:
 
 ```sh
-moon add JingLan0v0/stn@0.2.19
+moon add JingLan0v0/stn@0.2.20
 ```
 
 Import `JingLan0v0/stn` as `stn` in `moon.pkg`. A complete runnable example is in

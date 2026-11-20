@@ -13,6 +13,10 @@ positions. The spread fixture dropped from 1,520 string comparisons to
 positions and diagnostics have dedicated public API regressions.
 [Measurements](optimization-0.2.24.json)
 
+Source 4d8009f passed Windows and Ubuntu CI. An empty-cache installation
+matched all 126 files and verified planning endpoints in both modes.
+[Release receipts](publication-0.2.24.json)
+
 ## Planning JSON dependency fields — 2026-11-20
 
 Version 0.2.23 collects each planning dependency's fields in one ordered

@@ -1,8 +1,17 @@
 # Continue MoonSTN optimization
 
 The [optimization roadmap](optimization-roadmap.md) records the next measurement
-and its acceptance criteria. Next, measure exact integer spelling checks for
-plain integers, decimals, and exponents.
+and its acceptance criteria. Next, measure the cost of preserving number text
+within numeric and planning JSON decoding.
+
+## Exact integer spellings — 2026-11-20
+
+Version 0.2.22 checks integrality using the digit positions of the point
+and last nonzero digit. Direct spelling checks took 14% less time for
+ordinary integers and 26–30% less for long fractional tails. Fixed cases
+cover negative zero, very long exponents, hidden fractions, and numbers
+constructed through the public JSON API.
+[Measurements](optimization-0.2.22.json)
 
 ## Numeric constraint fields — 2026-11-20
 

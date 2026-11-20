@@ -10,6 +10,46 @@ fn edge(
 }
 
 ///|
+test "numeric JSON accepts exact synthetic bounds and rejects rounded fractions" {
+  let cases = [
+    (Json::number(5.0), "feasible"),
+    (Json::number(5.0, repr="500000e-5"), "feasible"),
+    (Json::number(5.0, repr="5.0000000000000001"), "error"),
+    (Json::number(0.0, repr="1e-" + "9".repeat(4096)), "error"),
+    (Json::number(-0.0, repr="-0E-" + "9".repeat(4096)), "feasible"),
+    (Json::number(5.0, repr="5.\u{1f600}"), "error"),
+    (Json::number(0.0, repr="0".repeat(1048577)), "error"),
+  ]
+  for pair in cases {
+    let (upper, status) = pair
+    let rule = Json::object(
+      Map([
+        ("id", Json::string("rule")),
+        ("from", Json::string("a")),
+        ("to", Json::string("b")),
+        ("upper", upper),
+      ]),
+    )
+    let request = Json::object(
+      Map([
+        ("timepoints", Json::array([Json::string("a"), Json::string("b")])),
+        ("constraints", Json::array([rule])),
+      ]),
+    )
+    let responses = @stn.analyze_batch(Json::array([request]))
+    guard responses is Array(items) &&
+      items[0] is Object(item) &&
+      item.get("status") is Some(String(actual)) else {
+      fail("expected a numeric batch status")
+    }
+    assert_eq(actual, status)
+    if status == "error" {
+      assert_true(item.get("code") is Some(String("invalid_input")))
+    }
+  }
+}
+
+///|
 test "chain bounds and certificate" {
   let net = @stn.network(["zero", "a", "b"], [
     edge("a", "zero", "a", Some(2), Some(4)),

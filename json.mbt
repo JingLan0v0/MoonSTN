@@ -31,45 +31,39 @@ fn bounded_integer(value : Json, min : Double, max : Double) -> Int32? {
 }
 
 ///|
-/// The decimal is integral when the exponent covers every fractional digit
-/// except trailing zeros. The parser has already checked the number grammar.
+/// An exponent makes the decimal integral when it moves the point to or
+/// past the last nonzero digit. The parser checks the JSON number grammar.
 fn integer_spelling(source : String) -> Bool {
   let length = source.length()
   if length == 0 || length > 1048576 {
     return false
   }
   let mut i = if source.at(0) == '-'.to_int().to_uint16() { 1 } else { 0 }
-  let mut after_point = false
-  let mut fractional_digits = 0
-  let mut trailing_zeros = 0
-  let mut nonzero = false
+  let mut digits = 0
+  let mut digits_before_point = -1
+  let mut last_nonzero = 0
   while i < length {
-    let c = source.at(i).to_int()
-    if c == 'e'.to_int() || c == 'E'.to_int() {
-      break
-    }
-    if c == '.'.to_int() {
-      after_point = true
-    } else {
-      if c < '0'.to_int() || c > '9'.to_int() {
-        return false
+    match source.at(i) {
+      '0' => digits += 1
+      '1'..<='9' => {
+        digits += 1
+        last_nonzero = digits
       }
-      if after_point {
-        fractional_digits += 1
-      }
-      if c == '0'.to_int() {
-        trailing_zeros += 1
-      } else {
-        trailing_zeros = 0
-        nonzero = true
-      }
+      '.' => if digits_before_point < 0 { digits_before_point = digits }
+      'e' | 'E' => break
+      _ => return false
     }
     i += 1
   }
-  if !nonzero {
+  if last_nonzero == 0 {
     return true
   }
-  let needed = fractional_digits - trailing_zeros
+  let digits_before_point = if digits_before_point < 0 {
+    digits
+  } else {
+    digits_before_point
+  }
+  let needed = last_nonzero - digits_before_point
   if i == length {
     return needed <= 0
   }

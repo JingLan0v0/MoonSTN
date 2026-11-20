@@ -33,26 +33,37 @@ function verifyIntegerSpellings(invoke) {
    `{"timepoints":["a","b"],"constraints":[{"id":"x","from":"a","to":"b","upper":${bound}}],"queries":[{"from":"a","to":"b"}]}`;
  const planning = (release, work = '20000000') =>
    `{"t\\u0061sks":[{"id":"a","min_duration":1,"max_duration":1,"release":${release},"deadline":10}],"max_work":${work}}`;
+ const huge = '9'.repeat(4096);
+ const zeros = '0'.repeat(4096);
  const variants = [
-   ['--batch', numeric, '100e-2', ['1000000.00000000001', '1.00000000000000001', '1e-400']],
-   ['--plan-batch', planning, '0.20e1', ['1e-400', '2.00000000000000001']],
+   ['--batch', numeric,
+     [['100e-2',1], ['-40000e-4',-4], ['0.0001E+4',1], ['-1000000',-1000000],
+       ['5.'+zeros,5], ['-0E-'+huge,0], ['2e+'+zeros+'0',2]],
+     ['1000000.00000000001', '1.00000000000000001', '1e-400', '1e-'+huge, '1e+'+huge, '5.'+zeros+'1']],
+   ['--plan-batch', planning,
+     [['0.20e1',2], ['-0E-'+huge,0], ['2.'+zeros,2], ['20e-'+zeros+'1',2]],
+     ['1e-400', '2.00000000000000001', '1e-'+huge, '2.'+zeros+'1']],
  ];
- for (const [flag, request, exact, fractions] of variants) {
-   const good = request(exact);
-   const raw = '[' + [good, ...fractions.map(n => request(n)), good].join(',') + ']';
+ const outputs = [];
+ for (const [flag, request, integers, fractions] of variants) {
+   const good = request(integers[0][0]);
+   const raw = '[' + [...integers.map(([n]) => request(n)), ...fractions.map(n => request(n)), good].join(',') + ']';
    const r = invoke([flag, '-'], raw);
    assert.equal(r.status, 0, r.stderr);
    const results = JSON.parse(r.stdout);
-   assert.equal(results.length, fractions.length + 2);
+   assert.equal(results.length, integers.length + fractions.length + 1);
    assert.deepEqual(results[0], results.at(-1));
-   if (flag === '--batch') {
-     assert.equal(results[0].status, 'feasible');
-     assert.equal(results[0].bounds[0].upper, 1);
-   } else {
-     assert.equal(results[0].status, 'planned');
-     assert.equal(results[0].schedule[0].start, 2);
+   for (const [i, [, expected]] of integers.entries()) {
+     if (flag === '--batch') {
+       assert.equal(results[i].status, 'feasible');
+       assert.equal(results[i].bounds[0].upper, expected);
+     } else {
+       assert.equal(results[i].status, 'planned');
+       assert.equal(results[i].schedule[0].start, expected);
+     }
    }
-   for (const out of results.slice(1, -1)) assert.equal(out.code, 'invalid_input');
+   for (const out of results.slice(integers.length, -1)) assert.equal(out.code, 'invalid_input');
+   outputs.push(r.stdout);
  }
  for (const [input, reason] of [
    ['{"tasks":[],"t\\u0061sks":[]}', 'invalid_json: invalid JSON text'],
@@ -64,6 +75,7 @@ function verifyIntegerSpellings(invoke) {
    assert.equal(r.stdout, '');
    assert.equal(r.stderr.trim(), reason);
  }
+ return outputs;
 }
 function verifyNumericEncoding(invoke) {
  const name = 'bad\n\t"\\雪';
@@ -349,13 +361,14 @@ for(const mode of ['debug','release']){
  const transport=['{"timepoints":["a"],"timepoints":["b"],"constraints":[]}', '[', '['.repeat(17)+'0'+']'.repeat(17), ' '.repeat(1048577),'"'+'x'.repeat(257)+'"',JSON.stringify(Array(65).fill(good))];
  for(const input of transport){const r=invoke(['--batch','-'],input);assert.equal(r.status,2);assert.equal(r.stdout,'');assert(r.stderr.length>0);}
  const utf=invoke(['-'],Buffer.from([0xff]));assert.equal(utf.status,2);assert.equal(utf.stdout,'');
- verifyIntegerSpellings(invoke);
+ const spellingOutputs = verifyIntegerSpellings(invoke);
  verifyNumericEncoding(invoke);
  verifyQueryErrorOrder(invoke);
  const modelOutput = verifyModelValidation(invoke);
  const fieldOutput = verifyConstraintFields(invoke);
  if (baselineCli) {
    const baselineInvoke = (args,input) => spawnSync(process.execPath, [baselineCli,...args], {input,encoding:'utf8',timeout:15000});
+   assert.deepEqual(verifyIntegerSpellings(baselineInvoke), spellingOutputs, `${mode} integer spellings differ from baseline`);
    assert.equal(verifyModelValidation(baselineInvoke), modelOutput, `${mode} model validation differs from baseline`);
    assert.equal(verifyConstraintFields(baselineInvoke), fieldOutput, `${mode} constraint fields differ from baseline`);
  }
@@ -364,12 +377,12 @@ for(const mode of ['debug','release']){
  verifyWideColumns(invoke);
  const bom=invoke(['-'],'\ufeff'+JSON.stringify(good));assert.equal(bom.status,0,bom.stderr);
  for(const args of [[],['--unknown'],['x','y'],['missing-file.json']]){const r=invoke(args,'');assert.equal(r.status,2);assert.equal(r.stdout,'');}
- assert.equal(invoke(['--version'],'').stdout.trim(),'0.2.21');
+ assert.equal(invoke(['--version'],'').stdout.trim(),'0.2.22');
  const fd=fs.openSync(path.join(root,'moon.mod'),'r');try{const r=spawnSync(process.execPath,[cli,'--version'],{stdio:['ignore',fd,'pipe'],encoding:'utf8',timeout:15000});assert.equal(r.status,2);}finally{fs.closeSync(fd);}
  const scenarios=['deployment','delivery','conflict'];
  for(const name of scenarios){const request=JSON.parse(fs.readFileSync(`examples/${name}.json`,'utf8'));const r=invoke([`examples/${name}.json`],'');assert.equal(r.status,0,r.stderr);const result=JSON.parse(r.stdout);validate(request,result);assert.equal(result.status,name==='conflict'?'inconsistent':'feasible');if(name==='deployment')assert.deepEqual(result.bounds,[{from:'zero',to:'release',lower:15,upper:35}]);if(name==='delivery')assert.deepEqual(result.bounds,[{from:'pickup',to:'arrival',lower:20,upper:40}]);}
  console.log(`PASS ${mode}: malformed input, batch isolation, process I/O and three scenarios`);
- reports.push({mode,unitTests:units.trim(),exhaustiveNetworks:4096,signedClosureBounds:256,...(baselineCli ? {numericBaselineCompared:true}:{}),invalidBatchItems:invalid.length,numericEncodingCompared:true,queryErrorOrderCompared:true,modelValidationCompared:true,constraintFieldsCompared:true,jsonScanBoundsCompared:true,closureBudgetOrderCompared:true,wideColumnsCompared:true,transportRejects:transport.length+1,scenarios});
+ reports.push({mode,unitTests:units.trim(),exhaustiveNetworks:4096,signedClosureBounds:256,...(baselineCli ? {numericBaselineCompared:true}:{}),invalidBatchItems:invalid.length,integerSpellingsCompared:true,numericEncodingCompared:true,queryErrorOrderCompared:true,modelValidationCompared:true,constraintFieldsCompared:true,jsonScanBoundsCompared:true,closureBudgetOrderCompared:true,wideColumnsCompared:true,transportRejects:transport.length+1,scenarios});
 }
 process.stdout.write(run(process.execPath,['scripts/verify-planning.mjs',...process.argv.slice(2)]));
 fs.writeFileSync(summary,JSON.stringify({status:'passed',recordedAt:new Date().toISOString(),node:process.version,reports},null,2)+'\n');

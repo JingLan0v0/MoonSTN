@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.2.22 — 2026-11-20
+
+- Check exact integer spellings by tracking the decimal point and last nonzero digit.
+- Exercise negative zero, exponent saturation, long fractional tails, and caller-constructed JSON numbers.
+
 ## 0.2.21 — 2026-11-20
 
 - Reuse numeric constraint field lookups and scan keys only when the recognized fields do not cover the object.

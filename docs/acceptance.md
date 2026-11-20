@@ -2,6 +2,43 @@
 
 Project MoonSTN / JingLan0v0/stn, published 0.2.21.
 
+## Exact integer spellings — 2026-11-20
+
+On 0.2.21, dense numeric CLI batches spent 1.1–1.8 ms checking integer
+spellings and 20–24 ms decoding JSON. Phase timers include probe overhead.
+The selected implementation records how many mantissa digits precede
+the point and the position of the last nonzero digit. The difference
+gives the smallest exponent that makes the number integral. Zero and
+the saturating exponent scan retain their previous handling.
+
+| Direct spelling median in milliseconds | Calls per sample | Baseline first | Candidate first |
+| --- | ---: | ---: | ---: |
+| Ordinary integers | 400,000 | 5.76 → 4.93 | 5.97 → 5.16 |
+| Decimals | 400,000 | 10.82 → 8.93 | 11.36 → 9.31 |
+| Exponents | 400,000 | 8.16 → 7.74 | 8.00 → 7.44 |
+| Long fractional tails | 18,000 | 5.76 → 4.25 | 5.89 → 4.14 |
+| Long exponents | 7,500 | 3.97 → 4.02 | 3.99 → 3.88 |
+
+The direct benchmark extracts the generated spelling function and times
+it in one Node process. In both full CLI pairings, the planning decimal
+batch took 2.0–2.3% less time and the dense plain numeric batch took
+0.4–3.7% more time. Late-fraction and planning exponent results changed
+direction with the pairing order. The long numeric decimal validation
+phase went from 1.05 to 0.88 ms with probes enabled. Eleven numeric and
+planning payloads matched output bytes in both orders.
+
+Fixed checks exercise negative zero, long runs of trailing zeros, large
+signed exponents, rounded fractions, underflow, and normal batch recovery.
+The public JSON API test covers caller-constructed numbers with and without
+spelling, Unicode in a spelling, and the spelling length limit. The same
+test passes on the 0.2.21 source.
+
+Run `scripts/benchmark-integer-spellings.mjs` with the two release JS CLIs
+in both orders. Set `MOONSTN_BENCH_INTEGER_KERNEL=1` for direct checks or
+`MOONSTN_PROFILE_INTEGER_SPELLINGS=1` to time the spelling and decode phases.
+The evidence preserves sample timings and memory, hashes, and candidate patches.
+[Measurements](optimization-0.2.22.json)
+
 ## Mooncakes 0.2.21 publication — 2026-11-20
 
 Source bd963fe61160a547688317103fb52798e93e07ae passed Windows and Ubuntu

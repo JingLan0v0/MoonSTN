@@ -266,12 +266,24 @@ fn PlanBranch::compile(
       "limit_exceeded", "require 1..64 timepoints and at most 512 constraints",
     )
   }
-  let id = "order" + before.to_string() + "_" + after.to_string()
+  let before_suffix = before.to_string()
+  let after_suffix = after.to_string()
+  let id = "order" + before_suffix + "_" + after_suffix
   if self.rule_ids.contains(id) {
     raise StnError("invalid_input", "invalid or duplicate constraint id")
   }
-  let finish = lookup_name(index, point(before.to_string(), true))
-  let start = lookup_name(index, point(after.to_string(), false))
+  let finish_name = if before < MAX_PLANNING_TASKS {
+    task_rule_names[before].finish
+  } else {
+    point(before_suffix, true)
+  }
+  let finish = lookup_name(index, finish_name)
+  let start_name = if after < MAX_PLANNING_TASKS {
+    task_rule_names[after].start
+  } else {
+    point(after_suffix, false)
+  }
+  let start = lookup_name(index, start_name)
   let arcs = self.arcs.copy()
   // finish(before) <= start(after) is a zero-weight lower-bound arc.
   arcs.push({ source: start, target: finish, bound: 0L, })

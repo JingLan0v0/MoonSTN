@@ -1,5 +1,6 @@
 import assert from 'node:assert/strict';
 import {spawnSync} from 'node:child_process';
+import {createHash} from 'node:crypto';
 import {readFileSync} from 'node:fs';
 import {resolve} from 'node:path';
 import {performance} from 'node:perf_hooks';
@@ -61,7 +62,8 @@ function run(cli, request, count, flags = []) {
   assert.equal(results.length, count);
   const result = results[0];
   for (const item of results) assert.deepEqual(item, result);
-  return {ms, peakRssKiB, result};
+  const outputSha256 = createHash('sha256').update(proc.stdout).digest('hex');
+  return {ms, peakRssKiB, result, outputSha256};
 }
 
 function benchmarkCli() {
@@ -79,7 +81,7 @@ function benchmarkCli() {
   ];
   const rows = [];
   for (const [name, request, count, status] of cases) {
-    const expected = run(base, request, 1).result;
+    const {result: expected, outputSha256: expectedOutput} = run(base, request, count);
     assert.equal(expected.status, status, JSON.stringify(expected));
     if (status === 'error') {
       assert.equal(expected.code, 'limit_exceeded');
@@ -95,12 +97,13 @@ function benchmarkCli() {
     const samples = Object.fromEntries(variants.map(([label]) => [label, []]));
     for (let pair = 0; pair < 11; pair++) {
       for (const [label, cli] of (pair % 2 ? variants.toReversed() : variants)) {
-        const {result, ...sample} = run(cli, request, count);
+        const {result, outputSha256, ...sample} = run(cli, request, count);
         assert.deepEqual(result, expected, name);
+        assert.equal(outputSha256, expectedOutput, name + ' CLI bytes');
         if (pair >= 2) samples[label].push(sample);
       }
     }
-    rows.push({name, requestsPerProcess: count, expected, samples});
+    rows.push({name, requestsPerProcess: count, expected, outputSha256: expectedOutput, samples});
   }
   console.log(JSON.stringify({node: process.version, platform: process.platform, arch: process.arch,
     recordedAt: new Date().toISOString(), warmupPairs: 2, samplesPerVariant: 9, rows}, null, 2));

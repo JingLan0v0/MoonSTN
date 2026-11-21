@@ -152,6 +152,66 @@ test "planning resolves current timepoint names when compiling a child" {
 }
 
 ///|
+test "planning resolves moved timepoints at their current positions" {
+  let p = @stn.planning_problem(
+    [task("a", 1, 2, Some("r")), task("b", 1, 2, Some("r"))],
+    [],
+  )
+  p.names[1] = "t1s"
+  p.names[2] = "t1f"
+  p.names[3] = "t0s"
+  p.names[4] = "t0f"
+  guard @stn.plan(p, max_nodes=2, max_work=372) is @stn.Planned(schedule, stats) else {
+    fail("expected a plan at the exact budget")
+  }
+  assert_eq(schedule, [
+    { id: "a", start: 1L, finish: 2L, },
+    { id: "b", start: 0L, finish: 1L, },
+  ])
+  assert_eq(stats, { nodes: 2, pruned: 0, decisions: 1, charged_work: 372, })
+  assert_true(@stn.verify_plan(p, schedule))
+}
+
+///|
+test "planning resolves branch names for positions added after construction" {
+  let tasks = Array::makei(24, i => {
+    task("task" + i.to_string(), 1, 2, if i == 0 { Some("r") } else { None })
+  })
+  let p = @stn.planning_problem(tasks, [])
+  p.tasks.push(task("appended", 1, 2, Some("r")))
+  p.names.push("t24s")
+  p.names.push("t24f")
+  p.rules.push({
+    id: "duration24",
+    from: "t24s",
+    to: "t24f",
+    lower: Some(1),
+    upper: Some(1),
+  })
+  p.rules.push({
+    id: "release24",
+    from: "origin",
+    to: "t24s",
+    lower: Some(0),
+    upper: None,
+  })
+  p.rules.push({
+    id: "deadline24",
+    from: "origin",
+    to: "t24f",
+    lower: None,
+    upper: Some(2),
+  })
+  guard @stn.plan(p, max_nodes=2, max_work=275958)
+    is @stn.Planned(schedule, stats) else {
+    fail("expected a plan at the exact budget")
+  }
+  assert_eq((schedule[0].finish, schedule[24].start), (1L, 1L))
+  assert_eq((stats.nodes, stats.charged_work), (2, 275958))
+  assert_true(@stn.verify_plan(p, schedule))
+}
+
+///|
 test "planning exhaustion is error and problem remains reusable" {
   let p = @stn.planning_problem(
     [task("a", 2, 4, Some("r")), task("b", 2, 4, Some("r"))],

@@ -1,8 +1,17 @@
 # Continue MoonSTN optimization
 
 The [optimization roadmap](optimization-roadmap.md) records the next measurement
-and its acceptance criteria. Next, measure name construction and lookups
-for new resource-order rules during planning search.
+and its acceptance criteria. Next, measure array copying when compiling
+resource-order branches during planning search.
+
+## Resource-order branch names — 2026-11-21
+
+The 0.2.27 source reuses canonical point names in resource-order
+branches and shares the numeric suffixes across the ID and endpoint
+names. The tight-window library benchmark took 2.2–3.1% less time.
+End-to-end timings were mixed and seven CLI outputs matched by byte.
+Moved or caller-appended timepoints have direct API regressions at
+exact budgets. [Measurements](optimization-0.2.27.json)
 
 ## Planning task timepoint and rule names — 2026-11-21
 

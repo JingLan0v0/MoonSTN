@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.2.27 — 2026-11-21
+
+- Reuse canonical task timepoint names in resource-order branches and convert each task position once per branch.
+- Verify current name resolution for moved timepoints and caller-added task positions at exact budgets.
+
 ## 0.2.26 — 2026-11-21
 
 - Precompute built-in timepoint and rule names for each supported task position.

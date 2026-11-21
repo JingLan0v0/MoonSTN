@@ -2,6 +2,54 @@
 
 Project MoonSTN / JingLan0v0/stn, published 0.2.26.
 
+## Resource-order branch names — 2026-11-21
+
+The 0.2.26 tight-window fixture visits 1,439 nodes and compiles 1,438
+child rules per complete search. Each child converts two positions for
+its rule ID and converts them again for the two timepoint names. The
+probe counted four conversions and two name lookups per child. Across
+the instrumented process, the two endpoint operations took 28–30 ms,
+including the probe overhead.
+
+Version 0.2.27 reuses point names for the constructor's 24 supported
+positions and uses the existing numeric suffixes for any positions later
+appended through the public model arrays. It converts each position once
+per child. The name map still resolves both endpoints in their current
+positions after the duplicate ID check. The probes count the same number
+of child rules and lookups, with half the conversions.
+
+| Deep-search library milliseconds per 16 calls | Baseline first | Candidate first |
+| --- | ---: | ---: |
+| Share numeric suffixes | 44.184 → 43.813 | 44.273 → 43.520 |
+| Reuse canonical names (selected) | 44.507 → 43.148 | 42.494 → 41.541 |
+| Check each expected position before name lookup | 42.108 → 41.806 | 43.146 → 41.622 |
+| Reuse names and check each expected position | 42.469 → 41.450 | 42.054 → 41.046 |
+
+The same-binary deep library medians were 42.864 and 43.069 ms.
+The selected trial resolves names through the existing map and had a
+similar gain to the combined positional trial. The ordinary maintenance library case
+varied from 4.8% faster to 5.0% slower. The distinct-resource control took
+1.3–2.0% longer, and the four-resource case took 2.5–4.4% less time.
+
+Tight-window CLI batches took 186.32 → 184.62 ms and 183.41 → 183.30 ms.
+Same-binary medians were 179.29 and 181.09 ms. The maximum-capacity case
+with exact budgets took 2.5% and 0.9% longer. All seven batch outputs
+matched byte for byte, including both one-unit-short budgets.
+
+Two new direct API regressions compare moved timepoints and a caller-added
+25th task, with exact budgets and independent schedule verification. Both
+passed on 0.2.26 in debug and release. Existing regressions check unknown
+timepoint names, duplicate rule IDs, error precedence, and model reuse.
+
+Build the JS release library drivers from
+`scripts/fixtures/deep-search-benchmark.mbt` and
+`scripts/fixtures/planning-benchmark.mbt`. Use `--library` on
+`scripts/benchmark-deep-search.mjs` for the deep library case or pass two
+CLIs for the end-to-end comparison. Run
+`scripts/benchmark-planning-library.mjs` for the ordinary library cases.
+The evidence file contains the probe and trial patches, raw samples and
+output hashes. [Measurements](optimization-0.2.27.json)
+
 ## Mooncakes 0.2.26 publication — 2026-11-21
 
 Source 14c0af28a8602d67136e859292a8f5351736aa55 passed Windows and Ubuntu

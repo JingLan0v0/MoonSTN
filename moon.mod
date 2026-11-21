@@ -1,6 +1,6 @@
 name = "JingLan0v0/stn"
 
-version = "0.2.26"
+version = "0.2.27"
 
 repository = "https://github.com/JingLan0v0/MoonSTN"
 

@@ -13,6 +13,10 @@ name constructor. Library construction for mixed dependency kinds took
 for exact names, lags, rule order, and schedule verification.
 [Measurements](optimization-0.2.25.json)
 
+Source 37fda1d passed Windows and Ubuntu CI. An empty-cache installation
+matched all 128 files and checked all four dependency kinds in both modes.
+[Release receipts](publication-0.2.25.json)
+
 ## Planning task ID lookup — 2026-11-20
 
 Version 0.2.24 stores task positions in the existing validation map. It

@@ -1,4 +1,4 @@
-# Publishing — 0.2.24 published 2026-11-20
+# Publishing — 0.2.25 published 2026-11-21
 
 The owner authorized Mooncakes publication on 2026-11-11. Require actual registry
 and fresh-consumer receipts; do not overwrite an existing version.
@@ -139,3 +139,8 @@ Version 0.2.24 returned 200 OK on 2026-11-20. All 126 files in the public
 archive matched a fresh installation. Endpoint positions and validation
 order passed through the public API in debug and release.
 [Receipts](publication-0.2.24.json)
+
+Version 0.2.25 returned 200 OK on 2026-11-21. All 128 public archive
+files matched a fresh installation. The constructed rules for all four
+dependency kinds passed through the public API in debug and release.
+[Receipts](publication-0.2.25.json)

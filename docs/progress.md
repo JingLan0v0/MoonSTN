@@ -1,8 +1,17 @@
 # Continue MoonSTN optimization
 
 The [optimization roadmap](optimization-roadmap.md) records the next measurement
-and its acceptance criteria. Next, measure timepoint name construction for
-planning dependency rules.
+and its acceptance criteria. Next, measure numeric suffix construction for
+each task's built-in planning rules.
+
+## Planning dependency timepoint names — 2026-11-21
+
+Version 0.2.25 reads dependency endpoints from the existing timepoint list.
+The maximum-size fixture makes 48 instead of 176 calls to the timepoint
+name constructor. Library construction for mixed dependency kinds took
+19–26% less time in the two runs. All four kinds have a fixed regression
+for exact names, lags, rule order, and schedule verification.
+[Measurements](optimization-0.2.25.json)
 
 ## Planning task ID lookup — 2026-11-20
 

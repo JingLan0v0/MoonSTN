@@ -1,6 +1,45 @@
-# Acceptance evidence — updated 2026-11-20
+# Acceptance evidence — updated 2026-11-21
 
 Project MoonSTN / JingLan0v0/stn, published 0.2.24.
+
+## Planning dependency timepoint names — 2026-11-21
+
+The 0.2.24 constructor built 48 task timepoint names and rebuilt another
+128 names for the endpoints of 64 dependencies. The selected version reads
+the endpoints from the existing table, which starts with the origin and
+then lists the start and finish of each task. Probes counted 176 versus 48
+name constructions per full model. The rule timer includes endpoint role
+checks, name construction or table reads, rule insertion, and timer
+overhead. Its elapsed values are separate from the uninstrumented runs.
+
+A second trial handled all four dependency kinds in one match. Its gains
+were similar across the construction cases. The selected implementation
+keeps the smaller change to the two endpoint name expressions.
+
+| Library milliseconds per 1,000 constructions | Baseline first | Candidate first |
+| --- | ---: | ---: |
+| 24 tasks, no dependencies | 2.673 → 2.688 | 2.779 → 2.749 |
+| Spread endpoints | 7.132 → 5.579 | 7.127 → 5.762 |
+| Mixed FS, SS, FF and SF | 7.490 → 5.520 | 6.829 → 5.498 |
+| Long task IDs | 16.332 → 14.526 | 16.021 → 14.433 |
+| Unknown endpoint in final dependency | 7.445 → 5.846 | 7.082 → 5.623 |
+
+CLI timings had mixed directions. The full model took 126.21 → 123.12 ms
+and 126.68 → 129.25 ms. The low-work control took 88.80 → 99.49 ms and
+80.93 → 79.02 ms. The same-binary control varied by as much as 6.3%.
+All eight CLI outputs matched byte for byte in both orders.
+
+The new direct API test checks the names, order and signed exact lags of
+rules, plus a fixed schedule and its independent verification. The test
+also passes on the baseline. The full verifier covers exact node and work
+budgets and the one-unit-short cases.
+
+Use the JS release drivers built from `scripts/fixtures/planning-benchmark.mbt`
+and run `scripts/benchmark-planning-library.mjs` with
+`MOONSTN_BENCH_PLAN_CONSTRUCTION=1` and `MOONSTN_BENCH_PLAN_KINDS=1`.
+Set `MOONSTN_PROFILE_PLAN_POINTS=1` for probes. Use
+`MOONSTN_BENCH_PLAN_ENDPOINTS=1` with `scripts/benchmark-planning-results.mjs`
+for the CLI workloads. [Measurements](optimization-0.2.25.json)
 
 ## Mooncakes 0.2.24 publication — 2026-11-20
 

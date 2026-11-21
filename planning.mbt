@@ -154,8 +154,8 @@ pub fn planning_problem(
     }
     rules.push({
       id: "dependency" + i.to_string(),
-      from: point(a, d.kind == "FS" || d.kind == "FF"),
-      to: point(b, d.kind == "FF" || d.kind == "SF"),
+      from: names[2 * a + (if d.kind == "FS" || d.kind == "FF" { 2 } else { 1 })],
+      to: names[2 * b + (if d.kind == "FF" || d.kind == "SF" { 2 } else { 1 })],
       lower: Some(d.min_lag),
       upper: d.max_lag,
     })

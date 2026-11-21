@@ -63,7 +63,16 @@ fn benchmark_construction(case_name : String) -> Unit raise {
       } else {
         tasks[after].id
       },
-      kind: "SS",
+      kind: if case_name == "construct-mixed-kinds" {
+        match i % 4 {
+          0 => "FS"
+          1 => "SS"
+          2 => "FF"
+          _ => "SF"
+        }
+      } else {
+        "SS"
+      },
       min_lag: -24,
       max_lag: Some(24),
     }

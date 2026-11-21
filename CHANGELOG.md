@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.2.25 — 2026-11-21
+
+- Reuse existing timepoint names when constructing planning dependencies.
+- Verify timepoint names, rule order, and exact lags for all four dependency kinds.
+
 ## 0.2.24 — 2026-11-20
 
 - Reuse validated task positions when resolving planning dependency endpoints.

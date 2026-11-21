@@ -7,9 +7,11 @@ assert.equal(process.argv.length, 4, 'Pass the compiled baseline and candidate b
 const labels = ['baseline', 'candidate'];
 const cli = Object.fromEntries(labels.map((label, i) => [label, resolve(process.argv[i + 2])]));
 const profile = process.env.MOONSTN_PROFILE_PLAN_ENDPOINTS === '1';
-const construction = profile || process.env.MOONSTN_BENCH_PLAN_CONSTRUCTION === '1';
+const profilePoints = process.env.MOONSTN_PROFILE_PLAN_POINTS === '1';
+const construction = profile || profilePoints || process.env.MOONSTN_BENCH_PLAN_CONSTRUCTION === '1';
 const cases = construction ? ['construct-small-none', 'construct-small-linked', 'construct-large-none',
   'construct-early', 'construct-spread', 'construct-long', 'construct-late-unknown',
+  ...(process.env.MOONSTN_BENCH_PLAN_KINDS === '1' || profilePoints ? ['construct-mixed-kinds'] : []),
   ...(process.env.MOONSTN_BENCH_PLAN_ID_LENGTHS === '1' ? ['construct-id-8', 'construct-id-16', 'construct-id-32'] : [])] :
   ['maintenance', 'independent', 'distinct-resources', 'first-pair', 'last-pair',
   'four-resources', 'one-resource', 'max-root', 'max-model'];
@@ -36,11 +38,28 @@ function instrument(file) {
     ${source}`;
 }
 
-const scratch = profile ? mkdtempSync(resolve('_build', 'planning-endpoint-profile-')) : null;
+function instrumentPoints(file) {
+  const source = readFileSync(file, 'utf8');
+  const fn = '_M0FP210JingLan0v03stn5point';
+  const rule = /^([ \t]*)(.*push[^\n]*Constraint\(`dependency\$\{.*)$/m;
+  assert(source.includes('function ' + fn + '(') && rule.test(source), 'Missing generated point or dependency rule');
+  const instrumented = source.replace(rule, '$1const ruleStart = performance.now();\n$&\n' +
+    '$1pointProfile.ruleMs += performance.now() - ruleStart; pointProfile.rules++;');
+  return `const pointProfile = {calls:0, pointMs:0, rules:0, ruleMs:0};
+    const savedPoint = ${fn}; ${fn} = (...args) => {
+      pointProfile.calls++;
+      const start = performance.now(); try { return savedPoint(...args); }
+      finally { pointProfile.pointMs += performance.now() - start; }
+    };
+    process.once('exit', () => console.error(JSON.stringify(pointProfile)));
+    ${instrumented}`;
+}
+
+const scratch = profile || profilePoints ? mkdtempSync(resolve('_build', 'planning-library-profile-')) : null;
 try {
   const active = scratch ? Object.fromEntries(labels.map(label => {
     const file = resolve(scratch, label + '.js');
-    writeFileSync(file, instrument(cli[label]));
+    writeFileSync(file, (profilePoints ? instrumentPoints : instrument)(cli[label]));
     return [label, file];
   })) : cli;
   const rows = cases.map(name => {
@@ -61,18 +80,18 @@ try {
         });
         assert.equal(batch.length, 9);
         samples[label].push(batch);
-        if (profile) phases[label].push(JSON.parse(result.stderr));
+        if (scratch) phases[label].push(JSON.parse(result.stderr));
       }
     }
     const medianMs = Object.fromEntries(labels.map(label => {
       const sorted = samples[label].flat().toSorted((a, b) => a - b);
       return [label, sorted[Math.floor(sorted.length / 2)]];
     }));
-    return {name, medianMs, samples, work: expected[0], checksum: expected[1], ...(profile ? {phases} : {})};
+    return {name, medianMs, samples, work: expected[0], checksum: expected[1], ...(scratch ? {phases} : {})};
   });
   console.log(JSON.stringify({
     recordedAt: new Date().toISOString(), node: process.version, callsPerSample: construction ? 1000 : 500,
-    construction, profile,
+    construction, profile, profilePoints,
     processPairs: 3, warmupsPerProcess: 3, rows,
   }, null, 2));
 } finally {

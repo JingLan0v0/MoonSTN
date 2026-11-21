@@ -273,6 +273,43 @@ test "dependency endpoints use the positions of exact task IDs" {
 }
 
 ///|
+test "all dependency kinds use the correct named timepoints" {
+  let a = task("a", 2, 2, None)
+  let b = { ..task("b", 1, 4, None), release: 3, }
+  let dependencies : Array[@stn.Dependency] = [
+    { before: "a", after: "b", kind: "FS", min_lag: 1, max_lag: Some(1), },
+    { before: "a", after: "b", kind: "SS", min_lag: 3, max_lag: Some(3), },
+    { before: "a", after: "b", kind: "FF", min_lag: 2, max_lag: Some(2), },
+    { before: "a", after: "b", kind: "SF", min_lag: 4, max_lag: Some(4), },
+    { before: "b", after: "a", kind: "SS", min_lag: -3, max_lag: Some(-3), },
+  ]
+  let p = @stn.planning_problem([a, b], dependencies)
+  let expected = [
+    ("t0f", "t1s", 1),
+    ("t0s", "t1s", 3),
+    ("t0f", "t1f", 2),
+    ("t0s", "t1f", 4),
+    ("t1s", "t0s", -3),
+  ]
+  for i, (from, to, lag) in expected {
+    let rule = p.rules[6 + i]
+    assert_eq(rule.id, "dependency" + i.to_string())
+    assert_eq(
+      (rule.from, rule.to, rule.lower, rule.upper),
+      (from, to, Some(lag), Some(lag)),
+    )
+  }
+  guard @stn.plan(p) is @stn.Planned(schedule, _) else {
+    fail("expected a plan")
+  }
+  assert_eq(schedule, [
+    { id: "a", start: 0L, finish: 2L, },
+    { id: "b", start: 3L, finish: 4L, },
+  ])
+  assert_true(@stn.verify_plan(p, schedule))
+}
+
+///|
 test "task validation and ordered dependency endpoint errors" {
   let a = task("a", 1, 5, None)
   let b = task("b", 1, 5, None)

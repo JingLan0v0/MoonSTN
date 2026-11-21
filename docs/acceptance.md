@@ -2,6 +2,58 @@
 
 Project MoonSTN / JingLan0v0/stn, published 0.2.27.
 
+## Resource-order branch array reuse — 2026-11-21
+
+The 0.2.27 tight-window probe performs 278,971 copies of each array
+over one process, including warmups and budget checks. It copies
+9,224,274 arc references and 7,550,448 rule ID references. The three
+instrumented runs aggregate 16.0–16.7 ms in arc copies and 13.8–14.5 ms
+in rule ID copies, including timer overhead. The full 24-task probe
+copies 32,430,000 arc and 20,286,000 rule ID references per process.
+
+In 0.2.28, each pending resource ordering remembers its parent's
+rule count. The search keeps a private arc array and rule ID array
+for the active path. Visiting a sibling pops one arc and one ID for
+each abandoned order. The new order is checked before it is appended
+to both arrays, preserving arc order, duplicate checks and node and work
+budget precedence. A probe verifies the same number of accepted order
+rules with zero per-branch array copies.
+
+| Deep-search library milliseconds per 16 calls | Baseline first | Candidate first |
+| --- | ---: | ---: |
+| Reuse the rule ID array | 42.811 → 41.867 | 43.070 → 42.088 |
+| Reuse both arrays (selected) | 43.118 → 40.755 | 42.700 → 39.973 |
+| Same-binary control | 41.997 → 42.052 | |
+
+The 24-task maximum library search took 4.5% and 3.4% less time. The
+maintenance library case took 9.4% and 2.3% less time, with roughly 6%
+variation in the same-binary control. Independent tasks took 0.7% and
+3.6% longer. The last-pair workload changed direction across the two runs.
+
+Tight-window CLI batches took 178.22 → 173.78 ms and 179.87 → 170.85 ms.
+Same-binary medians were 179.22 and 181.19 ms. In the three maximum
+model budget-boundary cases, median peak RSS fell by 2.7–3.2 MiB. The
+maximum model at its exact budget took 0.1% and 0.5% longer. The CLI
+maintenance control took 0.8% and 0.3% longer. All seven outputs,
+including exact, one-node-short and one-work-unit-short budgets, are
+byte-identical.
+
+A public API regression backtracks between siblings at the 512-rule
+cap, checks the exact schedule and work, exercises node and work
+error precedence, and reruns the same model after edits and exhaustion.
+It passes on 0.2.27 in debug and release. The deep fixture checks
+1,439 nodes, 720 prunes, 719 decisions, and 3,885,037 work units.
+
+Build the JS release library drivers from
+`scripts/fixtures/deep-search-benchmark.mbt` and
+`scripts/fixtures/planning-benchmark.mbt`. Use `--library` on
+`scripts/benchmark-deep-search.mjs` for the deep library case or pass
+two CLIs for the end-to-end comparison. Run
+`scripts/benchmark-planning-library.mjs` for the ordinary library cases.
+The evidence contains both probes, trial patches, output hashes, and
+the uninstrumented timing and memory samples.
+[Measurements](optimization-0.2.28.json)
+
 ## Mooncakes 0.2.27 publication — 2026-11-21
 
 Source f6066c74d9b912f746c2cf8795d34c8bef29d7fc passed Windows and Ubuntu

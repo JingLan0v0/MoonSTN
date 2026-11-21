@@ -246,22 +246,20 @@ pub fn verify_plan(
 
 ///|
 priv struct PlanBranch {
-  arcs : Array[TemporalArc]
-  rule_ids : Array[String]
+  parent_rule_count : Int32
   order : (Int32, Int32)?
 }
 
 ///|
-fn PlanBranch::compile(
-  self : PlanBranch,
+fn append_order_rule(
+  arcs : Array[TemporalArc],
+  rule_ids : Array[String],
   index : Map[String, Int32],
-) -> (Array[TemporalArc], Array[String]) raise StnError {
-  guard self.order is Some((before, after)) else {
-    return (self.arcs, self.rule_ids)
-  }
-  // The validated parent is shared by both children. Check only the new rule.
+  before : Int32,
+  after : Int32,
+) -> Unit raise StnError {
   // Rule IDs and caps also cover callers using the readable model arrays.
-  if self.rule_ids.length() == 512 {
+  if rule_ids.length() == 512 {
     raise StnError(
       "limit_exceeded", "require 1..64 timepoints and at most 512 constraints",
     )
@@ -269,7 +267,7 @@ fn PlanBranch::compile(
   let before_suffix = before.to_string()
   let after_suffix = after.to_string()
   let id = "order" + before_suffix + "_" + after_suffix
-  if self.rule_ids.contains(id) {
+  if rule_ids.contains(id) {
     raise StnError("invalid_input", "invalid or duplicate constraint id")
   }
   let finish_name = if before < MAX_PLANNING_TASKS {
@@ -284,12 +282,9 @@ fn PlanBranch::compile(
     point(after_suffix, false)
   }
   let start = lookup_name(index, start_name)
-  let arcs = self.arcs.copy()
   // finish(before) <= start(after) is a zero-weight lower-bound arc.
   arcs.push({ source: start, target: finish, bound: 0L, })
-  let ids = self.rule_ids.copy()
-  ids.push(id)
-  (arcs, ids)
+  rule_ids.push(id)
 }
 
 ///|
@@ -329,8 +324,9 @@ pub fn plan(
     (_, source, target, bound, _) => { source, target, bound, },
   )
   let n = p.names.length()
+  let rule_ids = p.rules.map(rule => rule.id)
   let stack : Array[PlanBranch] = [
-    { arcs, rule_ids: p.rules.map(rule => rule.id), order: None, },
+    { parent_rule_count: rule_ids.length(), order: None, },
   ]
   let mut nodes = 0
   let mut pruned = 0
@@ -342,7 +338,16 @@ pub fn plan(
         "limit_exceeded", "planning node budget exhausted; no feasibility conclusion",
       )
     }
-    let (arcs, rule_ids) = stack.pop().unwrap().compile(index)
+    let branch = stack.pop().unwrap()
+    // The pending node shares the current path up to its parent.
+    // Each order on the path contributes one rule ID and one arc.
+    while rule_ids.length() > branch.parent_rule_count {
+      rule_ids.pop() |> ignore
+      arcs.pop() |> ignore
+    }
+    if branch.order is Some((before, after)) {
+      append_order_rule(arcs, rule_ids, index, before, after)
+    }
     let e = arcs.length()
     // Keep the 0.2.0 full-solve charge while computing only a feasibility witness.
     let work = n * n * n + n * e + e + 2 * n
@@ -372,8 +377,9 @@ pub fn plan(
           Some((i, j)) => {
             decisions += 1
             // Positive durations imply exactly one order must hold on this resource.
+            let parent_rule_count = rule_ids.length()
             for (a, b) in [(j, i), (i, j)] {
-              stack.push({ arcs, rule_ids, order: Some((a, b)), })
+              stack.push({ parent_rule_count, order: Some((a, b)), })
             }
           }
         }

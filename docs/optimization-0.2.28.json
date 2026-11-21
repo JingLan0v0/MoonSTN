@@ -1,0 +1,6169 @@
+{
+  "baselineVersion": "0.2.27",
+  "baselineCommit": "f6066c74d9b912f746c2cf8795d34c8bef29d7fc",
+  "baselineCheckout": "00eba0d26a18719fa93dcc2f64208777fc69a816",
+  "candidateVersion": "0.2.28",
+  "platform": "Windows",
+  "toolchain": {
+    "moonbit_install_version": "0.10.18+6c83a7f62",
+    "moon": "0.1.20261028",
+    "moonc": "v0.10.18+6c83a7f62",
+    "node_tested": "24.14.0",
+    "backend": "js"
+  },
+  "selected": "reuse the private arc and rule ID arrays along the active search path",
+  "method": "Pinned JS release builds. Deep library samples time 16 full searches each, with four process pairs and nine retained samples per process. Ordinary library samples time 500 calls, with three process pairs and nine retained samples each. CLI results include startup, I/O and peak RSS with nine retained pairs. Reversing arguments switches the initial order. Same-binary controls call 0.2.27 twice. The recorded trials were rebuilt in separate target directories and checked by hash after an exploratory incremental build returned a stale artifact.",
+  "distinctCliPayloads": 7,
+  "deepExpected": {
+    "nodes": 1439,
+    "pruned": 720,
+    "decisions": 719,
+    "chargedWork": 3885037
+  },
+  "baselineArtifacts": {
+    "main": "9472ea0f418b61118fd39c236223f29a73701b56788d00af22eee6af472f1c9c",
+    "deepbench": "c1bc41b1fdf7d5e0185273dcd940e7dd6e1c23933052dc97689a94418159a549",
+    "lookupbench": "7ed633ec40a085b7b4a7776b9aeb12fa932d8b14815cddd3c4398547e376f284"
+  },
+  "selectedReleaseArtifacts": {
+    "main": "0a523e5e6f92212676beae37381fabf5250323a452350d197d251ffb0940eb26",
+    "deepbench": "9ef2489a90f233b7eb5edcdceba751ada9489b601a5bec12b6ac9270b21ab6a7",
+    "lookupbench": "79440f732b3328e8844d6fe12cd4c60abfe5cd16423ae02a8044f595a887ca9b"
+  },
+  "probes": {
+    "baseline": [
+      {
+        "shape": "deepbench",
+        "samples": [
+          {
+            "arcs": {
+              "copies": 278971,
+              "items": 9224274,
+              "ms": 16.342999999995385
+            },
+            "ruleIds": {
+              "copies": 278971,
+              "items": 7550448,
+              "ms": 13.774000000003461
+            }
+          },
+          {
+            "arcs": {
+              "copies": 278971,
+              "items": 9224274,
+              "ms": 15.989899999997661
+            },
+            "ruleIds": {
+              "copies": 278971,
+              "items": 7550448,
+              "ms": 14.450199999999942
+            }
+          },
+          {
+            "arcs": {
+              "copies": 278971,
+              "items": 9224274,
+              "ms": 16.689800000003707
+            },
+            "ruleIds": {
+              "copies": 278971,
+              "items": 7550448,
+              "ms": 14.344200000010641
+            }
+          }
+        ]
+      },
+      {
+        "shape": "maintenance",
+        "samples": [
+          {
+            "arcs": {
+              "copies": 12000,
+              "items": 96000,
+              "ms": 0.979400000000215
+            },
+            "ruleIds": {
+              "copies": 12000,
+              "items": 72000,
+              "ms": 0.7276999999998068
+            }
+          },
+          {
+            "arcs": {
+              "copies": 12000,
+              "items": 96000,
+              "ms": 0.9241000000000277
+            },
+            "ruleIds": {
+              "copies": 12000,
+              "items": 72000,
+              "ms": 0.6891999999995804
+            }
+          },
+          {
+            "arcs": {
+              "copies": 12000,
+              "items": 96000,
+              "ms": 0.9722000000000435
+            },
+            "ruleIds": {
+              "copies": 12000,
+              "items": 72000,
+              "ms": 0.7054000000002141
+            }
+          }
+        ]
+      },
+      {
+        "shape": "max-model",
+        "samples": [
+          {
+            "arcs": {
+              "copies": 138000,
+              "items": 32430000,
+              "ms": 22.37909999997776
+            },
+            "ruleIds": {
+              "copies": 138000,
+              "items": 20286000,
+              "ms": 9.096400000001388
+            }
+          },
+          {
+            "arcs": {
+              "copies": 138000,
+              "items": 32430000,
+              "ms": 22.3716999999974
+            },
+            "ruleIds": {
+              "copies": 138000,
+              "items": 20286000,
+              "ms": 9.237400000014016
+            }
+          },
+          {
+            "arcs": {
+              "copies": 138000,
+              "items": 32430000,
+              "ms": 21.583900000016353
+            },
+            "ruleIds": {
+              "copies": 138000,
+              "items": 20286000,
+              "ms": 8.717000000007584
+            }
+          }
+        ]
+      }
+    ],
+    "selected": [
+      {
+        "shape": "deepbench",
+        "samples": [
+          {
+            "appends": 278971,
+            "pops": 276061,
+            "maxArcs": 39,
+            "maxRuleIds": 33
+          },
+          {
+            "appends": 278971,
+            "pops": 276061,
+            "maxArcs": 39,
+            "maxRuleIds": 33
+          },
+          {
+            "appends": 278971,
+            "pops": 276061,
+            "maxArcs": 39,
+            "maxRuleIds": 33
+          }
+        ]
+      },
+      {
+        "shape": "maintenance",
+        "samples": [
+          {
+            "appends": 12000,
+            "pops": 6000,
+            "maxArcs": 9,
+            "maxRuleIds": 7
+          },
+          {
+            "appends": 12000,
+            "pops": 6000,
+            "maxArcs": 9,
+            "maxRuleIds": 7
+          },
+          {
+            "appends": 12000,
+            "pops": 6000,
+            "maxArcs": 9,
+            "maxRuleIds": 7
+          }
+        ]
+      },
+      {
+        "shape": "max-model",
+        "samples": [
+          {
+            "appends": 138000,
+            "pops": 0,
+            "maxArcs": 247,
+            "maxRuleIds": 159
+          },
+          {
+            "appends": 138000,
+            "pops": 0,
+            "maxArcs": 247,
+            "maxRuleIds": 159
+          },
+          {
+            "appends": 138000,
+            "pops": 0,
+            "maxArcs": 247,
+            "maxRuleIds": 159
+          }
+        ]
+      }
+    ],
+    "method": "The baseline counts calls, copied element references and timer values for each array copy. The candidate checks that the append function has no copy and counts append and pop operations on the working path. The process totals include warmups and each fixture's budget checks. Probe timer totals include timer and counter overhead.",
+    "baselineSource": "import assert from 'node:assert/strict';\nimport {readFileSync, writeFileSync} from 'node:fs';\nconst [from, to] = process.argv.slice(2);\nlet source = readFileSync(from, 'utf8').replaceAll('\\r\\n', '\\n');\nconst kind = {\n  arcs: /^( +)(const arcs = [^\\n]+\\(self\\.arcs\\);)$/m,\n  ruleIds: /^( +)(const ids = [^\\n]+\\(self\\.rule_ids\\);)$/m,\n};\nassert(source.includes('function _M0MP210JingLan0v03stn10PlanBranch7compile('));\nfor (const [name, line] of Object.entries(kind)) {\n  assert(line.test(source), 'Missing baseline copy for ' + name);\n  source = source.replace(line, (_, indent, statement) => [\n    'const ' + name + 'Started = performance.now();',\n    statement,\n    'copyProbe.' + name + '.ms += performance.now() - ' + name + 'Started;',\n    'copyProbe.' + name + '.copies++;',\n    'copyProbe.' + name + '.items += ' + (name === 'arcs' ? 'arcs' : 'ids') + '.length;',\n  ].map(s => indent + s).join('\\n'));\n}\nconst header = `const copyProbe = {arcs: {copies:0, items:0, ms:0}, ruleIds: {copies:0, items:0, ms:0}};\nprocess.once('exit', () => console.error(JSON.stringify(copyProbe)));\\n`;\nwriteFileSync(to, header + source);\n\r\n",
+    "candidateSource": "import assert from 'node:assert/strict';\nimport {readFileSync, writeFileSync} from 'node:fs';\nconst [from, to] = process.argv.slice(2);\nlet source = readFileSync(from, 'utf8').replaceAll('\\r\\n', '\\n');\nconst marker = 'function _M0FP210JingLan0v03stn19append__order__rule(';\nconst begin = source.indexOf(marker);\nconst end = source.indexOf('\\nfunction ', begin + marker.length);\nconst append = source.slice(begin, end);\nconst push = /^( +)(return [^\\n]+\\(rule_ids, id\\)\\);)$/m;\nconst pop = /^( +)([^\\n]*Array3pop[^\\n]*\\(rule_ids\\);)$/m;\nassert(begin >= 0 && end > begin && push.test(append) && pop.test(source));\nassert(!append.includes('Array4copy'));\nconst countAppend = [\n  'pathProbe.appends++;',\n  'pathProbe.maxArcs = Math.max(pathProbe.maxArcs, arcs.length);',\n  'pathProbe.maxRuleIds = Math.max(pathProbe.maxRuleIds, rule_ids.length + 1);',\n];\nsource = source.slice(0, begin) + append.replace(push, (_, indent, line) =>\n  [...countAppend, line].map(s => indent + s).join('\\n')) + source.slice(end);\nsource = source.replace(pop, '$1pathProbe.pops++;\\n$&');\nconst header = `const pathProbe = {appends:0, pops:0, maxArcs:0, maxRuleIds:0};\nprocess.once('exit', () => console.error(JSON.stringify(pathProbe)));\\n`;\nwriteFileSync(to, header + source);\n\r\n"
+  },
+  "variants": {
+    "ids-only": {
+      "patch": "diff --git a/published.mbt b/ids-only.mbt\nindex 310ea00..e15c48a 100644\n--- a/published.mbt\n+++ b/ids-only.mbt\n@@ -247,21 +247,20 @@ pub fn verify_plan(\n ///|\n priv struct PlanBranch {\n   arcs : Array[TemporalArc]\n-  rule_ids : Array[String]\n+  parent_rule_count : Int32\n   order : (Int32, Int32)?\n }\n \n ///|\n-fn PlanBranch::compile(\n-  self : PlanBranch,\n+fn append_order_rule(\n+  arcs : Array[TemporalArc],\n+  rule_ids : Array[String],\n   index : Map[String, Int32],\n-) -> (Array[TemporalArc], Array[String]) raise StnError {\n-  guard self.order is Some((before, after)) else {\n-    return (self.arcs, self.rule_ids)\n-  }\n-  // The validated parent is shared by both children. Check only the new rule.\n+  before : Int32,\n+  after : Int32,\n+) -> Array[TemporalArc] raise StnError {\n   // Rule IDs and caps also cover callers using the readable model arrays.\n-  if self.rule_ids.length() == 512 {\n+  if rule_ids.length() == 512 {\n     raise StnError(\n       \"limit_exceeded\", \"require 1..64 timepoints and at most 512 constraints\",\n     )\n@@ -269,7 +268,7 @@ fn PlanBranch::compile(\n   let before_suffix = before.to_string()\n   let after_suffix = after.to_string()\n   let id = \"order\" + before_suffix + \"_\" + after_suffix\n-  if self.rule_ids.contains(id) {\n+  if rule_ids.contains(id) {\n     raise StnError(\"invalid_input\", \"invalid or duplicate constraint id\")\n   }\n   let finish_name = if before < MAX_PLANNING_TASKS {\n@@ -284,12 +283,11 @@ fn PlanBranch::compile(\n     point(after_suffix, false)\n   }\n   let start = lookup_name(index, start_name)\n-  let arcs = self.arcs.copy()\n+  let child_arcs = arcs.copy()\n   // finish(before) <= start(after) is a zero-weight lower-bound arc.\n-  arcs.push({ source: start, target: finish, bound: 0L, })\n-  let ids = self.rule_ids.copy()\n-  ids.push(id)\n-  (arcs, ids)\n+  child_arcs.push({ source: start, target: finish, bound: 0L, })\n+  rule_ids.push(id)\n+  child_arcs\n }\n \n ///|\n@@ -329,8 +327,9 @@ pub fn plan(\n     (_, source, target, bound, _) => { source, target, bound, },\n   )\n   let n = p.names.length()\n+  let rule_ids = p.rules.map(rule => rule.id)\n   let stack : Array[PlanBranch] = [\n-    { arcs, rule_ids: p.rules.map(rule => rule.id), order: None, },\n+    { arcs, parent_rule_count: rule_ids.length(), order: None, },\n   ]\n   let mut nodes = 0\n   let mut pruned = 0\n@@ -342,7 +341,15 @@ pub fn plan(\n         \"limit_exceeded\", \"planning node budget exhausted; no feasibility conclusion\",\n       )\n     }\n-    let (arcs, rule_ids) = stack.pop().unwrap().compile(index)\n+    let branch = stack.pop().unwrap()\n+    while rule_ids.length() > branch.parent_rule_count {\n+      rule_ids.pop() |> ignore\n+    }\n+    let arcs = if branch.order is Some((before, after)) {\n+      append_order_rule(branch.arcs, rule_ids, index, before, after)\n+    } else {\n+      branch.arcs\n+    }\n     let e = arcs.length()\n     // Keep the 0.2.0 full-solve charge while computing only a feasibility witness.\n     let work = n * n * n + n * e + e + 2 * n\n@@ -372,8 +379,9 @@ pub fn plan(\n           Some((i, j)) => {\n             decisions += 1\n             // Positive durations imply exactly one order must hold on this resource.\n+            let parent_rule_count = rule_ids.length()\n             for (a, b) in [(j, i), (i, j)] {\n-              stack.push({ arcs, rule_ids, order: Some((a, b)), })\n+              stack.push({ arcs, parent_rule_count, order: Some((a, b)), })\n             }\n           }\n         }\n",
+      "compiled": {
+        "main": "2469af7d4eff3cc9e04ca12163d2a97b40b412f97f5798317fae293f2d4eb085",
+        "deepbench": "74553aecc322a6f5894ed7e4ae3a6480c898de9effd1c9177266609876d7e9da",
+        "lookupbench": "948af3bbb39c4bb464ed73e8aa131b8561f05b6493933dcc3c5ea56b098e86af"
+      }
+    },
+    "both": {
+      "patch": "diff --git a/published.mbt b/both.mbt\nindex 310ea00..5e080ee 100644\n--- a/published.mbt\n+++ b/both.mbt\n@@ -246,22 +246,20 @@ pub fn verify_plan(\n \n ///|\n priv struct PlanBranch {\n-  arcs : Array[TemporalArc]\n-  rule_ids : Array[String]\n+  parent_rule_count : Int32\n   order : (Int32, Int32)?\n }\n \n ///|\n-fn PlanBranch::compile(\n-  self : PlanBranch,\n+fn append_order_rule(\n+  arcs : Array[TemporalArc],\n+  rule_ids : Array[String],\n   index : Map[String, Int32],\n-) -> (Array[TemporalArc], Array[String]) raise StnError {\n-  guard self.order is Some((before, after)) else {\n-    return (self.arcs, self.rule_ids)\n-  }\n-  // The validated parent is shared by both children. Check only the new rule.\n+  before : Int32,\n+  after : Int32,\n+) -> Unit raise StnError {\n   // Rule IDs and caps also cover callers using the readable model arrays.\n-  if self.rule_ids.length() == 512 {\n+  if rule_ids.length() == 512 {\n     raise StnError(\n       \"limit_exceeded\", \"require 1..64 timepoints and at most 512 constraints\",\n     )\n@@ -269,7 +267,7 @@ fn PlanBranch::compile(\n   let before_suffix = before.to_string()\n   let after_suffix = after.to_string()\n   let id = \"order\" + before_suffix + \"_\" + after_suffix\n-  if self.rule_ids.contains(id) {\n+  if rule_ids.contains(id) {\n     raise StnError(\"invalid_input\", \"invalid or duplicate constraint id\")\n   }\n   let finish_name = if before < MAX_PLANNING_TASKS {\n@@ -284,12 +282,9 @@ fn PlanBranch::compile(\n     point(after_suffix, false)\n   }\n   let start = lookup_name(index, start_name)\n-  let arcs = self.arcs.copy()\n   // finish(before) <= start(after) is a zero-weight lower-bound arc.\n   arcs.push({ source: start, target: finish, bound: 0L, })\n-  let ids = self.rule_ids.copy()\n-  ids.push(id)\n-  (arcs, ids)\n+  rule_ids.push(id)\n }\n \n ///|\n@@ -329,8 +324,9 @@ pub fn plan(\n     (_, source, target, bound, _) => { source, target, bound, },\n   )\n   let n = p.names.length()\n+  let rule_ids = p.rules.map(rule => rule.id)\n   let stack : Array[PlanBranch] = [\n-    { arcs, rule_ids: p.rules.map(rule => rule.id), order: None, },\n+    { parent_rule_count: rule_ids.length(), order: None, },\n   ]\n   let mut nodes = 0\n   let mut pruned = 0\n@@ -342,7 +338,16 @@ pub fn plan(\n         \"limit_exceeded\", \"planning node budget exhausted; no feasibility conclusion\",\n       )\n     }\n-    let (arcs, rule_ids) = stack.pop().unwrap().compile(index)\n+    let branch = stack.pop().unwrap()\n+    // The pending node shares the current path up to its parent.\n+    // Each order on the path contributes one rule ID and one arc.\n+    while rule_ids.length() > branch.parent_rule_count {\n+      rule_ids.pop() |> ignore\n+      arcs.pop() |> ignore\n+    }\n+    if branch.order is Some((before, after)) {\n+      append_order_rule(arcs, rule_ids, index, before, after)\n+    }\n     let e = arcs.length()\n     // Keep the 0.2.0 full-solve charge while computing only a feasibility witness.\n     let work = n * n * n + n * e + e + 2 * n\n@@ -372,8 +377,9 @@ pub fn plan(\n           Some((i, j)) => {\n             decisions += 1\n             // Positive durations imply exactly one order must hold on this resource.\n+            let parent_rule_count = rule_ids.length()\n             for (a, b) in [(j, i), (i, j)] {\n-              stack.push({ arcs, rule_ids, order: Some((a, b)), })\n+              stack.push({ parent_rule_count, order: Some((a, b)), })\n             }\n           }\n         }\n",
+      "compiled": {
+        "main": "f8ef8abef4378e2e1618613b516c9dded37ecf51f2be3938dc5c3bd25c6c3084",
+        "deepbench": "9ef2489a90f233b7eb5edcdceba751ada9489b601a5bec12b6ac9270b21ab6a7",
+        "lookupbench": "79440f732b3328e8844d6fe12cd4c60abfe5cd16423ae02a8044f595a887ca9b"
+      }
+    }
+  },
+  "runs": {
+    "library-control": {
+      "node": "v24.14.0",
+      "recordedAt": "2026-11-21T06:03:49.785Z",
+      "callsPerSample": 16,
+      "warmupsPerProcess": 3,
+      "samples": {
+        "baseline": [
+          {
+            "timesMs": [
+              42.1489,
+              44.36589999999998,
+              41.17920000000004,
+              43.169399999999996,
+              41.9966,
+              41.722699999999975,
+              41.58879999999999,
+              42.199299999999994,
+              43.1078
+            ],
+            "peakRssKiB": 53556
+          },
+          {
+            "timesMs": [
+              43.60589999999999,
+              45.1944,
+              41.93679999999995,
+              43.21619999999996,
+              41.14440000000002,
+              41.77199999999999,
+              41.75509999999997,
+              42.989199999999926,
+              41.95320000000004
+            ],
+            "peakRssKiB": 53400
+          },
+          {
+            "timesMs": [
+              43.1096,
+              44.7329,
+              41.30329999999998,
+              41.58440000000002,
+              40.59129999999999,
+              41.229600000000005,
+              42.5412,
+              42.023499999999956,
+              41.3125
+            ],
+            "peakRssKiB": 53376
+          },
+          {
+            "timesMs": [
+              44.6867,
+              43.63549999999998,
+              43.19409999999999,
+              41.54240000000004,
+              42.280700000000024,
+              41.14700000000005,
+              40.49309999999997,
+              40.69109999999995,
+              41.34609999999998
+            ],
+            "peakRssKiB": 53580
+          }
+        ],
+        "candidate": [
+          {
+            "timesMs": [
+              42.864900000000006,
+              43.56879999999998,
+              42.07529999999997,
+              41.22989999999999,
+              42.46109999999999,
+              41.863099999999974,
+              41.64240000000001,
+              42.210699999999974,
+              41.56989999999996
+            ],
+            "peakRssKiB": 53704
+          },
+          {
+            "timesMs": [
+              43.24279999999999,
+              44.40470000000002,
+              41.30720000000002,
+              43.08389999999997,
+              41.65939999999995,
+              43.504099999999994,
+              42.82650000000001,
+              43.199100000000044,
+              41.33420000000001
+            ],
+            "peakRssKiB": 53640
+          },
+          {
+            "timesMs": [
+              44.039199999999994,
+              44.11859999999999,
+              40.95859999999999,
+              41.45920000000001,
+              40.839399999999955,
+              40.35210000000001,
+              42.05160000000001,
+              41.786400000000015,
+              42.358600000000024
+            ],
+            "peakRssKiB": 53692
+          },
+          {
+            "timesMs": [
+              42.83509999999998,
+              44.7996,
+              41.60239999999999,
+              41.85340000000002,
+              41.170000000000016,
+              41.19830000000002,
+              41.884299999999996,
+              43.25060000000002,
+              41.73569999999995
+            ],
+            "peakRssKiB": 53992
+          }
+        ]
+      }
+    },
+    "ids-only": {
+      "node": "v24.14.0",
+      "recordedAt": "2026-11-21T06:05:39.710Z",
+      "callsPerSample": 16,
+      "warmupsPerProcess": 3,
+      "samples": {
+        "baseline": [
+          {
+            "timesMs": [
+              42.7021,
+              44.61180000000002,
+              46.40550000000002,
+              43.64749999999998,
+              45.55500000000001,
+              45.2697,
+              42.149599999999964,
+              42.46260000000001,
+              45.420799999999986
+            ],
+            "peakRssKiB": 53600
+          },
+          {
+            "timesMs": [
+              42.77510000000001,
+              44.08759999999998,
+              44.28530000000001,
+              41.7765,
+              41.03059999999999,
+              42.79450000000003,
+              40.68180000000001,
+              42.81060000000002,
+              41.23630000000003
+            ],
+            "peakRssKiB": 53372
+          },
+          {
+            "timesMs": [
+              41.6917,
+              42.84540000000001,
+              41.34960000000001,
+              43.7287,
+              43.08770000000004,
+              43.30200000000002,
+              43.656600000000026,
+              41.56110000000001,
+              41.820100000000025
+            ],
+            "peakRssKiB": 53848
+          },
+          {
+            "timesMs": [
+              42.83369999999999,
+              43.23210000000003,
+              42.57979999999998,
+              41.97569999999996,
+              41.58409999999998,
+              40.92270000000002,
+              43.2869,
+              43.18180000000007,
+              41.95209999999997
+            ],
+            "peakRssKiB": 53416
+          }
+        ],
+        "candidate": [
+          {
+            "timesMs": [
+              41.2552,
+              42.6635,
+              41.0539,
+              41.866900000000044,
+              41.29050000000001,
+              41.386000000000024,
+              41.615800000000036,
+              42.92270000000002,
+              43.38689999999997
+            ],
+            "peakRssKiB": 53668
+          },
+          {
+            "timesMs": [
+              42.9023,
+              42.38550000000001,
+              42.04899999999998,
+              42.15950000000004,
+              40.827200000000005,
+              41.19569999999999,
+              40.94409999999999,
+              41.05560000000003,
+              41.95760000000001
+            ],
+            "peakRssKiB": 53848
+          },
+          {
+            "timesMs": [
+              41.3819,
+              42.8022,
+              42.90769999999998,
+              42.16500000000002,
+              40.125999999999976,
+              41.71510000000001,
+              41.13390000000004,
+              42.07499999999999,
+              40.46080000000006
+            ],
+            "peakRssKiB": 53576
+          },
+          {
+            "timesMs": [
+              42.62129999999999,
+              43.16470000000001,
+              43.128799999999956,
+              41.24600000000004,
+              41.11719999999997,
+              39.32339999999999,
+              40.30930000000001,
+              43.17660000000001,
+              42.98670000000004
+            ],
+            "peakRssKiB": 53388
+          }
+        ]
+      }
+    },
+    "ids-only-reverse": {
+      "node": "v24.14.0",
+      "recordedAt": "2026-11-21T06:05:44.704Z",
+      "callsPerSample": 16,
+      "warmupsPerProcess": 3,
+      "samples": {
+        "baseline": [
+          {
+            "timesMs": [
+              42.733599999999996,
+              42.15969999999999,
+              42.05869999999999,
+              43.288599999999974,
+              42.087699999999984,
+              40.6121,
+              40.61559999999997,
+              41.681700000000035,
+              42.16599999999994
+            ],
+            "peakRssKiB": 53752
+          },
+          {
+            "timesMs": [
+              41.92779999999999,
+              42.849999999999994,
+              42.600599999999986,
+              42.95749999999998,
+              40.89330000000001,
+              41.7543,
+              41.84280000000001,
+              41.1635,
+              41.572700000000054
+            ],
+            "peakRssKiB": 53384
+          },
+          {
+            "timesMs": [
+              42.74270000000001,
+              42.28350000000003,
+              42.14570000000003,
+              42.408500000000004,
+              41.19999999999999,
+              40.91550000000001,
+              40.073699999999974,
+              41.577999999999975,
+              40.651099999999985
+            ],
+            "peakRssKiB": 53428
+          },
+          {
+            "timesMs": [
+              43.11009999999999,
+              43.15469999999996,
+              42.19620000000003,
+              42.68879999999996,
+              41.95820000000003,
+              42.07929999999999,
+              41.6336,
+              43.66209999999995,
+              42.35630000000003
+            ],
+            "peakRssKiB": 53684
+          }
+        ],
+        "candidate": [
+          {
+            "timesMs": [
+              42.49549999999999,
+              44.361699999999985,
+              43.19060000000002,
+              42.3467,
+              45.46679999999998,
+              42.276700000000005,
+              42.53989999999999,
+              43.15569999999997,
+              42.04059999999993
+            ],
+            "peakRssKiB": 53620
+          },
+          {
+            "timesMs": [
+              44.502700000000004,
+              44.12989999999999,
+              43.15179999999998,
+              43.40319999999997,
+              42.30720000000002,
+              41.94350000000003,
+              43.217100000000016,
+              43.97879999999998,
+              42.2355
+            ],
+            "peakRssKiB": 53220
+          },
+          {
+            "timesMs": [
+              43.1249,
+              43.126799999999974,
+              42.58370000000002,
+              41.2491,
+              41.647500000000036,
+              41.70089999999999,
+              42.288099999999986,
+              41.668099999999924,
+              40.70349999999996
+            ],
+            "peakRssKiB": 53840
+          },
+          {
+            "timesMs": [
+              43.06969999999998,
+              47.87680000000003,
+              44.50059999999996,
+              45.00139999999999,
+              43.03469999999999,
+              43.24059999999997,
+              43.15020000000004,
+              42.25,
+              41.57330000000002
+            ],
+            "peakRssKiB": 53784
+          }
+        ]
+      }
+    },
+    "both": {
+      "node": "v24.14.0",
+      "recordedAt": "2026-11-21T06:05:49.626Z",
+      "callsPerSample": 16,
+      "warmupsPerProcess": 3,
+      "samples": {
+        "baseline": [
+          {
+            "timesMs": [
+              47.35479999999998,
+              58.2619,
+              44.85590000000002,
+              43.69200000000001,
+              43.564700000000016,
+              40.99540000000002,
+              41.97280000000001,
+              41.531799999999976,
+              42.44979999999998
+            ],
+            "peakRssKiB": 53252
+          },
+          {
+            "timesMs": [
+              43.12530000000001,
+              44.90289999999999,
+              41.81900000000002,
+              41.3553,
+              55.99259999999998,
+              45.39710000000002,
+              44.330899999999986,
+              44.886900000000026,
+              44.57389999999998
+            ],
+            "peakRssKiB": 53504
+          },
+          {
+            "timesMs": [
+              42.2405,
+              43.11810000000003,
+              42.14179999999999,
+              42.199100000000044,
+              42.2287,
+              41.094600000000014,
+              42.4314,
+              41.442499999999995,
+              41.80640000000005
+            ],
+            "peakRssKiB": 53772
+          },
+          {
+            "timesMs": [
+              43.00479999999999,
+              43.79590000000002,
+              41.1773,
+              42.370799999999974,
+              42.65590000000003,
+              43.4794,
+              43.34030000000001,
+              45.05400000000003,
+              48.142600000000016
+            ],
+            "peakRssKiB": 53300
+          }
+        ],
+        "candidate": [
+          {
+            "timesMs": [
+              39.5102,
+              40.7551,
+              41.100100000000026,
+              41.61110000000002,
+              43.04020000000003,
+              42.0342,
+              41.579399999999964,
+              40.014700000000005,
+              40.42960000000005
+            ],
+            "peakRssKiB": 53588
+          },
+          {
+            "timesMs": [
+              40.548400000000015,
+              43.142499999999984,
+              41.465,
+              42.29000000000002,
+              40.96049999999997,
+              44.07279999999997,
+              42.49880000000002,
+              39.3433,
+              38.82299999999998
+            ],
+            "peakRssKiB": 53692
+          },
+          {
+            "timesMs": [
+              40.325199999999995,
+              40.38300000000001,
+              39.89590000000001,
+              40.51510000000002,
+              40.02030000000002,
+              41.08479999999997,
+              39.340599999999995,
+              38.845699999999965,
+              39.19549999999998
+            ],
+            "peakRssKiB": 53660
+          },
+          {
+            "timesMs": [
+              39.98150000000001,
+              41.13150000000002,
+              40.03020000000001,
+              41.65340000000003,
+              41.6515,
+              41.19909999999999,
+              40.129099999999994,
+              39.92160000000001,
+              41.19290000000001
+            ],
+            "peakRssKiB": 53504
+          }
+        ]
+      }
+    },
+    "both-reverse": {
+      "node": "v24.14.0",
+      "recordedAt": "2026-11-21T06:05:54.536Z",
+      "callsPerSample": 16,
+      "warmupsPerProcess": 3,
+      "samples": {
+        "baseline": [
+          {
+            "timesMs": [
+              39.8475,
+              39.9727,
+              39.769800000000004,
+              39.753600000000006,
+              39.770399999999995,
+              40.20089999999999,
+              39.46460000000002,
+              39.65680000000003,
+              40.26939999999996
+            ],
+            "peakRssKiB": 53452
+          },
+          {
+            "timesMs": [
+              40.6602,
+              39.7655,
+              39.539499999999975,
+              40.447400000000016,
+              39.669399999999996,
+              40.07389999999998,
+              39.292100000000005,
+              38.23000000000002,
+              39.44799999999992
+            ],
+            "peakRssKiB": 53532
+          },
+          {
+            "timesMs": [
+              40.33959999999999,
+              39.97400000000002,
+              40.18439999999998,
+              40.23260000000005,
+              41.081500000000005,
+              41.44579999999996,
+              40.31419999999997,
+              39.75040000000001,
+              40.88970000000006
+            ],
+            "peakRssKiB": 53436
+          },
+          {
+            "timesMs": [
+              39.61869999999999,
+              40.3065,
+              40.26489999999998,
+              39.67160000000001,
+              39.397699999999986,
+              41.95139999999998,
+              40.806100000000015,
+              39.32260000000002,
+              39.91059999999993
+            ],
+            "peakRssKiB": 53812
+          }
+        ],
+        "candidate": [
+          {
+            "timesMs": [
+              44.28020000000001,
+              46.3751,
+              42.61810000000003,
+              46.019600000000025,
+              43.62579999999997,
+              45.77139999999997,
+              44.95709999999997,
+              43.64619999999991,
+              44.356899999999996
+            ],
+            "peakRssKiB": 53680
+          },
+          {
+            "timesMs": [
+              43.01769999999999,
+              44.7808,
+              41.74740000000003,
+              42.27709999999996,
+              43.07990000000001,
+              41.4255,
+              42.8458,
+              42.13809999999995,
+              46.04179999999997
+            ],
+            "peakRssKiB": 53640
+          },
+          {
+            "timesMs": [
+              43.5052,
+              43.23770000000002,
+              41.19920000000002,
+              42.04049999999995,
+              42.27229999999997,
+              41.959,
+              41.67939999999999,
+              41.651099999999985,
+              41.598299999999995
+            ],
+            "peakRssKiB": 53696
+          },
+          {
+            "timesMs": [
+              44.21629999999999,
+              42.6995,
+              42.384299999999996,
+              42.65690000000001,
+              43.12579999999997,
+              41.67950000000002,
+              42.09019999999998,
+              42.556100000000015,
+              42.03679999999997
+            ],
+            "peakRssKiB": 53704
+          }
+        ]
+      }
+    },
+    "ordinary-control": {
+      "recordedAt": "2026-11-21T06:08:12.141Z",
+      "node": "v24.14.0",
+      "callsPerSample": 500,
+      "construction": false,
+      "profile": false,
+      "profilePoints": false,
+      "processPairs": 3,
+      "warmupsPerProcess": 3,
+      "rows": [
+        {
+          "name": "maintenance",
+          "medianMs": {
+            "baseline": 1.7259000000000029,
+            "candidate": 1.620599999999996
+          },
+          "samples": {
+            "baseline": [
+              [
+                1.4924999999999997,
+                1.7734000000000023,
+                1.7661000000000016,
+                1.6289000000000016,
+                1.7588000000000008,
+                1.7259000000000029,
+                1.5612999999999957,
+                1.382400000000004,
+                1.2239000000000004
+              ],
+              [
+                1.586500000000001,
+                1.7875000000000014,
+                1.825400000000002,
+                1.6692999999999998,
+                1.5418999999999983,
+                2.1463000000000036,
+                1.5257999999999967,
+                1.2604000000000042,
+                1.2134
+              ],
+              [
+                1.5469000000000008,
+                1.735599999999998,
+                1.7946000000000026,
+                2.129800000000003,
+                1.9519999999999982,
+                1.9812000000000012,
+                2.0411,
+                1.8430000000000035,
+                1.4562000000000026
+              ]
+            ],
+            "candidate": [
+              [
+                1.5638000000000005,
+                1.7379000000000033,
+                1.714500000000001,
+                1.7026000000000039,
+                1.7158000000000015,
+                2.1828999999999965,
+                1.5264000000000024,
+                1.5657999999999959,
+                1.480400000000003
+              ],
+              [
+                1.529200000000003,
+                1.5772000000000048,
+                1.9326000000000008,
+                1.5829000000000022,
+                1.741100000000003,
+                1.5495000000000019,
+                1.716699999999996,
+                2.008099999999999,
+                1.5649999999999977
+              ],
+              [
+                1.5509999999999948,
+                1.8530999999999977,
+                1.6229000000000013,
+                1.7822000000000031,
+                1.620599999999996,
+                1.6521000000000043,
+                1.3669000000000011,
+                1.3352000000000004,
+                1.3264999999999958
+              ]
+            ]
+          },
+          "work": "280500",
+          "checksum": "3000"
+        },
+        {
+          "name": "independent",
+          "medianMs": {
+            "baseline": 5.395499999999998,
+            "candidate": 5.73060000000001
+          },
+          "samples": {
+            "baseline": [
+              [
+                5.336799999999997,
+                5.7042,
+                7.221599999999995,
+                5.556200000000004,
+                5.163899999999998,
+                5.1218000000000075,
+                5.453800000000001,
+                5.991599999999991,
+                5.191900000000004
+              ],
+              [
+                6.298399999999994,
+                6.455799999999996,
+                5.385300000000001,
+                5.694999999999993,
+                5.526700000000005,
+                5.096299999999999,
+                4.966399999999993,
+                4.839500000000001,
+                5.769199999999998
+              ],
+              [
+                5.407400000000003,
+                7.049699999999994,
+                6.185299999999998,
+                5.395499999999998,
+                4.980000000000004,
+                4.5748999999999995,
+                4.5886,
+                4.972499999999997,
+                4.598100000000002
+              ]
+            ],
+            "candidate": [
+              [
+                5.4824000000000055,
+                6.425699999999999,
+                6.012299999999996,
+                5.73060000000001,
+                5.212400000000002,
+                5.273600000000002,
+                5.685599999999994,
+                5.382300000000001,
+                5.1434
+              ],
+              [
+                7.987999999999992,
+                9.732100000000003,
+                8.878600000000006,
+                6.928399999999996,
+                5.957499999999996,
+                6.85860000000001,
+                7.310500000000005,
+                7.854299999999995,
+                6.916399999999996
+              ],
+              [
+                7.144899999999993,
+                5.888199999999998,
+                5.265499999999989,
+                5.0430999999999955,
+                4.387299999999996,
+                4.665700000000001,
+                4.666199999999989,
+                4.590399999999988,
+                4.691800000000001
+              ]
+            ]
+          },
+          "work": "61273500",
+          "checksum": "500"
+        },
+        {
+          "name": "distinct-resources",
+          "medianMs": {
+            "baseline": 5.567800000000005,
+            "candidate": 5.560000000000002
+          },
+          "samples": {
+            "baseline": [
+              [
+                6.454999999999998,
+                6.306700000000006,
+                5.317799999999991,
+                6.0367999999999995,
+                5.165400000000005,
+                5.17179999999999,
+                4.9465,
+                6.466099999999997,
+                5.515499999999989
+              ],
+              [
+                5.649899999999995,
+                6.638699999999993,
+                5.692300000000003,
+                5.661299999999997,
+                5.808199999999999,
+                5.2029,
+                5.567800000000005,
+                5.380200000000002,
+                5.201999999999998
+              ],
+              [
+                7.330600000000004,
+                6.892600000000002,
+                6.276700000000005,
+                5.371300000000005,
+                5.754499999999993,
+                5.110799999999998,
+                5.143600000000006,
+                5.391000000000005,
+                5.207300000000004
+              ]
+            ],
+            "candidate": [
+              [
+                6.659099999999995,
+                6.626299999999993,
+                5.506500000000003,
+                5.1706999999999965,
+                4.880400000000009,
+                6.620199999999997,
+                6.711600000000004,
+                5.901600000000002,
+                5.29849999999999
+              ],
+              [
+                6.151500000000006,
+                6.439399999999992,
+                6.241900000000001,
+                5.527000000000001,
+                5.0634000000000015,
+                5.1998999999999995,
+                5.771699999999996,
+                5.2654,
+                5.560000000000002
+              ],
+              [
+                5.856000000000002,
+                6.5423000000000044,
+                6.209599999999995,
+                5.92349999999999,
+                5.348699999999994,
+                5.050200000000004,
+                5.1928999999999945,
+                4.908600000000007,
+                4.874499999999998
+              ]
+            ]
+          },
+          "work": "61273500",
+          "checksum": "500"
+        },
+        {
+          "name": "first-pair",
+          "medianMs": {
+            "baseline": 6.2283999999999935,
+            "candidate": 6.217699999999994
+          },
+          "samples": {
+            "baseline": [
+              [
+                7.3452000000000055,
+                6.482900000000001,
+                6.043999999999997,
+                7.126400000000004,
+                5.989599999999996,
+                6.023299999999992,
+                6.093900000000005,
+                6.146100000000004,
+                6.160700000000006
+              ],
+              [
+                7.326099999999997,
+                6.462199999999996,
+                5.87939999999999,
+                6.508899999999997,
+                6.2283999999999935,
+                6.227500000000006,
+                5.910499999999999,
+                5.794399999999996,
+                6.8797
+              ],
+              [
+                7.391100000000002,
+                6.2694000000000045,
+                6.546999999999997,
+                6.4565000000000055,
+                5.746299999999991,
+                7.292600000000007,
+                6.0534000000000106,
+                6.0186999999999955,
+                6.421800000000005
+              ]
+            ],
+            "candidate": [
+              [
+                7.270800000000001,
+                6.383099999999999,
+                6.043700000000001,
+                6.374500000000012,
+                6.7368999999999915,
+                6.05019999999999,
+                6.217699999999994,
+                5.96990000000001,
+                6.368099999999998
+              ],
+              [
+                7.046299999999988,
+                6.253799999999998,
+                6.192300000000003,
+                6.814300000000003,
+                5.928300000000007,
+                5.984099999999998,
+                5.886700000000005,
+                6.043599999999998,
+                6.158200000000008
+              ],
+              [
+                7.295400000000001,
+                6.416799999999995,
+                7.722399999999993,
+                6.802599999999998,
+                6.102099999999993,
+                5.978200000000001,
+                6.513799999999989,
+                5.835099999999997,
+                6.1447
+              ]
+            ]
+          },
+          "work": "122572000",
+          "checksum": "1500"
+        },
+        {
+          "name": "last-pair",
+          "medianMs": {
+            "baseline": 6.7583000000000055,
+            "candidate": 7.1678
+          },
+          "samples": {
+            "baseline": [
+              [
+                8.137799999999999,
+                6.7583000000000055,
+                7.0855999999999995,
+                6.599900000000005,
+                7.465499999999992,
+                6.597200000000001,
+                6.980700000000013,
+                6.593699999999998,
+                6.439300000000017
+              ],
+              [
+                7.5227,
+                7.209199999999996,
+                6.748500000000007,
+                6.733400000000003,
+                6.2642999999999915,
+                6.51039999999999,
+                6.89439999999999,
+                6.2660999999999945,
+                6.778100000000009
+              ],
+              [
+                8.107600000000005,
+                6.415500000000009,
+                7.020699999999991,
+                6.539999999999992,
+                6.848099999999988,
+                6.680599999999998,
+                6.4572,
+                6.98769999999999,
+                7.137800000000013
+              ]
+            ],
+            "candidate": [
+              [
+                9.221899999999998,
+                7.379199999999997,
+                7.259600000000006,
+                6.908499999999989,
+                7.5779,
+                8.28779999999999,
+                7.472399999999993,
+                6.747900000000001,
+                7.1678
+              ],
+              [
+                8.331900000000005,
+                7.399300000000011,
+                7.243700000000004,
+                6.885800000000003,
+                6.29010000000001,
+                7.497100000000003,
+                7.348299999999995,
+                6.438100000000006,
+                6.517400000000009
+              ],
+              [
+                7.864699999999999,
+                7.027500000000003,
+                7.134399999999999,
+                6.580200000000005,
+                7.109200000000001,
+                6.7697,
+                6.468699999999998,
+                6.679600000000008,
+                8.050799999999995
+              ]
+            ]
+          },
+          "work": "122572000",
+          "checksum": "2000"
+        },
+        {
+          "name": "four-resources",
+          "medianMs": {
+            "baseline": 44.36510000000004,
+            "candidate": 45.1352
+          },
+          "samples": {
+            "baseline": [
+              [
+                44.168499999999995,
+                43.891400000000004,
+                43.819500000000005,
+                45.08319999999998,
+                44.42660000000001,
+                43.509900000000016,
+                43.56809999999996,
+                47.315600000000074,
+                43.770399999999995
+              ],
+              [
+                44.79230000000001,
+                43.4349,
+                43.9803,
+                44.36510000000004,
+                45.95190000000002,
+                45.952,
+                46.20150000000001,
+                45.11400000000003,
+                43.756000000000085
+              ],
+              [
+                44.03820000000002,
+                43.8749,
+                43.997600000000034,
+                45.33620000000002,
+                43.68580000000003,
+                46.31389999999999,
+                45.31149999999997,
+                47.410499999999956,
+                44.3895
+              ]
+            ],
+            "candidate": [
+              [
+                46.78709999999998,
+                46.607999999999976,
+                44.74209999999999,
+                45.42349999999999,
+                45.58660000000003,
+                45.5009,
+                45.79269999999997,
+                45.03819999999996,
+                44.70990000000006
+              ],
+              [
+                48.9966,
+                47.406600000000026,
+                47.54559999999998,
+                44.99200000000002,
+                44.44259999999997,
+                45.1352,
+                43.5025,
+                44.44309999999996,
+                45.50070000000005
+              ],
+              [
+                45.48840000000001,
+                45.43639999999999,
+                45.43560000000002,
+                44.51840000000004,
+                43.57139999999998,
+                43.53620000000001,
+                43.13009999999997,
+                44.53230000000002,
+                44.44320000000005
+              ]
+            ]
+          },
+          "work": "1291993500",
+          "checksum": "5500"
+        },
+        {
+          "name": "one-resource",
+          "medianMs": {
+            "baseline": 95.72860000000003,
+            "candidate": 94.08169999999996
+          },
+          "samples": {
+            "baseline": [
+              [
+                98.13120000000004,
+                95.22490000000005,
+                93.75109999999995,
+                99.60169999999994,
+                102.25259999999992,
+                101.65499999999997,
+                100.58810000000005,
+                93.62890000000016,
+                94.90419999999995
+              ],
+              [
+                106.0797,
+                103.44230000000005,
+                98.12630000000001,
+                97.68299999999999,
+                96.36630000000002,
+                94.31479999999999,
+                96.5824,
+                95.45980000000009,
+                94.14010000000007
+              ],
+              [
+                94.2681,
+                92.06830000000002,
+                93.55149999999992,
+                95.94560000000001,
+                100.46729999999991,
+                95.72860000000003,
+                95.53610000000003,
+                94.64499999999998,
+                95.24329999999986
+              ]
+            ],
+            "candidate": [
+              [
+                93.71799999999996,
+                95.87140000000005,
+                93.9679000000001,
+                94.72559999999999,
+                95.11379999999997,
+                93.39049999999997,
+                93.6585,
+                93.20969999999988,
+                94.08169999999996
+              ],
+              [
+                92.59440000000001,
+                96.69209999999998,
+                100.78470000000004,
+                97.51390000000004,
+                98.80410000000006,
+                96.9249000000001,
+                96.48519999999996,
+                99.87170000000003,
+                104.12339999999995
+              ],
+              [
+                92.22989999999999,
+                93.44599999999997,
+                92.53009999999995,
+                93.37310000000002,
+                95.03840000000002,
+                93.09030000000007,
+                93.899,
+                92.89729999999997,
+                96.11119999999983
+              ]
+            ]
+          },
+          "work": "1477464000",
+          "checksum": "23500"
+        },
+        {
+          "name": "max-root",
+          "medianMs": {
+            "baseline": 9.607399999999998,
+            "candidate": 9.993700000000018
+          },
+          "samples": {
+            "baseline": [
+              [
+                10.628199999999993,
+                9.094999999999999,
+                9.815799999999996,
+                9.607399999999998,
+                9.416799999999995,
+                9.05510000000001,
+                8.843199999999996,
+                9.23259999999999,
+                9.052099999999996
+              ],
+              [
+                10.486699999999999,
+                9.249500000000012,
+                10.888300000000001,
+                10.360699999999994,
+                9.920000000000002,
+                8.918300000000002,
+                9.544900000000013,
+                9.00030000000001,
+                9.328900000000004
+              ],
+              [
+                10.238500000000002,
+                9.708600000000004,
+                10.8429,
+                10.242599999999996,
+                10.560300000000012,
+                9.450800000000001,
+                9.643200000000007,
+                9.798200000000008,
+                9.382499999999993
+              ]
+            ],
+            "candidate": [
+              [
+                11.412700000000001,
+                9.678600000000003,
+                9.530100000000004,
+                10.134199999999993,
+                9.912300000000002,
+                9.82780000000001,
+                10.234099999999998,
+                9.428200000000004,
+                9.66749999999999
+              ],
+              [
+                12.483699999999999,
+                10.279200000000003,
+                9.289199999999994,
+                9.904800000000009,
+                10.011200000000002,
+                10.093199999999996,
+                10.057700000000011,
+                9.321799999999996,
+                10.167399999999986
+              ],
+              [
+                10.787300000000002,
+                9.208399999999997,
+                10.766199999999998,
+                10.468599999999995,
+                10.0364,
+                8.808899999999994,
+                9.597100000000012,
+                8.72969999999998,
+                9.993700000000018
+              ]
+            ]
+          },
+          "work": "64473500",
+          "checksum": "500"
+        },
+        {
+          "name": "max-model",
+          "medianMs": {
+            "baseline": 168.46260000000007,
+            "candidate": 166.50340000000006
+          },
+          "samples": {
+            "baseline": [
+              [
+                167.6486,
+                170.23329999999999,
+                171.6155000000001,
+                168.06140000000005,
+                163.41650000000004,
+                165.29739999999993,
+                172.64879999999994,
+                175.71169999999984,
+                166.49469999999974
+              ],
+              [
+                176.03999999999996,
+                173.28110000000004,
+                178.65689999999995,
+                173.07830000000013,
+                165.6742999999999,
+                166.2917,
+                168.46260000000007,
+                170.1026999999999,
+                165.94630000000006
+              ],
+              [
+                167.65570000000002,
+                165.04219999999998,
+                172.3351,
+                172.8778000000002,
+                167.8034,
+                164.7636,
+                165.78060000000005,
+                178.80009999999993,
+                181.00510000000008
+              ]
+            ],
+            "candidate": [
+              [
+                168.77480000000003,
+                165.89020000000005,
+                164.52699999999993,
+                165.99879999999985,
+                166.57179999999994,
+                165.49500000000012,
+                166.50340000000006,
+                166.84429999999998,
+                167.11969999999997
+              ],
+              [
+                169.1099999999999,
+                164.3352,
+                165.89819999999986,
+                165.45969999999988,
+                164.66470000000004,
+                165.60099999999989,
+                168.70749999999998,
+                164.9677999999999,
+                163.5992000000001
+              ],
+              [
+                174.14620000000002,
+                196.1105,
+                167.9053,
+                166.83140000000003,
+                170.00109999999995,
+                184.2719000000002,
+                169.93180000000007,
+                164.74789999999985,
+                164.72519999999986
+              ]
+            ]
+          },
+          "work": "1554264000",
+          "checksum": "23500"
+        }
+      ]
+    },
+    "ordinary": {
+      "recordedAt": "2026-11-21T06:08:41.290Z",
+      "node": "v24.14.0",
+      "callsPerSample": 500,
+      "construction": false,
+      "profile": false,
+      "profilePoints": false,
+      "processPairs": 3,
+      "warmupsPerProcess": 3,
+      "rows": [
+        {
+          "name": "maintenance",
+          "medianMs": {
+            "baseline": 1.643099999999997,
+            "candidate": 1.4881000000000029
+          },
+          "samples": {
+            "baseline": [
+              [
+                1.5645999999999987,
+                1.7453000000000003,
+                1.8804000000000016,
+                1.8186000000000035,
+                1.9046999999999983,
+                1.7652,
+                1.3843999999999994,
+                1.5031999999999996,
+                1.459299999999999
+              ],
+              [
+                1.6401000000000039,
+                1.8025999999999982,
+                1.8581999999999965,
+                1.677899999999994,
+                1.812899999999999,
+                1.494100000000003,
+                1.3483000000000018,
+                1.3215000000000003,
+                1.2670999999999992
+              ],
+              [
+                1.4602000000000004,
+                1.676400000000001,
+                1.680500000000002,
+                1.9821000000000026,
+                1.7685999999999993,
+                1.643099999999997,
+                1.394599999999997,
+                1.4583000000000013,
+                1.3041999999999945
+              ]
+            ],
+            "candidate": [
+              [
+                1.466700000000003,
+                1.497799999999998,
+                1.4560999999999993,
+                1.4039000000000001,
+                1.2246999999999986,
+                1.3849000000000018,
+                1.4683000000000064,
+                1.6263999999999967,
+                1.6807999999999979
+              ],
+              [
+                1.6188000000000002,
+                1.4675000000000011,
+                1.8789000000000016,
+                1.5728000000000009,
+                1.259600000000006,
+                1.701500000000003,
+                1.4772999999999996,
+                1.5671000000000035,
+                1.3135000000000048
+              ],
+              [
+                2.1632999999999996,
+                1.4893999999999963,
+                1.4624000000000024,
+                1.5165999999999968,
+                1.4881000000000029,
+                1.5763999999999996,
+                1.2651000000000039,
+                1.5820000000000007,
+                1.382000000000005
+              ]
+            ]
+          },
+          "work": "280500",
+          "checksum": "3000"
+        },
+        {
+          "name": "independent",
+          "medianMs": {
+            "baseline": 5.256500000000003,
+            "candidate": 5.295000000000002
+          },
+          "samples": {
+            "baseline": [
+              [
+                5.4985,
+                5.944999999999993,
+                4.851799999999997,
+                5.583400000000012,
+                4.963699999999989,
+                4.663700000000006,
+                4.955999999999989,
+                5.562300000000008,
+                5.101399999999998
+              ],
+              [
+                5.6688000000000045,
+                5.6074000000000055,
+                6.097999999999999,
+                5.519499999999994,
+                5.041599999999988,
+                5.1969999999999885,
+                6.70389999999999,
+                5.377099999999999,
+                5.407900000000012
+              ],
+              [
+                5.256500000000003,
+                5.432200000000002,
+                6.307199999999995,
+                5.255600000000001,
+                4.718599999999995,
+                5.169799999999995,
+                4.679299999999998,
+                4.408500000000004,
+                4.716799999999992
+              ]
+            ],
+            "candidate": [
+              [
+                7.0931,
+                5.857599999999998,
+                5.495699999999999,
+                5.378799999999998,
+                5.452700000000007,
+                5.286299999999997,
+                5.1751000000000005,
+                5.25869999999999,
+                5.295000000000002
+              ],
+              [
+                7.316499999999998,
+                6.015999999999991,
+                5.349000000000004,
+                4.868600000000001,
+                5.251199999999997,
+                5.671499999999995,
+                5.132000000000005,
+                4.503900000000002,
+                5.020099999999999
+              ],
+              [
+                5.631799999999998,
+                5.9313,
+                5.312100000000001,
+                5.415400000000005,
+                4.494099999999989,
+                4.6678,
+                4.631800000000013,
+                4.516100000000009,
+                4.3887
+              ]
+            ]
+          },
+          "work": "61273500",
+          "checksum": "500"
+        },
+        {
+          "name": "distinct-resources",
+          "medianMs": {
+            "baseline": 5.428300000000007,
+            "candidate": 5.309899999999999
+          },
+          "samples": {
+            "baseline": [
+              [
+                6.3446,
+                6.640999999999998,
+                6.14439999999999,
+                4.9358,
+                4.863100000000003,
+                4.732600000000005,
+                5.921800000000005,
+                5.540800000000004,
+                4.668400000000005
+              ],
+              [
+                5.838999999999999,
+                6.1322000000000045,
+                5.4472999999999985,
+                7.177800000000005,
+                5.623599999999996,
+                5.04740000000001,
+                5.310000000000002,
+                4.833299999999994,
+                6.177400000000006
+              ],
+              [
+                6.270700000000005,
+                6.4151000000000025,
+                5.313399999999987,
+                5.428300000000007,
+                5.089100000000002,
+                4.944699999999997,
+                4.881199999999993,
+                4.721599999999995,
+                5.2472000000000065
+              ]
+            ],
+            "candidate": [
+              [
+                6.009700000000002,
+                7.151899999999991,
+                5.3940000000000055,
+                5.052599999999998,
+                5.1799000000000035,
+                5.172699999999992,
+                4.8910999999999945,
+                5.886499999999998,
+                5.152600000000007
+              ],
+              [
+                6.058199999999999,
+                6.247900000000001,
+                5.554200000000009,
+                5.309899999999999,
+                4.953500000000005,
+                6.0416000000000025,
+                5.5275999999999925,
+                5.393600000000006,
+                5.2764000000000095
+              ],
+              [
+                5.917099999999998,
+                6.412100000000002,
+                5.3027000000000015,
+                5.516400000000004,
+                4.7801000000000045,
+                4.987499999999997,
+                5.231999999999999,
+                4.957800000000006,
+                4.959900000000005
+              ]
+            ]
+          },
+          "work": "61273500",
+          "checksum": "500"
+        },
+        {
+          "name": "first-pair",
+          "medianMs": {
+            "baseline": 6.253200000000007,
+            "candidate": 5.976099999999988
+          },
+          "samples": {
+            "baseline": [
+              [
+                7.283500000000004,
+                6.098600000000005,
+                6.292699999999996,
+                6.253200000000007,
+                5.816500000000005,
+                6.1396000000000015,
+                5.93310000000001,
+                6.076100000000011,
+                6.031099999999995
+              ],
+              [
+                7.4676000000000045,
+                6.384199999999993,
+                6.297399999999996,
+                6.100099999999998,
+                6.063200000000009,
+                7.335099999999997,
+                6.314300000000003,
+                5.713099999999997,
+                6.277200000000008
+              ],
+              [
+                7.184500000000007,
+                6.423000000000002,
+                5.998199999999997,
+                6.336200000000005,
+                5.778099999999995,
+                6.6170999999999935,
+                5.823899999999995,
+                5.988500000000002,
+                6.359999999999999
+              ]
+            ],
+            "candidate": [
+              [
+                7.764400000000009,
+                7.194299999999998,
+                6.377600000000001,
+                6.328099999999992,
+                5.796800000000005,
+                5.717399999999998,
+                6.741200000000006,
+                6.242599999999996,
+                5.794799999999995
+              ],
+              [
+                7.507800000000003,
+                5.953299999999999,
+                5.757999999999996,
+                6.462199999999996,
+                5.976099999999988,
+                5.747,
+                5.744100000000003,
+                5.665300000000002,
+                5.88730000000001
+              ],
+              [
+                7.845199999999998,
+                5.985799999999998,
+                6.020099999999999,
+                5.9716999999999985,
+                6.67179999999999,
+                6.2577,
+                5.947400000000002,
+                5.896000000000001,
+                5.574600000000004
+              ]
+            ]
+          },
+          "work": "122572000",
+          "checksum": "1500"
+        },
+        {
+          "name": "last-pair",
+          "medianMs": {
+            "baseline": 6.606000000000009,
+            "candidate": 6.451400000000007
+          },
+          "samples": {
+            "baseline": [
+              [
+                7.250900000000009,
+                6.316500000000005,
+                6.434600000000003,
+                6.606000000000009,
+                7.251500000000007,
+                6.866500000000002,
+                6.48190000000001,
+                6.1019000000000005,
+                6.884900000000002
+              ],
+              [
+                7.5356999999999985,
+                6.422700000000006,
+                6.497700000000009,
+                7.003700000000009,
+                6.744800000000012,
+                6.849900000000005,
+                6.222399999999993,
+                6.492899999999992,
+                6.159400000000005
+              ],
+              [
+                7.223499999999994,
+                7.684200000000004,
+                7.241100000000003,
+                6.722300000000004,
+                6.3847999999999985,
+                6.569600000000008,
+                6.486599999999996,
+                6.408600000000007,
+                6.993200000000002
+              ]
+            ],
+            "candidate": [
+              [
+                7.831499999999998,
+                6.451400000000007,
+                6.587500000000006,
+                6.194900000000004,
+                6.270099999999999,
+                6.210899999999995,
+                6.347200000000001,
+                6.0886,
+                6.247900000000001
+              ],
+              [
+                7.293600000000005,
+                6.652100000000004,
+                6.420000000000002,
+                6.211099999999988,
+                6.9517999999999915,
+                6.832000000000008,
+                6.4728000000000065,
+                6.152299999999997,
+                6.311099999999996
+              ],
+              [
+                7.613599999999998,
+                6.668599999999998,
+                6.4986999999999995,
+                6.649000000000001,
+                6.602100000000007,
+                6.3887,
+                6.314599999999999,
+                6.933099999999996,
+                6.322599999999994
+              ]
+            ]
+          },
+          "work": "122572000",
+          "checksum": "2000"
+        },
+        {
+          "name": "four-resources",
+          "medianMs": {
+            "baseline": 44.07209999999998,
+            "candidate": 41.94839999999999
+          },
+          "samples": {
+            "baseline": [
+              [
+                46.1807,
+                46.474500000000006,
+                45.198500000000024,
+                43.61489999999998,
+                44.1601,
+                42.90980000000002,
+                44.35200000000003,
+                44.07209999999998,
+                43.70749999999998
+              ],
+              [
+                42.9922,
+                44.63899999999998,
+                44.747600000000034,
+                42.9126,
+                42.38589999999999,
+                44.31189999999998,
+                42.6737,
+                43.64109999999994,
+                43.9769
+              ],
+              [
+                45.079200000000014,
+                45.613200000000006,
+                46.760400000000004,
+                48.351800000000026,
+                46.29720000000003,
+                43.845500000000015,
+                43.00029999999998,
+                44.05539999999996,
+                44.00260000000003
+              ]
+            ],
+            "candidate": [
+              [
+                42.493600000000015,
+                42.27619999999999,
+                41.00540000000001,
+                41.94839999999999,
+                41.31009999999998,
+                41.01099999999997,
+                41.086400000000026,
+                42.639299999999935,
+                43.398000000000025
+              ],
+              [
+                42.04939999999999,
+                43.003799999999984,
+                40.863200000000006,
+                41.8571,
+                42.615899999999954,
+                41.105699999999956,
+                41.51369999999997,
+                41.712800000000016,
+                43.880199999999945
+              ],
+              [
+                41.906799999999976,
+                42.50570000000002,
+                42.05790000000002,
+                41.551999999999964,
+                42.75479999999999,
+                41.60789999999997,
+                40.93670000000003,
+                42.62900000000002,
+                43.449100000000044
+              ]
+            ]
+          },
+          "work": "1291993500",
+          "checksum": "5500"
+        },
+        {
+          "name": "one-resource",
+          "medianMs": {
+            "baseline": 93.7947999999999,
+            "candidate": 91.45349999999996
+          },
+          "samples": {
+            "baseline": [
+              [
+                94.46070000000003,
+                92.73849999999999,
+                93.8275000000001,
+                97.08579999999995,
+                100.93040000000008,
+                98.88469999999995,
+                100.67810000000009,
+                96.68650000000002,
+                94.58439999999996
+              ],
+              [
+                91.19229999999999,
+                93.17440000000005,
+                91.26139999999992,
+                96.0347999999999,
+                93.14550000000008,
+                91.48430000000008,
+                92.25720000000001,
+                91.87020000000007,
+                92.35259999999994
+              ],
+              [
+                93.899,
+                92.15450000000004,
+                91.71710000000007,
+                94.86849999999993,
+                97.32690000000002,
+                92.62519999999995,
+                94.76330000000007,
+                93.3469,
+                93.7947999999999
+              ]
+            ],
+            "candidate": [
+              [
+                96.3184,
+                91.81630000000001,
+                92.06420000000003,
+                93.05039999999997,
+                91.41120000000001,
+                93.85609999999997,
+                87.95210000000009,
+                91.43409999999994,
+                88.3934999999999
+              ],
+              [
+                92.83590000000004,
+                91.29649999999998,
+                91.94350000000003,
+                92.49950000000001,
+                93.31470000000002,
+                95.51190000000008,
+                91.76969999999994,
+                89.00080000000003,
+                90.76530000000002
+              ],
+              [
+                89.24060000000003,
+                91.6619,
+                91.45349999999996,
+                92.11770000000001,
+                90.96800000000007,
+                90.90340000000003,
+                88.89660000000003,
+                89.8931,
+                90.16339999999991
+              ]
+            ]
+          },
+          "work": "1477464000",
+          "checksum": "23500"
+        },
+        {
+          "name": "max-root",
+          "medianMs": {
+            "baseline": 9.3904,
+            "candidate": 9.576800000000006
+          },
+          "samples": {
+            "baseline": [
+              [
+                10.167299999999997,
+                9.06750000000001,
+                8.851600000000005,
+                9.610699999999994,
+                9.423899999999989,
+                8.508700000000005,
+                8.718199999999996,
+                8.775800000000004,
+                8.840899999999976
+              ],
+              [
+                10.406800000000004,
+                9.514700000000005,
+                9.342699999999994,
+                9.445599999999999,
+                9.508099999999999,
+                8.861699999999999,
+                9.139800000000008,
+                8.608399999999989,
+                9.196200000000005
+              ],
+              [
+                9.768599999999992,
+                9.805700000000002,
+                9.6674,
+                9.3904,
+                10.5749,
+                9.456299999999999,
+                8.901499999999999,
+                8.851600000000019,
+                10.263000000000005
+              ]
+            ],
+            "candidate": [
+              [
+                10.512199999999993,
+                9.883700000000005,
+                10.528300000000002,
+                9.915400000000005,
+                9.770600000000002,
+                9.685600000000008,
+                9.734899999999996,
+                9.349500000000006,
+                9.791899999999998
+              ],
+              [
+                10.635200000000012,
+                9.437699999999992,
+                9.129199999999997,
+                9.1601,
+                9.5141,
+                9.231399999999994,
+                9.302599999999998,
+                9.918499999999995,
+                9.456299999999999
+              ],
+              [
+                10.262599999999992,
+                9.6143,
+                9.55380000000001,
+                9.576800000000006,
+                9.018499999999989,
+                9.3793,
+                8.766899999999993,
+                9.87469999999999,
+                9.493099999999998
+              ]
+            ]
+          },
+          "work": "64473500",
+          "checksum": "500"
+        },
+        {
+          "name": "max-model",
+          "medianMs": {
+            "baseline": 168.65229999999997,
+            "candidate": 161.08619999999996
+          },
+          "samples": {
+            "baseline": [
+              [
+                169.3506,
+                171.17099999999994,
+                170.69449999999995,
+                169.71409999999992,
+                168.65229999999997,
+                168.68589999999995,
+                171.14700000000016,
+                169.0329999999999,
+                165.33740000000012
+              ],
+              [
+                169.11580000000004,
+                165.36829999999998,
+                169.5756,
+                167.88459999999986,
+                165.51160000000004,
+                167.90710000000013,
+                164.44309999999996,
+                181.35649999999987,
+                169.1808000000001
+              ],
+              [
+                170.06320000000005,
+                167.89460000000008,
+                166.00259999999992,
+                166.57359999999994,
+                164.7931000000001,
+                165.50080000000003,
+                165.35169999999994,
+                169.84210000000007,
+                164.56929999999988
+              ]
+            ],
+            "candidate": [
+              [
+                180.35270000000003,
+                165.72750000000008,
+                164.23070000000007,
+                168.3773000000001,
+                170.49609999999984,
+                164.26580000000013,
+                161.08619999999996,
+                159.67079999999987,
+                159.28559999999993
+              ],
+              [
+                159.73149999999998,
+                157.13029999999992,
+                160.23810000000003,
+                158.53819999999996,
+                157.7908,
+                159.3662999999999,
+                158.6715999999999,
+                159.25750000000016,
+                158.27880000000005
+              ],
+              [
+                170.68880000000001,
+                183.58619999999996,
+                158.4656,
+                167.4457,
+                161.84940000000006,
+                166.36930000000007,
+                161.62030000000004,
+                166.37300000000005,
+                160.3411000000001
+              ]
+            ]
+          },
+          "work": "1554264000",
+          "checksum": "23500"
+        }
+      ]
+    },
+    "ordinary-reverse": {
+      "recordedAt": "2026-11-21T06:09:10.566Z",
+      "node": "v24.14.0",
+      "callsPerSample": 500,
+      "construction": false,
+      "profile": false,
+      "profilePoints": false,
+      "processPairs": 3,
+      "warmupsPerProcess": 3,
+      "rows": [
+        {
+          "name": "maintenance",
+          "medianMs": {
+            "baseline": 1.5697999999999936,
+            "candidate": 1.606100000000005
+          },
+          "samples": {
+            "baseline": [
+              [
+                1.5373000000000019,
+                1.5215999999999994,
+                1.6112000000000037,
+                1.5048999999999992,
+                1.3427999999999969,
+                1.3811999999999998,
+                1.4613000000000014,
+                1.5608999999999966,
+                1.296199999999999
+              ],
+              [
+                1.5005999999999986,
+                1.5442999999999998,
+                1.3999999999999986,
+                1.7800999999999974,
+                1.3647999999999954,
+                1.6479,
+                1.8070999999999984,
+                1.7672000000000025,
+                1.572899999999997
+              ],
+              [
+                2.224500000000006,
+                1.8474000000000004,
+                1.682700000000004,
+                1.6602999999999994,
+                1.6385000000000005,
+                2.3581000000000003,
+                1.5697999999999936,
+                1.6614999999999966,
+                1.4251999999999967
+              ]
+            ],
+            "candidate": [
+              [
+                1.4547000000000025,
+                1.6759999999999948,
+                1.606100000000005,
+                1.7713000000000036,
+                1.6368999999999971,
+                1.5592000000000041,
+                1.312899999999999,
+                1.4315000000000069,
+                1.3790000000000049
+              ],
+              [
+                1.5790000000000006,
+                1.6524999999999963,
+                1.7636000000000038,
+                1.6285000000000025,
+                1.7561000000000035,
+                1.6384999999999934,
+                1.4454999999999956,
+                1.5242999999999967,
+                1.494100000000003
+              ],
+              [
+                1.8948999999999998,
+                1.818099999999994,
+                1.6993999999999971,
+                2.003999999999998,
+                2.085799999999999,
+                1.5515000000000043,
+                1.4206999999999965,
+                1.5109999999999957,
+                1.4753000000000043
+              ]
+            ]
+          },
+          "work": "280500",
+          "checksum": "3000"
+        },
+        {
+          "name": "independent",
+          "medianMs": {
+            "baseline": 5.229200000000006,
+            "candidate": 5.045500000000004
+          },
+          "samples": {
+            "baseline": [
+              [
+                5.431199999999997,
+                5.93,
+                5.229200000000006,
+                5.124299999999991,
+                4.868800000000007,
+                4.5944999999999965,
+                4.591800000000006,
+                4.510799999999989,
+                6.745500000000007
+              ],
+              [
+                6.390299999999996,
+                6.5608,
+                6.741,
+                4.870699999999999,
+                4.819000000000003,
+                5.008600000000001,
+                5.3267999999999915,
+                5.471400000000003,
+                5.452399999999997
+              ],
+              [
+                5.412599999999998,
+                7.889199999999995,
+                6.271300000000011,
+                5.012500000000003,
+                4.631700000000009,
+                4.417099999999991,
+                5.579999999999998,
+                4.612099999999998,
+                4.395099999999999
+              ]
+            ],
+            "candidate": [
+              [
+                7.0047,
+                5.635700000000007,
+                5.266599999999997,
+                4.776300000000006,
+                4.645299999999992,
+                4.901700000000005,
+                4.743499999999997,
+                5.9055000000000035,
+                5.490799999999993
+              ],
+              [
+                7.258200000000002,
+                7.083100000000002,
+                5.868500000000012,
+                5.145400000000009,
+                4.933599999999998,
+                5.156000000000006,
+                4.874300000000005,
+                4.692400000000006,
+                4.921999999999997
+              ],
+              [
+                5.666499999999999,
+                5.647900000000007,
+                5.353300000000004,
+                4.616900000000001,
+                4.614400000000003,
+                5.045500000000004,
+                4.5456999999999965,
+                4.656899999999993,
+                4.954900000000009
+              ]
+            ]
+          },
+          "work": "61273500",
+          "checksum": "500"
+        },
+        {
+          "name": "distinct-resources",
+          "medianMs": {
+            "baseline": 5.477100000000007,
+            "candidate": 5.680199999999999
+          },
+          "samples": {
+            "baseline": [
+              [
+                6.298200000000001,
+                6.0822,
+                5.342399999999998,
+                6.214500000000001,
+                5.51100000000001,
+                5.230300000000014,
+                5.237700000000004,
+                5.235300000000009,
+                5.224999999999994
+              ],
+              [
+                5.8977,
+                7.134300000000003,
+                5.699300000000008,
+                4.971999999999994,
+                5.886499999999998,
+                4.932900000000004,
+                4.799700000000001,
+                5.07180000000001,
+                4.936500000000009
+              ],
+              [
+                5.753599999999999,
+                6.011999999999993,
+                5.388200000000012,
+                6.390500000000003,
+                5.697199999999995,
+                5.188000000000002,
+                5.382099999999994,
+                5.477100000000007,
+                5.669799999999995
+              ]
+            ],
+            "candidate": [
+              [
+                6.413599999999995,
+                7.291400000000003,
+                6.057899999999989,
+                6.274599999999992,
+                5.680199999999999,
+                5.565899999999999,
+                5.435300000000012,
+                6.216499999999996,
+                6.438500000000005
+              ],
+              [
+                6.295000000000002,
+                6.647200000000005,
+                5.4161,
+                7.100400000000008,
+                5.730500000000006,
+                5.052899999999994,
+                5.1591999999999985,
+                5.3596,
+                5.022499999999994
+              ],
+              [
+                5.711500000000001,
+                7.082399999999993,
+                5.433000000000007,
+                5.015699999999995,
+                4.8167000000000115,
+                5.3788000000000125,
+                4.857700000000008,
+                4.940600000000003,
+                7.289599999999993
+              ]
+            ]
+          },
+          "work": "61273500",
+          "checksum": "500"
+        },
+        {
+          "name": "first-pair",
+          "medianMs": {
+            "baseline": 6.20389999999999,
+            "candidate": 6.4178
+          },
+          "samples": {
+            "baseline": [
+              [
+                7.421600000000005,
+                6.245400000000004,
+                6.394999999999996,
+                5.741700000000009,
+                6.460899999999995,
+                6.001800000000003,
+                5.628200000000007,
+                6.208100000000002,
+                5.99069999999999
+              ],
+              [
+                7.066199999999995,
+                6.729799999999997,
+                5.959999999999994,
+                6.1935,
+                5.873400000000004,
+                6.0304,
+                6.0530000000000115,
+                5.803599999999989,
+                8.007800000000003
+              ],
+              [
+                6.909400000000005,
+                6.741799999999998,
+                6.029800000000009,
+                6.7216999999999985,
+                7.237200000000001,
+                6.20389999999999,
+                6.354900000000001,
+                6.030000000000001,
+                6.1758000000000095
+              ]
+            ],
+            "candidate": [
+              [
+                7.196399999999997,
+                6.4178,
+                6.610100000000003,
+                6.65270000000001,
+                6.6240999999999985,
+                6.245199999999997,
+                6.544299999999993,
+                6.594700000000003,
+                6.225399999999993
+              ],
+              [
+                7.195100000000004,
+                8.006900000000002,
+                6.82950000000001,
+                6.140500000000003,
+                6.094200000000001,
+                6.832499999999996,
+                6.414600000000007,
+                6.09559999999999,
+                5.926400000000001
+              ],
+              [
+                7.698499999999996,
+                6.3355999999999995,
+                6.194500000000005,
+                6.793399999999991,
+                6.294399999999996,
+                6.178100000000001,
+                5.977000000000004,
+                6.678600000000003,
+                6.231999999999999
+              ]
+            ]
+          },
+          "work": "122572000",
+          "checksum": "1500"
+        },
+        {
+          "name": "last-pair",
+          "medianMs": {
+            "baseline": 6.812799999999996,
+            "candidate": 6.6089000000000055
+          },
+          "samples": {
+            "baseline": [
+              [
+                7.961999999999996,
+                7.138600000000011,
+                6.4268,
+                6.4361999999999995,
+                9.237199999999987,
+                6.905300000000011,
+                6.616,
+                6.406899999999993,
+                6.175300000000007
+              ],
+              [
+                7.747400000000006,
+                6.9024,
+                6.3155,
+                6.954899999999995,
+                7.063900000000004,
+                6.799000000000007,
+                7.037599999999998,
+                7.110100000000003,
+                6.511399999999995
+              ],
+              [
+                8.830699999999993,
+                6.826100000000011,
+                6.196699999999993,
+                6.406700000000001,
+                6.319299999999998,
+                6.812799999999996,
+                6.70150000000001,
+                6.859700000000004,
+                6.374099999999984
+              ]
+            ],
+            "candidate": [
+              [
+                7.481400000000001,
+                6.835000000000008,
+                6.731099999999998,
+                6.318899999999999,
+                7.228099999999998,
+                6.627600000000001,
+                6.950900000000004,
+                7.1503999999999905,
+                6.955100000000002
+              ],
+              [
+                7.902999999999992,
+                6.59920000000001,
+                6.266599999999997,
+                6.922499999999999,
+                6.6089000000000055,
+                6.470500000000001,
+                6.158900000000003,
+                6.608599999999996,
+                6.511899999999997
+              ],
+              [
+                7.532699999999998,
+                6.724799999999988,
+                6.1647000000000105,
+                6.408799999999999,
+                6.468199999999996,
+                6.403900000000007,
+                6.472200000000001,
+                6.153899999999993,
+                6.803799999999995
+              ]
+            ]
+          },
+          "work": "122572000",
+          "checksum": "2000"
+        },
+        {
+          "name": "four-resources",
+          "medianMs": {
+            "baseline": 42.80540000000002,
+            "candidate": 44.35980000000001
+          },
+          "samples": {
+            "baseline": [
+              [
+                43.982,
+                42.80540000000002,
+                42.7792,
+                42.91360000000003,
+                43.635699999999986,
+                42.20440000000002,
+                42.05029999999999,
+                42.773199999999974,
+                44.16880000000003
+              ],
+              [
+                43.6592,
+                42.79669999999999,
+                43.408500000000004,
+                43.23989999999998,
+                44.51619999999997,
+                46.330100000000016,
+                42.778899999999965,
+                41.14499999999998,
+                43.67510000000004
+              ],
+              [
+                42.3578,
+                41.93729999999999,
+                40.6429,
+                41.107399999999984,
+                41.609200000000044,
+                43.274400000000014,
+                40.83409999999998,
+                43.15070000000003,
+                44.46440000000007
+              ]
+            ],
+            "candidate": [
+              [
+                44.951899999999995,
+                44.35980000000001,
+                44.39140000000003,
+                44.061800000000005,
+                44.296299999999974,
+                45.294399999999996,
+                43.967899999999986,
+                44.141000000000076,
+                44.136799999999994
+              ],
+              [
+                44.7037,
+                44.83360000000002,
+                44.61880000000002,
+                43.60000000000002,
+                45.54820000000001,
+                44.443100000000015,
+                44.65379999999999,
+                44.23380000000003,
+                44.30060000000003
+              ],
+              [
+                44.672,
+                43.38269999999997,
+                44.54899999999998,
+                44.11059999999998,
+                44.5813,
+                44.18059999999997,
+                43.36770000000001,
+                45.05379999999997,
+                43.837099999999964
+              ]
+            ]
+          },
+          "work": "1291993500",
+          "checksum": "5500"
+        },
+        {
+          "name": "one-resource",
+          "medianMs": {
+            "baseline": 92.86250000000007,
+            "candidate": 95.57219999999995
+          },
+          "samples": {
+            "baseline": [
+              [
+                91.69049999999999,
+                94.10239999999999,
+                92.86250000000007,
+                97.928,
+                94.44719999999995,
+                97.0222,
+                92.88790000000006,
+                90.58150000000012,
+                90.60559999999987
+              ],
+              [
+                91.6214,
+                91.89949999999999,
+                92.78130000000004,
+                91.65590000000009,
+                90.11860000000001,
+                89.85749999999996,
+                91.76480000000004,
+                93.82119999999998,
+                92.93049999999994
+              ],
+              [
+                93.1823,
+                92.77280000000002,
+                92.42910000000006,
+                94.03739999999993,
+                91.32000000000005,
+                98.11709999999994,
+                96.18510000000003,
+                94.42910000000006,
+                94.5467000000001
+              ]
+            ],
+            "candidate": [
+              [
+                95.82229999999998,
+                97.2536,
+                94.1037,
+                94.26310000000001,
+                100.58910000000003,
+                96.78729999999996,
+                95.71069999999997,
+                93.40039999999988,
+                92.32409999999982
+              ],
+              [
+                99.82139999999998,
+                99.54830000000004,
+                95.91599999999994,
+                97.89329999999995,
+                103.13789999999995,
+                101.68470000000002,
+                99.47890000000007,
+                93.23810000000003,
+                93.31320000000005
+              ],
+              [
+                92.02199999999999,
+                95.57219999999995,
+                92.85980000000006,
+                93.92060000000004,
+                93.9103,
+                96.85839999999996,
+                93.90049999999997,
+                92.82920000000001,
+                94.86250000000018
+              ]
+            ]
+          },
+          "work": "1477464000",
+          "checksum": "23500"
+        },
+        {
+          "name": "max-root",
+          "medianMs": {
+            "baseline": 9.437200000000004,
+            "candidate": 9.366100000000003
+          },
+          "samples": {
+            "baseline": [
+              [
+                10.319400000000002,
+                10.632000000000005,
+                9.302300000000002,
+                9.65570000000001,
+                9.73660000000001,
+                9.3536,
+                8.9311,
+                9.703499999999991,
+                9.162700000000001
+              ],
+              [
+                9.90209999999999,
+                9.235399999999998,
+                9.056699999999992,
+                9.437200000000004,
+                9.079099999999997,
+                8.977699999999999,
+                9.585100000000011,
+                8.861099999999993,
+                8.818399999999997
+              ],
+              [
+                11.191000000000003,
+                9.902000000000001,
+                9.290600000000012,
+                10.03540000000001,
+                9.43050000000001,
+                9.7359,
+                9.604500000000002,
+                9.079000000000008,
+                10.726100000000002
+              ]
+            ],
+            "candidate": [
+              [
+                10.937599999999989,
+                9.255399999999995,
+                8.869600000000005,
+                9.496799999999993,
+                9.789899999999989,
+                9.262,
+                9.319399999999987,
+                8.754099999999994,
+                8.883100000000013
+              ],
+              [
+                10.852500000000006,
+                9.116500000000002,
+                9.774600000000007,
+                9.404899999999998,
+                9.681699999999992,
+                9.518100000000004,
+                9.870199999999983,
+                8.971399999999988,
+                9.231400000000008
+              ],
+              [
+                10.646699999999996,
+                9.395600000000002,
+                9.366100000000003,
+                9.700699999999998,
+                9.553600000000003,
+                9.211799999999997,
+                8.844999999999999,
+                8.895600000000002,
+                8.792699999999996
+              ]
+            ]
+          },
+          "work": "64473500",
+          "checksum": "500"
+        },
+        {
+          "name": "max-model",
+          "medianMs": {
+            "baseline": 161.31330000000003,
+            "candidate": 166.95280000000002
+          },
+          "samples": {
+            "baseline": [
+              [
+                162.65919999999994,
+                163.28290000000004,
+                159.7659,
+                163.31740000000013,
+                159.96219999999994,
+                159.2545,
+                159.61260000000016,
+                160.68540000000007,
+                159.6096
+              ],
+              [
+                163.55050000000006,
+                165.125,
+                187.67610000000002,
+                166.1232,
+                159.1661999999999,
+                162.0093999999999,
+                162.18820000000005,
+                161.46150000000011,
+                160.4792
+              ],
+              [
+                161.79280000000006,
+                158.97090000000003,
+                159.1214,
+                158.53330000000005,
+                161.60390000000007,
+                165.01299999999992,
+                158.2340999999999,
+                158.96039999999994,
+                161.31330000000003
+              ]
+            ],
+            "candidate": [
+              [
+                174.79129999999998,
+                165.37300000000005,
+                166.9343,
+                166.7573,
+                164.27380000000016,
+                164.05349999999999,
+                164.9371000000001,
+                168.58759999999984,
+                167.6624999999999
+              ],
+              [
+                171.4044,
+                177.6114,
+                182.4371000000001,
+                181.70730000000003,
+                176.82529999999997,
+                175.30930000000012,
+                168.5546999999999,
+                166.95280000000002,
+                166.08029999999985
+              ],
+              [
+                169.68139999999994,
+                166.26469999999995,
+                165.85839999999996,
+                165.21180000000004,
+                165.24720000000002,
+                163.61549999999988,
+                168.62599999999998,
+                166.98699999999985,
+                165.65020000000004
+              ]
+            ]
+          },
+          "work": "1554264000",
+          "checksum": "23500"
+        }
+      ]
+    },
+    "cli-control": {
+      "node": "v24.14.0",
+      "platform": "win32",
+      "arch": "x64",
+      "recordedAt": "2026-11-21T06:07:05.841Z",
+      "warmupPairs": 2,
+      "samplesPerVariant": 9,
+      "rows": [
+        {
+          "name": "maintenance",
+          "requestsPerProcess": 64,
+          "expected": {
+            "status": "planned",
+            "schedule": [
+              {
+                "id": "flexible-backup",
+                "start": 3,
+                "finish": 5
+              },
+              {
+                "id": "urgent-migration",
+                "start": 0,
+                "finish": 3
+              }
+            ],
+            "stats": {
+              "nodes": 3,
+              "pruned": 1,
+              "decisions": 1,
+              "charged_work": 561
+            }
+          },
+          "outputSha256": "2627e8c4e20350a51fb834fcf3a3d20b50af684a73bf6b7854f042bc145f1717",
+          "samples": {
+            "baseline": [
+              {
+                "ms": 81.97669999999994,
+                "peakRssKiB": 49712
+              },
+              {
+                "ms": 81.25610000000006,
+                "peakRssKiB": 49336
+              },
+              {
+                "ms": 92.27739999999994,
+                "peakRssKiB": 49120
+              },
+              {
+                "ms": 83.8472999999999,
+                "peakRssKiB": 49740
+              },
+              {
+                "ms": 82.58989999999994,
+                "peakRssKiB": 49748
+              },
+              {
+                "ms": 82.86850000000004,
+                "peakRssKiB": 50288
+              },
+              {
+                "ms": 79.93000000000006,
+                "peakRssKiB": 49344
+              },
+              {
+                "ms": 82.4719,
+                "peakRssKiB": 49344
+              },
+              {
+                "ms": 90.70090000000005,
+                "peakRssKiB": 49716
+              }
+            ],
+            "candidate": [
+              {
+                "ms": 84.41179999999997,
+                "peakRssKiB": 48952
+              },
+              {
+                "ms": 80.37180000000001,
+                "peakRssKiB": 48844
+              },
+              {
+                "ms": 80.64819999999997,
+                "peakRssKiB": 49968
+              },
+              {
+                "ms": 81.67160000000013,
+                "peakRssKiB": 49208
+              },
+              {
+                "ms": 81.2618,
+                "peakRssKiB": 49008
+              },
+              {
+                "ms": 91.04629999999997,
+                "peakRssKiB": 49784
+              },
+              {
+                "ms": 82.00959999999986,
+                "peakRssKiB": 49732
+              },
+              {
+                "ms": 81.92100000000005,
+                "peakRssKiB": 49180
+              },
+              {
+                "ms": 80.98029999999994,
+                "peakRssKiB": 49168
+              }
+            ]
+          }
+        },
+        {
+          "name": "max-root",
+          "requestsPerProcess": 64,
+          "expected": {
+            "status": "planned",
+            "schedule": [
+              {
+                "id": "t0",
+                "start": 0,
+                "finish": 1
+              },
+              {
+                "id": "t1",
+                "start": 0,
+                "finish": 1
+              },
+              {
+                "id": "t2",
+                "start": 0,
+                "finish": 1
+              },
+              {
+                "id": "t3",
+                "start": 0,
+                "finish": 1
+              },
+              {
+                "id": "t4",
+                "start": 0,
+                "finish": 1
+              },
+              {
+                "id": "t5",
+                "start": 0,
+                "finish": 1
+              },
+              {
+                "id": "t6",
+                "start": 0,
+                "finish": 1
+              },
+              {
+                "id": "t7",
+                "start": 0,
+                "finish": 1
+              },
+              {
+                "id": "t8",
+                "start": 0,
+                "finish": 1
+              },
+              {
+                "id": "t9",
+                "start": 0,
+                "finish": 1
+              },
+              {
+                "id": "t10",
+                "start": 0,
+                "finish": 1
+              },
+              {
+                "id": "t11",
+                "start": 0,
+                "finish": 1
+              },
+              {
+                "id": "t12",
+                "start": 0,
+                "finish": 1
+              },
+              {
+                "id": "t13",
+                "start": 0,
+                "finish": 1
+              },
+              {
+                "id": "t14",
+                "start": 0,
+                "finish": 1
+              },
+              {
+                "id": "t15",
+                "start": 0,
+                "finish": 1
+              },
+              {
+                "id": "t16",
+                "start": 0,
+                "finish": 1
+              },
+              {
+                "id": "t17",
+                "start": 0,
+                "finish": 1
+              },
+              {
+                "id": "t18",
+                "start": 0,
+                "finish": 1
+              },
+              {
+                "id": "t19",
+                "start": 0,
+                "finish": 1
+              },
+              {
+                "id": "t20",
+                "start": 0,
+                "finish": 1
+              },
+              {
+                "id": "t21",
+                "start": 0,
+                "finish": 1
+              },
+              {
+                "id": "t22",
+                "start": 0,
+                "finish": 1
+              },
+              {
+                "id": "t23",
+                "start": 0,
+                "finish": 1
+              }
+            ],
+            "stats": {
+              "nodes": 1,
+              "pruned": 0,
+              "decisions": 0,
+              "charged_work": 128947
+            }
+          },
+          "outputSha256": "fe2096361e326db12d7011ae31f2e208332638d1917eea1dfc529f359e934821",
+          "samples": {
+            "baseline": [
+              {
+                "ms": 125.1518000000001,
+                "peakRssKiB": 71096
+              },
+              {
+                "ms": 118.14960000000019,
+                "peakRssKiB": 71248
+              },
+              {
+                "ms": 116.25279999999975,
+                "peakRssKiB": 71256
+              },
+              {
+                "ms": 117.77500000000009,
+                "peakRssKiB": 71052
+              },
+              {
+                "ms": 117.26599999999962,
+                "peakRssKiB": 70880
+              },
+              {
+                "ms": 123.80800000000045,
+                "peakRssKiB": 71100
+              },
+              {
+                "ms": 118.33539999999994,
+                "peakRssKiB": 71212
+              },
+              {
+                "ms": 118.72500000000036,
+                "peakRssKiB": 71308
+              },
+              {
+                "ms": 121.02770000000055,
+                "peakRssKiB": 71112
+              }
+            ],
+            "candidate": [
+              {
+                "ms": 121.01359999999977,
+                "peakRssKiB": 70928
+              },
+              {
+                "ms": 116.57580000000007,
+                "peakRssKiB": 71340
+              },
+              {
+                "ms": 126.22379999999976,
+                "peakRssKiB": 71044
+              },
+              {
+                "ms": 120.50049999999965,
+                "peakRssKiB": 71244
+              },
+              {
+                "ms": 117.32639999999992,
+                "peakRssKiB": 71200
+              },
+              {
+                "ms": 125.32330000000002,
+                "peakRssKiB": 71492
+              },
+              {
+                "ms": 116.52750000000015,
+                "peakRssKiB": 71248
+              },
+              {
+                "ms": 118.4369999999999,
+                "peakRssKiB": 71368
+              },
+              {
+                "ms": 116.59879999999976,
+                "peakRssKiB": 71480
+              }
+            ]
+          }
+        },
+        {
+          "name": "max-model",
+          "requestsPerProcess": 16,
+          "expected": {
+            "status": "planned",
+            "schedule": [
+              {
+                "id": "t0",
+                "start": 0,
+                "finish": 1
+              },
+              {
+                "id": "t1",
+                "start": 1,
+                "finish": 2
+              },
+              {
+                "id": "t2",
+                "start": 2,
+                "finish": 3
+              },
+              {
+                "id": "t3",
+                "start": 3,
+                "finish": 4
+              },
+              {
+                "id": "t4",
+                "start": 4,
+                "finish": 5
+              },
+              {
+                "id": "t5",
+                "start": 5,
+                "finish": 6
+              },
+              {
+                "id": "t6",
+                "start": 6,
+                "finish": 7
+              },
+              {
+                "id": "t7",
+                "start": 7,
+                "finish": 8
+              },
+              {
+                "id": "t8",
+                "start": 8,
+                "finish": 9
+              },
+              {
+                "id": "t9",
+                "start": 9,
+                "finish": 10
+              },
+              {
+                "id": "t10",
+                "start": 10,
+                "finish": 11
+              },
+              {
+                "id": "t11",
+                "start": 11,
+                "finish": 12
+              },
+              {
+                "id": "t12",
+                "start": 12,
+                "finish": 13
+              },
+              {
+                "id": "t13",
+                "start": 13,
+                "finish": 14
+              },
+              {
+                "id": "t14",
+                "start": 14,
+                "finish": 15
+              },
+              {
+                "id": "t15",
+                "start": 15,
+                "finish": 16
+              },
+              {
+                "id": "t16",
+                "start": 16,
+                "finish": 17
+              },
+              {
+                "id": "t17",
+                "start": 17,
+                "finish": 18
+              },
+              {
+                "id": "t18",
+                "start": 18,
+                "finish": 19
+              },
+              {
+                "id": "t19",
+                "start": 19,
+                "finish": 20
+              },
+              {
+                "id": "t20",
+                "start": 20,
+                "finish": 21
+              },
+              {
+                "id": "t21",
+                "start": 21,
+                "finish": 22
+              },
+              {
+                "id": "t22",
+                "start": 22,
+                "finish": 23
+              },
+              {
+                "id": "t23",
+                "start": 23,
+                "finish": 24
+              }
+            ],
+            "stats": {
+              "nodes": 24,
+              "pruned": 0,
+              "decisions": 23,
+              "charged_work": 3108528
+            }
+          },
+          "outputSha256": "d8333bde0384ab8a44a5320320d3bf434cdfb8017e6fde9eddec241ffcb183d8",
+          "samples": {
+            "baseline": [
+              {
+                "ms": 100.78859999999986,
+                "peakRssKiB": 57712
+              },
+              {
+                "ms": 102.98700000000008,
+                "peakRssKiB": 58128
+              },
+              {
+                "ms": 102.26519999999982,
+                "peakRssKiB": 57964
+              },
+              {
+                "ms": 106.08989999999994,
+                "peakRssKiB": 58028
+              },
+              {
+                "ms": 101.37790000000041,
+                "peakRssKiB": 57240
+              },
+              {
+                "ms": 101.11630000000059,
+                "peakRssKiB": 58300
+              },
+              {
+                "ms": 103.26440000000002,
+                "peakRssKiB": 58508
+              },
+              {
+                "ms": 101.41679999999997,
+                "peakRssKiB": 58148
+              },
+              {
+                "ms": 116.23509999999987,
+                "peakRssKiB": 58224
+              }
+            ],
+            "candidate": [
+              {
+                "ms": 101.32759999999962,
+                "peakRssKiB": 57516
+              },
+              {
+                "ms": 101.4992000000002,
+                "peakRssKiB": 57904
+              },
+              {
+                "ms": 104.90819999999985,
+                "peakRssKiB": 57804
+              },
+              {
+                "ms": 101.91180000000077,
+                "peakRssKiB": 57664
+              },
+              {
+                "ms": 102.16219999999976,
+                "peakRssKiB": 58084
+              },
+              {
+                "ms": 100.66359999999986,
+                "peakRssKiB": 57676
+              },
+              {
+                "ms": 102.61399999999958,
+                "peakRssKiB": 58072
+              },
+              {
+                "ms": 103.1275999999998,
+                "peakRssKiB": 57836
+              },
+              {
+                "ms": 102.71540000000005,
+                "peakRssKiB": 57660
+              }
+            ]
+          }
+        },
+        {
+          "name": "tight-impossible",
+          "requestsPerProcess": 32,
+          "expected": {
+            "status": "unschedulable",
+            "stats": {
+              "nodes": 1439,
+              "pruned": 720,
+              "decisions": 719,
+              "charged_work": 3885037
+            }
+          },
+          "outputSha256": "f6b58e98fcee60c67373028d1163efd721f894fed6139fdaec543a217a74f57a",
+          "samples": {
+            "baseline": [
+              {
+                "ms": 182.04209999999966,
+                "peakRssKiB": 51432
+              },
+              {
+                "ms": 180.13550000000032,
+                "peakRssKiB": 51380
+              },
+              {
+                "ms": 179.66589999999997,
+                "peakRssKiB": 51252
+              },
+              {
+                "ms": 175.48619999999937,
+                "peakRssKiB": 51552
+              },
+              {
+                "ms": 174.0085999999992,
+                "peakRssKiB": 51248
+              },
+              {
+                "ms": 175.0655999999999,
+                "peakRssKiB": 51268
+              },
+              {
+                "ms": 176.34629999999925,
+                "peakRssKiB": 51660
+              },
+              {
+                "ms": 179.21980000000076,
+                "peakRssKiB": 51400
+              },
+              {
+                "ms": 180.58269999999902,
+                "peakRssKiB": 51860
+              }
+            ],
+            "candidate": [
+              {
+                "ms": 181.1884000000009,
+                "peakRssKiB": 51440
+              },
+              {
+                "ms": 181.40239999999903,
+                "peakRssKiB": 51460
+              },
+              {
+                "ms": 184.14400000000023,
+                "peakRssKiB": 52332
+              },
+              {
+                "ms": 197.3125999999993,
+                "peakRssKiB": 51776
+              },
+              {
+                "ms": 174.55619999999908,
+                "peakRssKiB": 51528
+              },
+              {
+                "ms": 182.22379999999976,
+                "peakRssKiB": 51828
+              },
+              {
+                "ms": 175.55799999999908,
+                "peakRssKiB": 51176
+              },
+              {
+                "ms": 180.79709999999977,
+                "peakRssKiB": 51768
+              },
+              {
+                "ms": 178.63760000000002,
+                "peakRssKiB": 51756
+              }
+            ]
+          }
+        },
+        {
+          "name": "exact-budgets",
+          "requestsPerProcess": 8,
+          "expected": {
+            "status": "planned",
+            "schedule": [
+              {
+                "id": "t0",
+                "start": 0,
+                "finish": 1
+              },
+              {
+                "id": "t1",
+                "start": 1,
+                "finish": 2
+              },
+              {
+                "id": "t2",
+                "start": 2,
+                "finish": 3
+              },
+              {
+                "id": "t3",
+                "start": 3,
+                "finish": 4
+              },
+              {
+                "id": "t4",
+                "start": 4,
+                "finish": 5
+              },
+              {
+                "id": "t5",
+                "start": 5,
+                "finish": 6
+              },
+              {
+                "id": "t6",
+                "start": 6,
+                "finish": 7
+              },
+              {
+                "id": "t7",
+                "start": 7,
+                "finish": 8
+              },
+              {
+                "id": "t8",
+                "start": 8,
+                "finish": 9
+              },
+              {
+                "id": "t9",
+                "start": 9,
+                "finish": 10
+              },
+              {
+                "id": "t10",
+                "start": 10,
+                "finish": 11
+              },
+              {
+                "id": "t11",
+                "start": 11,
+                "finish": 12
+              },
+              {
+                "id": "t12",
+                "start": 12,
+                "finish": 13
+              },
+              {
+                "id": "t13",
+                "start": 13,
+                "finish": 14
+              },
+              {
+                "id": "t14",
+                "start": 14,
+                "finish": 15
+              },
+              {
+                "id": "t15",
+                "start": 15,
+                "finish": 16
+              },
+              {
+                "id": "t16",
+                "start": 16,
+                "finish": 17
+              },
+              {
+                "id": "t17",
+                "start": 17,
+                "finish": 18
+              },
+              {
+                "id": "t18",
+                "start": 18,
+                "finish": 19
+              },
+              {
+                "id": "t19",
+                "start": 19,
+                "finish": 20
+              },
+              {
+                "id": "t20",
+                "start": 20,
+                "finish": 21
+              },
+              {
+                "id": "t21",
+                "start": 21,
+                "finish": 22
+              },
+              {
+                "id": "t22",
+                "start": 22,
+                "finish": 23
+              },
+              {
+                "id": "t23",
+                "start": 23,
+                "finish": 24
+              }
+            ],
+            "stats": {
+              "nodes": 24,
+              "pruned": 0,
+              "decisions": 23,
+              "charged_work": 3108528
+            }
+          },
+          "outputSha256": "c22a59e0c985233fb3618f2a1837ef1c3733691cef3c703a578b04e7909a5f6a",
+          "samples": {
+            "baseline": [
+              {
+                "ms": 94.40430000000015,
+                "peakRssKiB": 57164
+              },
+              {
+                "ms": 100.64259999999922,
+                "peakRssKiB": 57312
+              },
+              {
+                "ms": 101.90740000000005,
+                "peakRssKiB": 56976
+              },
+              {
+                "ms": 102.98760000000038,
+                "peakRssKiB": 57108
+              },
+              {
+                "ms": 100.32170000000042,
+                "peakRssKiB": 57152
+              },
+              {
+                "ms": 100.4930000000004,
+                "peakRssKiB": 57204
+              },
+              {
+                "ms": 100.3161999999993,
+                "peakRssKiB": 56980
+              },
+              {
+                "ms": 96.26679999999942,
+                "peakRssKiB": 56944
+              },
+              {
+                "ms": 101.07969999999841,
+                "peakRssKiB": 57192
+              }
+            ],
+            "candidate": [
+              {
+                "ms": 92.83699999999953,
+                "peakRssKiB": 57492
+              },
+              {
+                "ms": 98.30349999999999,
+                "peakRssKiB": 56472
+              },
+              {
+                "ms": 99.8192999999992,
+                "peakRssKiB": 58340
+              },
+              {
+                "ms": 98.8119999999999,
+                "peakRssKiB": 57252
+              },
+              {
+                "ms": 99.76239999999962,
+                "peakRssKiB": 56932
+              },
+              {
+                "ms": 99.12330000000111,
+                "peakRssKiB": 57100
+              },
+              {
+                "ms": 100.1348999999991,
+                "peakRssKiB": 56704
+              },
+              {
+                "ms": 105.73319999999876,
+                "peakRssKiB": 57412
+              },
+              {
+                "ms": 101.62339999999858,
+                "peakRssKiB": 57304
+              }
+            ]
+          }
+        },
+        {
+          "name": "node-limit",
+          "requestsPerProcess": 8,
+          "expected": {
+            "status": "error",
+            "code": "limit_exceeded",
+            "message": "planning node budget exhausted; no feasibility conclusion"
+          },
+          "outputSha256": "c5c5a5724bf9d22cdf1857e070c1ecf8a88fb8e410d843987dca3f5f6563f1e1",
+          "samples": {
+            "baseline": [
+              {
+                "ms": 99.10579999999936,
+                "peakRssKiB": 56944
+              },
+              {
+                "ms": 101.15570000000116,
+                "peakRssKiB": 57120
+              },
+              {
+                "ms": 100.85400000000118,
+                "peakRssKiB": 56580
+              },
+              {
+                "ms": 99.42350000000079,
+                "peakRssKiB": 56872
+              },
+              {
+                "ms": 100.52210000000014,
+                "peakRssKiB": 56944
+              },
+              {
+                "ms": 101.35599999999977,
+                "peakRssKiB": 57076
+              },
+              {
+                "ms": 100.49459999999999,
+                "peakRssKiB": 57368
+              },
+              {
+                "ms": 100.0051999999996,
+                "peakRssKiB": 56960
+              },
+              {
+                "ms": 101.78329999999914,
+                "peakRssKiB": 57008
+              }
+            ],
+            "candidate": [
+              {
+                "ms": 100.84970000000067,
+                "peakRssKiB": 57460
+              },
+              {
+                "ms": 100.49469999999928,
+                "peakRssKiB": 56956
+              },
+              {
+                "ms": 99.96759999999995,
+                "peakRssKiB": 57128
+              },
+              {
+                "ms": 100.88210000000072,
+                "peakRssKiB": 56984
+              },
+              {
+                "ms": 104.76670000000013,
+                "peakRssKiB": 56964
+              },
+              {
+                "ms": 95.60669999999845,
+                "peakRssKiB": 56920
+              },
+              {
+                "ms": 99.69419999999991,
+                "peakRssKiB": 57044
+              },
+              {
+                "ms": 99.84360000000015,
+                "peakRssKiB": 56812
+              },
+              {
+                "ms": 101.12690000000111,
+                "peakRssKiB": 57168
+              }
+            ]
+          }
+        },
+        {
+          "name": "work-limit",
+          "requestsPerProcess": 8,
+          "expected": {
+            "status": "error",
+            "code": "limit_exceeded",
+            "message": "planning work budget exhausted; no feasibility conclusion"
+          },
+          "outputSha256": "98f8aeeb2aab833825dcf999243de775070d42fd0c61e6638908888f592e306c",
+          "samples": {
+            "baseline": [
+              {
+                "ms": 100.41649999999936,
+                "peakRssKiB": 56712
+              },
+              {
+                "ms": 99.43059999999969,
+                "peakRssKiB": 56564
+              },
+              {
+                "ms": 101.47199999999793,
+                "peakRssKiB": 57072
+              },
+              {
+                "ms": 100.47690000000148,
+                "peakRssKiB": 57224
+              },
+              {
+                "ms": 99.46190000000206,
+                "peakRssKiB": 56648
+              },
+              {
+                "ms": 101.04969999999958,
+                "peakRssKiB": 56812
+              },
+              {
+                "ms": 100.62030000000232,
+                "peakRssKiB": 56948
+              },
+              {
+                "ms": 99.94820000000254,
+                "peakRssKiB": 56920
+              },
+              {
+                "ms": 98.99979999999778,
+                "peakRssKiB": 56932
+              }
+            ],
+            "candidate": [
+              {
+                "ms": 99.03470000000016,
+                "peakRssKiB": 56888
+              },
+              {
+                "ms": 102.26009999999951,
+                "peakRssKiB": 56896
+              },
+              {
+                "ms": 98.40559999999823,
+                "peakRssKiB": 57052
+              },
+              {
+                "ms": 100.93549999999959,
+                "peakRssKiB": 57228
+              },
+              {
+                "ms": 101.0669999999991,
+                "peakRssKiB": 56888
+              },
+              {
+                "ms": 100.24500000000262,
+                "peakRssKiB": 57024
+              },
+              {
+                "ms": 99.79850000000079,
+                "peakRssKiB": 57068
+              },
+              {
+                "ms": 100.90330000000176,
+                "peakRssKiB": 56940
+              },
+              {
+                "ms": 101.53099999999904,
+                "peakRssKiB": 57124
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "cli": {
+      "node": "v24.14.0",
+      "platform": "win32",
+      "arch": "x64",
+      "recordedAt": "2026-11-21T06:07:24.068Z",
+      "warmupPairs": 2,
+      "samplesPerVariant": 9,
+      "rows": [
+        {
+          "name": "maintenance",
+          "requestsPerProcess": 64,
+          "expected": {
+            "status": "planned",
+            "schedule": [
+              {
+                "id": "flexible-backup",
+                "start": 3,
+                "finish": 5
+              },
+              {
+                "id": "urgent-migration",
+                "start": 0,
+                "finish": 3
+              }
+            ],
+            "stats": {
+              "nodes": 3,
+              "pruned": 1,
+              "decisions": 1,
+              "charged_work": 561
+            }
+          },
+          "outputSha256": "2627e8c4e20350a51fb834fcf3a3d20b50af684a73bf6b7854f042bc145f1717",
+          "samples": {
+            "baseline": [
+              {
+                "ms": 79.83960000000002,
+                "peakRssKiB": 49520
+              },
+              {
+                "ms": 81.88260000000002,
+                "peakRssKiB": 49268
+              },
+              {
+                "ms": 99.26499999999999,
+                "peakRssKiB": 49152
+              },
+              {
+                "ms": 79.34830000000011,
+                "peakRssKiB": 49648
+              },
+              {
+                "ms": 85.32240000000002,
+                "peakRssKiB": 49196
+              },
+              {
+                "ms": 79.88149999999996,
+                "peakRssKiB": 49152
+              },
+              {
+                "ms": 79.15139999999997,
+                "peakRssKiB": 49044
+              },
+              {
+                "ms": 82.48620000000005,
+                "peakRssKiB": 49376
+              },
+              {
+                "ms": 79.79239999999982,
+                "peakRssKiB": 49096
+              }
+            ],
+            "candidate": [
+              {
+                "ms": 80.34270000000004,
+                "peakRssKiB": 49240
+              },
+              {
+                "ms": 81.8587,
+                "peakRssKiB": 49188
+              },
+              {
+                "ms": 79.50339999999994,
+                "peakRssKiB": 49636
+              },
+              {
+                "ms": 80.50470000000018,
+                "peakRssKiB": 49096
+              },
+              {
+                "ms": 80.52669999999989,
+                "peakRssKiB": 49240
+              },
+              {
+                "ms": 77.28919999999994,
+                "peakRssKiB": 48960
+              },
+              {
+                "ms": 80.13499999999999,
+                "peakRssKiB": 49400
+              },
+              {
+                "ms": 84.91880000000015,
+                "peakRssKiB": 49620
+              },
+              {
+                "ms": 81.12130000000002,
+                "peakRssKiB": 49088
+              }
+            ]
+          }
+        },
+        {
+          "name": "max-root",
+          "requestsPerProcess": 64,
+          "expected": {
+            "status": "planned",
+            "schedule": [
+              {
+                "id": "t0",
+                "start": 0,
+                "finish": 1
+              },
+              {
+                "id": "t1",
+                "start": 0,
+                "finish": 1
+              },
+              {
+                "id": "t2",
+                "start": 0,
+                "finish": 1
+              },
+              {
+                "id": "t3",
+                "start": 0,
+                "finish": 1
+              },
+              {
+                "id": "t4",
+                "start": 0,
+                "finish": 1
+              },
+              {
+                "id": "t5",
+                "start": 0,
+                "finish": 1
+              },
+              {
+                "id": "t6",
+                "start": 0,
+                "finish": 1
+              },
+              {
+                "id": "t7",
+                "start": 0,
+                "finish": 1
+              },
+              {
+                "id": "t8",
+                "start": 0,
+                "finish": 1
+              },
+              {
+                "id": "t9",
+                "start": 0,
+                "finish": 1
+              },
+              {
+                "id": "t10",
+                "start": 0,
+                "finish": 1
+              },
+              {
+                "id": "t11",
+                "start": 0,
+                "finish": 1
+              },
+              {
+                "id": "t12",
+                "start": 0,
+                "finish": 1
+              },
+              {
+                "id": "t13",
+                "start": 0,
+                "finish": 1
+              },
+              {
+                "id": "t14",
+                "start": 0,
+                "finish": 1
+              },
+              {
+                "id": "t15",
+                "start": 0,
+                "finish": 1
+              },
+              {
+                "id": "t16",
+                "start": 0,
+                "finish": 1
+              },
+              {
+                "id": "t17",
+                "start": 0,
+                "finish": 1
+              },
+              {
+                "id": "t18",
+                "start": 0,
+                "finish": 1
+              },
+              {
+                "id": "t19",
+                "start": 0,
+                "finish": 1
+              },
+              {
+                "id": "t20",
+                "start": 0,
+                "finish": 1
+              },
+              {
+                "id": "t21",
+                "start": 0,
+                "finish": 1
+              },
+              {
+                "id": "t22",
+                "start": 0,
+                "finish": 1
+              },
+              {
+                "id": "t23",
+                "start": 0,
+                "finish": 1
+              }
+            ],
+            "stats": {
+              "nodes": 1,
+              "pruned": 0,
+              "decisions": 0,
+              "charged_work": 128947
+            }
+          },
+          "outputSha256": "fe2096361e326db12d7011ae31f2e208332638d1917eea1dfc529f359e934821",
+          "samples": {
+            "baseline": [
+              {
+                "ms": 116.65790000000015,
+                "peakRssKiB": 71192
+              },
+              {
+                "ms": 120.30279999999993,
+                "peakRssKiB": 71116
+              },
+              {
+                "ms": 114.79230000000007,
+                "peakRssKiB": 70944
+              },
+              {
+                "ms": 129.529,
+                "peakRssKiB": 71100
+              },
+              {
+                "ms": 118.47620000000006,
+                "peakRssKiB": 71556
+              },
+              {
+                "ms": 116.65279999999984,
+                "peakRssKiB": 71044
+              },
+              {
+                "ms": 127.8802999999998,
+                "peakRssKiB": 70960
+              },
+              {
+                "ms": 115.08960000000025,
+                "peakRssKiB": 71444
+              },
+              {
+                "ms": 113.33420000000024,
+                "peakRssKiB": 71452
+              }
+            ],
+            "candidate": [
+              {
+                "ms": 116.68920000000026,
+                "peakRssKiB": 71072
+              },
+              {
+                "ms": 130.18129999999974,
+                "peakRssKiB": 71280
+              },
+              {
+                "ms": 113.57000000000016,
+                "peakRssKiB": 71000
+              },
+              {
+                "ms": 115.64570000000003,
+                "peakRssKiB": 71484
+              },
+              {
+                "ms": 116.79260000000022,
+                "peakRssKiB": 71080
+              },
+              {
+                "ms": 116.54479999999967,
+                "peakRssKiB": 70980
+              },
+              {
+                "ms": 118.98710000000028,
+                "peakRssKiB": 71452
+              },
+              {
+                "ms": 115.27970000000005,
+                "peakRssKiB": 71464
+              },
+              {
+                "ms": 113.94130000000041,
+                "peakRssKiB": 71600
+              }
+            ]
+          }
+        },
+        {
+          "name": "max-model",
+          "requestsPerProcess": 16,
+          "expected": {
+            "status": "planned",
+            "schedule": [
+              {
+                "id": "t0",
+                "start": 0,
+                "finish": 1
+              },
+              {
+                "id": "t1",
+                "start": 1,
+                "finish": 2
+              },
+              {
+                "id": "t2",
+                "start": 2,
+                "finish": 3
+              },
+              {
+                "id": "t3",
+                "start": 3,
+                "finish": 4
+              },
+              {
+                "id": "t4",
+                "start": 4,
+                "finish": 5
+              },
+              {
+                "id": "t5",
+                "start": 5,
+                "finish": 6
+              },
+              {
+                "id": "t6",
+                "start": 6,
+                "finish": 7
+              },
+              {
+                "id": "t7",
+                "start": 7,
+                "finish": 8
+              },
+              {
+                "id": "t8",
+                "start": 8,
+                "finish": 9
+              },
+              {
+                "id": "t9",
+                "start": 9,
+                "finish": 10
+              },
+              {
+                "id": "t10",
+                "start": 10,
+                "finish": 11
+              },
+              {
+                "id": "t11",
+                "start": 11,
+                "finish": 12
+              },
+              {
+                "id": "t12",
+                "start": 12,
+                "finish": 13
+              },
+              {
+                "id": "t13",
+                "start": 13,
+                "finish": 14
+              },
+              {
+                "id": "t14",
+                "start": 14,
+                "finish": 15
+              },
+              {
+                "id": "t15",
+                "start": 15,
+                "finish": 16
+              },
+              {
+                "id": "t16",
+                "start": 16,
+                "finish": 17
+              },
+              {
+                "id": "t17",
+                "start": 17,
+                "finish": 18
+              },
+              {
+                "id": "t18",
+                "start": 18,
+                "finish": 19
+              },
+              {
+                "id": "t19",
+                "start": 19,
+                "finish": 20
+              },
+              {
+                "id": "t20",
+                "start": 20,
+                "finish": 21
+              },
+              {
+                "id": "t21",
+                "start": 21,
+                "finish": 22
+              },
+              {
+                "id": "t22",
+                "start": 22,
+                "finish": 23
+              },
+              {
+                "id": "t23",
+                "start": 23,
+                "finish": 24
+              }
+            ],
+            "stats": {
+              "nodes": 24,
+              "pruned": 0,
+              "decisions": 23,
+              "charged_work": 3108528
+            }
+          },
+          "outputSha256": "d8333bde0384ab8a44a5320320d3bf434cdfb8017e6fde9eddec241ffcb183d8",
+          "samples": {
+            "baseline": [
+              {
+                "ms": 100.04230000000007,
+                "peakRssKiB": 57552
+              },
+              {
+                "ms": 103.85239999999976,
+                "peakRssKiB": 57744
+              },
+              {
+                "ms": 117.36350000000039,
+                "peakRssKiB": 57764
+              },
+              {
+                "ms": 112.34389999999985,
+                "peakRssKiB": 57548
+              },
+              {
+                "ms": 102.75750000000062,
+                "peakRssKiB": 57892
+              },
+              {
+                "ms": 104.03229999999985,
+                "peakRssKiB": 57808
+              },
+              {
+                "ms": 102.66370000000006,
+                "peakRssKiB": 58176
+              },
+              {
+                "ms": 101.47230000000036,
+                "peakRssKiB": 58252
+              },
+              {
+                "ms": 101.94350000000031,
+                "peakRssKiB": 57672
+              }
+            ],
+            "candidate": [
+              {
+                "ms": 99.3730999999998,
+                "peakRssKiB": 57444
+              },
+              {
+                "ms": 101.89109999999982,
+                "peakRssKiB": 58024
+              },
+              {
+                "ms": 104.45109999999931,
+                "peakRssKiB": 57840
+              },
+              {
+                "ms": 112.82639999999992,
+                "peakRssKiB": 57956
+              },
+              {
+                "ms": 101.42689999999948,
+                "peakRssKiB": 57924
+              },
+              {
+                "ms": 102.01470000000063,
+                "peakRssKiB": 57828
+              },
+              {
+                "ms": 100.27449999999953,
+                "peakRssKiB": 57640
+              },
+              {
+                "ms": 98.58370000000014,
+                "peakRssKiB": 57572
+              },
+              {
+                "ms": 100.80590000000029,
+                "peakRssKiB": 58104
+              }
+            ]
+          }
+        },
+        {
+          "name": "tight-impossible",
+          "requestsPerProcess": 32,
+          "expected": {
+            "status": "unschedulable",
+            "stats": {
+              "nodes": 1439,
+              "pruned": 720,
+              "decisions": 719,
+              "charged_work": 3885037
+            }
+          },
+          "outputSha256": "f6b58e98fcee60c67373028d1163efd721f894fed6139fdaec543a217a74f57a",
+          "samples": {
+            "baseline": [
+              {
+                "ms": 180.02790000000095,
+                "peakRssKiB": 51588
+              },
+              {
+                "ms": 181.39110000000073,
+                "peakRssKiB": 51668
+              },
+              {
+                "ms": 176.8160000000007,
+                "peakRssKiB": 51636
+              },
+              {
+                "ms": 178.22140000000036,
+                "peakRssKiB": 51476
+              },
+              {
+                "ms": 176.47249999999985,
+                "peakRssKiB": 51412
+              },
+              {
+                "ms": 180.40629999999874,
+                "peakRssKiB": 51784
+              },
+              {
+                "ms": 177.21539999999914,
+                "peakRssKiB": 51492
+              },
+              {
+                "ms": 181.80549999999857,
+                "peakRssKiB": 51488
+              },
+              {
+                "ms": 177.9382000000005,
+                "peakRssKiB": 51932
+              }
+            ],
+            "candidate": [
+              {
+                "ms": 184.9355000000014,
+                "peakRssKiB": 51132
+              },
+              {
+                "ms": 169.34590000000026,
+                "peakRssKiB": 51296
+              },
+              {
+                "ms": 176.8130999999994,
+                "peakRssKiB": 51728
+              },
+              {
+                "ms": 173.54140000000007,
+                "peakRssKiB": 51856
+              },
+              {
+                "ms": 176.4559999999983,
+                "peakRssKiB": 51508
+              },
+              {
+                "ms": 173.77740000000085,
+                "peakRssKiB": 51360
+              },
+              {
+                "ms": 173.3288999999986,
+                "peakRssKiB": 51548
+              },
+              {
+                "ms": 174.2560999999987,
+                "peakRssKiB": 51420
+              },
+              {
+                "ms": 170.2522000000008,
+                "peakRssKiB": 51268
+              }
+            ]
+          }
+        },
+        {
+          "name": "exact-budgets",
+          "requestsPerProcess": 8,
+          "expected": {
+            "status": "planned",
+            "schedule": [
+              {
+                "id": "t0",
+                "start": 0,
+                "finish": 1
+              },
+              {
+                "id": "t1",
+                "start": 1,
+                "finish": 2
+              },
+              {
+                "id": "t2",
+                "start": 2,
+                "finish": 3
+              },
+              {
+                "id": "t3",
+                "start": 3,
+                "finish": 4
+              },
+              {
+                "id": "t4",
+                "start": 4,
+                "finish": 5
+              },
+              {
+                "id": "t5",
+                "start": 5,
+                "finish": 6
+              },
+              {
+                "id": "t6",
+                "start": 6,
+                "finish": 7
+              },
+              {
+                "id": "t7",
+                "start": 7,
+                "finish": 8
+              },
+              {
+                "id": "t8",
+                "start": 8,
+                "finish": 9
+              },
+              {
+                "id": "t9",
+                "start": 9,
+                "finish": 10
+              },
+              {
+                "id": "t10",
+                "start": 10,
+                "finish": 11
+              },
+              {
+                "id": "t11",
+                "start": 11,
+                "finish": 12
+              },
+              {
+                "id": "t12",
+                "start": 12,
+                "finish": 13
+              },
+              {
+                "id": "t13",
+                "start": 13,
+                "finish": 14
+              },
+              {
+                "id": "t14",
+                "start": 14,
+                "finish": 15
+              },
+              {
+                "id": "t15",
+                "start": 15,
+                "finish": 16
+              },
+              {
+                "id": "t16",
+                "start": 16,
+                "finish": 17
+              },
+              {
+                "id": "t17",
+                "start": 17,
+                "finish": 18
+              },
+              {
+                "id": "t18",
+                "start": 18,
+                "finish": 19
+              },
+              {
+                "id": "t19",
+                "start": 19,
+                "finish": 20
+              },
+              {
+                "id": "t20",
+                "start": 20,
+                "finish": 21
+              },
+              {
+                "id": "t21",
+                "start": 21,
+                "finish": 22
+              },
+              {
+                "id": "t22",
+                "start": 22,
+                "finish": 23
+              },
+              {
+                "id": "t23",
+                "start": 23,
+                "finish": 24
+              }
+            ],
+            "stats": {
+              "nodes": 24,
+              "pruned": 0,
+              "decisions": 23,
+              "charged_work": 3108528
+            }
+          },
+          "outputSha256": "c22a59e0c985233fb3618f2a1837ef1c3733691cef3c703a578b04e7909a5f6a",
+          "samples": {
+            "baseline": [
+              {
+                "ms": 98.37720000000081,
+                "peakRssKiB": 57144
+              },
+              {
+                "ms": 100.35679999999957,
+                "peakRssKiB": 57440
+              },
+              {
+                "ms": 101.88490000000093,
+                "peakRssKiB": 57356
+              },
+              {
+                "ms": 99.55029999999897,
+                "peakRssKiB": 57164
+              },
+              {
+                "ms": 100.61120000000119,
+                "peakRssKiB": 56912
+              },
+              {
+                "ms": 100.96810000000005,
+                "peakRssKiB": 56720
+              },
+              {
+                "ms": 99.64509999999973,
+                "peakRssKiB": 57092
+              },
+              {
+                "ms": 101.73400000000038,
+                "peakRssKiB": 57308
+              },
+              {
+                "ms": 100.77880000000005,
+                "peakRssKiB": 57256
+              }
+            ],
+            "candidate": [
+              {
+                "ms": 101.53009999999995,
+                "peakRssKiB": 53668
+              },
+              {
+                "ms": 100.7473000000009,
+                "peakRssKiB": 54172
+              },
+              {
+                "ms": 98.55209999999897,
+                "peakRssKiB": 54688
+              },
+              {
+                "ms": 102.26320000000123,
+                "peakRssKiB": 53780
+              },
+              {
+                "ms": 103.00140000000101,
+                "peakRssKiB": 54508
+              },
+              {
+                "ms": 97.70839999999953,
+                "peakRssKiB": 53936
+              },
+              {
+                "ms": 100.44599999999991,
+                "peakRssKiB": 54100
+              },
+              {
+                "ms": 100.3737000000001,
+                "peakRssKiB": 55224
+              },
+              {
+                "ms": 102.3244999999988,
+                "peakRssKiB": 54524
+              }
+            ]
+          }
+        },
+        {
+          "name": "node-limit",
+          "requestsPerProcess": 8,
+          "expected": {
+            "status": "error",
+            "code": "limit_exceeded",
+            "message": "planning node budget exhausted; no feasibility conclusion"
+          },
+          "outputSha256": "c5c5a5724bf9d22cdf1857e070c1ecf8a88fb8e410d843987dca3f5f6563f1e1",
+          "samples": {
+            "baseline": [
+              {
+                "ms": 101.81919999999991,
+                "peakRssKiB": 57056
+              },
+              {
+                "ms": 102.01239999999962,
+                "peakRssKiB": 56928
+              },
+              {
+                "ms": 99.51139999999941,
+                "peakRssKiB": 57272
+              },
+              {
+                "ms": 107.74330000000009,
+                "peakRssKiB": 57012
+              },
+              {
+                "ms": 94.05580000000009,
+                "peakRssKiB": 57220
+              },
+              {
+                "ms": 99.64159999999902,
+                "peakRssKiB": 56652
+              },
+              {
+                "ms": 100.8724000000002,
+                "peakRssKiB": 57272
+              },
+              {
+                "ms": 98.8229999999985,
+                "peakRssKiB": 57284
+              },
+              {
+                "ms": 101.83200000000033,
+                "peakRssKiB": 56844
+              }
+            ],
+            "candidate": [
+              {
+                "ms": 99.3798999999999,
+                "peakRssKiB": 54416
+              },
+              {
+                "ms": 100.53709999999955,
+                "peakRssKiB": 53688
+              },
+              {
+                "ms": 100.5127999999986,
+                "peakRssKiB": 53372
+              },
+              {
+                "ms": 99.97710000000006,
+                "peakRssKiB": 53808
+              },
+              {
+                "ms": 99.59360000000015,
+                "peakRssKiB": 53896
+              },
+              {
+                "ms": 101.8726000000006,
+                "peakRssKiB": 54224
+              },
+              {
+                "ms": 101.1216000000004,
+                "peakRssKiB": 54400
+              },
+              {
+                "ms": 100.8719000000001,
+                "peakRssKiB": 53752
+              },
+              {
+                "ms": 99.96839999999975,
+                "peakRssKiB": 53880
+              }
+            ]
+          }
+        },
+        {
+          "name": "work-limit",
+          "requestsPerProcess": 8,
+          "expected": {
+            "status": "error",
+            "code": "limit_exceeded",
+            "message": "planning work budget exhausted; no feasibility conclusion"
+          },
+          "outputSha256": "98f8aeeb2aab833825dcf999243de775070d42fd0c61e6638908888f592e306c",
+          "samples": {
+            "baseline": [
+              {
+                "ms": 101.43419999999787,
+                "peakRssKiB": 56760
+              },
+              {
+                "ms": 102.0112999999983,
+                "peakRssKiB": 57116
+              },
+              {
+                "ms": 100.12039999999979,
+                "peakRssKiB": 56804
+              },
+              {
+                "ms": 100.23509999999806,
+                "peakRssKiB": 56728
+              },
+              {
+                "ms": 100.6247000000003,
+                "peakRssKiB": 56984
+              },
+              {
+                "ms": 98.29109999999855,
+                "peakRssKiB": 57140
+              },
+              {
+                "ms": 101.45210000000225,
+                "peakRssKiB": 56872
+              },
+              {
+                "ms": 99.68319999999949,
+                "peakRssKiB": 56632
+              },
+              {
+                "ms": 100.06619999999748,
+                "peakRssKiB": 57204
+              }
+            ],
+            "candidate": [
+              {
+                "ms": 100.30049999999756,
+                "peakRssKiB": 53968
+              },
+              {
+                "ms": 100.189699999999,
+                "peakRssKiB": 53992
+              },
+              {
+                "ms": 101.17549999999756,
+                "peakRssKiB": 53612
+              },
+              {
+                "ms": 101.15139999999883,
+                "peakRssKiB": 53876
+              },
+              {
+                "ms": 99.63060000000041,
+                "peakRssKiB": 53936
+              },
+              {
+                "ms": 101.23600000000079,
+                "peakRssKiB": 54264
+              },
+              {
+                "ms": 99.18149999999878,
+                "peakRssKiB": 53848
+              },
+              {
+                "ms": 101.4364999999998,
+                "peakRssKiB": 54000
+              },
+              {
+                "ms": 101.29739999999947,
+                "peakRssKiB": 54004
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "cli-reverse": {
+      "node": "v24.14.0",
+      "platform": "win32",
+      "arch": "x64",
+      "recordedAt": "2026-11-21T06:07:42.291Z",
+      "warmupPairs": 2,
+      "samplesPerVariant": 9,
+      "rows": [
+        {
+          "name": "maintenance",
+          "requestsPerProcess": 64,
+          "expected": {
+            "status": "planned",
+            "schedule": [
+              {
+                "id": "flexible-backup",
+                "start": 3,
+                "finish": 5
+              },
+              {
+                "id": "urgent-migration",
+                "start": 0,
+                "finish": 3
+              }
+            ],
+            "stats": {
+              "nodes": 3,
+              "pruned": 1,
+              "decisions": 1,
+              "charged_work": 561
+            }
+          },
+          "outputSha256": "2627e8c4e20350a51fb834fcf3a3d20b50af684a73bf6b7854f042bc145f1717",
+          "samples": {
+            "baseline": [
+              {
+                "ms": 81.24299999999994,
+                "peakRssKiB": 49688
+              },
+              {
+                "ms": 82.24059999999997,
+                "peakRssKiB": 49312
+              },
+              {
+                "ms": 80.95350000000008,
+                "peakRssKiB": 49980
+              },
+              {
+                "ms": 80.29229999999984,
+                "peakRssKiB": 49156
+              },
+              {
+                "ms": 80.85450000000014,
+                "peakRssKiB": 48996
+              },
+              {
+                "ms": 80.04700000000003,
+                "peakRssKiB": 49232
+              },
+              {
+                "ms": 80.29790000000003,
+                "peakRssKiB": 49244
+              },
+              {
+                "ms": 80.39600000000019,
+                "peakRssKiB": 49208
+              },
+              {
+                "ms": 83.03549999999996,
+                "peakRssKiB": 49100
+              }
+            ],
+            "candidate": [
+              {
+                "ms": 80.53120000000001,
+                "peakRssKiB": 49064
+              },
+              {
+                "ms": 82.32190000000003,
+                "peakRssKiB": 49536
+              },
+              {
+                "ms": 80.41420000000005,
+                "peakRssKiB": 49196
+              },
+              {
+                "ms": 80.81229999999994,
+                "peakRssKiB": 49268
+              },
+              {
+                "ms": 93.68359999999984,
+                "peakRssKiB": 49196
+              },
+              {
+                "ms": 81.18090000000007,
+                "peakRssKiB": 49024
+              },
+              {
+                "ms": 80.38059999999996,
+                "peakRssKiB": 49420
+              },
+              {
+                "ms": 79.36540000000014,
+                "peakRssKiB": 49416
+              },
+              {
+                "ms": 80.59979999999996,
+                "peakRssKiB": 49012
+              }
+            ]
+          }
+        },
+        {
+          "name": "max-root",
+          "requestsPerProcess": 64,
+          "expected": {
+            "status": "planned",
+            "schedule": [
+              {
+                "id": "t0",
+                "start": 0,
+                "finish": 1
+              },
+              {
+                "id": "t1",
+                "start": 0,
+                "finish": 1
+              },
+              {
+                "id": "t2",
+                "start": 0,
+                "finish": 1
+              },
+              {
+                "id": "t3",
+                "start": 0,
+                "finish": 1
+              },
+              {
+                "id": "t4",
+                "start": 0,
+                "finish": 1
+              },
+              {
+                "id": "t5",
+                "start": 0,
+                "finish": 1
+              },
+              {
+                "id": "t6",
+                "start": 0,
+                "finish": 1
+              },
+              {
+                "id": "t7",
+                "start": 0,
+                "finish": 1
+              },
+              {
+                "id": "t8",
+                "start": 0,
+                "finish": 1
+              },
+              {
+                "id": "t9",
+                "start": 0,
+                "finish": 1
+              },
+              {
+                "id": "t10",
+                "start": 0,
+                "finish": 1
+              },
+              {
+                "id": "t11",
+                "start": 0,
+                "finish": 1
+              },
+              {
+                "id": "t12",
+                "start": 0,
+                "finish": 1
+              },
+              {
+                "id": "t13",
+                "start": 0,
+                "finish": 1
+              },
+              {
+                "id": "t14",
+                "start": 0,
+                "finish": 1
+              },
+              {
+                "id": "t15",
+                "start": 0,
+                "finish": 1
+              },
+              {
+                "id": "t16",
+                "start": 0,
+                "finish": 1
+              },
+              {
+                "id": "t17",
+                "start": 0,
+                "finish": 1
+              },
+              {
+                "id": "t18",
+                "start": 0,
+                "finish": 1
+              },
+              {
+                "id": "t19",
+                "start": 0,
+                "finish": 1
+              },
+              {
+                "id": "t20",
+                "start": 0,
+                "finish": 1
+              },
+              {
+                "id": "t21",
+                "start": 0,
+                "finish": 1
+              },
+              {
+                "id": "t22",
+                "start": 0,
+                "finish": 1
+              },
+              {
+                "id": "t23",
+                "start": 0,
+                "finish": 1
+              }
+            ],
+            "stats": {
+              "nodes": 1,
+              "pruned": 0,
+              "decisions": 0,
+              "charged_work": 128947
+            }
+          },
+          "outputSha256": "fe2096361e326db12d7011ae31f2e208332638d1917eea1dfc529f359e934821",
+          "samples": {
+            "baseline": [
+              {
+                "ms": 114.48050000000012,
+                "peakRssKiB": 71296
+              },
+              {
+                "ms": 117.24360000000024,
+                "peakRssKiB": 71552
+              },
+              {
+                "ms": 116.19950000000017,
+                "peakRssKiB": 71684
+              },
+              {
+                "ms": 131.18619999999964,
+                "peakRssKiB": 71252
+              },
+              {
+                "ms": 124.51229999999987,
+                "peakRssKiB": 71432
+              },
+              {
+                "ms": 115.71090000000004,
+                "peakRssKiB": 70712
+              },
+              {
+                "ms": 117.17340000000013,
+                "peakRssKiB": 71684
+              },
+              {
+                "ms": 119.5565000000006,
+                "peakRssKiB": 71152
+              },
+              {
+                "ms": 118.90110000000004,
+                "peakRssKiB": 71568
+              }
+            ],
+            "candidate": [
+              {
+                "ms": 115.36610000000019,
+                "peakRssKiB": 71288
+              },
+              {
+                "ms": 114.9028000000003,
+                "peakRssKiB": 71424
+              },
+              {
+                "ms": 118.89609999999993,
+                "peakRssKiB": 70896
+              },
+              {
+                "ms": 129.3818000000001,
+                "peakRssKiB": 71044
+              },
+              {
+                "ms": 120.13300000000027,
+                "peakRssKiB": 71096
+              },
+              {
+                "ms": 119.0634,
+                "peakRssKiB": 71360
+              },
+              {
+                "ms": 118.53970000000027,
+                "peakRssKiB": 71296
+              },
+              {
+                "ms": 116.6319999999996,
+                "peakRssKiB": 70832
+              },
+              {
+                "ms": 126.2501000000002,
+                "peakRssKiB": 71360
+              }
+            ]
+          }
+        },
+        {
+          "name": "max-model",
+          "requestsPerProcess": 16,
+          "expected": {
+            "status": "planned",
+            "schedule": [
+              {
+                "id": "t0",
+                "start": 0,
+                "finish": 1
+              },
+              {
+                "id": "t1",
+                "start": 1,
+                "finish": 2
+              },
+              {
+                "id": "t2",
+                "start": 2,
+                "finish": 3
+              },
+              {
+                "id": "t3",
+                "start": 3,
+                "finish": 4
+              },
+              {
+                "id": "t4",
+                "start": 4,
+                "finish": 5
+              },
+              {
+                "id": "t5",
+                "start": 5,
+                "finish": 6
+              },
+              {
+                "id": "t6",
+                "start": 6,
+                "finish": 7
+              },
+              {
+                "id": "t7",
+                "start": 7,
+                "finish": 8
+              },
+              {
+                "id": "t8",
+                "start": 8,
+                "finish": 9
+              },
+              {
+                "id": "t9",
+                "start": 9,
+                "finish": 10
+              },
+              {
+                "id": "t10",
+                "start": 10,
+                "finish": 11
+              },
+              {
+                "id": "t11",
+                "start": 11,
+                "finish": 12
+              },
+              {
+                "id": "t12",
+                "start": 12,
+                "finish": 13
+              },
+              {
+                "id": "t13",
+                "start": 13,
+                "finish": 14
+              },
+              {
+                "id": "t14",
+                "start": 14,
+                "finish": 15
+              },
+              {
+                "id": "t15",
+                "start": 15,
+                "finish": 16
+              },
+              {
+                "id": "t16",
+                "start": 16,
+                "finish": 17
+              },
+              {
+                "id": "t17",
+                "start": 17,
+                "finish": 18
+              },
+              {
+                "id": "t18",
+                "start": 18,
+                "finish": 19
+              },
+              {
+                "id": "t19",
+                "start": 19,
+                "finish": 20
+              },
+              {
+                "id": "t20",
+                "start": 20,
+                "finish": 21
+              },
+              {
+                "id": "t21",
+                "start": 21,
+                "finish": 22
+              },
+              {
+                "id": "t22",
+                "start": 22,
+                "finish": 23
+              },
+              {
+                "id": "t23",
+                "start": 23,
+                "finish": 24
+              }
+            ],
+            "stats": {
+              "nodes": 24,
+              "pruned": 0,
+              "decisions": 23,
+              "charged_work": 3108528
+            }
+          },
+          "outputSha256": "d8333bde0384ab8a44a5320320d3bf434cdfb8017e6fde9eddec241ffcb183d8",
+          "samples": {
+            "baseline": [
+              {
+                "ms": 105.96549999999934,
+                "peakRssKiB": 57912
+              },
+              {
+                "ms": 100.78080000000045,
+                "peakRssKiB": 58032
+              },
+              {
+                "ms": 101.8685000000005,
+                "peakRssKiB": 57484
+              },
+              {
+                "ms": 104.51350000000002,
+                "peakRssKiB": 57656
+              },
+              {
+                "ms": 116.01760000000013,
+                "peakRssKiB": 57860
+              },
+              {
+                "ms": 101.06049999999959,
+                "peakRssKiB": 57708
+              },
+              {
+                "ms": 100.22500000000036,
+                "peakRssKiB": 57780
+              },
+              {
+                "ms": 100.59979999999996,
+                "peakRssKiB": 57560
+              },
+              {
+                "ms": 98.04539999999997,
+                "peakRssKiB": 57500
+              }
+            ],
+            "candidate": [
+              {
+                "ms": 104.88730000000032,
+                "peakRssKiB": 58056
+              },
+              {
+                "ms": 100.14310000000023,
+                "peakRssKiB": 57628
+              },
+              {
+                "ms": 101.28639999999996,
+                "peakRssKiB": 57984
+              },
+              {
+                "ms": 108.70609999999942,
+                "peakRssKiB": 57904
+              },
+              {
+                "ms": 99.62760000000071,
+                "peakRssKiB": 58032
+              },
+              {
+                "ms": 101.67219999999998,
+                "peakRssKiB": 57784
+              },
+              {
+                "ms": 102.38400000000001,
+                "peakRssKiB": 57568
+              },
+              {
+                "ms": 100.36119999999937,
+                "peakRssKiB": 58036
+              },
+              {
+                "ms": 109.1206000000002,
+                "peakRssKiB": 57992
+              }
+            ]
+          }
+        },
+        {
+          "name": "tight-impossible",
+          "requestsPerProcess": 32,
+          "expected": {
+            "status": "unschedulable",
+            "stats": {
+              "nodes": 1439,
+              "pruned": 720,
+              "decisions": 719,
+              "charged_work": 3885037
+            }
+          },
+          "outputSha256": "f6b58e98fcee60c67373028d1163efd721f894fed6139fdaec543a217a74f57a",
+          "samples": {
+            "baseline": [
+              {
+                "ms": 175.09589999999935,
+                "peakRssKiB": 51324
+              },
+              {
+                "ms": 170.0482000000011,
+                "peakRssKiB": 51092
+              },
+              {
+                "ms": 170.85189999999966,
+                "peakRssKiB": 51396
+              },
+              {
+                "ms": 173.11009999999987,
+                "peakRssKiB": 51384
+              },
+              {
+                "ms": 170.3817999999992,
+                "peakRssKiB": 51280
+              },
+              {
+                "ms": 170.64489999999932,
+                "peakRssKiB": 51496
+              },
+              {
+                "ms": 171.63930000000073,
+                "peakRssKiB": 51320
+              },
+              {
+                "ms": 175.931700000001,
+                "peakRssKiB": 51740
+              },
+              {
+                "ms": 169.86789999999928,
+                "peakRssKiB": 51408
+              }
+            ],
+            "candidate": [
+              {
+                "ms": 180.08009999999922,
+                "peakRssKiB": 51476
+              },
+              {
+                "ms": 176.990600000001,
+                "peakRssKiB": 51648
+              },
+              {
+                "ms": 179.86509999999907,
+                "peakRssKiB": 51516
+              },
+              {
+                "ms": 178.14660000000003,
+                "peakRssKiB": 51448
+              },
+              {
+                "ms": 183.3238999999994,
+                "peakRssKiB": 51260
+              },
+              {
+                "ms": 176.72739999999976,
+                "peakRssKiB": 51308
+              },
+              {
+                "ms": 185.03669999999875,
+                "peakRssKiB": 51584
+              },
+              {
+                "ms": 179.91629999999896,
+                "peakRssKiB": 51600
+              },
+              {
+                "ms": 179.41439999999966,
+                "peakRssKiB": 51500
+              }
+            ]
+          }
+        },
+        {
+          "name": "exact-budgets",
+          "requestsPerProcess": 8,
+          "expected": {
+            "status": "planned",
+            "schedule": [
+              {
+                "id": "t0",
+                "start": 0,
+                "finish": 1
+              },
+              {
+                "id": "t1",
+                "start": 1,
+                "finish": 2
+              },
+              {
+                "id": "t2",
+                "start": 2,
+                "finish": 3
+              },
+              {
+                "id": "t3",
+                "start": 3,
+                "finish": 4
+              },
+              {
+                "id": "t4",
+                "start": 4,
+                "finish": 5
+              },
+              {
+                "id": "t5",
+                "start": 5,
+                "finish": 6
+              },
+              {
+                "id": "t6",
+                "start": 6,
+                "finish": 7
+              },
+              {
+                "id": "t7",
+                "start": 7,
+                "finish": 8
+              },
+              {
+                "id": "t8",
+                "start": 8,
+                "finish": 9
+              },
+              {
+                "id": "t9",
+                "start": 9,
+                "finish": 10
+              },
+              {
+                "id": "t10",
+                "start": 10,
+                "finish": 11
+              },
+              {
+                "id": "t11",
+                "start": 11,
+                "finish": 12
+              },
+              {
+                "id": "t12",
+                "start": 12,
+                "finish": 13
+              },
+              {
+                "id": "t13",
+                "start": 13,
+                "finish": 14
+              },
+              {
+                "id": "t14",
+                "start": 14,
+                "finish": 15
+              },
+              {
+                "id": "t15",
+                "start": 15,
+                "finish": 16
+              },
+              {
+                "id": "t16",
+                "start": 16,
+                "finish": 17
+              },
+              {
+                "id": "t17",
+                "start": 17,
+                "finish": 18
+              },
+              {
+                "id": "t18",
+                "start": 18,
+                "finish": 19
+              },
+              {
+                "id": "t19",
+                "start": 19,
+                "finish": 20
+              },
+              {
+                "id": "t20",
+                "start": 20,
+                "finish": 21
+              },
+              {
+                "id": "t21",
+                "start": 21,
+                "finish": 22
+              },
+              {
+                "id": "t22",
+                "start": 22,
+                "finish": 23
+              },
+              {
+                "id": "t23",
+                "start": 23,
+                "finish": 24
+              }
+            ],
+            "stats": {
+              "nodes": 24,
+              "pruned": 0,
+              "decisions": 23,
+              "charged_work": 3108528
+            }
+          },
+          "outputSha256": "c22a59e0c985233fb3618f2a1837ef1c3733691cef3c703a578b04e7909a5f6a",
+          "samples": {
+            "baseline": [
+              {
+                "ms": 101.95949999999903,
+                "peakRssKiB": 54460
+              },
+              {
+                "ms": 93.11959999999999,
+                "peakRssKiB": 53848
+              },
+              {
+                "ms": 99.6861000000008,
+                "peakRssKiB": 54428
+              },
+              {
+                "ms": 101.73079999999936,
+                "peakRssKiB": 54344
+              },
+              {
+                "ms": 100.28250000000116,
+                "peakRssKiB": 54044
+              },
+              {
+                "ms": 100.70259999999871,
+                "peakRssKiB": 54008
+              },
+              {
+                "ms": 101.51859999999942,
+                "peakRssKiB": 54436
+              },
+              {
+                "ms": 100.71950000000106,
+                "peakRssKiB": 54312
+              },
+              {
+                "ms": 100.59870000000046,
+                "peakRssKiB": 54496
+              }
+            ],
+            "candidate": [
+              {
+                "ms": 100.55839999999989,
+                "peakRssKiB": 57320
+              },
+              {
+                "ms": 110.29079999999885,
+                "peakRssKiB": 56996
+              },
+              {
+                "ms": 100.17690000000039,
+                "peakRssKiB": 57072
+              },
+              {
+                "ms": 96.58799999999974,
+                "peakRssKiB": 56768
+              },
+              {
+                "ms": 100.97370000000046,
+                "peakRssKiB": 57108
+              },
+              {
+                "ms": 100.22299999999996,
+                "peakRssKiB": 57252
+              },
+              {
+                "ms": 99.86079999999856,
+                "peakRssKiB": 56808
+              },
+              {
+                "ms": 100.07840000000033,
+                "peakRssKiB": 57380
+              },
+              {
+                "ms": 100.9326000000001,
+                "peakRssKiB": 57036
+              }
+            ]
+          }
+        },
+        {
+          "name": "node-limit",
+          "requestsPerProcess": 8,
+          "expected": {
+            "status": "error",
+            "code": "limit_exceeded",
+            "message": "planning node budget exhausted; no feasibility conclusion"
+          },
+          "outputSha256": "c5c5a5724bf9d22cdf1857e070c1ecf8a88fb8e410d843987dca3f5f6563f1e1",
+          "samples": {
+            "baseline": [
+              {
+                "ms": 93.0601000000006,
+                "peakRssKiB": 53872
+              },
+              {
+                "ms": 98.66059999999925,
+                "peakRssKiB": 53800
+              },
+              {
+                "ms": 101.40940000000046,
+                "peakRssKiB": 53972
+              },
+              {
+                "ms": 100.00970000000052,
+                "peakRssKiB": 53268
+              },
+              {
+                "ms": 100.87690000000111,
+                "peakRssKiB": 53100
+              },
+              {
+                "ms": 100.16320000000087,
+                "peakRssKiB": 54260
+              },
+              {
+                "ms": 99.88130000000092,
+                "peakRssKiB": 53124
+              },
+              {
+                "ms": 99.44470000000001,
+                "peakRssKiB": 53708
+              },
+              {
+                "ms": 100.26759999999922,
+                "peakRssKiB": 54220
+              }
+            ],
+            "candidate": [
+              {
+                "ms": 94.03079999999864,
+                "peakRssKiB": 56644
+              },
+              {
+                "ms": 101.8739999999998,
+                "peakRssKiB": 57392
+              },
+              {
+                "ms": 99.59629999999925,
+                "peakRssKiB": 57076
+              },
+              {
+                "ms": 101.88780000000042,
+                "peakRssKiB": 56676
+              },
+              {
+                "ms": 101.1973999999991,
+                "peakRssKiB": 57316
+              },
+              {
+                "ms": 99.58309999999983,
+                "peakRssKiB": 56960
+              },
+              {
+                "ms": 99.79720000000088,
+                "peakRssKiB": 56976
+              },
+              {
+                "ms": 101.12670000000071,
+                "peakRssKiB": 57360
+              },
+              {
+                "ms": 102.20399999999972,
+                "peakRssKiB": 56740
+              }
+            ]
+          }
+        },
+        {
+          "name": "work-limit",
+          "requestsPerProcess": 8,
+          "expected": {
+            "status": "error",
+            "code": "limit_exceeded",
+            "message": "planning work budget exhausted; no feasibility conclusion"
+          },
+          "outputSha256": "98f8aeeb2aab833825dcf999243de775070d42fd0c61e6638908888f592e306c",
+          "samples": {
+            "baseline": [
+              {
+                "ms": 99.50909999999931,
+                "peakRssKiB": 53644
+              },
+              {
+                "ms": 101.11000000000058,
+                "peakRssKiB": 54244
+              },
+              {
+                "ms": 100.14250000000175,
+                "peakRssKiB": 53860
+              },
+              {
+                "ms": 101.55249999999796,
+                "peakRssKiB": 53512
+              },
+              {
+                "ms": 99.39119999999821,
+                "peakRssKiB": 53772
+              },
+              {
+                "ms": 92.95620000000054,
+                "peakRssKiB": 53520
+              },
+              {
+                "ms": 95.58020000000033,
+                "peakRssKiB": 53716
+              },
+              {
+                "ms": 101.08259999999791,
+                "peakRssKiB": 53444
+              },
+              {
+                "ms": 100.98170000000027,
+                "peakRssKiB": 54140
+              }
+            ],
+            "candidate": [
+              {
+                "ms": 101.74359999999797,
+                "peakRssKiB": 56968
+              },
+              {
+                "ms": 98.98210000000108,
+                "peakRssKiB": 57180
+              },
+              {
+                "ms": 102.26459999999861,
+                "peakRssKiB": 57080
+              },
+              {
+                "ms": 99.86969999999928,
+                "peakRssKiB": 57068
+              },
+              {
+                "ms": 113.74400000000242,
+                "peakRssKiB": 56668
+              },
+              {
+                "ms": 103.40519999999742,
+                "peakRssKiB": 57176
+              },
+              {
+                "ms": 98.96840000000157,
+                "peakRssKiB": 56820
+              },
+              {
+                "ms": 100.56129999999757,
+                "peakRssKiB": 57000
+              },
+              {
+                "ms": 102.31550000000061,
+                "peakRssKiB": 56736
+              }
+            ]
+          }
+        }
+      ]
+    }
+  }
+}

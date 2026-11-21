@@ -10,7 +10,7 @@ window, or a negative cycle identifying contradictory original rules.
 
 [中文说明](README.zh-CN.md) · Apache-2.0 · Pure MoonBit core · JS CLI
 
-**Package version [JingLan0v0/stn@0.2.27](https://mooncakes.io/docs/JingLan0v0/stn@0.2.27).**
+**Package version [JingLan0v0/stn@0.2.28](https://mooncakes.io/docs/JingLan0v0/stn@0.2.28).**
 Verification and installation receipts: [acceptance](docs/acceptance.md).
 Repository: [JingLan0v0/MoonSTN](https://github.com/JingLan0v0/MoonSTN).
 
@@ -18,17 +18,18 @@ Repository: [JingLan0v0/MoonSTN](https://github.com/JingLan0v0/MoonSTN).
 
 | Version | Date | Main changes |
 | --- | --- | --- |
+| 0.2.28 | 2026-11-21 | Reuse the arc and rule ID arrays along the active resource-order search path. |
 | 0.2.27 | 2026-11-21 | Reuse task timepoint names and numeric suffixes in resource-order branches. |
 | 0.2.26 | 2026-11-21 | Precompute built-in planning timepoint and rule names by task position. |
 | 0.2.25 | 2026-11-21 | Reuse timepoint names when constructing planning dependency rules. |
 | 0.2.24 | 2026-11-20 | Reuse task indices to resolve planning dependency endpoints faster. |
-| 0.2.23 | 2026-11-20 | Read planning dependency fields in one pass and preserve diagnostic order. |
 
 <details>
 <summary>Earlier versions</summary>
 
 | Version | Date | Main changes |
 | --- | --- | --- |
+| 0.2.23 | 2026-11-20 | Read planning dependency fields in one pass and preserve diagnostic order. |
 | 0.2.22 | 2026-11-20 | Check exact integer spellings with less work per digit, including trailing-zero decimals. |
 | 0.2.21 | 2026-11-20 | Reuse numeric constraint field lookups to skip a second scan of recognized keys. |
 | 0.2.20 | 2026-11-20 | Reduce name, constraint ID, and bound validation work in large numeric models. |
@@ -119,7 +120,7 @@ leave partial bytes; consumers must check the process exit status.
 Install the published package in your consumer module:
 
 ```sh
-moon add JingLan0v0/stn@0.2.27
+moon add JingLan0v0/stn@0.2.28
 ```
 
 Import `JingLan0v0/stn` as `stn` in `moon.pkg`. A complete runnable example is in

@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.2.28 — 2026-11-21
+
+- Keep one arc array and one rule ID array along the active resource-order path and restore the parent's entries before visiting a sibling.
+- Verify sibling backtracking at the 512-rule cap, exact budgets, and reuse after errors.
+
 ## 0.2.27 — 2026-11-21
 
 - Reuse canonical task timepoint names in resource-order branches and convert each task position once per branch.

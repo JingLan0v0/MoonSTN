@@ -1,8 +1,17 @@
 # Continue MoonSTN optimization
 
 The [optimization roadmap](optimization-roadmap.md) records the next measurement
-and its acceptance criteria. Next, measure array copying when compiling
+and its acceptance criteria. Next, measure duplicate rule ID checks in
 resource-order branches during planning search.
+
+## Resource-order branch array reuse — 2026-11-21
+
+The 0.2.28 source keeps the arcs and rule IDs for the active resource
+search path and restores the parent's entries before visiting a sibling.
+The tight-window library search took 5.5–6.4% less time, and its CLI
+batch took 2.5–5.0% less time. All seven CLI outputs matched by byte.
+The new regression preserves exact budgets, sibling backtracking at
+the rule cap, and error precedence. [Measurements](optimization-0.2.28.json)
 
 ## Resource-order branch names — 2026-11-21
 

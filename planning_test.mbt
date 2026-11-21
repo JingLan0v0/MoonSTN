@@ -74,6 +74,57 @@ test "planning keeps 0.2.0 schedules, statistics and exact budget thresholds" {
 }
 
 ///|
+test "planning restores the parent rule count before a sibling at the cap" {
+  let p = @stn.planning_problem(
+    [task("flexible", 2, 6, Some("r")), task("urgent", 3, 3, Some("r"))],
+    [],
+  )
+  for i = 0; i < 505; i = i + 1 {
+    p.rules.push({
+      id: "padding" + i.to_string(),
+      from: "origin",
+      to: "origin",
+      lower: None,
+      upper: Some(0),
+    })
+  }
+  // The root and the two siblings use 3213, 3219 and 3219 work units.
+  // The first sibling is infeasible and the second requires the reverse order.
+  guard @stn.plan(p, max_nodes=3, max_work=9651) is @stn.Planned(s, stats) else {
+    fail("expected the second order at the exact budget")
+  }
+  assert_eq(s, [
+    { id: "flexible", start: 3L, finish: 5L, },
+    { id: "urgent", start: 0L, finish: 3L, },
+  ])
+  assert_eq(stats, { nodes: 3, pruned: 1, decisions: 1, charged_work: 9651, })
+  assert_true(@stn.verify_plan(p, s))
+  assert_eq(p.rules.length(), 511)
+
+  p.rules.push({ ..p.rules[510], id: "last_padding", })
+  for
+    (max_nodes, max_work, expected) in [
+      (2, 3218, "planning work budget exhausted; no feasibility conclusion"),
+      (1, 3219, "planning node budget exhausted; no feasibility conclusion"),
+      (2, 3219, "require 1..64 timepoints and at most 512 constraints"),
+    ] {
+    let error = try {
+      @stn.plan(p, max_nodes~, max_work~) |> ignore
+      None
+    } catch {
+      @stn.StnError(code, message) => Some((code, message))
+    }
+    assert_eq(error, Some(("limit_exceeded", expected)))
+  }
+  p.rules.pop() |> ignore
+  guard @stn.plan(p, max_nodes=3, max_work=9651)
+    is @stn.Planned(again, again_stats) else {
+    fail("expected to reuse the model after restoring the cap")
+  }
+  assert_eq((again, again_stats), (s, stats))
+}
+
+///|
 test "planning recompiles readable rules and preserves child validation order" {
   let p = @stn.planning_problem(
     [

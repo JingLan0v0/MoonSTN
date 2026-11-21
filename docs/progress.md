@@ -15,6 +15,10 @@ API regression keeps the rule order, bounds, and the exact-budget
 schedule fixed and checks isolation after an edit.
 [Measurements](optimization-0.2.26.json)
 
+Source 14c0af2 passed Windows and Ubuntu CI. An empty-cache installation
+matched all 130 published files and passed 18 executables per mode.
+[Release receipts](publication-0.2.26.json)
+
 ## Planning dependency timepoint names — 2026-11-21
 
 Version 0.2.25 reads dependency endpoints from the existing timepoint list.

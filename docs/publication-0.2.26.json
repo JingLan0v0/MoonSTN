@@ -1,0 +1,111 @@
+{
+  "version": "0.2.26",
+  "sourceCommit": "14c0af28a8602d67136e859292a8f5351736aa55",
+  "baselineCommit": "37fda1da96557d9b30144ca880136ca92193d17d",
+  "baselineCheckout": "1ff61eb5f01424ac5688bb1a27c604524506cb3a",
+  "verification": {
+    "checkoutCompletedAt": "2026-11-21T05:20:24.486Z",
+    "packageExtractionCompletedAt": "2026-11-21T05:22:33.884Z",
+    "publicArchiveCompletedAt": "2026-11-21T05:25:57.784Z",
+    "modes": [
+      "debug",
+      "release"
+    ],
+    "unitTestsPerMode": 39,
+    "stnOracleCasesPerMode": 4096,
+    "signedClosureBoundsPerMode": 256,
+    "planningOracleCasesPerMode": 1794,
+    "planningBudgetBoundaryModelsPerMode": 2,
+    "baselineComparedForExistingSuites": true,
+    "byteIdenticalBenchmarkWorkloads": 8,
+    "generatedInterfaces": "unchanged",
+    "powerShellSmoke": "passed in checkout and extraction",
+    "taskRuleTestOnBaseline": [
+      "debug",
+      "release"
+    ]
+  },
+  "ci": {
+    "run": 44870529441,
+    "ubuntu": {
+      "job": 136743809291,
+      "conclusion": "success"
+    },
+    "windows": {
+      "job": 136743809525,
+      "conclusion": "success"
+    }
+  },
+  "packageFiles": 130,
+  "sha256": "b0bee694fb5a33f95d2e8a00822e861d1baf231a7fe07fdab9b329bb9d26b33d",
+  "preflight": "202 Accepted",
+  "publication": "200 OK",
+  "registryCreatedAt": "2026-11-21T05:24:26.058131+00:00",
+  "publicVersionPageStatus": 200,
+  "publicArchiveDownloadStatus": 200,
+  "consumer": {
+    "checkedAt": "2026-11-21T05:25:13.9453890+00:00",
+    "freshCache": true,
+    "credentials": false,
+    "workspaceDependency": false,
+    "modes": [
+      "debug",
+      "release"
+    ],
+    "executablesPerMode": 18,
+    "executables": [
+      "closure",
+      "constraint_fields",
+      "groups",
+      "integers",
+      "library",
+      "long_spellings",
+      "matrix",
+      "names",
+      "planning",
+      "planning_endpoints",
+      "planning_fields",
+      "planning_points",
+      "planning_task_names",
+      "queries",
+      "relaxation",
+      "results",
+      "wide_precision",
+      "width"
+    ],
+    "checks": [
+      "exact version",
+      "assignment",
+      "tight bounds",
+      "conflict certificate",
+      "resource-order backtracking",
+      "independent plan verification",
+      "resource-induced unschedulability",
+      "planning budget recovery",
+      "exact decimal and exponent spellings",
+      "nonzero underflow rejection",
+      "byte-identical mixed planning batch",
+      "byte-identical 256-query numeric response at exact budget",
+      "dense closure at exact and one-step-short budgets",
+      "63,000,000 tight upper bound",
+      "edited ±3,000,000,000 edges and subsequent reuse",
+      "edited names, first duplicate-name match, unknown endpoint before budget exhaustion and edited edges",
+      "signed 32-point separate components, exact closure budget, unreachable pairs and checked assignment",
+      "complete public matrix with 1,024 signed, repeated and unreachable cells",
+      "negative potentials beyond Int32, exact cycle identity and both work-exhaustion boundaries",
+      "edited edge beyond binary64 exact integer range",
+      "byte-identical constraint field batch, null and omitted bounds, exact decimal and exponent handling, diagnostic order and recovery",
+      "negative zero, saturated exponents, long fractional tails, rejection of underflow and hidden fractions through both public batch APIs",
+      "planning task and dependency field order, null and omitted optionals, rounded maximum lag and batch recovery",
+      "exact endpoint positions, numeric-looking and prototype-like task IDs, duplicate ID and endpoint diagnostic precedence",
+      "exact rule names, endpoint names, rule order and signed lags for FS, SS, FF and SF, plus independent verification of the schedule",
+      "all 24 positional rule groups, exactly bounded schedule, independent witness, and fresh model after editing a previous model"
+    ],
+    "registryArchiveMatches": true,
+    "installedFilesMatch": true
+  },
+  "githubReadmeHistoryVerified": {
+    "english": true,
+    "simplifiedChinese": true
+  }
+}

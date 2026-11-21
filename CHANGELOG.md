@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.2.26 — 2026-11-21
+
+- Precompute built-in timepoint and rule names for each supported task position.
+- Verify all 24 task positions, exact rule bounds and schedule, and model isolation after caller edits.
+
 ## 0.2.25 — 2026-11-21
 
 - Reuse existing timepoint names when constructing planning dependencies.

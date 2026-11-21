@@ -2,6 +2,53 @@
 
 Project MoonSTN / JingLan0v0/stn, published 0.2.25.
 
+## Planning task timepoint and rule names — 2026-11-21
+
+The 0.2.25 constructor converted each validated task index to text five
+times for two timepoints and three rules. The JS probe counted 120
+conversions in each 24-task construction. The selected implementation
+precomputes the 24 suffixes and 120 names at module initialization. Model
+construction reads the fixed names and still creates fresh model arrays
+and rules with per-task bounds. The probe counted zero task index
+conversions per construction. Dependency rule IDs have their own sequence.
+
+The two local reuse trials converted each index once per construction
+and either reused the suffix or reused the timepoint prefix. Their timing
+direction varied with run order. The trial that cached only the suffixes
+improved several large workloads and slowed one small workload by about 7%.
+The table of complete names improved all eight library workloads in
+both orders.
+
+| Library milliseconds per 1,000 constructions | Baseline first | Candidate first |
+| --- | ---: | ---: |
+| 2 tasks, no dependencies | 0.432 → 0.359 | 0.451 → 0.342 |
+| 24 tasks, no dependencies | 2.706 → 1.386 | 2.555 → 1.127 |
+| 24 tasks, mixed dependency kinds | 5.325 → 4.263 | 5.559 → 4.204 |
+| Long task IDs | 15.595 → 14.516 | 14.396 → 12.994 |
+| Unknown endpoint in final dependency | 6.161 → 4.448 | 5.567 → 4.243 |
+
+The full CLI maximum model took 121.30 → 121.45 ms and 120.25 → 122.33 ms.
+The wide schedule took 104.20 → 102.00 ms and 102.50 → 103.76 ms. The
+maintenance control took 84.29 → 83.00 ms and 80.56 → 81.81 ms.
+The same-binary control varied by up to 8.9%. The largest change in median
+peak RSS was about 0.75 MiB, in the late unknown endpoint workload.
+All eight CLI outputs matched by byte in both orders.
+
+The direct API regression checks the order, names and bounds of the
+72 built-in rules, all 49 timepoint names, the schedule at the exact
+budget, independent witness verification and model isolation after
+editing the first model. The regression passed on 0.2.25 in both modes.
+The full verifier covers the other exact budgets and the short cases.
+
+Build the JS release drivers from
+`scripts/fixtures/planning-benchmark.mbt`. Run
+`scripts/benchmark-planning-library.mjs` with
+`MOONSTN_BENCH_PLAN_CONSTRUCTION=1` and `MOONSTN_BENCH_PLAN_KINDS=1`.
+For the CLI, run `scripts/benchmark-planning-results.mjs` with
+`MOONSTN_BENCH_PLAN_ENDPOINTS=1`. The evidence file contains all
+paired samples, peak RSS, trial patches, and the conversion probe.
+[Measurements](optimization-0.2.26.json)
+
 ## Mooncakes 0.2.25 publication — 2026-11-21
 
 Source 37fda1da96557d9b30144ca880136ca92193d17d passed Windows and Ubuntu

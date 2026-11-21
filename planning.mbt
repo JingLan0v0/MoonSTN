@@ -71,16 +71,42 @@ fn task_index(
 }
 
 ///|
-fn point(i : Int32, finish : Bool) -> String {
-  "t" + i.to_string() + (if finish { "f" } else { "s" })
+fn point(suffix : String, finish : Bool) -> String {
+  "t" + suffix + (if finish { "f" } else { "s" })
 }
+
+///|
+const MAX_PLANNING_TASKS = 24
+
+///|
+priv struct TaskRuleNames {
+  start : String
+  finish : String
+  duration : String
+  release : String
+  deadline : String
+}
+
+///|
+let task_rule_names : Array[TaskRuleNames] = Array::makei(MAX_PLANNING_TASKS, i => {
+  let suffix = i.to_string()
+  {
+    start: point(suffix, false),
+    finish: point(suffix, true),
+    duration: "duration" + suffix,
+    release: "release" + suffix,
+    deadline: "deadline" + suffix,
+  }
+})
 
 ///|
 pub fn planning_problem(
   tasks : Array[Task],
   dependencies : Array[Dependency],
 ) -> PlanningProblem raise StnError {
-  if tasks.length() < 1 || tasks.length() > 24 || dependencies.length() > 64 {
+  if tasks.length() < 1 ||
+    tasks.length() > MAX_PLANNING_TASKS ||
+    dependencies.length() > 64 {
     raise StnError(
       "limit_exceeded", "require 1..24 tasks and at most 64 dependencies",
     )
@@ -112,26 +138,27 @@ pub fn planning_problem(
     if t.resource is Some(r) && !valid_name(r) {
       raise StnError("invalid_input", "invalid resource id")
     }
-    let s = point(i, false)
-    let f = point(i, true)
+    let task_names = task_rule_names[i]
+    let s = task_names.start
+    let f = task_names.finish
     names.push(s)
     names.push(f)
     rules.push({
-      id: "duration" + i.to_string(),
+      id: task_names.duration,
       from: s,
       to: f,
       lower: Some(t.min_duration),
       upper: Some(t.max_duration),
     })
     rules.push({
-      id: "release" + i.to_string(),
+      id: task_names.release,
       from: "origin",
       to: s,
       lower: Some(t.release),
       upper: None,
     })
     rules.push({
-      id: "deadline" + i.to_string(),
+      id: task_names.deadline,
       from: "origin",
       to: f,
       lower: None,
@@ -243,8 +270,8 @@ fn PlanBranch::compile(
   if self.rule_ids.contains(id) {
     raise StnError("invalid_input", "invalid or duplicate constraint id")
   }
-  let finish = lookup_name(index, point(before, true))
-  let start = lookup_name(index, point(after, false))
+  let finish = lookup_name(index, point(before.to_string(), true))
+  let start = lookup_name(index, point(after.to_string(), false))
   let arcs = self.arcs.copy()
   // finish(before) <= start(after) is a zero-weight lower-bound arc.
   arcs.push({ source: start, target: finish, bound: 0L, })

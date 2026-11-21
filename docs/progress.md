@@ -1,8 +1,19 @@
 # Continue MoonSTN optimization
 
 The [optimization roadmap](optimization-roadmap.md) records the next measurement
-and its acceptance criteria. Next, measure numeric suffix construction for
-each task's built-in planning rules.
+and its acceptance criteria. Next, measure name construction and lookups
+for new resource-order rules during planning search.
+
+## Planning task timepoint and rule names — 2026-11-21
+
+The 0.2.26 source precomputes five names per task position at module
+initialization. A 24-task construction skips 120 index-to-text
+conversions. No-dependency library builds took 49–56% less time and
+mixed-dependency builds took 20–24% less time. The full CLI comparison
+had mixed timings and all eight outputs matched by byte. The direct
+API regression keeps the rule order, bounds, and the exact-budget
+schedule fixed and checks isolation after an edit.
+[Measurements](optimization-0.2.26.json)
 
 ## Planning dependency timepoint names — 2026-11-21
 

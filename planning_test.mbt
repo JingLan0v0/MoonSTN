@@ -310,6 +310,67 @@ test "all dependency kinds use the correct named timepoints" {
 }
 
 ///|
+test "built-in planning rules preserve task positions and windows" {
+  let tasks : Array[@stn.Task] = Array::makei(24, i => {
+    id: "task-" + (24 - i).to_string(),
+    min_duration: 2,
+    max_duration: 3,
+    release: 4 * i,
+    deadline: 4 * i + 2,
+    resource: None,
+  })
+  let p = @stn.planning_problem(tasks, [])
+  assert_eq(
+    (p.names[0], p.names.length(), p.rules.length()),
+    ("origin", 49, 72),
+  )
+  for i, t in tasks {
+    let suffix = i.to_string()
+    let start = "t" + suffix + "s"
+    let finish = "t" + suffix + "f"
+    assert_eq((p.names[2 * i + 1], p.names[2 * i + 2]), (start, finish))
+    assert_eq(p.rules[3 * i], {
+      id: "duration" + suffix,
+      from: start,
+      to: finish,
+      lower: Some(2),
+      upper: Some(3),
+    })
+    assert_eq(p.rules[3 * i + 1], {
+      id: "release" + suffix,
+      from: "origin",
+      to: start,
+      lower: Some(t.release),
+      upper: None,
+    })
+    assert_eq(p.rules[3 * i + 2], {
+      id: "deadline" + suffix,
+      from: "origin",
+      to: finish,
+      lower: None,
+      upper: Some(t.deadline),
+    })
+  }
+  guard @stn.plan(p, max_nodes=1, max_work=122547)
+    is @stn.Planned(schedule, stats) else {
+    fail("expected a plan at the exact budget")
+  }
+  let expected : Array[@stn.ScheduledTask] = tasks.map(t => {
+    id: t.id,
+    start: t.release.to_int64(),
+    finish: t.deadline.to_int64(),
+  })
+  assert_eq(schedule, expected)
+  assert_eq((stats.nodes, stats.charged_work), (1, 122547))
+  assert_true(@stn.verify_plan(p, schedule))
+
+  p.names[1] = "renamed"
+  p.rules[0] = { ..p.rules[0], id: "edited", }
+  let rebuilt = @stn.planning_problem(tasks, [])
+  assert_eq((rebuilt.names[1], rebuilt.rules[0].id), ("t0s", "duration0"))
+}
+
+///|
 test "task validation and ordered dependency endpoint errors" {
   let a = task("a", 1, 5, None)
   let b = task("b", 1, 5, None)

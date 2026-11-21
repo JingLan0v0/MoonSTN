@@ -13,6 +13,10 @@ End-to-end timings were mixed and seven CLI outputs matched by byte.
 Moved or caller-appended timepoints have direct API regressions at
 exact budgets. [Measurements](optimization-0.2.27.json)
 
+Source f6066c7 passed Windows and Ubuntu CI. An empty-cache installation
+matched all 132 published files and passed 19 executables per mode.
+[Release receipts](publication-0.2.27.json)
+
 ## Planning task timepoint and rule names — 2026-11-21
 
 The 0.2.26 source precomputes five names per task position at module

@@ -13,6 +13,10 @@ batch took 2.5–5.0% less time. All seven CLI outputs matched by byte.
 The new regression preserves exact budgets, sibling backtracking at
 the rule cap, and error precedence. [Measurements](optimization-0.2.28.json)
 
+Source ef243aa passed Windows and Ubuntu CI. An empty-cache installation
+matched all 134 published files and passed 20 executables per mode.
+[Release receipts](publication-0.2.28.json)
+
 ## Resource-order branch names — 2026-11-21
 
 The 0.2.27 source reuses canonical point names in resource-order

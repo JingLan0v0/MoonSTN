@@ -1,6 +1,56 @@
-# Acceptance evidence — updated 2026-11-21
+# Acceptance evidence — updated 2026-11-22
 
 Project MoonSTN / JingLan0v0/stn, published 0.2.28.
+
+## Resource-order duplicate ID checks — 2026-11-22
+
+The 0.2.28 probe counted 7,550,448 string comparisons for 278,971 child
+checks in the tight-window process and 20,286,000 comparisons for 138,000
+checks in the 24-task maximum process. Counts include warmup and budget
+checks. The duplicate phase took 31.3–32.9 ms and 46.5–49.4 ms,
+respectively, including instrumentation overhead.
+
+The selected candidate tracks root IDs beginning with `order` and the
+IDs appended during search. All other rules still count toward the
+512-rule cap. Rollback removes the abandoned order IDs and arcs, and
+duplicate checks still compare the complete ID before resolving endpoints.
+The two probes counted 2,528,970 and 1,518,000 comparisons, reductions of
+66.5% and 92.5%, with the same number of checks. The control maintenance
+probe went from 72,000 comparisons to zero.
+
+| Deep-search library milliseconds per 16 calls | Baseline first | Candidate first |
+| --- | ---: | ---: |
+| Same-binary control | 40.252 → 40.053 | |
+| Reuse the validated hash set | 40.693 → 40.225 | 40.146 → 39.709 |
+| Filter after the first conflict | 38.980 → 38.491 | 39.039 → 38.417 |
+| Filter before search (selected) | 39.462 → 39.139 | 41.666 → 39.635 |
+
+The deferred filter kept the same comparison counts. It also slowed the
+unbranched maximum library case by 2.3–7.1% and the distinct-resource case
+by 3.1–5.7%. The selected filter took 3.4–3.5% less time on the four-resource
+workload and 1.5–2.2% less on the maximum with resource conflicts.
+Independent tasks took 1.1% and 8.8% longer, with 6.7% variation in the
+same-binary control.
+
+The maximum CLI case with resource conflicts took 2.1% less time in one
+run and 4.7% more in the other. The tight-window CLI was flat and 2.3%
+slower. Median peak RSS for the no-conflict maximum CLI increased by
+0.8–1.0 MiB. All seven outputs were byte-identical, including exact,
+one-node-short and one-work-unit-short budgets.
+
+A new public API regression covers edited root IDs that share a prefix,
+a repeated ancestor order after timepoint moves, node and work error
+precedence, and reuse after restoring the model. The regression passes
+on 0.2.28 in debug and release.
+
+Use `scripts/fixtures/deep-search-benchmark.mbt` and
+`scripts/fixtures/planning-benchmark.mbt` to build the release drivers.
+Run `scripts/benchmark-deep-search.mjs` with `--library` and two library
+drivers or pass two CLI binaries directly. Use
+`scripts/benchmark-planning-library.mjs` for the ordinary cases. The
+evidence includes the instrumented scan source, trial patches, output
+hashes, elapsed time and peak RSS samples.
+[Measurements](optimization-0.2.29.json)
 
 ## Mooncakes 0.2.28 publication — 2026-11-21
 

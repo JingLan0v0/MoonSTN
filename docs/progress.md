@@ -1,8 +1,17 @@
 # Continue MoonSTN optimization
 
 The [optimization roadmap](optimization-roadmap.md) records the next measurement
-and its acceptance criteria. Next, measure duplicate rule ID checks in
-resource-order branches during planning search.
+and its acceptance criteria. Next, measure per-node schedule construction
+before resource conflict checks.
+
+## Resource-order duplicate ID checks — 2026-11-22
+
+The 0.2.29 source scans root IDs with the order prefix and IDs on the
+active resource path. The maximum workload made 92.5% fewer duplicate
+comparisons. Four-resource library searches took 3.4–3.5% less time.
+CLI timings varied and all seven outputs matched by byte. The direct API
+regression covers edited root IDs and repeated ancestor rules.
+[Measurements](optimization-0.2.29.json)
 
 ## Resource-order branch array reuse — 2026-11-21
 

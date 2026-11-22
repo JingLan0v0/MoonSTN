@@ -162,6 +162,71 @@ test "planning recompiles readable rules and preserves child validation order" {
 }
 
 ///|
+test "planning distinguishes root IDs from repeated ancestor orders" {
+  let p = @stn.planning_problem(
+    [task("a", 1, 2, Some("r")), task("b", 1, 2, Some("r"))],
+    [],
+  )
+  let original = p.rules.copy()
+  // Keep the canonical endpoints at unused positions. The first generated
+  // order leaves the positional schedule overlapping and is proposed again.
+  p.names[2] = "renamed_finish"
+  p.names[3] = "renamed_start"
+  p.names.push("t0f")
+  p.names.push("t1s")
+  let rename = name => {
+    match name {
+      "t0f" => "renamed_finish"
+      "t1s" => "renamed_start"
+      _ => name
+    }
+  }
+  for i, rule in original {
+    p.rules[i] = { ..rule, from: rename(rule.from), to: rename(rule.to), }
+  }
+  p.rules[0] = { ..p.rules[0], id: "order0_10", }
+  let duplicate = ("invalid_input", "invalid or duplicate constraint id")
+  for
+    (max_nodes, max_work, expected) in [
+      (
+        2,
+        850,
+        (
+          "limit_exceeded", "planning node budget exhausted; no feasibility conclusion",
+        ),
+      ),
+      (3, 850, duplicate),
+    ] {
+    let actual = try {
+      @stn.plan(p, max_nodes~, max_work~) |> ignore
+      None
+    } catch {
+      @stn.StnError(code, message) => Some((code, message))
+    }
+    assert_eq(actual, Some(expected))
+  }
+  p.rules[0] = { ..p.rules[0], id: "order0_1", }
+  let actual = try {
+    @stn.plan(p, max_nodes=2, max_work=421) |> ignore
+    None
+  } catch {
+    @stn.StnError(code, message) => Some((code, message))
+  }
+  assert_eq(actual, Some(duplicate))
+  p.names.pop() |> ignore
+  p.names.pop() |> ignore
+  p.names[2] = "t0f"
+  p.names[3] = "t1s"
+  for i, rule in original {
+    p.rules[i] = rule
+  }
+  guard @stn.plan(p, max_nodes=2, max_work=372) is @stn.Planned(schedule, _) else {
+    fail("expected to reuse the restored model")
+  }
+  assert_true(@stn.verify_plan(p, schedule))
+}
+
+///|
 test "planning resolves current timepoint names when compiling a child" {
   let p = @stn.planning_problem(
     [task("a", 1, 2, Some("r")), task("b", 1, 2, Some("r"))],

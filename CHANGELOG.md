@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.2.29 — 2026-11-22
+
+- Limit resource-order ID scans to IDs starting with `order` and retain the full rule count for limit checks.
+- Verify edited root IDs, repeated ancestor orders, exact error precedence, and reuse after restoring the model.
+
 ## 0.2.28 — 2026-11-21
 
 - Keep one arc array and one rule ID array along the active resource-order path and restore the parent's entries before visiting a sibling.

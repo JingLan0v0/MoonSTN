@@ -254,12 +254,13 @@ priv struct PlanBranch {
 fn append_order_rule(
   arcs : Array[TemporalArc],
   rule_ids : Array[String],
+  other_rule_count : Int32,
   index : Map[String, Int32],
   before : Int32,
   after : Int32,
 ) -> Unit raise StnError {
   // Rule IDs and caps also cover callers using the readable model arrays.
-  if rule_ids.length() == 512 {
+  if other_rule_count + rule_ids.length() == 512 {
     raise StnError(
       "limit_exceeded", "require 1..64 timepoints and at most 512 constraints",
     )
@@ -324,7 +325,14 @@ pub fn plan(
     (_, source, target, bound, _) => { source, target, bound, },
   )
   let n = p.names.length()
-  let rule_ids = p.rules.map(rule => rule.id)
+  // Generated ordering IDs can only match rules in this prefix.
+  let rule_ids : Array[String] = []
+  for rule in p.rules {
+    if rule.id.has_prefix("order") {
+      rule_ids.push(rule.id)
+    }
+  }
+  let other_rule_count = p.rules.length() - rule_ids.length()
   let stack : Array[PlanBranch] = [
     { parent_rule_count: rule_ids.length(), order: None, },
   ]
@@ -346,7 +354,7 @@ pub fn plan(
       arcs.pop() |> ignore
     }
     if branch.order is Some((before, after)) {
-      append_order_rule(arcs, rule_ids, index, before, after)
+      append_order_rule(arcs, rule_ids, other_rule_count, index, before, after)
     }
     let e = arcs.length()
     // Keep the 0.2.0 full-solve charge while computing only a feasibility witness.

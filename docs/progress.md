@@ -13,6 +13,7 @@ CLI timings varied and all seven outputs matched by byte. The direct API
 regression covers edited root IDs and repeated ancestor rules.
 [Measurements](optimization-0.2.29.json)
 
+C:\Users\XJY\Desktop\MoonBit黑客松\.tools\moonstn-scan-20261118\docs\progress.md
 ## Resource-order branch array reuse — 2026-11-21
 
 The 0.2.28 source keeps the arcs and rule IDs for the active resource

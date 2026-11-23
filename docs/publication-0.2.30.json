@@ -1,0 +1,119 @@
+{
+  "version": "0.2.30",
+  "sourceCommit": "5d0a62a8af19389d5ab9843baae38ce134f563a4",
+  "baselineCommit": "239561c96b0dbb61bb4a2bae45c69500741f502d",
+  "baselineCheckout": "6414633fbb1ac50791df4d4568b67efacd828202",
+  "verification": {
+    "checkoutCompletedAt": "2026-11-23T13:33:00.996Z",
+    "packageExtractionCompletedAt": "2026-11-23T13:35:34.977Z",
+    "publicArchiveCompletedAt": "2026-11-23T13:37:46.235Z",
+    "modes": [
+      "debug",
+      "release"
+    ],
+    "unitTestsPerMode": 44,
+    "stnOracleCasesPerMode": 4096,
+    "signedClosureBoundsPerMode": 256,
+    "planningOracleCasesPerMode": 1794,
+    "planningBudgetBoundaryModelsPerMode": 2,
+    "baselineComparedForExistingSuites": true,
+    "byteIdenticalBenchmarkWorkloads": 7,
+    "generatedInterfaces": "unchanged",
+    "powerShellSmoke": "passed in checkout and extraction",
+    "resourcePairOrderTestOnBaseline": [
+      "debug",
+      "release"
+    ]
+  },
+  "ci": {
+    "run": 45185283523,
+    "ubuntu": {
+      "job": 137729166211,
+      "conclusion": "success"
+    },
+    "windows": {
+      "job": 137729166810,
+      "conclusion": "success"
+    }
+  },
+  "packageFiles": 139,
+  "sha256": "918bf067bfff1568209a7f33eae6f8f8d4a0e2db263f31b47d8a35feb518165c",
+  "preflight": "202 Accepted",
+  "publication": "200 OK",
+  "registryCreatedAt": "2026-11-23T13:36:18.855730+00:00",
+  "publicVersionPageStatus": 200,
+  "publicArchiveDownloadStatus": 200,
+  "consumer": {
+    "checkedAt": "2026-11-23T13:37:09.2618764+00:00",
+    "freshCache": true,
+    "credentials": false,
+    "workspaceDependency": false,
+    "modes": [
+      "debug",
+      "release"
+    ],
+    "executablesPerMode": 22,
+    "executables": [
+      "closure",
+      "constraint_fields",
+      "groups",
+      "integers",
+      "library",
+      "long_spellings",
+      "matrix",
+      "names",
+      "planning",
+      "planning_branch_arrays",
+      "planning_branch_names",
+      "planning_endpoints",
+      "planning_fields",
+      "planning_order_ids",
+      "planning_points",
+      "planning_resource_pairs",
+      "planning_task_names",
+      "queries",
+      "relaxation",
+      "results",
+      "wide_precision",
+      "width"
+    ],
+    "checks": [
+      "exact version",
+      "assignment",
+      "tight bounds",
+      "conflict certificate",
+      "resource-order backtracking",
+      "independent plan verification",
+      "resource-induced unschedulability",
+      "planning budget recovery",
+      "exact decimal and exponent spellings",
+      "nonzero underflow rejection",
+      "byte-identical mixed planning batch",
+      "byte-identical 256-query numeric response at exact budget",
+      "dense closure at exact and one-step-short budgets",
+      "63,000,000 tight upper bound",
+      "edited ±3,000,000,000 edges and subsequent reuse",
+      "edited names, first duplicate-name match, unknown endpoint before budget exhaustion and edited edges",
+      "signed 32-point separate components, exact closure budget, unreachable pairs and checked assignment",
+      "complete public matrix with 1,024 signed, repeated and unreachable cells",
+      "negative potentials beyond Int32, exact cycle identity and both work-exhaustion boundaries",
+      "edited edge beyond binary64 exact integer range",
+      "byte-identical constraint field batch, null and omitted bounds, exact decimal and exponent handling, diagnostic order and recovery",
+      "negative zero, saturated exponents, long fractional tails, rejection of underflow and hidden fractions through both public batch APIs",
+      "planning task and dependency field order, null and omitted optionals, rounded maximum lag and batch recovery",
+      "exact endpoint positions, numeric-looking and prototype-like task IDs, duplicate ID and endpoint diagnostic precedence",
+      "exact rule names, endpoint names, rule order and signed lags for FS, SS, FF and SF, plus independent verification of the schedule",
+      "all 24 positional rule groups, exactly bounded schedule, independent witness, and fresh model after editing a previous model",
+      "moved timepoints and a caller-added 25th task under exact budgets through the public planning API",
+      "sibling restoration at the 512-rule cap, exact budgets, error precedence and reuse after errors",
+      "exact root and ancestor order IDs, error precedence and reuse after restoring an edited model",
+      "interleaved first resource conflict, edited task resource and exact-budget model reuse"
+    ],
+    "registryArchiveMatches": true,
+    "installedFilesMatch": true
+  },
+  "githubReadmeHistoryVerified": {
+    "english": true,
+    "simplifiedChinese": true
+  }
+}

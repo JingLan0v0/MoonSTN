@@ -1,6 +1,23 @@
 # Acceptance evidence — updated 2026-11-23
 
-Project MoonSTN / JingLan0v0/stn, published 0.2.29.
+Project MoonSTN / JingLan0v0/stn, published 0.2.30.
+
+## Mooncakes 0.2.30 publication — 2026-11-23
+
+Source 5d0a62a8af19389d5ab9843baae38ce134f563a4 passed Windows and Ubuntu
+[CI run 45185283523](https://github.com/JingLan0v0/MoonSTN/actions/runs/45185283523).
+The checkout, clean extraction, and public archive each passed 44 unit
+tests, 4,096 numeric networks, and 1,794 planning cases per mode.
+PowerShell smoke passed in the checkout and clean extraction. The
+generated interfaces matched 0.2.29.
+
+Preflight returned 202 and publication returned 200. The registry recorded
+2026-11-23 21:36:18 Asia/Shanghai. The checked and public ZIP archives share
+SHA-256 918bf067bfff1568209a7f33eae6f8f8d4a0e2db263f31b47d8a35feb518165c.
+An empty-cache installation matched all 139 package files and passed
+22 executables per mode, including edited resource pairs and exact
+planning budgets.
+[Release receipts](publication-0.2.30.json)
 
 ## Reusing same-resource task links — 2026-11-23
 

@@ -13,6 +13,10 @@ with the same overlap checks. Four-resource library timings improved by
 regression checks interleaved conflict order and resource edits.
 [Measurements](optimization-0.2.30.json)
 
+Source 5d0a62a passed Windows and Ubuntu CI. An empty-cache installation
+matched all 139 published files and passed 22 executables per mode.
+[Release receipts](publication-0.2.30.json)
+
 ## Schedule construction during resource search — 2026-11-23
 
 The three direct-reading trials avoided 95.8% of task records in the

@@ -2,6 +2,53 @@
 
 Project MoonSTN / JingLan0v0/stn, published 0.2.29.
 
+## Reusing same-resource task links — 2026-11-23
+
+The 0.2.29 source compared resource IDs at every feasible search node.
+In an instrumented process including warmups, the first-pair and
+last-pair fixtures performed 1,662,000 and 3,312,000 ID comparisons.
+The four-resource fixture made 22,716,000 comparisons and entered the
+overlap predicate 4,140,000 times. The maximum shared-resource fixture
+made 26,082,000 ID comparisons.
+
+The selected implementation builds one successor array after the first
+conflict. For each task it stores the next task with the same resource.
+Following increasing indices preserves the original order of competing
+pairs. The root scan handles no-conflict problems without building the
+array. The four-resource and maximum fixtures made 342,000 and 144,000
+ID comparisons, including setup and the root scan. The number of
+overlap checks and visited feasible nodes matched in all nine probes.
+
+| Library milliseconds per 500 calls | Baseline first | Candidate first |
+| --- | ---: | ---: |
+| Four resources, same-binary control | 41.271 → 41.907 | |
+| Four resources, eager task pairs | 42.678 → 41.667 | 42.975 → 43.001 |
+| Four resources, eager links | 42.832 → 40.972 | 44.910 → 41.873 |
+| Four resources, links after the first conflict | 43.975 → 41.140 | 42.057 → 40.919 |
+| One resource, links after the first conflict | 91.401 → 89.771 | 92.373 → 89.354 |
+| Distinct resources, links after the first conflict | 5.774 → 6.035 | 5.433 → 5.378 |
+
+The selected implementation took 2.7–6.4% less time for four resources
+and 1.8–3.3% less for one resource. The eager-link trial took 7.6–14.9%
+longer for distinct resources. The deferred trial had mixed timings
+on that workload and in tight-window deep search.
+
+All seven CLI outputs matched byte for byte. The maximum CLI model
+took 0.8% longer and 3.7% less time. The one-node-short maximum model
+took 1.6% and 8.6% longer, with a 4.9% shift in the same-binary control.
+
+A new public API regression runs interleaved resource groups to assert
+the first conflicting pair, error precedence at an exact budget, and
+reuse after editing and restoring a task's resource. It passes on the
+0.2.29 baseline in both modes.
+
+Use `scripts/fixtures/deep-search-benchmark.mbt` and
+`scripts/fixtures/planning-benchmark.mbt` to build the release drivers.
+Use `scripts/benchmark-deep-search.mjs --library` for deep library
+comparisons, or pass two CLI binaries to the same script for CLI
+comparisons. Use `scripts/benchmark-planning-library.mjs` for the
+ordinary cases. [Measurements](optimization-0.2.30.json)
+
 ## Schedule construction during resource search — 2026-11-23
 
 The 0.2.29 baseline constructs one task record per task before checking

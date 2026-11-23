@@ -1,8 +1,17 @@
 # Continue MoonSTN optimization
 
 The [optimization roadmap](optimization-roadmap.md) records the next measurement
-and its acceptance criteria. Next, measure repeated resource-pair checks
-and evaluate collecting same-resource pairs once.
+and its acceptance criteria. Next, remeasure per-node schedule construction
+with the new resource links.
+
+## Reusing same-resource task links — 2026-11-23
+
+The 0.2.30 source records same-resource successors after the first
+conflict. The four-resource probe made 98.5% fewer resource comparisons
+with the same overlap checks. Four-resource library timings improved by
+2.7–6.4%. All seven CLI workloads matched byte for byte. The direct API
+regression checks interleaved conflict order and resource edits.
+[Measurements](optimization-0.2.30.json)
 
 ## Schedule construction during resource search — 2026-11-23
 
@@ -21,7 +30,10 @@ CLI timings varied and all seven outputs matched by byte. The direct API
 regression covers edited root IDs and repeated ancestor rules.
 [Measurements](optimization-0.2.29.json)
 
-C:\Users\XJY\Desktop\MoonBit黑客松\.tools\moonstn-scan-20261118\docs\progress.md
+Source 239561c passed Windows and Ubuntu CI. An empty-cache installation
+matched all 136 published files and passed 21 executables per mode.
+[Release receipts](publication-0.2.29.json)
+
 ## Resource-order branch array reuse — 2026-11-21
 
 The 0.2.28 source keeps the arcs and rule IDs for the active resource

@@ -74,6 +74,56 @@ test "planning keeps 0.2.0 schedules, statistics and exact budget thresholds" {
 }
 
 ///|
+test "resource conflict order follows task positions after resource edits" {
+  let p = @stn.planning_problem(
+    [
+      task("a", 1, 2, Some("group1")),
+      task("b", 1, 2, Some("group2")),
+      task("c", 1, 2, Some("group2")),
+      task("d", 1, 2, Some("group1")),
+    ],
+    [],
+  )
+  let original = p.rules[0]
+  p.rules[0] = { ..original, id: "order0_3", }
+  let actual = try {
+    @stn.plan(p, max_nodes=2, max_work=907) |> ignore
+    None
+  } catch {
+    @stn.StnError(code, message) => Some((code, message))
+  }
+  assert_eq(
+    actual,
+    Some(("invalid_input", "invalid or duplicate constraint id")),
+  )
+
+  let d = p.tasks[3]
+  p.tasks[3] = { ..d, resource: None, }
+  guard @stn.plan(p, max_nodes=2, max_work=1824)
+    is @stn.Planned(after_edit, stats) else {
+    fail("expected one resource decision after the edit")
+  }
+  assert_eq(stats, { nodes: 2, pruned: 0, decisions: 1, charged_work: 1824, })
+  assert_eq((after_edit[1].finish, after_edit[2].start), (1L, 1L))
+  assert_true(@stn.verify_plan(p, after_edit))
+
+  p.tasks[3] = d
+  p.rules[0] = original
+  guard @stn.plan(p, max_nodes=3, max_work=2751)
+    is @stn.Planned(restored, restored_stats) else {
+    fail("expected the restored model to fit at the exact budget")
+  }
+  assert_eq(restored_stats, {
+    nodes: 3,
+    pruned: 0,
+    decisions: 2,
+    charged_work: 2751,
+  })
+  assert_eq((restored[2].start, restored[3].start), (1L, 1L))
+  assert_true(@stn.verify_plan(p, restored))
+}
+
+///|
 test "planning restores the parent rule count before a sibling at the cap" {
   let p = @stn.planning_problem(
     [task("flexible", 2, 6, Some("r")), task("urgent", 3, 3, Some("r"))],

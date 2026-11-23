@@ -308,6 +308,42 @@ fn first_resource_conflict(
 }
 
 ///|
+fn next_resource_tasks(tasks : Array[Task]) -> Array[Int32] {
+  let next = Array::make(tasks.length(), -1)
+  for i = 0; i < tasks.length(); i = i + 1 {
+    guard tasks[i].resource is Some(resource) else { continue }
+    for j = i + 1; j < tasks.length(); j = j + 1 {
+      if tasks[j].resource == Some(resource) {
+        next[i] = j
+        break
+      }
+    }
+  }
+  next
+}
+
+///|
+fn first_linked_conflict(
+  next : Array[Int32],
+  schedule : Array[ScheduledTask],
+) -> (Int32, Int32)? {
+  for i = 0; i < next.length(); i = i + 1 {
+    let successor = next[i]
+    if successor < 0 {
+      continue
+    }
+    let a = schedule[i]
+    for j = successor; j >= 0; j = next[j] {
+      let b = schedule[j]
+      if a.start < b.finish && b.start < a.finish {
+        return Some((i, j))
+      }
+    }
+  }
+  None
+}
+
+///|
 /// Bounded disjunctive search. Budget exhaustion raises, never returns Unschedulable.
 pub fn plan(
   p : PlanningProblem,
@@ -325,6 +361,7 @@ pub fn plan(
     (_, source, target, bound, _) => { source, target, bound, },
   )
   let n = p.names.length()
+  let mut resource_links : Array[Int32]? = None
   // Generated ordering IDs can only match rules in this prefix.
   let rule_ids : Array[String] = []
   for rule in p.rules {
@@ -374,7 +411,11 @@ pub fn plan(
           start: values[1 + 2 * i],
           finish: values[2 + 2 * i],
         })
-        match first_resource_conflict(p.tasks, schedule) {
+        let conflict = match resource_links {
+          Some(links) => first_linked_conflict(links, schedule)
+          None => first_resource_conflict(p.tasks, schedule)
+        }
+        match conflict {
           None =>
             return Planned(schedule, {
               nodes,
@@ -383,6 +424,10 @@ pub fn plan(
               charged_work: charged,
             })
           Some((i, j)) => {
+            if resource_links is None {
+              // The root scan found contention. Reuse links in later nodes.
+              resource_links = Some(next_resource_tasks(p.tasks))
+            }
             decisions += 1
             // Positive durations imply exactly one order must hold on this resource.
             let parent_rule_count = rule_ids.length()

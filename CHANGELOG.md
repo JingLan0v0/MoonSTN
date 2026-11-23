@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.2.30 — 2026-11-23
+
+- Record the next task for each shared resource once and reuse those links when scanning for conflicts.
+- Check first-conflict order and exact budgets after caller edits to task resources.
+
 ## 0.2.29 — 2026-11-22
 
 - Limit resource-order ID scans to IDs starting with `order` and retain the full rule count for limit checks.

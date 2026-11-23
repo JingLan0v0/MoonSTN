@@ -206,7 +206,7 @@ fn Solution::bounds_at(
 
 ///|
 pub fn version() -> String {
-  "0.2.29"
+  "0.2.30"
 }
 
 ///|

@@ -1,6 +1,51 @@
-# Acceptance evidence — updated 2026-11-22
+# Acceptance evidence — updated 2026-11-23
 
 Project MoonSTN / JingLan0v0/stn, published 0.2.29.
+
+## Schedule construction during resource search — 2026-11-23
+
+The 0.2.29 baseline constructs one task record per task before checking
+each feasible node for resource conflicts. The instrumented tight-window
+process constructed 836,916 records for 139,486 feasible nodes and
+returned no schedule. The maximum-model process constructed 3,456,000
+records for 144,000 feasible nodes. Construction took 12.4–13.4 ms and
+28.0–29.6 ms respectively per probed process, including warmups and
+instrumentation overhead.
+
+Three trials read solved positions directly and build the final schedule
+after the conflict scan. The first uses checked indexing throughout.
+The second relies on the task bounds check before the scan. The third
+reads positions only after the resource IDs match. Each trial reached
+the same feasible nodes, constructed zero task records in the
+unschedulable case, and reduced the maximum-model count to 144,000.
+The no-conflict maximum model still constructs one returned schedule.
+
+| Library milliseconds per 16 tight-window searches | Baseline first | Candidate first |
+| --- | ---: | ---: |
+| Same-binary control | 41.046 → 40.066 | |
+| Checked positional reads | 39.491 → 39.556 | 39.730 → 39.539 |
+| Positional reads after one bounds check | 40.248 → 40.301 | 40.064 → 40.280 |
+| Read only for matching resources | 41.360 → 39.625 | 39.238 → 39.122 |
+
+The distinct-resource model took 9.6–13.0%, 11.6–13.9%, and 7.3–14.9%
+longer for the three trials respectively. The same-binary control
+differed by 2.3% for that case. The second trial reduced median peak RSS
+by 1.3–1.5 MiB on the maximum model at the exact CLI budget. Each
+trial's seven CLI workloads matched the baseline byte for byte,
+including exact and one-unit-short budgets.
+
+This round retains the 0.2.29 implementation. The baseline and final
+trial passed the full verifier in debug and release, including edited
+timepoints, exact budgets, and independent schedule verification.
+The raw evidence includes candidate patches, the probe source and the
+complete paired timing and peak RSS samples.
+
+Build release JS drivers from `scripts/fixtures/deep-search-benchmark.mbt`
+and `scripts/fixtures/planning-benchmark.mbt`. Use
+`scripts/benchmark-deep-search.mjs --library` for the tight-window library
+case and omit that option for CLI comparisons. Use
+`scripts/benchmark-planning-library.mjs` for ordinary library cases.
+[Measurements](planning-schedule-review.json)
 
 ## Mooncakes 0.2.29 publication — 2026-11-22
 

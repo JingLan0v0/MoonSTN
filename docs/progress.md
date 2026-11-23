@@ -1,8 +1,16 @@
 # Continue MoonSTN optimization
 
 The [optimization roadmap](optimization-roadmap.md) records the next measurement
-and its acceptance criteria. Next, measure per-node schedule construction
-before resource conflict checks.
+and its acceptance criteria. Next, measure repeated resource-pair checks
+and evaluate collecting same-resource pairs once.
+
+## Schedule construction during resource search — 2026-11-23
+
+The three direct-reading trials avoided 95.8% of task records in the
+maximum-model probe. Library timings on distinct-resource inputs
+increased by 7.3–14.9% across the trials. All seven CLI workloads matched
+the baseline byte for byte. This round retains the published 0.2.29
+implementation. [Measurements](planning-schedule-review.json)
 
 ## Resource-order duplicate ID checks — 2026-11-22
 

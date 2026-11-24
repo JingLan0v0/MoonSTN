@@ -13,6 +13,10 @@ seven CLI comparisons matched by byte. A direct API regression covers
 signed shifts, edited timepoints and exact budgets.
 [Measurements](optimization-0.2.31.json)
 
+Source bff5158 passed Windows and Ubuntu CI. An empty-cache installation
+matched all 142 published files and passed 23 executables per mode.
+[Release receipts](publication-0.2.31.json)
+
 ## Schedule construction after resource links — 2026-11-24
 
 The three trials built the root schedule and deferred linked schedules.

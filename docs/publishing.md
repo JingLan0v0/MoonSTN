@@ -1,4 +1,4 @@
-# Publishing — 0.2.30 published 2026-11-23
+# Publishing — 0.2.31 published 2026-11-24
 
 The owner authorized Mooncakes publication on 2026-11-11. Require actual registry
 and fresh-consumer receipts; do not overwrite an existing version.
@@ -171,3 +171,8 @@ Version 0.2.30 returned `200 OK` on 2026-11-23. An empty-cache installation
 passed 22 executables per mode and matched all public package files.
 The public archive passed the full verifier in both modes.
 [Receipts](publication-0.2.30.json)
+
+Version 0.2.31 returned `200 OK` on 2026-11-24. A fresh installation verified
+signed planning shifts and exact budgets. All 23 consumer checks passed
+in both modes, and all installed files matched the public archive.
+[Receipts](publication-0.2.31.json)

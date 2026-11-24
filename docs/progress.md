@@ -1,8 +1,17 @@
 # Continue MoonSTN optimization
 
 The [optimization roadmap](optimization-roadmap.md) records the next measurement
-and its acceptance criteria. Next, measure timepoint normalization
-in feasible planning nodes.
+and its acceptance criteria. Next, profile relaxation passes in planning
+and compare the cost of preparing reusable arc data.
+
+## Planning origin normalization — 2026-11-24
+
+The 0.2.31 source shifts solved values during schedule construction.
+Independent-task library calls took 11.0% less time in both paired
+runs. The edited zero-origin workload took 9.6–14.5% less time. All
+seven CLI comparisons matched by byte. A direct API regression covers
+signed shifts, edited timepoints and exact budgets.
+[Measurements](optimization-0.2.31.json)
 
 ## Schedule construction after resource links — 2026-11-24
 

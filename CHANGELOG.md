@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.2.31 — 2026-11-24
+
+- Compute origin-relative planning values during schedule construction.
+- Verify nonzero and disconnected origins, signed results and exact work budgets on edited models.
+
 ## 0.2.30 — 2026-11-23
 
 - Record the next task for each shared resource once and reuse those links when scanning for conflicts.

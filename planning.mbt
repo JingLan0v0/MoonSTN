@@ -403,13 +403,14 @@ pub fn plan(
     }
     charged += work
     nodes += 1
-    match feasible_values(n, arcs, work) {
+    match feasible_potentials(n, arcs, work) {
       None => pruned += 1
       Some(values) => {
+        let origin = values[0]
         let schedule = p.tasks.mapi((i, t) => {
           id: t.id,
-          start: values[1 + 2 * i],
-          finish: values[2 + 2 * i],
+          start: values[1 + 2 * i] - origin,
+          finish: values[2 + 2 * i] - origin,
         })
         let conflict = match resource_links {
           Some(links) => first_linked_conflict(links, schedule)

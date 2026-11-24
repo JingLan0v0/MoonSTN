@@ -2,6 +2,48 @@
 
 Project MoonSTN / JingLan0v0/stn, published 0.2.30.
 
+## Planning origin normalization — 2026-11-24
+
+The 0.2.30 baseline shifts all feasible potentials by subtracting the
+origin in a separate array pass. The raw origin was negative in every
+feasible node across the nine standard workloads. Every normalization
+in the edited, duration-only control saw a disconnected origin at zero.
+
+The instrumented maximum-model process performed 144,000 normalization
+passes and 7,056,000 subtractions. Normalization took 42.3–45.0 ms
+and relaxation took 1,655.8–1,667.1 ms. The independent workload spent
+8.1–8.9 ms normalizing and 8.7–9.0 ms relaxing. These process totals
+include warmups and instrumentation overhead.
+
+The selected change applies the same signed Int64 subtraction while
+building scheduled tasks. A normal 24-task node shifts 48 task values
+as it builds the schedule and skips the origin slot and a separate
+writeback pass.
+
+| Ordinary library workload | Zero-origin guard | In-place indexing | Fused construction |
+| --- | ---: | ---: | ---: |
+| Independent tasks | 7.1% slower, 4.3% faster | 8.9–9.3% faster | 11.0% faster in both runs |
+| First resource pair | 12.3–19.4% slower | 0.7–3.2% slower | 2.9% faster, 1.3% slower |
+| Edited zero origin | 5.5–10.8% faster | 2.6–5.3% faster | 9.6–14.5% faster |
+
+The selected implementation improved the four-resource workload by
+1.3–1.8%. The maintenance library workload took 2.2–4.9% longer. The
+tight-window library changes were 0.5% faster and 1.3% slower, compared
+with a 1.4% same-binary shift. All seven CLI outputs were byte-identical.
+The maximum CLI took 1.3% less time and was effectively flat in the
+reverse run. Median peak RSS at the exact budget dropped by 0.45–0.68
+MiB. The one-work-unit-short CLI was flat and 2.1% slower.
+
+A public API regression covers a nonzero origin with an extra timepoint,
+a disconnected zero origin, negative returned task times on an edited
+graph, and exact work accounting. It passed on 0.2.30 in both modes.
+The saved benchmark fixture adds the edited zero-origin workload to the
+existing planning driver. Add `zero-origin` to the ordinary runner's case
+list when using that fixture. Build release drivers and run
+`scripts/benchmark-deep-search.mjs` and
+`scripts/benchmark-planning-library.mjs` in both argument orders.
+[Measurements](optimization-0.2.31.json)
+
 ## Schedule construction after resource links — 2026-11-24
 
 This round repeats the 0.2.29 schedule trials against 0.2.30, which uses

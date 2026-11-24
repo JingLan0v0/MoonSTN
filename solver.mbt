@@ -366,8 +366,8 @@ fn normalize(values : Array[Int64]) -> Unit {
 
 ///|
 /// A change on the last round proves inconsistency. Planning only needs this
-/// decision and the normalized values of a feasible branch.
-fn feasible_values(
+/// decision and the unshifted potentials of a feasible branch.
+fn feasible_potentials(
   n : Int32,
   arcs : Array[TemporalArc],
   max_steps : Int32,
@@ -376,7 +376,6 @@ fn feasible_values(
   if changed != -1 {
     return None
   }
-  normalize(values)
   Some(values)
 }
 

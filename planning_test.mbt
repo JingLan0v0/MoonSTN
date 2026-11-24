@@ -74,6 +74,62 @@ test "planning keeps 0.2.0 schedules, statistics and exact budget thresholds" {
 }
 
 ///|
+test "planning preserves origin offsets on edited timepoint networks" {
+  let p = @stn.planning_problem(
+    [{ ..task("late", 2, 5, None), release: 3, }, task("early", 1, 1, None)],
+    [],
+  )
+  p.names.push("extra")
+  p.rules.push({
+    id: "extra-window",
+    from: "origin",
+    to: "extra",
+    lower: Some(10),
+    upper: None,
+  })
+  guard @stn.plan(p, max_nodes=1, max_work=291) is @stn.Planned(shifted, stats) else {
+    fail("expected a plan at the exact budget")
+  }
+  assert_eq(shifted, [
+    { id: "late", start: 3L, finish: 5L, },
+    { id: "early", start: 0L, finish: 1L, },
+  ])
+  assert_eq(stats, { nodes: 1, pruned: 0, decisions: 0, charged_work: 291, })
+  assert_true(@stn.verify_plan(p, shifted))
+
+  // Disconnect the origin while keeping the two signed span constraints.
+  p.rules.clear()
+  p.rules.push({
+    id: "span0",
+    from: "t0s",
+    to: "t0f",
+    lower: Some(2),
+    upper: None,
+  })
+  p.rules.push({
+    id: "span1",
+    from: "t1s",
+    to: "t1f",
+    lower: Some(1),
+    upper: None,
+  })
+  guard @stn.plan(p, max_nodes=1, max_work=242)
+    is @stn.Planned(zero_origin, edited_stats) else {
+    fail("expected the edited graph to fit at the exact budget")
+  }
+  assert_eq(zero_origin, [
+    { id: "late", start: -2L, finish: 0L, },
+    { id: "early", start: -1L, finish: 0L, },
+  ])
+  assert_eq(edited_stats, {
+    nodes: 1,
+    pruned: 0,
+    decisions: 0,
+    charged_work: 242,
+  })
+}
+
+///|
 test "resource conflict order follows task positions after resource edits" {
   let p = @stn.planning_problem(
     [

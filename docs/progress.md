@@ -1,8 +1,16 @@
 # Continue MoonSTN optimization
 
 The [optimization roadmap](optimization-roadmap.md) records the next measurement
-and its acceptance criteria. Next, remeasure per-node schedule construction
-with the new resource links.
+and its acceptance criteria. Next, measure timepoint normalization
+in feasible planning nodes.
+
+## Schedule construction after resource links — 2026-11-24
+
+The three trials built the root schedule and deferred linked schedules.
+They cut task records by 91.7% in the maximum-model probe. Direct
+indexing reduced median CLI peak RSS by 1.1–1.7 MiB at budget boundaries
+and slowed the first-conflict library workload by 5.8–10.0%. This round
+retains 0.2.30. [Measurements](linked-schedule-review.json)
 
 ## Reusing same-resource task links — 2026-11-23
 

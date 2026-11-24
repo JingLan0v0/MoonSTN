@@ -1,6 +1,51 @@
-# Acceptance evidence — updated 2026-11-23
+# Acceptance evidence — updated 2026-11-24
 
 Project MoonSTN / JingLan0v0/stn, published 0.2.30.
+
+## Schedule construction after resource links — 2026-11-24
+
+This round repeats the 0.2.29 schedule trials against 0.2.30, which uses
+same-resource successor links after the first conflict. The new trials
+build the root schedule as usual and read solved timepoint values for
+linked conflict checks. A linked node builds the schedule when it
+returns a feasible plan. The trials compare checked reads, direct
+indexing after the root position checks, and inlining the schedule
+builder with checked reads.
+
+All three trials reached the same root and linked scan counts. Including
+warmups and budget checks, the tight-window unschedulable process
+constructed 836,916 task records at baseline and 1,164 in each trial.
+The four-resource sample went from 3,024,000 to 288,000 records. The
+maximum model went from 3,456,000 to 288,000, a 91.7% reduction. The
+distinct-resource probe constructed 144,000 records in each build.
+
+| Library case | Checked reads | Direct indexing | Inlined builder |
+| --- | ---: | ---: | ---: |
+| Four resources | 1.7–3.5% faster | 2.8–10.4% faster | 0.6% faster, 1.4% slower |
+| Distinct resources | 9.0–13.9% slower | 2.0–7.8% slower | 9.8–15.1% slower |
+| First conflicting pair | 2.0% slower, 2.3% faster | 5.8–10.0% slower | 0.3–3.6% slower |
+
+Two direct-indexing CLI runs matched all seven baseline outputs by
+byte, including exact, one-node-short and one-work-unit-short budgets.
+Median peak RSS fell by 1.1–1.7 MiB across the three budget-boundary
+workloads. The maximum CLI case took 2.0% longer in one order and
+0.1% less time in the other. The two tight-window CLI changes were
+1.3% faster and 1.4% slower.
+
+This round retains the 0.2.30 implementation given the repeated
+slowdown in ordinary resource layouts. The baseline and the
+direct-indexing trial passed the full verifier in debug and release,
+including edited timepoints, exact budgets and independent schedule
+verification. Both checkouts passed PowerShell smoke.
+
+Build release JS drivers from `scripts/fixtures/deep-search-benchmark.mbt`
+and `scripts/fixtures/planning-benchmark.mbt`. Use
+`scripts/benchmark-deep-search.mjs --library` for tight-window library
+comparisons or pass two CLI binaries for CLI runs. Use
+`scripts/benchmark-planning-library.mjs` for the ordinary cases.
+The evidence includes the probe source, trial patches, output hashes,
+and the paired timing and RSS samples.
+[Measurements](linked-schedule-review.json)
 
 ## Mooncakes 0.2.30 publication — 2026-11-23
 

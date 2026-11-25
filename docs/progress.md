@@ -12,6 +12,10 @@ were 33.0–41.0% faster, and the tight-window CLI was 15.2–16.7% faster.
 Seven CLI results matched the 0.2.31 baseline byte for byte.
 [Measurements](optimization-0.2.32.json)
 
+Source 0b1d8fe passed Windows and Ubuntu CI. An empty-cache installation
+matched all 144 published files and passed 24 executables per mode.
+[Release receipts](publication-0.2.32.json)
+
 ## Planning origin normalization — 2026-11-24
 
 The 0.2.31 source shifts solved values during schedule construction.

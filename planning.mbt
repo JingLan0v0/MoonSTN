@@ -252,7 +252,7 @@ priv struct PlanBranch {
 
 ///|
 fn append_order_rule(
-  arcs : Array[TemporalArc],
+  arcs : Array[PlanningArc],
   rule_ids : Array[String],
   other_rule_count : Int32,
   index : Map[String, Int32],
@@ -284,7 +284,7 @@ fn append_order_rule(
   }
   let start = lookup_name(index, start_name)
   // finish(before) <= start(after) is a zero-weight lower-bound arc.
-  arcs.push({ source: start, target: finish, bound: 0L, })
+  arcs.push({ source: start, target: finish, bound: 0.0, })
   rule_ids.push(id)
 }
 
@@ -355,10 +355,14 @@ pub fn plan(
       "invalid_input", "planning budgets: nodes 1..10000, work 1..100000000",
     )
   }
-  let (index, arcs) : (_, Array[TemporalArc]) = compile_edges(
+  let (index, arcs) : (_, Array[PlanningArc]) = compile_edges(
     p.names,
     p.rules,
-    (_, source, target, bound, _) => { source, target, bound, },
+    (_, source, target, bound, _) => {
+      source,
+      target,
+      bound: bound.to_double(),
+    },
   )
   let n = p.names.length()
   let mut resource_links : Array[Int32]? = None
@@ -409,8 +413,8 @@ pub fn plan(
         let origin = values[0]
         let schedule = p.tasks.mapi((i, t) => {
           id: t.id,
-          start: values[1 + 2 * i] - origin,
-          finish: values[2 + 2 * i] - origin,
+          start: (values[1 + 2 * i] - origin).to_int64(),
+          finish: (values[2 + 2 * i] - origin).to_int64(),
         })
         let conflict = match resource_links {
           Some(links) => first_linked_conflict(links, schedule)

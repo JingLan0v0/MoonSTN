@@ -737,3 +737,81 @@ test "maximum task and dependency counts preserve work accounting" {
   assert_eq(stats, { nodes: 1, pruned: 0, decisions: 0, charged_work: 128947, })
   assert_true(@stn.verify_plan(p, s))
 }
+
+///|
+test "planning relaxes signed arcs at the edited graph limits" {
+  let p = @stn.planning_problem([task("edited", 1, 1000000, None)], [])
+  let path = ["t0f", "t0s"]
+  for i = 3; i < 64; i = i + 1 {
+    let name = "extra" + i.to_string()
+    p.names.push(name)
+    path.push(name)
+  }
+  path.push("origin")
+  p.rules.clear()
+  // Reverse order makes propagation from the first point take 63 passes.
+  for i = path.length() - 2; i >= 0; i = i - 1 {
+    p.rules.push({
+      id: "path" + i.to_string(),
+      from: path[i],
+      to: path[i + 1],
+      lower: Some(-1000000),
+      upper: Some(-1000000),
+    })
+  }
+  // There are two arcs per rule. The neutral loops fill the 1024-arc limit.
+  let chain_rules = p.rules.length()
+  for i = chain_rules; i < 512; i = i + 1 {
+    p.rules.push({
+      id: "loop" + i.to_string(),
+      from: "origin",
+      to: "origin",
+      lower: Some(0),
+      upper: Some(0),
+    })
+  }
+  let work = 328832
+  guard @stn.plan(p, max_nodes=1, max_work=work)
+    is @stn.Planned(schedule, stats) else {
+    fail("expected a plan at the 64-point, 1024-arc budget")
+  }
+  assert_eq(schedule, [{ id: "edited", start: 62000000L, finish: 63000000L, }])
+  assert_eq(stats, { nodes: 1, pruned: 0, decisions: 0, charged_work: work, })
+  let short = try {
+    @stn.plan(p, max_nodes=1, max_work=work - 1) |> ignore
+    None
+  } catch {
+    @stn.StnError(code, message) => Some((code, message))
+  }
+  assert_eq(
+    short,
+    Some(
+      (
+        "limit_exceeded", "planning work budget exhausted; no feasibility conclusion",
+      ),
+    ),
+  )
+
+  // Both arcs of each edited loop now lower the origin by a million.
+  // This exceeds a signed 32-bit potential before the last round.
+  for i = chain_rules; i < p.rules.length(); i = i + 1 {
+    p.rules[i] = { ..p.rules[i], lower: Some(1000000), upper: Some(-1000000), }
+  }
+  guard @stn.plan(p, max_nodes=1, max_work=work) is @stn.Unschedulable(cycle) else {
+    fail("expected an inconsistent graph at the same work budget")
+  }
+  assert_eq(cycle, { nodes: 1, pruned: 1, decisions: 0, charged_work: work, })
+
+  let old = p.rules[511]
+  p.rules[511] = { ..old, upper: Some(1000001), }
+  let wide = try {
+    @stn.plan(p, max_work=1) |> ignore
+    None
+  } catch {
+    @stn.StnError(code, message) => Some((code, message))
+  }
+  assert_eq(
+    wide,
+    Some(("invalid_input", "bounds must be integers in -1000000..1000000")),
+  )
+}

@@ -106,7 +106,13 @@ fn network_with_index(
     target,
     bound,
     side,
-  ) => { id, from: names[source], to: names[target], bound, side, })
+  ) => {
+    id,
+    from: names[source],
+    to: names[target],
+    bound: bound.to_int64(),
+    side,
+  })
   ({ names: names.copy(), edges, }, index)
 }
 
@@ -126,7 +132,7 @@ fn lookup_name(
 fn[E] compile_edges(
   names : Array[String],
   constraints : Array[Constraint],
-  make_edge : (String, Int32, Int32, Int64, String) -> E,
+  make_edge : (String, Int32, Int32, Int32, String) -> E,
 ) -> (Map[String, Int32], Array[E]) raise StnError {
   if names.length() == 0 || names.length() > 64 || constraints.length() > 512 {
     raise StnError(
@@ -164,10 +170,10 @@ fn[E] compile_edges(
     }
     // Reversed intervals are legitimate inconsistent constraints, not syntax errors.
     if c.upper is Some(v) {
-      edges.push(make_edge(c.id, from, to, v.to_int64(), "upper"))
+      edges.push(make_edge(c.id, from, to, v, "upper"))
     }
     if c.lower is Some(v) {
-      edges.push(make_edge(c.id, to, from, -v.to_int64(), "lower"))
+      edges.push(make_edge(c.id, to, from, -v, "lower"))
     }
   }
   (index, edges)
@@ -206,7 +212,7 @@ fn Solution::bounds_at(
 
 ///|
 pub fn version() -> String {
-  "0.2.31"
+  "0.2.32"
 }
 
 ///|

@@ -19,7 +19,7 @@ fn solve_indexed(
 ) -> Outcome raise StnError {
   let budget = { remaining: max_steps, }
   let n = net.names.length()
-  let (values, pred, changed) = relax(n, arcs, budget, numeric=true)
+  let (values, pred, changed) = relax(n, arcs, budget)
   if changed != -1 {
     let mut node = changed
     for _i = 0; _i < n; _i = _i + 1 {
@@ -320,7 +320,6 @@ fn relax(
   n : Int32,
   arcs : Array[TemporalArc],
   budget : Budget,
-  numeric~ : Bool = false,
 ) -> (Array[Int64], Array[Int32], Int32) raise StnError {
   // An implicit zero-cost super-source reaches every connected component.
   let values : Array[Int64] = Array::make(n, 0L)
@@ -343,7 +342,6 @@ fn relax(
       break
     }
     if _round == 0 &&
-      numeric &&
       n >= 32 &&
       n <= 64 &&
       arcs.length() >= 4 * n &&
@@ -365,18 +363,42 @@ fn normalize(values : Array[Int64]) -> Unit {
 }
 
 ///|
-/// A change on the last round proves inconsistency. Planning only needs this
-/// decision and the unshifted potentials of a feasible branch.
+priv struct PlanningArc {
+  source : Int32
+  target : Int32
+  bound : Double
+}
+
+///|
+/// A change on the last round proves inconsistency. Planning needs only
+/// unshifted potentials for a feasible branch.
 fn feasible_potentials(
   n : Int32,
-  arcs : Array[TemporalArc],
+  arcs : Array[PlanningArc],
   max_steps : Int32,
-) -> Array[Int64]? raise StnError {
-  let (values, _, changed) = relax(n, arcs, { remaining: max_steps, })
-  if changed != -1 {
-    return None
+) -> FixedArray[Double]? raise StnError {
+  // Validated rules have |bound| <= 1,000,000 and at most 1024 arcs.
+  // With at most 64 rounds, each path magnitude is below 2^36 and
+  // subtracting any two potentials stays within exact Double integers.
+  let values = FixedArray::make(n, 0.0)
+  let count = arcs.length()
+  let budget : Budget = { remaining: max_steps, }
+  for round = 0; round < n; round = round + 1 {
+    budget.charge(count)
+    let mut changed = false
+    for i = 0; i < count; i = i + 1 {
+      let { source, target, bound, } = arcs[i]
+      let candidate = values[source] + bound
+      if candidate < values[target] {
+        values[target] = candidate
+        changed = true
+      }
+    }
+    if !changed {
+      return Some(values)
+    }
   }
-  Some(values)
+  None
 }
 
 ///|

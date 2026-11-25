@@ -1,6 +1,43 @@
-# Acceptance evidence — updated 2026-11-24
+# Acceptance evidence — updated 2026-11-25
 
 Project MoonSTN / JingLan0v0/stn, published 0.2.31.
+
+## Planning relaxation with validated weights — 2026-11-25
+
+The 0.2.31 maximum-model library probe scanned 464,712,000 arcs over
+1,944,000 passes. Relaxation took 1,707–1,723 ms per process including
+warmups and timer overhead. Tight-window searches scanned 90,139,534 arcs
+over 2,613,736 passes. Independent tasks needed two passes per call.
+
+The trials compare distinct or packed endpoint fields with Double weights
+converted from Int64, and distinct endpoints built directly from validated
+Int32 weights. The chosen representation is compiled once for each planning
+call. Each branch reuses the active arc array and appends its zero-weight
+order arc. A path sums at most 64 × 1,024 weights of magnitude at most
+1,000,000. Its magnitude stays below 2^36 even for inconsistent graphs,
+and the origin-relative values fit exactly in binary64 before conversion
+to the public Int64 schedule. Numeric solves still construct Int64 edges
+and track certificate predecessors.
+
+| Paired workload | Int64 conversion | Packed endpoints | Validated weights |
+| --- | ---: | ---: | ---: |
+| Library maximum | 35.0–36.2% faster | 36.8–38.6% faster | 33.0–41.0% faster |
+| Library first conflict | 4.3–18.9% slower | 10.9–15.7% slower | 3.6–7.8% faster |
+| Library tight-window | 30.0–32.7% faster | 26.3–31.0% faster | 27.2–31.4% faster |
+
+The selected candidate's CLI maximum was 5.6–8.8% faster, the tight
+window was 15.2–16.7% faster, and the one-work-unit-short
+case was 3.3% slower and 9.2% faster. Maximum peak RSS changes were
+-2.68 and -3.30 MiB across the two CLI orders. Its edited, zero-origin
+library result was 8.2–14.9% slower. Seven CLI workload outputs
+matched byte for byte in every run.
+
+The signed edited-graph regression reaches 64 timepoints and 1,024
+arcs. It checks a 63-step chain, a negative cycle beyond the Int32
+potential range, exact work, one unit below, and error precedence.
+It passed on 0.2.31 and on the candidate in both build modes.
+
+[Source patches, raw samples, and probe](optimization-0.2.32.json)
 
 ## Mooncakes 0.2.31 publication — 2026-11-24
 

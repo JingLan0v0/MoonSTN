@@ -1,8 +1,16 @@
 # Continue MoonSTN optimization
 
 The [optimization roadmap](optimization-roadmap.md) records the next measurement
-and its acceptance criteria. Next, profile relaxation passes in planning
-and compare the cost of preparing reusable arc data.
+and its acceptance criteria. Next, measure planning potential allocations from zero initialization through
+deep backtracking.
+
+## Planning relaxation with validated weights — 2026-11-25
+
+Compile planning weights directly from validated bounds and use exact
+binary64 integers for relaxation. The paired maximum-model library runs
+were 33.0–41.0% faster, and the tight-window CLI was 15.2–16.7% faster.
+Seven CLI results matched the 0.2.31 baseline byte for byte.
+[Measurements](optimization-0.2.32.json)
 
 ## Planning origin normalization — 2026-11-24
 

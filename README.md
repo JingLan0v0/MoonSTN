@@ -10,7 +10,7 @@ window, or a negative cycle identifying contradictory original rules.
 
 [中文说明](README.zh-CN.md) · Apache-2.0 · Pure MoonBit core · JS CLI
 
-**Package version [JingLan0v0/stn@0.2.31](https://mooncakes.io/docs/JingLan0v0/stn@0.2.31).**
+**Package version [JingLan0v0/stn@0.2.32](https://mooncakes.io/docs/JingLan0v0/stn@0.2.32).**
 Verification and installation receipts: [acceptance](docs/acceptance.md).
 Repository: [JingLan0v0/MoonSTN](https://github.com/JingLan0v0/MoonSTN).
 
@@ -18,17 +18,18 @@ Repository: [JingLan0v0/MoonSTN](https://github.com/JingLan0v0/MoonSTN).
 
 | Version | Date | Main changes |
 | --- | --- | --- |
+| 0.2.32 | 2026-11-25 | Reuse validated weights and exact integers in planning relaxation. |
 | 0.2.31 | 2026-11-24 | Normalize planning timepoints as schedules are constructed. |
 | 0.2.30 | 2026-11-23 | Reuse same-resource task links across planning search nodes. |
 | 0.2.29 | 2026-11-22 | Narrow duplicate ID checks in resource branches to IDs that can match generated order rules. |
 | 0.2.28 | 2026-11-21 | Reuse the arc and rule ID arrays along the active resource-order search path. |
-| 0.2.27 | 2026-11-21 | Reuse task timepoint names and numeric suffixes in resource-order branches. |
 
 <details>
 <summary>Earlier versions</summary>
 
 | Version | Date | Main changes |
 | --- | --- | --- |
+| 0.2.27 | 2026-11-21 | Reuse task timepoint names and numeric suffixes in resource-order branches. |
 | 0.2.26 | 2026-11-21 | Precompute built-in planning timepoint and rule names by task position. |
 | 0.2.25 | 2026-11-21 | Reuse timepoint names when constructing planning dependency rules. |
 | 0.2.24 | 2026-11-20 | Reuse task indices to resolve planning dependency endpoints faster. |
@@ -123,7 +124,7 @@ leave partial bytes; consumers must check the process exit status.
 Install the published package in your consumer module:
 
 ```sh
-moon add JingLan0v0/stn@0.2.31
+moon add JingLan0v0/stn@0.2.32
 ```
 
 Import `JingLan0v0/stn` as `stn` in `moon.pkg`. A complete runnable example is in

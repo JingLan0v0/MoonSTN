@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.2.32 — 2026-11-25
+
+- Reuse validated planning edge weights and relax them with exact binary64 integers.
+- Check 64 edited timepoints, 1,024 signed arcs, negative cycles, exact budgets and validation order.
+
 ## 0.2.31 — 2026-11-24
 
 - Compute origin-relative planning values during schedule construction.

@@ -1,4 +1,4 @@
-# Publishing — 0.2.32 published 2026-11-25
+# Publishing — 0.2.33 published 2026-11-26
 
 The owner authorized Mooncakes publication on 2026-11-11. Require actual registry
 and fresh-consumer receipts; do not overwrite an existing version.
@@ -181,3 +181,8 @@ Version 0.2.32 returned `200 OK` on 2026-11-25. An empty-cache installation pass
 all 24 executable checks in debug and release, including signed planning arcs
 at the maximum point and rule limits. All installed files matched the public ZIP.
 [Receipts](publication-0.2.32.json)
+
+Version 0.2.33 returned `200 OK` on 2026-11-26. The installed files matched
+the checked package. The numeric, planning and batch consumers passed in
+debug and release from an empty cache.
+[Receipts](publication-0.2.33.json)

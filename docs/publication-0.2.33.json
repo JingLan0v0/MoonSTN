@@ -1,0 +1,67 @@
+{
+  "version": "0.2.33",
+  "sourceCommit": "e3060c12113c6a0d885319784cd1dc32612b0191",
+  "measurementCommit": "b7a68a81c4eb8db5e5c3fd8b8373afe8c0cf2bb7",
+  "runtimeBaseline": "0.2.32",
+  "runtimeSource": "0b1d8febbb9aceafbaaf0cb706ab8fa92e95713c",
+  "releaseChanges": "Measurement records and version metadata",
+  "verification": {
+    "checkoutCompletedAt": "2026-11-26T05:46:08.781Z",
+    "packageExtractionCompletedAt": "2026-11-26T05:48:44.469Z",
+    "publicArchiveCompletedAt": "2026-11-26T06:08:01.610Z",
+    "modes": [
+      "debug",
+      "release"
+    ],
+    "unitTestsPerMode": 46,
+    "stnOracleCasesPerMode": 4096,
+    "signedClosureBoundsPerMode": 256,
+    "planningOracleCasesPerMode": 1794,
+    "planningBudgetBoundaryModelsPerMode": 2,
+    "numericAndPlanningBaselineCompared": true,
+    "generatedInterfaces": "unchanged",
+    "releaseCliMatchesBaselineAfterVersionSubstitution": true,
+    "powerShellSmoke": "passed in checkout, extraction and public archive"
+  },
+  "ci": {
+    "run": 45763903160,
+    "ubuntu": {
+      "job": 139720089594,
+      "conclusion": "success"
+    },
+    "windows": {
+      "job": 139720089905,
+      "conclusion": "success"
+    }
+  },
+  "packageFiles": 146,
+  "sha256": "6958919dc6382e2c4bc29ba2303ceb79a7b304ccc84ee66484a1f72434b22e85",
+  "preflight": "202 Accepted",
+  "publication": "200 OK",
+  "registryCreatedAt": "2026-11-26T06:06:31.489101+00:00",
+  "publicVersionPageStatus": 200,
+  "publicArchiveDownloadStatus": 200,
+  "consumer": {
+    "checkedAt": "2026-11-26T06:07:06.0879631+00:00",
+    "freshCache": true,
+    "credentials": false,
+    "workspaceDependency": false,
+    "modes": [
+      "debug",
+      "release"
+    ],
+    "executablesPerMode": 3,
+    "executables": [
+      "library",
+      "planning",
+      "release_check"
+    ],
+    "checks": [
+      "numeric bounds and independent conflict proof",
+      "planning backtracking, unschedulable, budget exhaustion and recovery",
+      "public version and root-budget batch recovery"
+    ],
+    "registryArchiveMatches": true,
+    "installedFilesMatch": true
+  }
+}

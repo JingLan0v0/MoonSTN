@@ -13,6 +13,9 @@ All eight CLI outputs matched, and both candidates passed the full verifier.
 The runtime version for this round is 0.2.32.
 [Measurements](planning-potential-review.json)
 
+The measurement records were published in 0.2.33.
+[Release receipts](publication-0.2.33.json)
+
 ## Planning relaxation with validated weights — 2026-11-25
 
 Compile planning weights directly from validated bounds and use exact

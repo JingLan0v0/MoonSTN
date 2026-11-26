@@ -1,8 +1,17 @@
 # Continue MoonSTN optimization
 
 The [optimization roadmap](optimization-roadmap.md) records the next measurement
-and its acceptance criteria. Next, measure planning potential allocations from zero initialization through
-deep backtracking.
+and its acceptance criteria. Next, profile temporary allocations for pending resource-order branches.
+
+## Planning potential buffer reuse — 2026-11-26
+
+Both trials cut potential arrays from 144,000 to 6,000 in the maximum
+model. Clearing the array still wrote 7,056,000 slots. The maximum-model
+library results for eager allocation were +2.0%, +4.7% and for
+allocation after admission were +1.3%, +1.9%.
+All eight CLI outputs matched, and both candidates passed the full verifier.
+The runtime version for this round is 0.2.32.
+[Measurements](planning-potential-review.json)
 
 ## Planning relaxation with validated weights — 2026-11-25
 

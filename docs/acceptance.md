@@ -1,6 +1,53 @@
-# Acceptance evidence — updated 2026-11-25
+# Acceptance evidence — updated 2026-11-26
 
 Project MoonSTN / JingLan0v0/stn, published 0.2.32.
+
+## Planning potential buffer reuse — 2026-11-26
+
+The 0.2.32 baseline creates a zero-filled array for every admitted search
+node. A maximum-model library process created 144,000 arrays and wrote
+7,056,000 slots. The tight-window process created 279,164 arrays and wrote
+3,629,132 slots. Subtracting the median timer-only control gives about
+12.8 ms and 16.1 ms for allocation and initialization, respectively.
+These rough estimates include warmups and are about 1.5% and 6.5% of
+the corresponding total relaxation times.
+
+Both candidates reused one buffer within each plan and zeroed it before
+every subsequent admitted node. They reduced the measured array counts to
+6,000 for the maximum model and 194 for tight-window search. The same
+number of slots were initialized. When all 64 calls were rejected at the
+root work check, the eager candidate allocated 64 arrays. The baseline
+and admitted candidate each allocated zero.
+
+Relative changes below use the two initial process orders. Positive
+latency changes mean the workload took longer.
+
+| Workload | Eager allocation | Allocation after admission |
+| --- | ---: | ---: |
+| Maximum-model library | +2.0%, +4.7% | +1.3%, +1.9% |
+| Tight-window library | −2.4%, −1.0% | +0.7%, −1.6% |
+| Edited zero-origin library | +11.6%, +6.1% | +6.6%, +8.0% |
+| Maximum-model CLI latency | +0.1%, −1.1% | +1.1%, −4.9% |
+| Tight-window CLI latency | −1.1%, −2.3% | −0.5%, −1.5% |
+| Exact-budget CLI peak RSS | −0.1 MiB, −0.1 MiB | −0.4 MiB, −0.1 MiB |
+| Root work-limit CLI latency | +0.3%, −7.6% | −0.6%, −0.6% |
+
+For the maximum model, the same-binary control measured +1.1% in the
+library and −7.2% in the CLI. Both candidates increased library latency
+in this workload. CLI latency and peak memory varied across paired runs.
+This round retains the 0.2.32 implementation.
+
+All eight CLI workloads matched by byte. The baseline and both candidates
+passed 46 unit tests, 4,096 numeric networks and 1,794 planning cases in
+each build mode, plus PowerShell smoke. The generated public interfaces
+matched. The existing cases exercise sibling backtracking, exact node and
+work limits, model reuse after failure, and independent schedule checks.
+
+Build release drivers with the pinned toolchain and saved fixtures. The
+report contains both source patches, the allocation probes, CLI digests,
+and raw paired samples including the same-binary control.
+
+[Round data](planning-potential-review.json)
 
 ## Mooncakes 0.2.32 publication — 2026-11-25
 

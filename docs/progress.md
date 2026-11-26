@@ -1,7 +1,15 @@
 # Continue MoonSTN optimization
 
 The [optimization roadmap](optimization-roadmap.md) records the next measurement
-and its acceptance criteria. Next, profile temporary allocations for pending resource-order branches.
+and its acceptance criteria. Next, profile repeated endpoint lookups for generated resource-order arcs.
+
+## Pending resource-order stack — 2026-11-26
+
+Direct pushes reduced object and array creations per decision from seven
+to four. Storing the ordering endpoints in the branch record reduced
+the count to two. Both variants matched eight CLI workloads byte for
+byte and passed the full verifier. The 0.2.33 representation is retained. The library and CLI effects varied by workload and order.
+[Measurements](planning-branch-stack-review.json)
 
 ## Planning potential buffer reuse — 2026-11-26
 

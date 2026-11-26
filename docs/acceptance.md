@@ -2,6 +2,49 @@
 
 Project MoonSTN / JingLan0v0/stn, published 0.2.33.
 
+## Pending resource-order stack — 2026-11-26
+
+The 0.2.33 maximum-model probe executed 138,000 branch decisions and
+reached 24 pending entries. Tight-window search executed 139,486
+decisions and reached six pending entries. Subtracting the median
+empty timer control gave roughly 5.5 ms and 4.0 ms of push work per
+process, including warmups and the two deep budget probes.
+
+The baseline executes seven object or array creations per decision
+in the generated JavaScript. One array and two tuples hold the iteration input.
+The two pending branch records retain one order tuple each. Two direct
+pushes reduce the count to four. Storing endpoints in each record
+reduces it to two. Both candidates preserved the decision counts
+and peak pending stack. These counts describe executions of emitted creation expressions.
+A JavaScript engine can sometimes eliminate physical allocations.
+
+| Workload | Direct pushes | Endpoint fields |
+| --- | ---: | ---: |
+| Maximum-model library | −0.9%, +0.5% | −0.3%, +0.9% |
+| Tight-window library | −4.2%, +0.1% | −3.6%, +0.7% |
+| First resource pair library | −1.2%, −2.9% | +2.3%, +0.6% |
+| Four resources library | +1.8%, +1.4% | +1.4%, −1.5% |
+| Maximum-model CLI latency | −1.9%, −0.2% | −2.6%, −0.8% |
+| Tight-window CLI latency | −0.3%, −3.7% | −0.9%, −1.9% |
+| Exact-budget CLI peak RSS | −0.2 MiB, −0.4 MiB | −0.2 MiB, −0.3 MiB |
+
+The two values per cell are the two initial process orders.
+Positive time changes mean higher latency. The same-binary control
+reported −0.9% for maximum-model library time and +2.5% for
+tight-window CLI time. Library and CLI effects varied by workload and
+order. The 0.2.33 implementation is retained.
+
+Eight CLI workloads matched the baseline byte for byte. The baseline
+and both candidates passed 46 unit tests, 4,096 numeric networks, and
+1,794 planning cases per mode, with matching generated interfaces
+and successful PowerShell smoke checks. The regressions cover the 0.2.0
+schedule and statistics, edited graph endpoints, first conflict, sibling
+backtracking, and exact and exhausted search budgets.
+
+Build the release drivers with the pinned toolchain and saved fixtures.
+The report embeds both patches, the probe sources, raw statistics, and
+the eight CLI digests. [Round data](planning-branch-stack-review.json)
+
 ## Mooncakes 0.2.33 publication — 2026-11-26
 
 This release includes the round 38 measurements and version metadata.

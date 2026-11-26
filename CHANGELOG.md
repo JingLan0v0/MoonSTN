@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.2.33 — 2026-11-26
+
+- Include the planning potential-buffer trials, their paired benchmarks, and regression evidence.
+- Retain the 0.2.32 planning and numeric algorithms.
+
 ## 0.2.32 — 2026-11-25
 
 - Reuse validated planning edge weights and relax them with exact binary64 integers.

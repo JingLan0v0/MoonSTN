@@ -1,7 +1,15 @@
 # Continue MoonSTN optimization
 
 The [optimization roadmap](optimization-roadmap.md) records the next measurement
-and its acceptance criteria. Next, profile repeated endpoint lookups for generated resource-order arcs.
+and its acceptance criteria. Next, measure duplicate-ID checks on the active resource-order search path.
+
+## Generated resource-order endpoints — 2026-11-26
+
+The tight-window probe repeated 555,614 endpoint lookups within calls.
+The lazy cache performed 2,328 map calls in that workload. The checked
+position avoided map calls in the standard cases and used the map for
+moved names. Eight CLI workloads matched by byte. Latency results varied across workloads and the two process orders. This round retains the 0.2.33 lookup.
+[Measurements](planning-order-endpoints-review.json)
 
 ## Pending resource-order stack — 2026-11-26
 

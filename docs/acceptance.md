@@ -2,6 +2,53 @@
 
 Project MoonSTN / JingLan0v0/stn, published 0.2.33.
 
+## Generated resource-order endpoints — 2026-11-26
+
+The 0.2.33 maximum feasible model performed 276,000 branch endpoint
+lookups per process. Each endpoint was queried once within its plan.
+The tight-window sample made 557,942 lookups, with 2,328 first lookups
+across all calls. The approximate lookup time was 4.5 ms and 8.9 ms
+after subtracting the empty timing control. The probe includes warmups
+and the deep driver’s budget checks.
+
+The lazy cache stores successful lookups within one plan. It reduced
+the tight-window process to 2,328 map calls and left the maximum
+feasible model at 276,000 calls. The positional check used the expected
+timepoint name at a standard index and otherwise called the map.
+It made zero branch map calls for the standard workloads. The moved-pair
+test moved both shared tasks’ timepoints and made 12,000 map calls.
+Both candidates resolved finish before start, after the same rule-count
+and duplicate-ID checks.
+
+| Workload | Lazy endpoint cache | Checked position |
+| --- | ---: | ---: |
+| Maximum-model library | −1.1%, −0.8% | −2.8%, +0.2% |
+| Tight-window library | −6.9%, −2.8% | −2.0%, −4.6% |
+| First resource pair library | −2.5%, −2.2% | +0.3%, +7.8% |
+| Moved resource pair library | +5.2%, −2.9% | −2.8%, −5.6% |
+| Four resources library | −3.1%, +2.9% | +0.9%, −0.3% |
+| Maximum-model CLI latency | −0.6%, +1.0% | −0.6%, +1.6% |
+| Tight-window CLI latency | −3.6%, +0.3% | −1.3%, −0.7% |
+| Exact-budget CLI peak RSS | −0.2 MiB, +0.1 MiB | 0.0 MiB, 0.0 MiB |
+
+Positive time changes mean higher latency. The values correspond to the
+two initial process orders. Same-binary maximum-model and tight-window
+CLI changes were +1.2% and +3.9%, respectively. Same-binary tight-window
+library time varied by 5.3%. Both candidates had mixed maximum-model
+CLI results. This round retains the 0.2.33 lookup.
+
+Eight CLI workloads matched byte for byte. The baseline and both trials
+passed 46 unit tests, 4,096 numeric networks, and 1,794 planning cases
+in debug and release. Generated interfaces matched and PowerShell
+smoke passed. The existing regressions cover missing and moved names,
+the caller-added 25th task, rule limits, duplicate rule IDs, exact
+budgets, and reuse after a failed solve. The moved-pair benchmark
+also checked the expected ordering on every call.
+
+The report contains the two source patches, generated-JS probes, the
+moved-timepoint fixture, raw samples, and output digests.
+[Round data](planning-order-endpoints-review.json)
+
 ## Pending resource-order stack — 2026-11-26
 
 The 0.2.33 maximum-model probe executed 138,000 branch decisions and

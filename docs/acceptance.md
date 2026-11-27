@@ -1,6 +1,47 @@
-# Acceptance evidence — updated 2026-11-27
+# Acceptance evidence — updated 2026-11-28
 
 Project MoonSTN / JingLan0v0/stn, published 0.2.33.
+
+## Resource-order label construction — 2026-11-28
+
+The maximum standard baseline process converted 276,000 task positions
+and concatenated 138,000 labels. Its calls generated each label once.
+Tight-window search converted 557,942 positions and assembled 278,971
+labels. Counting distinct labels within each plan gives 5,820 across
+all calls. These counts include warmups and the two deep budget checks.
+
+Subtracting the timing control gives roughly 4.1 ms for conversion and
+5.2 ms for concatenation in the maximum model. The tight-window estimates
+were 2.8 ms and 7.6 ms. These are separate probe processes.
+
+The suffix trial reuses two standard position strings per branch. The
+label-table trial also precomputes 576 full labels on module initialization.
+An edited model with an appended task uses the original decimal spelling
+for that position. Both trials maintain the order of the rule limit,
+duplicate-ID and endpoint checks. CLI measurements include startup.
+
+| Workload | Reuse position text | Precompute labels |
+| --- | ---: | ---: |
+| Maximum-model library | +0.2%, +0.2% | −1.5%, −0.8% |
+| Tight-window library | +2.5%, +1.3% | −2.7%, −2.9% |
+| First resource pair library | +0.5%, +0.9% | +0.4%, +0.1% |
+| Moved endpoints library | +2.2%, +1.5% | −0.1%, −1.1% |
+| Maximum-model CLI latency | −2.0%, +0.1% | −0.1%, −0.9% |
+| Tight-window CLI latency | +2.6%, −0.1% | −0.8%, −0.8% |
+| Exact-budget CLI peak RSS | −0.2 MiB, +0.2 MiB | +0.1 MiB, +0.1 MiB |
+
+Each pair gives the two initial process orders. Positive changes mean
+higher time or memory. Same-binary maximum CLI latency changed by −3.9%.
+The deep library control varied by 3.7%. Both table improvements were
+within that range, and its CLI improvements were below 1%.
+This release includes the measurements and retains the 0.2.33 scheduling implementation.
+
+All eight CLI workloads matched byte for byte. Debug and release each
+passed 46 unit tests, 4,096 numeric networks and 1,794 planning cases
+on the baseline and both candidates. Generated interfaces matched and
+PowerShell smoke passed. The appended-task regression checks that
+order0_24 is recognized before the child work-budget error.
+[Round data](optimization-0.2.34.json)
 
 ## Resource-order ID membership — 2026-11-27
 

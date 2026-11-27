@@ -1,7 +1,15 @@
 # Continue MoonSTN optimization
 
 The [optimization roadmap](optimization-roadmap.md) records the next measurement
-and its acceptance criteria. Next, measure the work needed to build generated resource-order IDs.
+and its acceptance criteria. Next, profile planning rule validation and compilation at the root.
+
+## Resource-order label construction — 2026-11-28
+
+The tight-window probe assembled 278,971 labels, including 5,820
+distinct labels counted within each call. We compared reuse of task
+position text and a complete standard label table.
+This release includes the measurements and retains the 0.2.33 scheduling implementation.
+[Measurements](optimization-0.2.34.json)
 
 ## Resource-order ID membership — 2026-11-27
 

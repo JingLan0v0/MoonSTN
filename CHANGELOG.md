@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.2.34 — 2026-11-28
+
+- Include the pending-stack, endpoint, duplicate-ID and order-label trials.
+- This release includes the measurements and retains the 0.2.33 scheduling implementation.
+
 ## 0.2.33 — 2026-11-26
 
 - Include the planning potential-buffer trials, their paired benchmarks, and regression evidence.

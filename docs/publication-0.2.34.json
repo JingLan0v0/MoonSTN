@@ -1,0 +1,68 @@
+{
+  "version": "0.2.34",
+  "sourceCommit": "e9b7e2a3ac357faee90629e4170974bfcc4b8c1d",
+  "baselineVersion": "0.2.33",
+  "baselineCheckout": "3e992b68d37a4045d4a31ca39751a6cffe9542d6",
+  "releaseChanges": "Resource-order search measurements and version metadata. The scheduling implementation is inherited from 0.2.33.",
+  "selectedTrial": "retain",
+  "verification": {
+    "checkoutCompletedAt": "2026-11-27T17:48:55.941Z",
+    "packageExtractionCompletedAt": "2026-11-27T17:50:53.528Z",
+    "publicArchiveCompletedAt": "2026-11-27T17:53:24.141Z",
+    "modes": [
+      "debug",
+      "release"
+    ],
+    "unitTestsPerMode": 46,
+    "stnOracleCasesPerMode": 4096,
+    "signedClosureBoundsPerMode": 256,
+    "planningOracleCasesPerMode": 1794,
+    "planningBudgetBoundaryModelsPerMode": 2,
+    "baselineComparedForExistingSuites": true,
+    "byteIdenticalPlanningWorkloads": 8,
+    "generatedInterfaces": "unchanged",
+    "releaseCliMatchesReviewedBuildAfterVersionSubstitution": true,
+    "powerShellSmoke": "passed in checkout, extraction and public archive"
+  },
+  "ci": {
+    "run": 46044813663,
+    "ubuntu": {
+      "job": 140661301192,
+      "conclusion": "success"
+    },
+    "windows": {
+      "job": 140661301838,
+      "conclusion": "success"
+    }
+  },
+  "packageFiles": 151,
+  "sha256": "9a853d7a2c4fd30dc647c6d12af70c5a9edab20bc0f7fb50615474e4e0f44402",
+  "preflight": "202 Accepted",
+  "publication": "200 OK",
+  "registryCreatedAt": "2026-11-27T17:51:21.686195+00:00",
+  "publicVersionPageStatus": 200,
+  "publicArchiveDownloadStatus": 200,
+  "consumer": {
+    "checkedAt": "2026-11-27T17:52:08.3270353+00:00",
+    "freshCache": true,
+    "credentials": false,
+    "workspaceDependency": false,
+    "modes": [
+      "debug",
+      "release"
+    ],
+    "executablesPerMode": 3,
+    "executables": [
+      "library",
+      "planning",
+      "release_check"
+    ],
+    "checks": [
+      "numeric tight bounds and checked conflict",
+      "resource planning backtracking, impossible case and budget recovery",
+      "public version and root-budget batch recovery"
+    ],
+    "registryArchiveMatches": true,
+    "installedFilesMatch": true
+  }
+}

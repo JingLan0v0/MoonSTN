@@ -1,6 +1,22 @@
 # Acceptance evidence — updated 2026-11-28
 
-Project MoonSTN / JingLan0v0/stn, published 0.2.33.
+Project MoonSTN / JingLan0v0/stn, published 0.2.34.
+
+## Mooncakes 0.2.34 publication — 2026-11-28
+
+Resource-order search measurements and version metadata. The scheduling implementation is inherited from 0.2.33.
+Source e9b7e2a3ac357faee90629e4170974bfcc4b8c1d passed Windows and Ubuntu
+[CI run 46044813663](https://github.com/JingLan0v0/MoonSTN/actions/runs/46044813663).
+The checkout, clean extraction and public archive passed 46 unit tests,
+4,096 numeric networks and 1,794 planning cases per build mode. The
+generated interfaces matched 0.2.33 and PowerShell smoke passed.
+
+Preflight returned 202 and publication returned 200. The registry recorded
+2026-11-28 01:51:21 Asia/Shanghai. The checked and public ZIP share SHA-256
+9a853d7a2c4fd30dc647c6d12af70c5a9edab20bc0f7fb50615474e4e0f44402.
+An empty-cache installation matched all 151 files and passed
+three checks per mode.
+[Release receipts](publication-0.2.34.json)
 
 ## Resource-order label construction — 2026-11-28
 

@@ -11,6 +11,9 @@ position text and a complete standard label table.
 This release includes the measurements and retains the 0.2.33 scheduling implementation.
 [Measurements](optimization-0.2.34.json)
 
+The measurements were published in 0.2.34.
+[Release receipts](publication-0.2.34.json)
+
 ## Resource-order ID membership — 2026-11-27
 
 A 320-ID edited root produced 44.16 million extra comparisons per

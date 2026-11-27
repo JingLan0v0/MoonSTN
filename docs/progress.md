@@ -1,7 +1,15 @@
 # Continue MoonSTN optimization
 
 The [optimization roadmap](optimization-roadmap.md) records the next measurement
-and its acceptance criteria. Next, measure duplicate-ID checks on the active resource-order search path.
+and its acceptance criteria. Next, measure the work needed to build generated resource-order IDs.
+
+## Resource-order ID membership — 2026-11-27
+
+A 320-ID edited root produced 44.16 million extra comparisons per
+instrumented process. The trials cover two fresh indexes and reuse of
+the validated rule IDs. Eight CLI workloads matched byte for byte.
+This round retains the 0.2.33 scan. End-to-end changes varied by workload and process order.
+[Measurements](planning-order-id-path-review.json)
 
 ## Generated resource-order endpoints — 2026-11-26
 

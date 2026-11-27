@@ -1,6 +1,55 @@
-# Acceptance evidence — updated 2026-11-26
+# Acceptance evidence — updated 2026-11-27
 
 Project MoonSTN / JingLan0v0/stn, published 0.2.33.
+
+## Resource-order ID membership — 2026-11-27
+
+At 0.2.33 the maximum standard model compared 1,518,000 active
+path IDs per process with a maximum of 22 per branch. Adding 320
+neutral root rules with the order prefix added 44,160,000 root
+comparisons. Subtracting the median timer-only control gave about
+8.6 ms and 74.3 ms for the standard and edited workloads.
+Tight-window search compared 2,528,970 active IDs and used up to
+14 per branch. The probe totals include warmups and budget checks.
+
+The first two trials used a second set from the first visited child
+or when the active list reached 32. The third reused the set built by
+rule validation, removed the prefix scan, and retained generated IDs
+for rollback. All three performed 138,000 indexed checks and zero
+linear comparisons in the maximum edited workload.
+The 32-entry trial left short standard paths on the linear scan.
+
+| Paired workload | Index from first child | Index from 32 entries | Reuse validated IDs |
+| --- | ---: | ---: | ---: |
+| Standard maximum library | +1.0%, −0.5% | +0.3%, +0.6% | +0.4%, −0.2% |
+| Tight-window library | +2.0%, −0.2% | +0.6%, −0.1% | −1.2%, +6.5% |
+| First resource pair library | −0.7%, +1.1% | +1.9%, −1.5% | +0.3%, −1.1% |
+| Edited maximum, 320 prefixed IDs | +1.9%, +0.7% | +0.7%, +0.3% | −4.2%, −1.5% |
+| Edited root, 320 prefixed IDs | +1.1%, +1.0% | −1.5%, +0.3% | −3.7%, −9.8% |
+| Edited maximum, 16 prefixed IDs | +0.2%, +1.9% | −1.0%, +0.9% | −0.7%, −1.6% |
+| Maximum-model CLI latency | −2.3%, +0.3% | +2.0%, −1.8% | +8.2%, +0.4% |
+| Tight-window CLI latency | +3.4%, +2.1% | +0.8%, +1.0% | +2.8%, +1.1% |
+| Exact-budget CLI peak RSS | +0.2 MiB, −0.1 MiB | 0.0 MiB, +0.2 MiB | −0.5 MiB, −0.3 MiB |
+
+Positive latency changes mean slower execution. Each pair of values
+uses the two initial process orders. Same-binary changes were +0.1%
+for the 320-ID library workload and −3.1% for maximum CLI time. The
+reused index improved that edited library workload by 1.5–4.2%.
+Standard maximum CLI time rose by 8.2% and 0.4%. This round retains
+the 0.2.33 scan.
+
+Eight CLI workloads matched byte for byte. The baseline and all three
+trials passed 47 unit tests, 4,096 numeric networks and 1,794 planning
+cases per mode, plus PowerShell smoke and generated interface checks.
+The added regression exercises 48 prefixed root IDs across a 1,439-node
+search and verifies sibling rollback, exact budgets, recovery after
+exhaustion, and duplicate-ID precedence over the child work budget.
+The reused-index trial also matched six numeric CLI workloads and
+their low-budget cases in both process orders.
+
+The report contains the source patches, the probes, the rollback
+regression, raw measurements, and the eight output digests.
+[Round data](planning-order-id-path-review.json)
 
 ## Generated resource-order endpoints — 2026-11-26
 

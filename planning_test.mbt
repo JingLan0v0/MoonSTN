@@ -815,3 +815,47 @@ test "planning relaxes signed arcs at the edited graph limits" {
     Some(("invalid_input", "bounds must be integers in -1000000..1000000")),
   )
 }
+
+///|
+test "planning root validation keeps edited endpoint and bound precedence" {
+  let p = @stn.planning_problem([task("edited", 1, 2, None)], [])
+  let original = p.rules[0]
+  let no_bounds = { ..original, lower: None, upper: None, }
+  for
+    (from, to, expected) in [
+      ("missingFrom", "missingTo", "unknown timepoint: missingFrom"),
+      (original.from, "missingTo", "unknown timepoint: missingTo"),
+      (
+        original.from,
+        original.to,
+        "constraint must have a lower or upper bound",
+      ),
+    ] {
+    p.rules[0] = { ..no_bounds, from, to, }
+    let actual = try {
+      @stn.plan(p, max_work=1) |> ignore
+      None
+    } catch {
+      @stn.StnError(code, message) => Some((code, message))
+    }
+    assert_eq(actual, Some(("invalid_input", expected)))
+  }
+  let old_name = p.names[1]
+  p.names[1] = p.names[0]
+  let duplicate = try {
+    @stn.plan(p, max_work=1) |> ignore
+    None
+  } catch {
+    @stn.StnError(code, message) => Some((code, message))
+  }
+  assert_eq(
+    duplicate,
+    Some(("invalid_input", "invalid or duplicate timepoint name")),
+  )
+  p.names[1] = old_name
+  p.rules[0] = original
+  guard @stn.plan(p) is @stn.Planned(schedule, _) else {
+    fail("expected a plan after restoring inputs")
+  }
+  assert_true(@stn.verify_plan(p, schedule))
+}

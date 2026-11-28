@@ -2,6 +2,60 @@
 
 Project MoonSTN / JingLan0v0/stn, published 0.2.34.
 
+## Planning root rule compilation — 2026-11-28
+
+The standard 24-task maximum probe compiled 816,000 rule instances and
+emitted 1,344,000 arcs across 6,000 calls. In the edited root workload,
+320 extra neutral rules increased the totals to 2,736,000 rules and
+3,264,000 arcs. The probes include warmups. Individual phase times
+subtract a timer-only control and are approximate. The whole timer runs
+separately, so the individual columns are reported independently.
+
+| Process totals (ms) | Whole | Name index | IDs | Endpoints | Bounds | Arc emission |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| Two-task maintenance | 18.7 | 7.1 | 4.8 | 3.0 | 0.6 | 1.3 |
+| Maximum root only | 137.0 | 31.9 | 48.2 | 38.1 | 0.2 | 16.4 |
+| Maximum contended | 143.4 | 27.0 | 50.3 | 40.4 | 2.5 | 14.5 |
+| Edited root with 320 extra rules | 409.1 | 26.2 | 213.6 | 103.7 | 2.8 | 36.7 |
+
+The direct trial matches results of the two name-index lookups in the
+rule loop. Its failure path shares the existing diagnostic. The batch
+trial also inserts valid names once and checks map size before processing
+rules. All timepoint name failures share the same diagnostic. The order
+of the source endpoint, target endpoint and bound checks is preserved.
+
+| Paired workload | Direct endpoint lookups | Direct plus batched name index |
+| --- | ---: | ---: |
+| Maintenance library | −3.5%, −2.6% | −8.5%, −6.6% |
+| Independent tasks library | −1.5%, −3.8% | −10.4%, −5.9% |
+| Maximum root-only library | +2.8%, −1.6% | −4.3%, −3.3% |
+| Maximum contended library | +0.6%, −1.0% | −0.4%, −0.5% |
+| Edited root library | +6.7%, −0.1% | −0.9%, +2.2% |
+| Moved names library | −0.9%, +0.2% | −7.6%, −3.7% |
+| Tight-window library | +0.1%, +0.3% | +1.9%, +0.7% |
+| Maximum-model planning CLI | −4.0%, +0.2% | −1.9%, −5.5% |
+| Exact-budget planning CLI | −2.2%, +2.0% | +4.0%, −1.8% |
+| Connected numeric CLI | −1.8%, −0.5% | −2.9%, −1.5% |
+| Chain numeric CLI | −0.6%, +2.6% | −0.7%, −1.1% |
+
+The two values per cell use the two initial process orders. Positive
+latency changes mean slower execution. Same-binary library changes
+were −0.2% for the maximum root and −0.3% for the edited root.
+The selected compiler obtains endpoints directly and uses the completed name-index size to identify duplicates.
+Independent library calls were 5.9–10.4% faster. The maximum root
+was 3.3–4.3% faster and the maximum planning CLI 1.9–5.5% faster.
+The tight-window library workload took 0.7–1.9% longer. The edited
+root results were 0.9% faster and 2.2% slower.
+
+The baseline and both trial checkouts each passed 47 tests, 4,096
+numeric networks and 1,794 planning cases per build mode. They also
+passed PowerShell smoke and generated interface checks. The added
+root-validation case checks edited names and endpoints, missing bounds,
+diagnostic priority over work exhaustion, and restore-and-retry.
+Eight planning CLI workloads matched byte for byte. The two trials
+matched six numeric CLI workloads and their differential budget cases.
+[Round data](optimization-0.2.35.json)
+
 ## Mooncakes 0.2.34 publication — 2026-11-28
 
 Resource-order search measurements and version metadata. The scheduling implementation is inherited from 0.2.33.

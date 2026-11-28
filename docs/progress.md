@@ -1,7 +1,15 @@
 # Continue MoonSTN optimization
 
 The [optimization roadmap](optimization-roadmap.md) records the next measurement
-and its acceptance criteria. Next, profile planning rule validation and compilation at the root.
+and its acceptance criteria. Next, split the cost of rule-ID validation and hashing at the planning root.
+
+## Planning root rule compilation — 2026-11-28
+
+We measured the name index, rule ID checks, endpoint lookup, bound
+checks and arc emission separately. The trials compare direct endpoint
+lookup and batched name-index construction.
+The selected compiler obtains endpoints directly and uses the completed name-index size to identify duplicates.
+[Measurements](optimization-0.2.35.json)
 
 ## Resource-order label construction — 2026-11-28
 

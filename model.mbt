@@ -117,13 +117,16 @@ fn network_with_index(
 }
 
 ///|
+fn unknown_timepoint(name : String) -> StnError {
+  StnError("invalid_input", "unknown timepoint: " + name)
+}
+
+///|
 fn lookup_name(
   index : Map[String, Int32],
   name : String,
 ) -> Int32 raise StnError {
-  guard index.get(name) is Some(i) else {
-    raise StnError("invalid_input", "unknown timepoint: " + name)
-  }
+  guard index.get(name) is Some(i) else { raise unknown_timepoint(name) }
   i
 }
 
@@ -141,10 +144,14 @@ fn[E] compile_edges(
   }
   let index : Map[String, Int32] = Map([], capacity=names.length().max(8))
   for i, name in names {
-    if !valid_name(name) || index.contains(name) {
+    if !valid_name(name) {
       raise StnError("invalid_input", "invalid or duplicate timepoint name")
     }
     index[name] = i
+  }
+  // All name failures share the same diagnostic and precede rule checks.
+  if index.length() != names.length() {
+    raise StnError("invalid_input", "invalid or duplicate timepoint name")
   }
   let ids : @hashset.HashSet[String] = HashSet(
     [],
@@ -155,8 +162,10 @@ fn[E] compile_edges(
     if !valid_name(c.id) || !ids.add_and_check(c.id) {
       raise StnError("invalid_input", "invalid or duplicate constraint id")
     }
-    let from = lookup_name(index, c.from)
-    let to = lookup_name(index, c.to)
+    guard index.get(c.from) is Some(from) else {
+      raise unknown_timepoint(c.from)
+    }
+    guard index.get(c.to) is Some(to) else { raise unknown_timepoint(c.to) }
     if c.lower is None && c.upper is None {
       raise StnError(
         "invalid_input", "constraint must have a lower or upper bound",
@@ -212,7 +221,7 @@ fn Solution::bounds_at(
 
 ///|
 pub fn version() -> String {
-  "0.2.34"
+  "0.2.35"
 }
 
 ///|

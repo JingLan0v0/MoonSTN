@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.2.35 — 2026-11-28
+
+- Build the name index with one insertion per valid name, then check uniqueness.
+- Resolve both endpoints directly in the shared rule compiler.
+- Cover edited root endpoints, validation order and model reuse.
+
 ## 0.2.34 — 2026-11-28
 
 - Include the pending-stack, endpoint, duplicate-ID and order-label trials.

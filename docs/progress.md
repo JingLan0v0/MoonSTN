@@ -11,6 +11,9 @@ lookup and batched name-index construction.
 The selected compiler obtains endpoints directly and uses the completed name-index size to identify duplicates.
 [Measurements](optimization-0.2.35.json)
 
+The root-compiler changes were published in 0.2.35.
+[Release receipts](publication-0.2.35.json)
+
 ## Resource-order label construction — 2026-11-28
 
 The tight-window probe assembled 278,971 labels, including 5,820

@@ -1,6 +1,6 @@
 # MoonSTN 后续优化路线
 
-当前发布基线为 **0.2.34**，源码提交 `e9b7e2a`。当前通过验证的范围是
+当前发布基线为 **0.2.35**，源码提交 `39932fb`。当前通过验证的范围是
 MoonBit JS 后端、Node CLI 和库 API，
 Windows 与 Ubuntu 的 debug/release。工具链按 `toolchain.json` 固定。
 后续以新版本的实际 Git 与发布状态更新基线。 [进展](progress.md) · [验收证据](acceptance.md)

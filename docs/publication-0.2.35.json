@@ -1,0 +1,70 @@
+{
+  "version": "0.2.35",
+  "sourceCommit": "39932fb19259e5ae93a8e36c99d9af53a989930c",
+  "baselineVersion": "0.2.34",
+  "baselineCheckout": "cb69a0d9c8f9fbd7af7d78416c155661b814aae1",
+  "releaseChanges": "Build the timepoint index with one insertion per valid name and resolve endpoints directly in the shared rule compiler.",
+  "selectedTrial": "batch",
+  "verification": {
+    "checkoutCompletedAt": "2026-11-28T06:53:15.226Z",
+    "packageExtractionCompletedAt": "2026-11-28T07:00:56.862Z",
+    "publicArchiveCompletedAt": "2026-11-28T07:03:16.272Z",
+    "modes": [
+      "debug",
+      "release"
+    ],
+    "unitTestsPerMode": 47,
+    "stnOracleCasesPerMode": 4096,
+    "signedClosureBoundsPerMode": 256,
+    "planningOracleCasesPerMode": 1794,
+    "planningBudgetBoundaryModelsPerMode": 2,
+    "baselineComparedForExistingSuites": true,
+    "byteIdenticalPlanningWorkloads": 8,
+    "generatedInterfaces": "unchanged",
+    "releaseCliMatchesReviewedBuildAfterVersionSubstitution": true,
+    "powerShellSmoke": "passed in checkout, extraction and public archive"
+  },
+  "ci": {
+    "run": 46119106699,
+    "ubuntu": {
+      "job": 140899461146,
+      "conclusion": "success"
+    },
+    "windows": {
+      "job": 140899460939,
+      "conclusion": "success"
+    }
+  },
+  "packageFiles": 153,
+  "sha256": "04db19aa597fb858ea2a7b3b653448672226a911f833b6875366729059558384",
+  "preflight": "202 Accepted",
+  "publication": "200 OK",
+  "registryCreatedAt": "2026-11-28T07:01:21.895397+00:00",
+  "publicVersionPageStatus": 200,
+  "publicArchiveDownloadStatus": 200,
+  "consumer": {
+    "checkedAt": "2026-11-28T07:02:03.2580563+00:00",
+    "freshCache": true,
+    "credentials": false,
+    "workspaceDependency": false,
+    "modes": [
+      "debug",
+      "release"
+    ],
+    "executablesPerMode": 4,
+    "executables": [
+      "library",
+      "planning",
+      "release_check",
+      "root_validation"
+    ],
+    "checks": [
+      "numeric tight bounds and checked conflict",
+      "resource planning backtracking, impossible case and budget recovery",
+      "public version and root-budget batch recovery",
+      "edited endpoints, duplicate names and root validation order"
+    ],
+    "registryArchiveMatches": true,
+    "installedFilesMatch": true
+  }
+}

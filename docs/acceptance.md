@@ -1,6 +1,22 @@
 # Acceptance evidence — updated 2026-11-28
 
-Project MoonSTN / JingLan0v0/stn, published 0.2.34.
+Project MoonSTN / JingLan0v0/stn, published 0.2.35.
+
+## Mooncakes 0.2.35 publication — 2026-11-28
+
+Build the timepoint index with one insertion per valid name and resolve endpoints directly in the shared rule compiler.
+Source 39932fb19259e5ae93a8e36c99d9af53a989930c passed Windows and Ubuntu
+[CI run 46119106699](https://github.com/JingLan0v0/MoonSTN/actions/runs/46119106699).
+The checkout, clean extraction and public archive passed 47 unit tests,
+4,096 numeric networks and 1,794 planning cases per build mode. The
+generated interfaces matched 0.2.34 and PowerShell smoke passed.
+
+Preflight returned 202 and publication returned 200. The registry recorded
+2026-11-28 15:01:21 Asia/Shanghai. The checked and public ZIP share SHA-256
+04db19aa597fb858ea2a7b3b653448672226a911f833b6875366729059558384.
+An empty-cache installation matched all 153 files and passed
+four checks per mode.
+[Release receipts](publication-0.2.35.json)
 
 ## Planning root rule compilation — 2026-11-28
 

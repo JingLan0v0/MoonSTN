@@ -1,4 +1,4 @@
-# Publishing — 0.2.34 published 2026-11-28
+# Publishing — 0.2.35 published 2026-11-28
 
 The owner authorized Mooncakes publication on 2026-11-11. Require actual registry
 and fresh-consumer receipts; do not overwrite an existing version.
@@ -190,3 +190,7 @@ debug and release from an empty cache.
 Version 0.2.34 returned `200 OK` on 2026-11-28. The fresh registry installation matched
 all 151 files and passed the numeric, planning and batch checks in debug and release.
 [Receipts](publication-0.2.34.json)
+
+Version 0.2.35 returned `200 OK` on 2026-11-28. The fresh registry installation matched
+all 153 files and passed the numeric, planning, batch and edited-root checks in debug and release.
+[Receipts](publication-0.2.35.json)
